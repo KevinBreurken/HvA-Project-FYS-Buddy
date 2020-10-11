@@ -9,7 +9,22 @@
     width: 100%;
 }
 
-.content label {
+.content form > label {
     max-width: 17%;
     width: 100%;
+    display: inline-block;
+    margin-bottom: .5rem;
+}
+
+
+/* use only without bootstrap: */
+#distanceUnit {
+    display: inline-block;
+}
+#distanceUnit label {
+    float: left;
+}
+
+#distanceUnit input[type=radio], #distanceUnit input.radio {
+    float: left;
 }
