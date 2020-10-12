@@ -3,3 +3,17 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+#statistics-window {
+    background-color: aqua;
+}
+
+.statistics-group{
+    color:white;
+    background-color: brown;
+    display: block;
+}
+
+#time-dropdown{
+    float: right;
+}
