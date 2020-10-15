@@ -7,12 +7,15 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="stylesheet" href="Content/admin-statistics.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
 </head>
 
 <body>
     <div class="content">
-
         <div id="time-dropdown">
             <select>
                 <option value="day">Day</option>
@@ -23,9 +26,70 @@
             </select>
         </div>
         <h1>Statistics</h1>
-        <div id="statistics-window"></div>
+        <div id="statistics-window">
+            <div class="statistics-group" statistic-type="Traffic">
+                <div class="statistics-group-title">Traffic</div>
+                <div class="statistics-group-container">
+                    <div class="statistics-item-number" name="User Amount" id="user-amount"></div>
+                    <div class="statistics-group-container-vertical">
+                        <div class="statistics-item-piechart" name="Type Device" id="device-type"
+                            data-names='["Desktop","Mobile","Tablet"]' data-values='[1000,3500,300]'>
+                        </div>
+                        <div class="statistics-item-piechart" name="Browser Type" id="browser-type"
+                            data-names='["Chrome","Safari","Firefox","Edge","Internet Explorer"]'
+                            data-values='[1000,500,700,600,200]'>
+                        </div>
+                    </div>
+                    <div class="statistics-item-piechart" name="Trafic Origin" id="trafic-origin"
+                        data-names='["Facebook","Corendon","Google","Instagram","Snapchat"]'
+                        data-values='[1000,500,700,600,200]'>
+                    </div>
+                </div>
+            </div>
+
+            <div class="statistics-group" statistic-type="Users">
+                <div class="statistics-group-title">Users</div>
+                <div class="statistics-group-container">
+                    <div class="statistics-group-container-vertical">
+                        <div class="statistics-item-number" name="New Accounts" id="new_accounts"></div>
+                        <div class="statistics-item-number" name="Average Visit Time" id="avg-visit-time"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="statistics-group" statistic-type="Matching">
+                <div class="statistics-group-title">Matching</div>
+                <div class="statistics-group-container">
+                    <div class="statistics-group-container-vertical">
+                        <div class="statistics-item-number" name="Made Matches" id="made-matches"></div>
+                        <div class="statistics-item-number" name="Contacts Shared" id="contacts-shared"></div>
+                        <div class="statistics-item-number" name="Average Matches per User" id="avg-match-user"></div>
+                        <div class="statistics-item-number" name="Average Contacts shared per User"
+                            id="avg-contact-shared-user">
+                        </div>
+                    </div>
+                    <div class="statistics-group-container-vertical">
+                        <div class="statistics-item-list" name="Most Matched With Equal Interest"
+                            id="most-match-equal-interest"
+                            data-items='["Jogging","Dancing","Fitness","Watching","Movies"]'>
+                        </div>
+                        <div class="statistics-item-list" name="Most Matched With Equal Destination"
+                            id="most-match-equal-destination" data-items='["Spain","Netherlands","Italy","France"]'>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="statistics-group" statistic-type="Pages">
+            <div class="statistics-group-title">Pages</div>
+            <div class="statistics-group-container"></div>
+        </div>
+    </div>
     </div>
 </body>
+<script src="Scripts/admin-statistics-items.js"></script>
 <script src="Scripts/admin-statistics.js"></script>
 
 </html>

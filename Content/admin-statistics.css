@@ -1,19 +1,107 @@
+:root {
+  --main-corendon-color: rgb(216, 30, 5);
+  --main-bg-color: rgb(245, 245, 245);
+
+  --corendon-button-green: rgb(38, 165, 20);
+  --corendon-button-green-hover: rgb(30, 132, 16);
+}
+
+body {
+  background-color: purple;
+}
 .content {
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--main-bg-color);
 }
 
 #statistics-window {
-    background-color: aqua;
+  background-color: var(--main-bg-color);
 }
 
-.statistics-group{
-    color:white;
-    background-color: brown;
-    display: block;
+.statistics-group {
+  background-color: white;
+  display: block;
 }
 
-#time-dropdown{
-    float: right;
+.statistics-group-title {
+  padding: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  background-color: var(--main-corendon-color);
+}
+.statistics-item {
+  background-color: red;
+}
+
+#time-dropdown {
+  float: right;
+}
+
+/* Item - Number */
+.statistics-item-number {
+}
+
+.statistics-item-number-title {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  background-color: rgb(199, 155, 97);
+}
+
+.statistics-item-number-value {
+  width: flex;
+  text-align: center;
+  font-size: 30px;
+  background-color: burlywood;
+}
+
+/* Item - Foldable List */
+.statistics-item-list {
+  width: 100%;
+  height: 100%;
+}
+
+.statistics-item-list-button {
+  background-color: var(--corendon-button-green);
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active,
+.statistics-item-list-button:hover {
+  background-color: var(--corendon-button-green-hover);
+}
+
+.statistics-item-list-content {
+  display: none;
+  background-color: #bb0000;
+}
+
+/* Item - Pie Chart */
+.statistics-group-container-vertical {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em;
+  overflow: auto;
+}
+
+.statistics-item-piechart-title {
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.statistics-item-piechart {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 10px;
 }
