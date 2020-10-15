@@ -6,9 +6,6 @@
   --corendon-button-green-hover: rgb(30, 132, 16);
 }
 
-body {
-  background-color: purple;
-}
 .content {
   max-width: 700px;
   margin-left: auto;
