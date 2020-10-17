@@ -58,8 +58,31 @@ nav li + li {
 }
 
 .language-selection button {
+  display: flex;
+  align-items: center;
   background-color: white;
+  max-height: 25px;
   border: none;
+}
+
+.language-selection p {
+  /*color: #d81e05;*/
+  width: 70px;
+}
+
+.language-selection img {
+  width: 24px;
+  height: 24px;
+}
+
+.footer-links {
+  /*display: flex;*/
+}
+
+.footer-links h1 {
+  margin-bottom: 0;
+  font-size: var(--main-text-h1-font-size);
+  font-weight: var(--main-text-hi-font-weight);
 }
 
 .footer-links li {
@@ -70,8 +93,11 @@ nav li + li {
 
 .footer-links ul {
   padding-inline-start: 5px;
+  margin-top: 5px;
 }
 
 .footer-links a {
   text-decoration: none;
+  /*color: #d81e05;*/
+  color: black;
 }
