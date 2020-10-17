@@ -1,9 +1,6 @@
 /**
  * //TODO: Create dummy metrics for statistics
  * 
- * //TODO: Component - Number Display
- * //TODO: Component - Pie chart Display
- * //TODO: Component - Top 10 Display
  * //TODO: Component - Pages list display
  */
 var currentTimeSelection = "day";
