@@ -1,0 +1,84 @@
+body {
+    font-family: "Calibri Light";
+}
+
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+/**
+travel specifications
+ */
+.travelSpecificationsWrapper {
+    height: fit-content;
+    margin: 20px;
+}
+
+#travelSpecifications {
+    font-family: Calibri;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    transition: 200ms;
+}
+
+#travelSpecifications:hover {
+    color: gray;
+}
+
+#travelSpecificationsDropdown {
+    /*text-align: center;*/
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+#travelSpecificationsDropdown input {
+    font-size: 15px;
+    text-align: center;
+}
+
+.dropdownInput {
+    margin: 10px;
+}
+
+/**
+matches
+ */
+.matchesWrapper {
+    height: fit-content;
+    margin: 20px;
+}
+#buttonMenu {
+    font-size: 0;
+    display: flex;
+    justify-content: center;
+}
+
+#buttonMenu button {
+    font-family: Calibri;
+    font-size: 20px;
+    border: none;
+    padding: 5px 20px 5px 20px;
+    transition: 200ms;
+    background-color: white;
+}
+
+#buttonMenu button:hover {
+    color: gray;
+}
+#buttonMenu button.active {
+    font-weight: bold;
+    color: black;
+}
+
+.tabContent {
+    display: flex;
+    justify-content: center;
+}
+
+
