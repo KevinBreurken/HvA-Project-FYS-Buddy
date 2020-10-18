@@ -11,12 +11,12 @@ body {
 /**
 travel specifications
  */
-.travelSpecificationsWrapper {
+.travel-specifications-wrapper {
     height: fit-content;
     margin: 20px;
 }
 
-#travelSpecifications {
+#travel-specifications {
     font-family: Calibri;
     font-size: 30px;
     display: flex;
@@ -24,11 +24,11 @@ travel specifications
     transition: 200ms;
 }
 
-#travelSpecifications:hover {
+#travel-specifications:hover {
     color: gray;
 }
 
-#travelSpecificationsDropdown {
+#travel-specifications-dropdown {
     /*text-align: center;*/
     flex-grow: 1;
     display: flex;
@@ -37,29 +37,29 @@ travel specifications
     margin: 20px;
 }
 
-#travelSpecificationsDropdown input {
+#travel-specifications-dropdown input {
     font-size: 15px;
     text-align: center;
 }
 
-.dropdownInput {
+.text-input {
     margin: 10px;
 }
 
 /**
 matches
  */
-.matchesWrapper {
+.matches-wrapper {
     height: fit-content;
     margin: 20px;
 }
-#buttonMenu {
+#button-menu {
     font-size: 0;
     display: flex;
     justify-content: center;
 }
 
-#buttonMenu button {
+#button-menu button {
     font-family: Calibri;
     font-size: 20px;
     border: none;
@@ -68,15 +68,15 @@ matches
     background-color: white;
 }
 
-#buttonMenu button:hover {
+#button-menu button:hover {
     color: gray;
 }
-#buttonMenu button.active {
+#button-menu button.active {
     font-weight: bold;
     color: black;
 }
 
-.tabContent {
+.tab-content {
     display: flex;
     justify-content: center;
 }
