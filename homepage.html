@@ -7,36 +7,144 @@
 </head>
 <body>
 <div class="container">
-    <div class="travel-specifications-wrapper">
-        <div id="travel-specifications">
-            Change travel specifications
-        </div>
 
-        <div id="travel-specifications-dropdown">
-            <input class="text-input" type="text" placeholder="travel destination">
-            <input class="text-input" type="date">
-            <input type="date">
+    <!--change travel specifications element-->
+    <div class="travel-wrapper">
+        <span>Change travel specifications</span>
+        <!--todo: smooth transition into and out of dropdown-->
+        <div class="travel-dropdown">
+            <input class="travel-content" type="text" placeholder="travel destination">
+            <input class="travel-content" type="text" placeholder="from: dd-mm-jjjj">
+            <input class="travel-content" type="text" placeholder="until: dd-mm-jjjj">
+            <button>update</button>
         </div>
     </div>
 
+    <!--filer options-->
     <div class="filter-wrapper">
-
+        <span>
+            <button>radius</button>
+            <button>gender</button>
+            <button>looking for</button> <!--activity buddy/ travel buddy-->
+            <button>booked</button> <!--has / hasn't-->
+            <button id="filter-button">filter</button> <img src="Image/filter.png">
+        </span>
+        <ul id="radius-dropdown">
+            <li><input id="<-5km" type="checkbox"> <label for="<-5km">< 5km</label></li>
+            <li><input id="<-10km" type="checkbox"> <label for="<-10km">< 10km</label></li>
+            <li><input id="<-15km" type="checkbox"> <label for="<-15km">< 15km</label></li>
+            <li><input id=">-15km" type="checkbox"> <label for=">-15km">> 15km</label></li>
+        </ul>
+        <ul id="gender-dropdown"></ul>
+        <ul id="looking-for-dropdown"></ul>
+        <ul id="booked-dropdown"></ul>
     </div>
 
-    <div class="matches-wrapper">
-        <div id="button-menu">
-            <button class="active">All results</button>
-            <button>Recently viewed</button>
-            <button>matched</button>
-            <button>favorites</button>
+    <!--matched and matchable users-->
+    <div id="tab-button-menu">
+        <button class="active">All results</button>
+        <button>Recently viewed</button>
+        <button>matched</button>
+        <button>favorites</button>
+    </div>
+
+    <!--tabs-->
+    <div id="all-results-tab" class="tab-content">
+        <!--favorites icon-->
+        <div id="user-1" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-1.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-2" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-2.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-3" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-3.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for an activity buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-4" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-1.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-5" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-2.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-6" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-2.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-7" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-1.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for an activity buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-8" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-3.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-9" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-2.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for a travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div id="user-10" class="user-display">
+            <h1>Username</h1>
+            <img src="Image/profile-picture-1.png">
+            <p>city, country</p>
+            <p>from date until date</p>
+            <p>looking for an activity buddy</p>
+            <button>match</button>
+            <button>profile</button>
         </div>
 
-        <div class="tab-content">
-            <!--<div>all results</div>-->
-            <!--        <div>recently viewed</div>-->
-            <!--        <div>matched</div>-->
-            <!--        <div>favorites</div>-->
-        </div>
+        <!--<div>recently viewed</div>-->
+        <!--<div>matched</div>-->
+        <!--<div>favorites</div>-->
     </div>
 </div>
 </body>

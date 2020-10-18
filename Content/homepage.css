@@ -1,5 +1,6 @@
 body {
-    font-family: "Calibri Light";
+    font-family: Uni Sans WFx, sans-serif;
+    color: #323232;
 }
 
 .container {
@@ -8,77 +9,206 @@ body {
     height: 100%;
 }
 
-/**
-travel specifications
- */
-.travel-specifications-wrapper {
+/* travel */
+
+.travel-wrapper {
+    display: inline-block;
     height: fit-content;
-    margin: 20px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    /*background-color: lightgray;*/
 }
 
-#travel-specifications {
-    font-family: Calibri;
-    font-size: 30px;
+/* travel span */
+
+.travel-wrapper span {
+    font-family: "Calibri Light";
+    font-size: 40px;
+    /*font-family: White Mellow, sans-serif;*/
+    /*font-size: 60px;*/
+    /*color: white;*/
     display: flex;
     justify-content: center;
+    padding: 20px 20px 0 20px;
     transition: 200ms;
+    /*background-color: #d81e05;*/
+    /*background-color: #cac8c8;*/
 }
 
-#travel-specifications:hover {
+/* travel dropdown */
+/* todo: smooth transition into and out of dropdown */
+
+.travel-dropdown {
+    display: none;
+    padding: 20px;
+    max-width: min-content;
+    /*background-color: gray;*/
+}
+
+.travel-wrapper:hover span {
     color: gray;
 }
 
-#travel-specifications-dropdown {
-    /*text-align: center;*/
-    flex-grow: 1;
+.travel-wrapper:hover .travel-dropdown {
+    /*display: block;*/
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
+    justify-content: center;
 }
 
-#travel-specifications-dropdown input {
+/* dropdown content */
+
+.travel-content {
+    margin: 0 5px 0 5px;
+}
+
+.travel-dropdown input {
     font-size: 15px;
     text-align: center;
 }
 
-.text-input {
-    margin: 10px;
+.travel-dropdown button {
+    font-size: 15px;
+    font-weight: bold;
+    /*color: #d81e05;*/
+    border: none;
+    background-color: inherit;
 }
 
-/**
-matches
- */
-.matches-wrapper {
-    height: fit-content;
-    margin: 20px;
+.travel-dropdown button:hover {
+    color: grey;
+    /*color: #db7566;*/
 }
-#button-menu {
-    font-size: 0;
+
+/* filters menu */
+
+.filter-wrapper {
+    /*width: max-content;*/
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+}
+
+/* filter span */
+
+.filter-wrapper span {
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px;
+    /*justify-content: space-around;*/
 }
 
-#button-menu button {
-    font-family: Calibri;
-    font-size: 20px;
+.filter-wrapper span button {
+    font-size: 15px;
+    border: none;
+    background-color: inherit;
+}
+
+.filter-wrapper span #filter-button {
+    font-weight: bold;
+}
+
+.filter-wrapper span #filter-button:hover {
+    color: grey;
+}
+
+/* filter dropdown */
+
+.filter-wrapper ul {
+    display: none;
+}
+
+/*.matches-wrapper {*/
+/*    height: fit-content;*/
+/*    width: max-content;*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*    padding: 30px 0 30px 0;*/
+/*    !*background-color: gray;*!*/
+/*}*/
+
+/* matches tabs */
+
+#tab-button-menu {
+    font-size: 0;
+    width: max-content;
+    margin: 40px auto 20px auto;
+}
+
+#tab-button-menu button {
+    font-size: 18px;
     border: none;
     padding: 5px 20px 5px 20px;
     transition: 200ms;
     background-color: white;
 }
 
-#button-menu button:hover {
+#tab-button-menu button:hover {
     color: gray;
 }
-#button-menu button.active {
+
+#tab-button-menu button.active {
     font-weight: bold;
-    color: black;
 }
+
+/* tab content */
 
 .tab-content {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    padding-bottom: 20px;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    /*background-color: gray;*/
 }
 
+.tab-content h1 {
+    font-size: 18px;
+}
 
+/* user displays */
+
+.user-display {
+    text-align: center;
+    min-width: max-content;
+    margin: 5px;
+    padding: 10px;
+    border: #efefef solid 1px;
+    background-color: inherit;
+    /*background-color: green;*/
+    /*background-color: #efefef;*/
+}
+
+.user-display:hover {
+    /*background-color: #f6f6f6;*/
+    background-color: #efefef;
+}
+
+.user-display img {
+    width: 120px;
+    margin: 20px 0 20px 0;
+}
+
+.user-display p {
+    margin:  0 5px 0 5px;
+}
+
+.user-display button {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d81e05;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 5px 0 5px;
+    border: none;
+    transition: 600ms;
+    background-color: inherit;
+}
+
+.user-display button:hover {
+    color: white;
+    background-color: #d81e05;
+}
