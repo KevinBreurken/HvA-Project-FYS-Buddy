@@ -8,7 +8,7 @@ var pieChartColors = [
     "#34495e"
 ];
 
-function renderNumberStatisticItem(title, value) {
+function generateNumberStatisticItemHTML(title, value) {
     const statItemElement = `
             <div class="statistics-item-number-title">${title}</div>
             <div class="statistics-item-number-value">${value}</div>
@@ -17,17 +17,17 @@ function renderNumberStatisticItem(title, value) {
 
 }
 
-function renderListStatisticItem(title, itemList) {
+function generateListStatisticItemHTML(title, itemList) {
     const statListElement = `
     <button class="statistics-item-list-button">${title}</button>
-    <div class="statistics-item-list-content">
-        ${makeUL(itemList).innerHTML}
+    <ol class="statistics-item-list-content"style="display: block;">
+        ${makeOL(itemList).innerHTML}
     </div>
     `;
     return statListElement;
 }
 
-function renderPieChartStatisticItem(title) {
+function generatePieStatisticItemHTML(title) {
     const pieItemElement = `
     <div>
     <div class="statistics-item-piechart-title">${title}</div>
@@ -37,9 +37,9 @@ function renderPieChartStatisticItem(title) {
     return pieItemElement;
 }
 
-function makeUL(array) {
+function makeOL(array) {
     // Create the list element:
-    var list = document.createElement('ul');
+    var list = document.createElement('ol');
     for (var i = 0; i < array.length; i++) {
         // Create the list item:
         var item = document.createElement('li');

@@ -15,27 +15,42 @@ renderStatistics();
 
 function renderStatistics() {
 
-    //Update number items
+    //Update number items.
     const numberItems = document.getElementsByClassName('statistics-item-number');
     for (const item of numberItems) {
-        item.innerHTML = renderNumberStatisticItem(item.getAttribute('name'), 100);
+        /**
+         * //TODO: Remove randomization.
+         * Randomize data for testing purpose.
+         */
+        item.innerHTML = generateNumberStatisticItemHTML(item.getAttribute('name'), Math.ceil((Math.random() * (10000 - 1) + 1)));
     }
 
-    //Update list items
+    //Update list items.
     const listItems = document.getElementsByClassName('statistics-item-list');
     for (const item of listItems) {
-        item.innerHTML = renderListStatisticItem(item.getAttribute('name'), $(item).data('items'));
+        item.innerHTML = generateListStatisticItemHTML(item.getAttribute('name'), $(item).data('items'));
 
         $(item).find('button').click(function () {
             $(item.lastElementChild).toggle();
         });
     }
 
-    //Update pie charts
+    //Update pie charts.
     const pieItems = document.getElementsByClassName('statistics-item-piechart');
     for (const item of pieItems) {
-        item.innerHTML = renderPieChartStatisticItem(item.getAttribute('name'));
-        //Create a Chart.js pie chart
+        item.innerHTML = generatePieStatisticItemHTML(item.getAttribute('name'));
+        //Create a Chart.js pie chart.
+
+        /**
+         * //TODO: Remove randomization.
+         * Randomize data for testing purpose.
+         */
+        const randomData = $(item).data('values');
+        for (let i = 0; i < randomData.length; i++) {
+            randomData[i] = Math.ceil((Math.random() * (10000 - 1) + 1));
+
+        }
+
         var ctx = item.getElementsByClassName('statistics-item-piechart-chart')[0].getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'pie',

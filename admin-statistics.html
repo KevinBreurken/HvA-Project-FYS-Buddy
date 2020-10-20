@@ -22,12 +22,14 @@
                 <option value="total">Total</option>
             </select>
         </div>
-        <h1>Statistics</h1>
+        <h1 id="statistics-title">Statistics</h1>
         <div id="statistics-window">
             <div class="statistics-group" statistic-type="Traffic">
                 <div class="statistics-group-title">Traffic</div>
                 <div class="statistics-group-container">
-                    <div class="statistics-item-number" name="User Amount" id="user-amount"></div>
+                    <div class="statistics-group-container">
+                        <div class="statistics-item-number" name="User Amount" id="user-amount"></div>
+                    </div>
                     <div class="statistics-group-container-vertical">
                         <div class="statistics-item-piechart" name="Type Device" id="device-type"
                             data-names='["Desktop","Mobile","Tablet"]' data-values='[1000,3500,300]'>
@@ -75,13 +77,22 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
         <div class="statistics-group" statistic-type="Pages">
             <div class="statistics-group-title">Pages</div>
-            <div class="statistics-group-container"></div>
+            <div class="statistics-group-container">
+                <div class="statistics-group-container-vertical">
+                    <div class="statistics-item-list" name="Amount of people exiting on page:"
+                        id="most-match-equal-destination"
+                        data-items='["Match (19320 exits)","Home (8539 exits)","Help (5930 exits)","Settings (4485 exits)"]'>
+                    </div>
+                    <div class="statistics-item-list" name="Amount of views" id="page-views-amount"
+                        data-items='["Home (23690 views)","Match (19320 views)","Help (6730 views)","Settings (400 views)"]'>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     </div>
