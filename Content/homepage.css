@@ -11,167 +11,181 @@ body {
 
 /* travel */
 
-.travel-wrapper {
-    display: inline-block;
-    height: fit-content;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    /*background-color: lightgray;*/
-}
-
-/* travel span */
-
-.travel-wrapper span {
-    font-family: "Calibri Light";
-    font-size: 40px;
-    /*font-family: White Mellow, sans-serif;*/
-    /*font-size: 60px;*/
-    /*color: white;*/
-    display: flex;
-    justify-content: center;
-    padding: 20px 20px 0 20px;
-    transition: 200ms;
-    /*background-color: #d81e05;*/
-    /*background-color: #cac8c8;*/
-}
-
-/* travel dropdown */
-/* todo: smooth transition into and out of dropdown */
-
-.travel-dropdown {
-    display: none;
-    padding: 20px;
-    max-width: min-content;
-    /*background-color: gray;*/
-}
-
-.travel-wrapper:hover span {
-    color: gray;
-}
-
-.travel-wrapper:hover .travel-dropdown {
-    /*display: block;*/
-    display: flex;
-    justify-content: center;
-}
-
-/* dropdown content */
-
-.travel-content {
-    margin: 0 5px 0 5px;
-}
-
-.travel-dropdown input {
-    font-size: 15px;
-    text-align: center;
-}
-
-.travel-dropdown button {
-    font-size: 15px;
-    font-weight: bold;
-    /*color: #d81e05;*/
-    border: none;
-    background-color: inherit;
-}
-
-.travel-dropdown button:hover {
-    color: grey;
-    /*color: #db7566;*/
-}
-
-/* filters menu */
-
-.filter-wrapper {
-    /*width: max-content;*/
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-}
-
-/* filter span */
-
-.filter-wrapper span {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 5px;
-    /*justify-content: space-around;*/
-}
-
-.filter-wrapper span button {
-    font-size: 15px;
-    border: none;
-    background-color: inherit;
-}
-
-.filter-wrapper span #filter-button {
-    font-weight: bold;
-}
-
-.filter-wrapper span #filter-button:hover {
-    color: grey;
-}
-
-/* filter dropdown */
-
-.filter-wrapper ul {
-    display: none;
-}
-
-/*.matches-wrapper {*/
+/*.travel-wrapper {*/
+/*    display: inline-block;*/
 /*    height: fit-content;*/
-/*    width: max-content;*/
+/*    width: fit-content;*/
 /*    margin-left: auto;*/
 /*    margin-right: auto;*/
-/*    padding: 30px 0 30px 0;*/
+/*    !*background-color: lightgray;*!*/
+/*}*/
+
+/*!* travel span *!*/
+
+/*.travel-wrapper span {*/
+/*    font-family: "Calibri Light";*/
+/*    font-size: 40px;*/
+/*    !*font-family: White Mellow, sans-serif;*!*/
+/*    !*font-size: 60px;*!*/
+/*    !*color: white;*!*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    padding: 20px 20px 0 20px;*/
+/*    transition: 200ms;*/
+/*    !*background-color: #d81e05;*!*/
+/*    !*background-color: #cac8c8;*!*/
+/*}*/
+
+/*!* travel dropdown *!*/
+/*!* todo: smooth transition into and out of dropdown *!*/
+
+/*.travel-dropdown {*/
+/*    display: none;*/
+/*    padding: 20px;*/
+/*    max-width: min-content;*/
 /*    !*background-color: gray;*!*/
 /*}*/
 
-/* matches tabs */
+/*.travel-wrapper:hover span {*/
+/*    color: gray;*/
+/*}*/
+
+/*.travel-wrapper:hover .travel-dropdown {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*!* dropdown content *!*/
+
+/*.travel-content {*/
+/*    margin: 0 5px 0 5px;*/
+/*}*/
+
+/*.travel-dropdown input {*/
+/*    font-size: 15px;*/
+/*    text-align: center;*/
+/*}*/
+
+/*.travel-dropdown button {*/
+/*    font-size: 15px;*/
+/*    font-weight: bold;*/
+/*    color: gray;*/
+/*    !*color: #d81e05;*!*/
+/*    border: none;*/
+/*    background-color: inherit;*/
+/*}*/
+
+/*.travel-dropdown button:hover {*/
+/*    color: black;*/
+/*    !*color: #db7566;*!*/
+
+
+/* filters and tabs */
+
+/*.filter-wrapper {*/
+/*    display: flex;*/
+/*    justify-content: space-evenly;*/
+
+/*    margin: 40px auto 0 auto;*/
+/*    background-color: #d81e05;*/
+/*}*/
+
+/*!* filter-menu *!*/
+
+/*.filter-menu {*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    border: #c11905 solid 1px;*/
+/*    background-color: #d81e05;*/
+/*}*/
+
+/*.filters {*/
+/*    display: flex;*/
+/*    justify-content: stretch;*/
+/*    !*width: 450px;*!*/
+/*    !*height: 40px;*!*/
+/*    !*background-color: green;*!*/
+/*}*/
+
+/*.filters button {*/
+/*    font-size: 18px;*/
+/*    color: white;*/
+/*    !*display: none;*!*/
+/*    border: none;*/
+/*    border-right: #c11905 groove;*/
+/*    padding: 10px 15px 10px 15px;*/
+/*    background-color: #d81e05;*/
+/*}*/
+
+/*.filters button:hover {*/
+/*    background-color: #c11905;*/
+/*}*/
+
+/*.filter-menu span {*/
+/*    font-weight: bold;*/
+/*    color: white;*/
+/*    padding: 10px 15px 10px 15px;*/
+/*    background-color: inherit;*/
+/*}*/
+
+/*.filter-menu span img {*/
+/*    padding: 10px 5px 5px 5px;*/
+/*}*/
+
+/* matches tabs title buttons */
 
 #tab-button-menu {
     font-size: 0;
-    width: max-content;
-    margin: 40px auto 20px auto;
+    width: 70%;
+    margin: 0 auto 0 auto;
+    background-color: #d81e05;
 }
 
 #tab-button-menu button {
     font-size: 18px;
+    color: white;
     border: none;
-    padding: 5px 20px 5px 20px;
-    transition: 200ms;
-    background-color: white;
+    border-right: #c11905 groove;
+    padding: 10px 15px 10px 15px;
+    background-color: #d81e05;
 }
 
 #tab-button-menu button:hover {
-    color: gray;
+    background-color: #c11905;
 }
 
+/* active tab */
 #tab-button-menu button.active {
     font-weight: bold;
+    background-color: #c11905;
+}
+
+.tab-border {
+    border: #c11905 solid 1px;
+    width: max-content;
 }
 
 /* tab content */
-
 .tab-content {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding-bottom: 20px;
+    padding: 40px 0 40px 0;
     max-width: 70%;
     margin-left: auto;
     margin-right: auto;
+    border: #efefef solid 1px;
     /*background-color: gray;*/
 }
 
-.tab-content h1 {
+.user-display h1 {
     font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 42px;
 }
 
 /* user displays */
-
 .user-display {
     text-align: center;
     min-width: max-content;
@@ -189,12 +203,13 @@ body {
 }
 
 .user-display img {
-    width: 120px;
-    margin: 20px 0 20px 0;
+    width: 160px;
+    border-radius: 2%;
+    margin: 10px 0 20px 0;
 }
 
 .user-display p {
-    margin:  0 5px 0 5px;
+    margin:  0 5px 5px 5px;
 }
 
 .user-display button {
@@ -202,8 +217,8 @@ body {
     font-weight: bold;
     color: #d81e05;
     padding: 5px 10px 5px 10px;
-    margin: 10px 5px 0 5px;
-    border: none;
+    margin: 10px 5px 15px 5px;
+    border: #d81e05 solid 1px;
     transition: 600ms;
     background-color: inherit;
 }
@@ -212,3 +227,6 @@ body {
     color: white;
     background-color: #d81e05;
 }
+
+/* specific tab content */
+
