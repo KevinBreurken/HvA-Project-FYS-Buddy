@@ -1,0 +1,63 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, serif;
+}
+header {
+  background: cornflowerblue;
+}
+main {
+  width: 800px;
+  margin: 0 auto;
+}
+main li {
+  list-style: none;
+}
+main #registratie,
+main #onboarding {
+  border: 2px solid black;
+  border-radius: 15px;
+  width: 600px;
+  margin: 10px auto;
+  padding: 20px;
+}
+main table {
+  margin: 10px auto;
+}
+main table td,
+main table th {
+  padding: 5px;
+}
+main table,
+main th,
+main td {
+  border: black 1px solid;
+  border-collapse: collapse;
+}
+main hr {
+  margin: 5px 0;
+}
+.btn {
+  display: inline-block;
+  margin: 5px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background: cornflowerblue;
+  text-align: center;
+  width: 100px;
+  height: auto;
+  cursor: pointer;
+}
+.btn:hover {
+  background: aqua;
+}
+.fakeClick {
+  color: blue;
+  text-decoration: underline;
+}
+.fakeClick:hover {
+  color: red;
+  cursor: pointer;
+}
+/*# sourceMappingURL=kiet.css.map */
