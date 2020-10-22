@@ -1,0 +1,111 @@
+body {
+    font-family: Uni Sans WFx, sans-serif;
+    color: #323232;
+}
+
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    padding-top: 40px;
+}
+
+/* matches tabs title buttons */
+
+#tab-button-menu {
+    font-size: 0;
+    width: 70%;
+    margin: 0 auto 0 auto;
+    background-color: #d81e05;
+}
+
+#tab-button-menu button {
+    font-size: 18px;
+    color: white;
+    border: none;
+    border-right: #c11905 groove;
+    padding: 10px 15px 10px 15px;
+    background-color: #d81e05;
+}
+
+#tab-button-menu button:hover {
+    background-color: #c11905;
+}
+
+/* active tab */
+#tab-button-menu button.active {
+    font-weight: bold;
+    background-color: #c11905;
+}
+
+.tab-border {
+    border: #c11905 solid 1px;
+    width: max-content;
+}
+
+/* tab content */
+.tab-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 40px 0 40px 0;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    border: #efefef solid 1px;
+    /*background-color: gray;*/
+}
+
+.user-display h1 {
+    font-size: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 42px;
+    width: 200px;
+}
+
+/* user displays */
+.user-display {
+    text-align: center;
+    min-width: max-content;
+    margin: 5px;
+    padding: 10px;
+    border: #efefef solid 1px;
+    background-color: inherit;
+    /*background-color: green;*/
+    /*background-color: #efefef;*/
+}
+
+.user-display:hover {
+    /*background-color: #f6f6f6;*/
+    background-color: #efefef;
+}
+
+.user-display img {
+    width: 160px;
+    border-radius: 2%;
+    margin: 10px 0 20px 0;
+}
+
+.user-display p {
+    margin:  0 5px 5px 5px;
+}
+
+.user-display button {
+    font-size: 18px;
+    font-weight: bold;
+    color: #d81e05;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 5px 15px 5px;
+    border: #d81e05 solid 1px;
+    transition: 600ms;
+    background-color: inherit;
+}
+
+.user-display button:hover {
+    color: white;
+    background-color: #d81e05;
+}
+
+/* specific tab content */
+

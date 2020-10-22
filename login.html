@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fasten Your Seatbelts login</title>
+    <link rel="stylesheet" href="Content/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="Scripts/model.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--header area start-->
+    <header>
+    <div id="logo">
+            <img src="Content/Images/corendon-logo.svg">
+    </div>
+    <nav>
+        <ul class="nav-links">
+            <li>                
+                <a href="index.html">
+                    <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="icons">
+                        <path d="M12 1.93359L23.0273 12.9727L21.9727 14.0273L21 13.0664V22.5H13.5V15H10.5V22.5H3V13.0664L2.02734 14.0273L0.972656 12.9727L12 1.93359ZM19.5 21V11.5664L12 4.06641L4.5 11.5664V21H9V13.5H15V21H19.5Z" fill="#B81A04"/>
+                    </svg>
+                    Home
+                </a>
+            <li>
+                <a href="support.html">Support</a>
+            </li>
+            <li>
+                <a href="settings.html">Settings</a>
+            </li>
+            <li>
+                <a href="./login.html">login</a>
+            </li>
+            <li>
+                <button onclick="myFunction()" id="openmodal">log out</button>
+            </li>
+        </ul>
+    </nav>
+    </header>
+    <!--header area end-->
+
+    <!--login area start-->
+    <div class="content-wrapper">
+    <div class="form-wrapper">
+        <h1 id="form-title">Login form</h1>
+        <form class="login-form" action="" method="post"></form>
+        <i class="fas fa-user"></i>
+        <input class="user-input" type="text" name="" placeholder="Username" required>
+        <input class="user-input" type="password" name="" placeholder="Password" required>
+        <div class="option-1">
+        <a href="#">Forgot your password?</a>
+        </div>
+        <input class="btn" type="submit" name="" value="LOGIN">
+        <div class="option-2">
+            <p>Not registered?
+                <a href="#">Create an Account</a>
+            </p>
+        </div>
+    </div>
+    </div>
+    <!--login area end-->
+</div>
+<div class="modal">
+    <div class="modal-content">
+        <p>Logging out. redirecting to home page</p>
+    </div>
+</div>
+</body>
+</html>
