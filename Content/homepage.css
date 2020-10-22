@@ -32,12 +32,6 @@ body {
     background-color: #c11905;
 }
 
-/* active tab */
-#tab-button-menu button.active {
-    font-weight: bold;
-    background-color: #c11905;
-}
-
 .tab-border {
     border: #c11905 solid 1px;
     width: max-content;
@@ -106,6 +100,3 @@ body {
     color: white;
     background-color: #d81e05;
 }
-
-/* specific tab content */
-
