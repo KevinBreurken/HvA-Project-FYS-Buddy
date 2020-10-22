@@ -16,23 +16,26 @@
 <body>
 <div class="container">
 
+    <!--travel specifications-->
+
     <!--tab title buttons-->
     <div id="tab-button-menu">
         <div class="tab-border">
-            <button class="active">All results</button>
-            <button>Recently viewed</button>
-            <button>matched</button>
-            <button>favorites</button>
+            <button id="default-active" class="tab-button" onclick="openTabContent('results-content', this)">all results</button>
+            <button class="tab-button" onclick="openTabContent('recently-content', this)">recently viewed</button>
+            <button class="tab-button" onclick="openTabContent('matched-content', this)">matched</button>
+            <button class="tab-button" onclick="openTabContent('favorites-content', this)">favorites</button>
         </div>
     </div>
 
+    <!--filters-->
+    <!--todo:keyframes-->
+
     <!--tabs with matched and matchable users-->
-    <!--todo: max width h1-->
     <!--todo: transitions-->
     <!--todo:favorites icon-->
-    <!--todo: functional tabs-->
-    <div id="all-results-content" class="tab-content">
-        <div id="user-1" class="user-display">
+    <div id="results-content" class="tab-content">
+        <div class="user-display">
             <h1>Sophia</h1>
             <img src="Image/profile-picture-1.jpg">
             <p>Paris, France</p>
@@ -41,7 +44,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-2" class="user-display">
+        <div class="user-display">
             <h1>Melissa_T</h1>
             <img src="Image/profile-picture-2.jpg">
             <p>city, country</p>
@@ -50,7 +53,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-3" class="user-display">
+        <div class="user-display">
             <h1>Tom672</h1>
             <img src="Image/profile-picture-3.jpg">
             <p>city, country</p>
@@ -59,7 +62,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-4" class="user-display">
+        <div class="user-display">
             <h1>Janice Keihanaikukauakahihuliheʻekahaunaele</h1>
             <img src="Image/profile-picture-4.jpg">
             <p>city, country</p>
@@ -68,7 +71,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-5" class="user-display">
+        <div class="user-display">
             <h1>George Thompson</h1>
             <img src="Image/profile-picture-5.jpg">
             <p>city, country</p>
@@ -77,7 +80,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-6" class="user-display">
+        <div class="user-display">
             <h1>Tom672</h1>
             <img src="Image/profile-picture-3.jpg">
             <p>city, country</p>
@@ -86,7 +89,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-7" class="user-display">
+        <div class="user-display">
             <h1>Janice Keihanaikukauakahihuliheʻekahaunaele</h1>
             <img src="Image/profile-picture-4.jpg">
             <p>city, country</p>
@@ -95,7 +98,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-8" class="user-display">
+        <div class="user-display">
             <h1>Sophia</h1>
             <img src="Image/profile-picture-1.jpg">
             <p>city, country</p>
@@ -104,7 +107,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-9" class="user-display">
+        <div class="user-display">
             <h1>George Thompson</h1>
             <img src="Image/profile-picture-5.jpg">
             <p>city, country</p>
@@ -113,7 +116,7 @@
             <button>match</button>
             <button>profile</button>
         </div>
-        <div id="user-10" class="user-display">
+        <div class="user-display">
             <h1>Melissa_T</h1>
             <img src="Image/profile-picture-2.jpg">
             <p>city, country</p>
@@ -124,7 +127,87 @@
         </div>
     </div>
 
+    <div id="recently-content" class="tab-content">
+        <div class="user-display">
+            <h1>Sophia</h1>
+            <img src="Image/profile-picture-1.jpg">
+            <p>Paris, France</p>
+            <p>from date <br> until date</p>
+            <p>travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div class="user-display">
+            <h1>Melissa_T</h1>
+            <img src="Image/profile-picture-2.jpg">
+            <p>city, country</p>
+            <p>from date <br> until date</p>
+            <p>travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div class="user-display">
+            <h1>Tom672</h1>
+            <img src="Image/profile-picture-3.jpg">
+            <p>city, country</p>
+            <p>from date <br> until date</p>
+            <p>activity buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+    </div>
+
+    <div id="matched-content" class="tab-content">
+        <div class="user-display">
+            <h1>Melissa_T</h1>
+            <img src="Image/profile-picture-2.jpg">
+            <p>city, country</p>
+            <p>from date <br> until date</p>
+            <p>activity buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+    </div>
+
+    <div id="favorites-content" class="tab-content">
+        <div class="user-display">
+            <h1>Melissa_T</h1>
+            <img src="Image/profile-picture-2.jpg">
+            <p>city, country</p>
+            <p>from date <br> until date</p>
+            <p>travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+        <div class="user-display">
+            <h1>Tom672</h1>
+            <img src="Image/profile-picture-3.jpg">
+            <p>city, country</p>
+            <p>from date <br> until date</p>
+            <p>travel buddy</p>
+            <button>match</button>
+            <button>profile</button>
+        </div>
+    </div>
+
 </div>
-</div>
+<script>
+    document.getElementById("default-active").click();
+
+    function openTabContent (tabContentName, thisKeyword) {
+        var tabButton = document.getElementsByClassName("tab-button");
+        var tabContent = document.getElementsByClassName("tab-content");
+
+        for (let i = 0; i < tabContent.length; i++) {
+            tabContent[i].style.display = "none";
+        }
+        document.getElementById(tabContentName).style.display = "flex";
+
+        for (var i = 0; i < tabButton.length; i++) {
+            tabButton[i].style.backgroundColor = "";
+        }
+        thisKeyword.style.backgroundColor = "#c11905";
+    }
+</script>
 </body>
 </html>
