@@ -9,129 +9,6 @@ body {
     height: 100%;
 }
 
-/* travel */
-
-/*.travel-wrapper {*/
-/*    display: inline-block;*/
-/*    height: fit-content;*/
-/*    width: fit-content;*/
-/*    margin-left: auto;*/
-/*    margin-right: auto;*/
-/*    !*background-color: lightgray;*!*/
-/*}*/
-
-/*!* travel span *!*/
-
-/*.travel-wrapper span {*/
-/*    font-family: "Calibri Light";*/
-/*    font-size: 40px;*/
-/*    !*font-family: White Mellow, sans-serif;*!*/
-/*    !*font-size: 60px;*!*/
-/*    !*color: white;*!*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    padding: 20px 20px 0 20px;*/
-/*    transition: 200ms;*/
-/*    !*background-color: #d81e05;*!*/
-/*    !*background-color: #cac8c8;*!*/
-/*}*/
-
-/*!* travel dropdown *!*/
-/*!* todo: smooth transition into and out of dropdown *!*/
-
-/*.travel-dropdown {*/
-/*    display: none;*/
-/*    padding: 20px;*/
-/*    max-width: min-content;*/
-/*    !*background-color: gray;*!*/
-/*}*/
-
-/*.travel-wrapper:hover span {*/
-/*    color: gray;*/
-/*}*/
-
-/*.travel-wrapper:hover .travel-dropdown {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*}*/
-
-/*!* dropdown content *!*/
-
-/*.travel-content {*/
-/*    margin: 0 5px 0 5px;*/
-/*}*/
-
-/*.travel-dropdown input {*/
-/*    font-size: 15px;*/
-/*    text-align: center;*/
-/*}*/
-
-/*.travel-dropdown button {*/
-/*    font-size: 15px;*/
-/*    font-weight: bold;*/
-/*    color: gray;*/
-/*    !*color: #d81e05;*!*/
-/*    border: none;*/
-/*    background-color: inherit;*/
-/*}*/
-
-/*.travel-dropdown button:hover {*/
-/*    color: black;*/
-/*    !*color: #db7566;*!*/
-
-
-/* filters and tabs */
-
-/*.filter-wrapper {*/
-/*    display: flex;*/
-/*    justify-content: space-evenly;*/
-
-/*    margin: 40px auto 0 auto;*/
-/*    background-color: #d81e05;*/
-/*}*/
-
-/*!* filter-menu *!*/
-
-/*.filter-menu {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    border: #c11905 solid 1px;*/
-/*    background-color: #d81e05;*/
-/*}*/
-
-/*.filters {*/
-/*    display: flex;*/
-/*    justify-content: stretch;*/
-/*    !*width: 450px;*!*/
-/*    !*height: 40px;*!*/
-/*    !*background-color: green;*!*/
-/*}*/
-
-/*.filters button {*/
-/*    font-size: 18px;*/
-/*    color: white;*/
-/*    !*display: none;*!*/
-/*    border: none;*/
-/*    border-right: #c11905 groove;*/
-/*    padding: 10px 15px 10px 15px;*/
-/*    background-color: #d81e05;*/
-/*}*/
-
-/*.filters button:hover {*/
-/*    background-color: #c11905;*/
-/*}*/
-
-/*.filter-menu span {*/
-/*    font-weight: bold;*/
-/*    color: white;*/
-/*    padding: 10px 15px 10px 15px;*/
-/*    background-color: inherit;*/
-/*}*/
-
-/*.filter-menu span img {*/
-/*    padding: 10px 5px 5px 5px;*/
-/*}*/
-
 /* matches tabs title buttons */
 
 #tab-button-menu {
@@ -183,6 +60,7 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     height: 42px;
+    width: 200px;
 }
 
 /* user displays */
