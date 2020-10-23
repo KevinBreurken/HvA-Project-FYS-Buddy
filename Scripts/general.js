@@ -1,11 +1,11 @@
 /**
  * Check whether the page is currently accessed by a Admin Profile.
  */
-var isOnAdminProfile;
+var isOnAdminProfile = false;
 /**
  * name of the current menu. ex: 'home/statistics'.
  */
-var currentMenuType;
+var currentMenuType = 'home';
 
 $(document).ready(function () {
     //add the general stylesheet to the page's header.
@@ -14,15 +14,11 @@ $(document).ready(function () {
     //Add the header to the start of the body.
     var headerElement = document.createElement('header');
     document.body.insertBefore(headerElement, document.body.firstChild);
-    $('header').load("Includes/general-header.html");
+    $('header').load("Includes/general-header.html", function () {
 
-    //When the header is ready...
-    $('header').ready(function () {
-        //Change the menu to admin if page is a admin page.
         if (isOnAdminProfile)
             overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
 
-        //set the current active menu.
         updateMenuButtons();
     });
 
@@ -30,7 +26,6 @@ $(document).ready(function () {
     var footerElement = document.createElement('footer');
     document.body.appendChild(footerElement);
     $('footer').load("Includes/general-footer.html");
-
 });
 
 /**
@@ -63,4 +58,6 @@ function overrideMenuButtons(newButtons) {
         $(itemList).append(`<li><a class="main-menu-buttons" href="${newButtons[i][1]}
         " type="${newButtons[i][0]}">${homeImageHTML}${newButtons[i][0]}</a></li>`);
     }
+
+    updateMenuButtons();
 }

@@ -1,59 +1,66 @@
 /**
  * //TODO: Create dummy metrics for statistics
  * 
- * //TODO: Component - Number Display
- * //TODO: Component - Pie chart Display
- * //TODO: Component - Top 10 Display
  * //TODO: Component - Pages list display
  */
 var currentTimeSelection = "day";
-
-/**
- * Container for all the statistic groups.
- */
-class StatisticsWindow {
-    groups = [
-        new StatisticGroup("Traffic"),
-        new StatisticGroup("Users"),
-        new StatisticGroup("Matching"),
-        new StatisticGroup("Pages")
-    ];
-
-    createdList = null;
-    render() {
-        const renderHook = document.getElementById('statistics-window');
-        renderHook.innerHTML = ""; //Clear the HTML located in the window element.
-        for (const group of this.groups) {
-            this.createdList = group.render();
-            renderHook.append(this.createdList);
-        }
-    }
-}
-
-/**
- * Container for a group of statistics.
- * Placed within a StatisticsWindow.
- */
-class StatisticGroup {
-    constructor(title) {
-        this.title = title;
-    }
-
-    render() {
-        const statGroupElement = document.createElement('div');
-        statGroupElement.className = 'statistics-group';
-        statGroupElement.innerHTML = `<h1>${this.title}</h1><p>asf</p`;
-
-        return statGroupElement;
-    }
-}
-
 /** Dropdown item */
 var timeSelection = document.getElementById('time-dropdown');
 $('select').on('change', function () {
     currentTimeSelection = this.value;
-    statisticWindow.render(); //Redraw the statisticsWindow.
+    renderStatistics();
 });
 
-const statisticWindow = new StatisticsWindow();
-statisticWindow.render();
+renderStatistics();
+
+function renderStatistics() {
+
+    //Update number items.
+    const numberItems = document.getElementsByClassName('statistics-item-number');
+    for (const item of numberItems) {
+        /**
+         * //TODO: Remove randomization.
+         * Randomize data for testing purpose.
+         */
+        item.innerHTML = generateNumberStatisticItemHTML(item.getAttribute('name'), Math.ceil((Math.random() * (10000 - 1) + 1)));
+    }
+
+    //Update list items.
+    const listItems = document.getElementsByClassName('statistics-item-list');
+    for (const item of listItems) {
+        item.innerHTML = generateListStatisticItemHTML(item.getAttribute('name'), $(item).data('items'));
+
+        $(item).find('button').click(function () {
+            $(item.lastElementChild).toggle();
+        });
+    }
+
+    //Update pie charts.
+    const pieItems = document.getElementsByClassName('statistics-item-piechart');
+    for (const item of pieItems) {
+        item.innerHTML = generatePieStatisticItemHTML(item.getAttribute('name'));
+        //Create a Chart.js pie chart.
+
+        /**
+         * //TODO: Remove randomization.
+         * Randomize data for testing purpose.
+         */
+        const randomData = $(item).data('values');
+        for (let i = 0; i < randomData.length; i++) {
+            randomData[i] = Math.ceil((Math.random() * (10000 - 1) + 1));
+
+        }
+
+        var ctx = item.getElementsByClassName('statistics-item-piechart-chart')[0].getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: $(item).data('names'),
+                datasets: [{
+                    backgroundColor: pieChartColors,
+                    data: $(item).data('values')
+                }]
+            }
+        });
+    }
+}
