@@ -6,8 +6,8 @@
   --color-corendon-dark-grey: #666;
   --main-background-color-corendon-red: #d81e05;
   --main-background-color-corendon-dark-red: #c11905;
-  --background-color-corendon-green: #26A514;
-  --background-color-corendon-dark-green: #1E8410;
+  --background-color-corendon-green: #26a514;
+  --background-color-corendon-dark-green: #1e8410;
 }
 
 main {
@@ -16,7 +16,6 @@ main {
   margin-right: auto;
   width: 70%;
   max-width: 800px;
-  background-color: purple;
 }
 
 /* Header */
