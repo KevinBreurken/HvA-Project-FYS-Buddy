@@ -6,27 +6,35 @@ var isOnAdminProfile = false;
  * name of the current menu. ex: 'home/statistics'.
  */
 var currentMenuType = 'home';
+/**
+ * Check whether the navigation is visible on the screen.
+ */
+var isNavigationVisible = true;
+
+//add the general stylesheet to the page's header.
+$('head').append('<link rel="stylesheet" type="text/css" href="Content/general.css">');
+//add the fyscloud to the page's header.
+$('head').append('<script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>');
 
 $(document).ready(function () {
-    //add the general stylesheet to the page's header.
-    $('head').append('<link rel="stylesheet" type="text/css" href="Content/general.css">');
-
     //Add the header to the start of the body.
     var headerElement = document.createElement('header');
     document.body.insertBefore(headerElement, document.body.firstChild);
-    $('header').load("Includes/general-header.html", function () {
-
-        if (isOnAdminProfile)
-            overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
-
-        updateMenuButtons();
-    });
+    $('header').load("Includes/general-header.html", onHeaderLoaded);
 
     //Add the footer to the end of the body.
     var footerElement = document.createElement('footer');
     document.body.appendChild(footerElement);
     $('footer').load("Includes/general-footer.html");
 });
+
+function onHeaderLoaded() {
+    if (isOnAdminProfile)
+        overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
+
+    updateMenuButtons();
+    setNavigationVisibility(isNavigationVisible);
+}
 
 /**
  * Updates the button menu's 'current' attributes.
@@ -40,6 +48,10 @@ function updateMenuButtons() {
             return;
         }
     });
+}
+
+function setNavigationVisibility(state) {
+    $('.main-menu-buttons').toggle(state);
 }
 
 /**
