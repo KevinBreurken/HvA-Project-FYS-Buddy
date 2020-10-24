@@ -29,11 +29,13 @@ $(document).ready(function () {
 });
 
 function onHeaderLoaded() {
-    if (isOnAdminProfile)
-        overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
-
-    updateMenuButtons();
     setNavigationVisibility(isNavigationVisible);
+    if (isNavigationVisible) {
+        if (isOnAdminProfile)
+            overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
+
+        updateMenuButtons();
+    }
 }
 
 /**
