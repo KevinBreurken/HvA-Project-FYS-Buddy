@@ -3,7 +3,7 @@ body {
     color: #323232;
 }
 
-.container {
+main {
     display: flex;
     flex-flow: column;
     height: 100%;
@@ -43,7 +43,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     padding: 40px 0 40px 0;
-    max-width: 70%;
+    /*max-width: 70%;*/
     margin-left: auto;
     margin-right: auto;
     border: #efefef solid 1px;

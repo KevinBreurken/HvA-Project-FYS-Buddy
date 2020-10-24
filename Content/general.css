@@ -1,6 +1,22 @@
 :root {
-  --main-text-h1-font-size: 16px;
-  --main-text-hi-font-weight: bold;
+  --font-family: Uni sans Wfx;
+  --color-corendon-white: #fff;
+  --color-corendon-red: #d81e05;
+  --color-corendon-dark-red: #c11905;
+  --color-corendon-dark-grey: #666;
+  --main-background-color-corendon-red: #d81e05;
+  --main-background-color-corendon-dark-red: #c11905;
+  --background-color-corendon-green: #26A514;
+  --background-color-corendon-dark-green: #1E8410;
+}
+
+main {
+  font-family: var(--font-family);
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  max-width: 800px;
+  background-color: purple;
 }
 
 /* Header */
