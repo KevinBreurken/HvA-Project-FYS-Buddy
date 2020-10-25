@@ -6,8 +6,6 @@ body {
 main {
   display: flex;
   flex-flow: column;
-  height: 100%;
-  padding-top: 40px;
   max-width: 1000px;
 }
 
@@ -15,8 +13,8 @@ main {
 
 #tab-button-menu {
   font-size: 0;
-  width: 70%;
   margin: 0 auto 0 auto;
+  width: 100%;
   background-color: #d81e05;
 }
 
