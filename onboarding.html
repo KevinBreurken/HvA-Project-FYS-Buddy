@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Onboarding</title>
+    <link rel="stylesheet" href="Content/kiet.css">
+</head>
+
+<body>
+    <header>
+        <h1>Onboarding procedure</h1>
+        <a href="registreer.html">Registreer </a>
+        <a href="onboarding.html">Onboarding </a>
+        <a href="admin_panel.html">Admin paneel </a>
+    </header>
+    <main id="onboarding">
+        <div>
+            <div id="stap-2">
+                <h2>Persoonsgegevens</h2>
+                <ul>
+                    <li>
+                        <label for="naam">Voornaam</label>
+                        <input type="text" id="naam" name="voornaam" value="" maxlength="50">
+                    </li>
+                    <li>
+                        <label for="achternaam">Achternaam: </label>
+                        <input type="text" id="achternaam" name="achternaam" value="">
+                    </li>
+                    <li>Geslacht:<br>
+                        <input type="radio" id="man" name="geslacht" value="man">
+                        <label for="man">Man </label><br>
+                        <input type="radio" id="vrouw" name="geslacht" value="vrouw">
+                        <label for="vrouw">Vrouw </label><br>
+                        <input type="radio" id="overig" name="geslacht" value="overig">
+                        <label for="overig">Overig </label>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <div id="stap-1">
+                <h2>Matching informatie</h2>
+
+                <p>Hobby's:</p>
+                <ul>
+                    <li>
+                        <input type="checkbox" id="sport" name="hobbys" value="sport">
+                        <label for="sport">Sport </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="wandelen" name="hobbys" value="wandelen">
+                        <label for="wandelen">Wandelen </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="koken" name="hobbys" value="koken">
+                        <label for="koken">Koken </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="schilderen" name="schilderen" value="schilderen of schilderen">
+                        <label for="schilderen">Schilderen of schilderen </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="musea" name="musea" value="musea bezoeken">
+                        <label for="musea">Musea bezoeken </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="natuur" name="natuur" value="natuur">
+                        <label for="natuur">Natuur </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="muziek" name="muziek" value="muziek">
+                        <label for="muziek">Muziek </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="theater" name="theater" value="theater">
+                        <label for="theater">Theater </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="uitgaan" name="uitgaan" value="uitgaan">
+                        <label for="uitgaan">Uitgaan </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" id="gamen" name="gamen" value="gamen">
+                        <label for="gamen">Gamen </label>
+                    </li>
+                    <li>
+                        <label for="anders">Anders, namelijk: </label><br>
+                        <textarea id="anders" name="anders" maxlength="50"></textarea>
+                    </li>
+                </ul>
+
+                <label for="bio">Bio: </label><br>
+                <textarea id="bio" name="bio" maxlength="500"></textarea>
+
+            </div>
+            <hr>
+            <div id="stap-3">
+                <h2>Profiel foto</h2>
+                <ul>
+                    <li>
+                        <label for="profielFoto">Profiel foto</label>
+                        <input type="file" id="profielFoto" name="profile_photo" placeholder="Photo">
+                    </li>
+                </ul>
+            </div>
+            <button class="btn">Opslaan</button>
+        </div>
+    </main>
+</body>
+
+</html>
+<script>
+
+</script>
