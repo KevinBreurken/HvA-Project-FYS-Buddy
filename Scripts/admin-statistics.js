@@ -48,11 +48,10 @@ function renderStatistics() {
         const randomData = $(item).data('values');
         for (let i = 0; i < randomData.length; i++) {
             randomData[i] = Math.ceil((Math.random() * (10000 - 1) + 1));
-
         }
 
-        var ctx = item.getElementsByClassName('statistics-item-piechart-chart')[0].getContext('2d');
-        var myChart = new Chart(ctx, {
+        var context = item.getElementsByClassName('statistics-item-piechart-chart')[0].getContext('2d');
+        var myChart = new Chart(context, {
             type: 'pie',
             data: {
                 labels: $(item).data('names'),

@@ -8,7 +8,7 @@
   --helvetica-font: "Helvetica", "Arial", sans-serif;
 }
 
-.content {
+main {
   border: 1px solid #d9d9d9;
   max-width: 700px;
   margin-left: auto;
