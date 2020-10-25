@@ -15,6 +15,8 @@ var isNavigationVisible = true;
 $('head').append('<link rel="stylesheet" type="text/css" href="Content/general.css">');
 //add the fyscloud to the page's header.
 $('head').append('<script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>');
+//add the favicon to the page's header.
+$('head').append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
 
 $(document).ready(function () {
     //Add the header to the start of the body.
