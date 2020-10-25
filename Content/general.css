@@ -1,5 +1,5 @@
 :root {
-  --font-family: Uni sans Wfx;
+  --font-family: Uni sans Wfx, sans-serif;
   /* colors */
   --color-corendon-white: #fff;
   --color-corendon-red: #d81e05;
@@ -20,23 +20,27 @@
   --color-corendon-lighter-blue: #99e4f3;
 }
 
-main {
+body {
   font-family: var(--font-family);
-  color: var(--border-corendon-grey);
-  margin-left: auto;
-  margin-right: auto;
-  width: 70%;
-  max-width: 800px;
+  color: var(--color-corendon-dark-grey);
+  margin: 0;
 }
 
-header {
-  margin-bottom: 40px;
+main {
   margin-left: auto;
   margin-right: auto;
   max-width: 800px;
+  width: 70%;
 }
 
 /* Header */
+header {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+  margin-bottom: 40px;
+}
+
 .main-banner {
   display: flex;
   justify-content: center;
@@ -69,7 +73,7 @@ nav li + li {
   text-decoration: none;
   background-color: var(--background-color-nav-menu);
   color: var(--color-nav-menu);
-  font-family: Uni Sans WFx, sans-serif;
+  font-family: var(--font-family);
   text-transform: uppercase;
 }
 
@@ -78,6 +82,18 @@ nav li + li {
 }
 
 /* Footer */
+.footer-divider {
+  display: flex;
+  padding: 4px;
+  background-color: var(--main-background-color-corendon-red);
+}
+
+.footer-divider img {
+  height: 80px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .footer-content {
   display: flex;
   align-items: flex-start;
@@ -96,11 +112,14 @@ nav li + li {
   background-color: var(--background-color-nav-menu);
   max-height: 25px;
   border: none;
+  cursor: pointer;
 }
 
-.language-item-text {
-  width: 70px;
+.language-selection button p {
+  font-family: var(--font-family);
   font-size: 16px;
+  color: var(--color-corendon-dark-grey);
+  width: 70px;
 }
 
 .language-selection img {
@@ -120,8 +139,8 @@ nav li + li {
 }
 
 .footer-links a {
+  color: var(--color-corendon-dark-grey);
   text-decoration: none;
-  color: var(--border-corendon-grey);
 }
 
 /* Profile Display */
@@ -130,12 +149,10 @@ nav li + li {
   top: 0;
   right: 0;
   height: 38px;
-
   align-items: center;
   border: 1px solid var(--color-corendon-lighter-blue);
   cursor: pointer;
   border-radius: 6px;
-
   display: flex;
   justify-content: space-between;
 }
