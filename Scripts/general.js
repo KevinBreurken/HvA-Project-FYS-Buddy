@@ -36,6 +36,22 @@ function onHeaderLoaded() {
 
         updateMenuButtons();
     }
+
+    //For testing purposes
+    //Randomise Account name.
+    const testNames = [
+        'Irene',
+        'Hanna',
+        'Kiet',
+        'Dylan',
+        'Kevin',
+        'Barry',
+        'Anthonius',
+        'Bernardus',
+        'Gijsbertus'
+    ];
+    const preText = 'Welcome, ';
+    $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
 }
 
 /**
