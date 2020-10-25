@@ -50,7 +50,7 @@ function onHeaderLoaded() {
         'Barry',
         'Anthonius',
         'Bernardus',
-        'Gijsbertus'
+        'Gijsbertinandus'
     ];
     const preText = 'Welcome, ';
     $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
