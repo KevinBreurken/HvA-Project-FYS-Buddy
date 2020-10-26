@@ -1,13 +1,6 @@
-body {
-  font-family: Uni Sans WFx, sans-serif;
-  color: #323232;
-}
-
 main {
   display: flex;
   flex-flow: column;
-  height: 100%;
-  padding-top: 40px;
   max-width: 1000px;
 }
 
@@ -15,8 +8,8 @@ main {
 
 #tab-button-menu {
   font-size: 0;
-  width: 70%;
   margin: 0 auto 0 auto;
+  width: 100%;
   background-color: #d81e05;
 }
 
@@ -44,11 +37,9 @@ main {
   flex-wrap: wrap;
   justify-content: center;
   padding: 40px 0 40px 0;
-  /*max-width: 70%;*/
   margin-left: auto;
   margin-right: auto;
   border: #efefef solid 1px;
-  /*background-color: gray;*/
 }
 
 .user-display h1 {
