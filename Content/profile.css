@@ -1,3 +1,8 @@
+body {
+    font-family: Open Sans WF,sans-serif;
+    color: #666;
+}
+
 .flex-container {
     display: flex;
     flex-direction: row;
@@ -8,14 +13,14 @@
     flex: 1;
 }
 .profielBewerkenKnop {
-    text-align: right;
+    justify-content: right;
 }
 .opslaanKnop {
-    text-align: end;
+    justify-items: end;
 }
 #container {
     height: 300px;
-    width: 1400px;
+    width: 1000px;
     border: 1px solid black;
     position: relative;
     align-items: stretch;
@@ -70,4 +75,30 @@ form input.error {
 
 form input.success {
     border-color: #c3e6cb
+}
+.badge1, .badge2, .badge3, .badge4, .badge5 {
+    color: #fff;
+    background-color: #d81e05;
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+}
+
+.img {
+    border-radius: 50%;
+    width: 240px;
+    height: 200px;
+    border: 4px solid #ffffff;
+    box-shadow: 0px 5px 10px rgba(0,0,0,2);
+
+}
+.main {
+    border: white;
+    max-width: 100%;
 }
