@@ -4,31 +4,47 @@ main {
   max-width: 1000px;
 }
 
-/* matches tabs title buttons */
+/* travel specifications */
 
+
+/* matches tabs titles */
 #tab-button-menu {
+  display: flex;
   font-size: 0;
-  margin: 0 auto 0 auto;
   width: 100%;
+  /*min-width: max-content;*/
   background-color: #d81e05;
-}
-
-#tab-button-menu button {
-  font-size: 18px;
-  color: white;
-  border: none;
-  border-right: #c11905 groove;
-  padding: 10px 15px 10px 15px;
-  background-color: #d81e05;
-}
-
-#tab-button-menu button:hover {
-  background-color: #c11905;
 }
 
 .tab-border {
   border: #c11905 solid 1px;
+}
+
+/* tab buttons */
+#tab-button-menu button {
+  /*text-transform: uppercase;*/
+  font-size: 18px;
+  color: var(--color-corendon-white);
   width: max-content;
+  border: none;
+  border-right: var(--color-corendon-dark-red) groove;
+  padding: 10px 15px 10px 15px;
+  background-color: var(--color-corendon-red);
+}
+
+#tab-button-menu button:hover {
+  background-color: var(--color-corendon-dark-red)
+}
+
+/* filters */
+
+#filer-button img {
+  width: 18px;
+  height: 18px;
+}
+
+.tab-border button:last-of-type {
+  margin-left: auto;
 }
 
 /* tab content */
@@ -42,14 +58,6 @@ main {
   border: #efefef solid 1px;
 }
 
-.user-display h1 {
-  font-size: 18px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 42px;
-  width: 200px;
-}
-
 /* user displays */
 .user-display {
   text-align: center;
@@ -58,13 +66,18 @@ main {
   padding: 10px;
   border: #efefef solid 1px;
   background-color: inherit;
-  /*background-color: green;*/
-  /*background-color: #efefef;*/
 }
 
 .user-display:hover {
-  /*background-color: #f6f6f6;*/
   background-color: #efefef;
+}
+
+.user-display h1 {
+  font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 42px;
+  width: 200px;
 }
 
 .user-display img {
