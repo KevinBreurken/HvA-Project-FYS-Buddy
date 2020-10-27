@@ -140,32 +140,64 @@ main {
 
 /* overlay */
 .overlay-container {
-  /*display: flex;*/
   display: none;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-  max-width: 500px;
-  height: 300px;
-  border-radius: 6px;
-  z-index: 10;
+  width: 40%;
+  max-width: 750px;
+  height: fit-content;
+  max-height: 500px;
+  overflow: hidden;
+  z-index: 11;
   background-color: var(--color-corendon-white);
 }
-
+/* overlay content */
 .overlay-content {
-  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
 }
 
+/* overlay content rows */
+.overlay-row {
+  width: 100%;
+  flex: 0 50%;
+}
+
+#overlay-img {
+  display: flex;
+  justify-content: center;
+}
+
+.overlay-content img {
+  width: 90%;
+  max-width: 200px;
+  border-radius: 2%;
+}
+
+#overlay-name h2, p {
+  text-align: center;
+  margin: 0;
+}
+
+#overlay-interests {
+  overflow: hidden;
+}
+
+#overlay-bio {
+  margin-top: 10px;
+  flex: 2;
+}
+
+/* overlay header */
 .overlay-header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 400px;
+  width: 100px;
   border-left: var(--main-background-color-corendon-dark-red);
-  border-bottom-right-radius: 6px;
-  border-top-right-radius: 6px;
   background-color: var(--main-background-color-corendon-red);
 }
 
