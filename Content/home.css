@@ -13,7 +13,6 @@ body{
     display: flex;
     padding: 10px;
     margin: 10px;
-    border: 1px solid black;
 }
 .content-container .discription{
     max-width: fit-content;
@@ -21,8 +20,7 @@ body{
 .part2{
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    padding-left: 5em;
+    padding-left: 3em;
 }
 .btn{
     outline: none;
@@ -48,5 +46,10 @@ body{
     height: auto;
 }
 
+@media (max-width: 700px) {
+    .content-container {
+      display: block;
+    }
+  }
 
 
