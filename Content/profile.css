@@ -2,22 +2,18 @@ body {
     font-family: Open Sans WF,sans-serif;
     color: #666;
 }
-
 .flex-container {
     display: flex;
     flex-direction: row;
     justify-content: left;
     width: 100%;
 }
+
 .blok1, .blok2, .blok3, .blok4, .blok5, .blok6 {
     flex: 1;
+    float: left;
 }
-.profielBewerkenKnop {
-    justify-content: right;
-}
-.opslaanKnop {
-    justify-items: end;
-}
+
 #container {
     height: 300px;
     width: 1000px;
@@ -101,4 +97,35 @@ form input.success {
 .main {
     border: white;
     max-width: 100%;
+}
+.match {
+    color: #fff;
+    background-color: #d81e05;
+    font-size: 20px;
+}
+
+.block {
+    color: #fff;
+    background-color: #d81e05;
+    font-size: 20px;
+}
+
+.opslaanKnop, .profielBewerkenKnop{
+    color: #fff;
+    background-color: #d81e05;
+    font-size: 16px;
+}
+.column {
+    float: left;
+    width:33.3%;
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
 }

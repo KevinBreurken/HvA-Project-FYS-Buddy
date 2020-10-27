@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <head>
     <meta charset="UTF-8">
     <title>Edit profile page</title>
@@ -15,8 +16,8 @@
 <main class="main" id="main">
 <h1>Profile settings</h1>
 <form onsubmit="return valideerFormulier()" name="myForm" id="myForm" action="" method="post">
-    <div class="flex-container">
-        <div class="blok4">
+    <div class="row">
+        <div class="column">
             <h2 class="foto"></h2>
             <img src="https://www.db-m.nl/wp-content/uploads/2014/10/geenfoto.jpg" alt="Profielfoto" width="200"
                  height=120">
@@ -24,13 +25,13 @@
             <input type="button" value="Upload new picture">
             <h2>Name</h2>
             <label for="gebruikersnaam">Username:</label><br>
-            <input type="text" id="gebruikersnaam" name="gebruikersnaam" placeholder="tvandenberg00" maxlength="50">
+            <input type="text" id="gebruikersnaam" name="gebruikersnaam" placeholder="tvandenberg00" maxlength="50" required>
             <br>
             <label for="voornaam">First name:</label><br>
-            <input type="text" id="voornaam" name="voornaam" placeholder="Tom" maxlength="50">
+            <input type="text" id="voornaam" name="voornaam" placeholder="Tom" maxlength="50" required>
             <br>
             <label for="achternaam">Last name:</label><br>
-            <input type="text" id="achternaam" name="achternaam" placeholder="van den Berg" maxlength="50">
+            <input type="text" id="achternaam" name="achternaam" placeholder="van den Berg" maxlength="50" required>
 
             <h2>Gender</h2>
             <input type="radio" id="man" name="geslacht">
@@ -42,13 +43,13 @@
             <br>
             <h2>Age</h2>
             <label for="geboortedatum">Date of birth</label><br>
-                <input type="date" id="geboortedatum" name="geboortedatum">
+                <input type="date" id="geboortedatum" name="geboortedatum" required>
             <br>
             <label for="leeftijd">Age</label><br>
-                <input type="number" id="leeftijd" name="leeftijd" min="18" max="100" step="1">
+                <input type="number" id="leeftijd" name="leeftijd" min="18" max="100" step="1" required>
         </div>
 
-        <div class="blok5">
+        <div class="column">
             <h2>Interests</h2>
             <input type="checkbox" id="interesse1" name="sporten" value="sporten">
             <label for="interesse1">Sports</label><br>
@@ -73,32 +74,29 @@
             <br>
             <h2>Biography</h2>
             <label for="biografie"></label>
-            <textarea rows="10" cols="50" id="biografie" name="Biografie" placeholder="Max 500 characters"
-                      maxlength="500"></textarea>
+            <textarea rows="10" cols="33%" id="biografie" name="Biografie" placeholder="Max 500 characters"
+                      maxlength="500" required></textarea>
             <br>
         </div>
-        <div class="blok6">
+        <div class="column">
             <h2>Contactinformation</h2>
             <label for="email">E-mail: </label><br>
-            <input type="email" id="email" name="email" placeholder="tvandenberg@hotmail.com"><br>
+            <input type="email" id="email" name="email" placeholder="tvandenberg@hotmail.com" required><br>
             <label for="telefoon">Tel: </label><br>
-            <input type="tel" id="telefoon" name="telefoon" placeholder="0612345678" size="10"><br>
+            <input type="tel" id="telefoon" name="telefoon" placeholder="0612345678" size="10" required><br>
             <br>
-            <div class= "opslaanKnop">
-                <button>Save changes</button>
-            </div>
             <h2>Trip information</h2>
             <div class="bestemming">
                 <label for="bestemming">Destination: </label><br>
-                <input type="text" id="bestemming" name="bestemming" placeholder="Rome" maxlength="50">
+                <input type="text" id="bestemming" name="bestemming" placeholder="Rome" maxlength="50" required>
                 <br>
             </div>
             <div class="data">
                 <label for="data">From: </label><br>
-                <input type="date" id="data" name="data">
+                <input type="date" id="data" name="data" required>
                 <br>
                 <label for="data2">Till: </label><br>
-                <input type="date" id="data2" name="data2">
+                <input type="date" id="data2" name="data2" required>
                 <br>
             </div>
             <div class="opzoek">
@@ -108,6 +106,8 @@
                 <input type="radio" id="keuze2" name="keuze2">
                 <label for="keuze2">An activity buddy</label><br>
             </div>
+            <br><br><br><br><br><br><br><br><br>
+                <button class="opslaanKnop">Save changes</button>
         </div>
 </div>
 </form>
