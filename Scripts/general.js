@@ -18,6 +18,8 @@ $('head').append('<script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min
 //add the favicon to the page's header.
 $('head').append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
 
+$('head').append(`<title>Corendon Travel Buddy</title>`);
+
 $(document).ready(function () {
     //Add the header to the start of the body.
     var headerElement = document.createElement('header');
