@@ -5,6 +5,7 @@
   --color-corendon-red: #d81e05;
   --color-corendon-dark-red: #c11905;
   --color-corendon-dark-grey: #666666;
+  --color-corendon-yellow: #ffc61e;
   /* background colors */
   --main-background-color-corendon-red: #d81e05;
   --main-background-color-corendon-dark-red: #c11905;
@@ -64,7 +65,7 @@ header {
   list-style: none;
 }
 
-.main-header li img {
+.main-menu-home-icon {
   width: 15px;
   padding-right: 5px;
 }
@@ -148,7 +149,7 @@ header {
 }
 
 /* Profile Display */
-.profile-display {
+.profile-display-button {
   height: 38px;
   align-items: center;
   border: 1px solid var(--color-corendon-lighter-blue);
@@ -239,4 +240,93 @@ header {
   font-weight: bold;
   font-size: 14px;
   text-transform: uppercase;
+}
+
+/* Notifications */
+.notification-display-button {
+  position: relative;
+  margin-top: -7px;
+  border: none;
+  background-color: var(--color-corendon-white);
+  outline: 0;
+}
+
+.notification-display-icon {
+  width: 25px;
+  height: 25px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.notification-display-dropdown {
+  position: relative;
+}
+
+.notification-display-dropdown-content {
+  position: absolute;
+  width: 100%;
+  height: auto;
+  width: auto;
+  background-color: var(--color-corendon-white);
+  border: 1px solid var(--color-corendon-yellow);
+  z-index: 10;
+  border-radius: 6px;
+  display: none;
+}
+
+.notification-display-dropdown:hover .notification-display-dropdown-content {
+  display: block;
+}
+
+/* Notification item */
+.notification-display-dropdown-content ul {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  display: block;
+}
+
+.notification-display-content-item {
+  width: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.notification-text {
+  padding-top: 5px;
+  width: auto;
+  white-space: nowrap;
+}
+.notification-display-dropdown-content li {
+  padding-bottom: 5px;
+}
+.notification-display-dropdown-content li + li {
+  padding-top: 10px;
+  margin-left: 0px;
+  padding-bottom: 5px;
+  border-top: 1px solid var(--color-corendon-yellow);
+}
+
+.notification-profile-icon {
+  padding-left: 10px;
+  width: 25px;
+  height: 25px;
+  float: right;
+}
+
+/* Notification Counter */
+.notification-display-counter {
+  position: absolute;
+  width: 20px;
+  transform: translate(90%, -150%);
+  text-align: center;
+}
+
+.notification-display-counter-text {
+  color: var(--color-corendon-white);
+  text-decoration: solid;
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

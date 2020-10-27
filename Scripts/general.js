@@ -54,6 +54,14 @@ function onHeaderLoaded() {
     ];
     const preText = 'Welcome, ';
     $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
+
+    const notificationText = " has sent a contact request";
+    // $('.notification-text').html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
+
+    $('.notification-text').each(function (index, element) {
+        $(this).html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
+    });
+
 }
 
 /**
