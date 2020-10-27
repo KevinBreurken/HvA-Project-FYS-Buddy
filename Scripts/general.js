@@ -34,7 +34,7 @@ function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
-            overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
+            overrideMenuButtons([["account", "admin-profile.html"], ["overview data", "admin-users.html"], ["statistics", "admin-statistics.html"]]);
 
         updateMenuButtons();
     }
