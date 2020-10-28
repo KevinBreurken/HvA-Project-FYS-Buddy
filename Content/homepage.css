@@ -148,6 +148,7 @@ main {
 /* matches tabs titles */
 #matches-tabs-border {
   border: #efefef solid 1px;
+  position: relative;
 }
 
 .tab-menu-container {
@@ -191,13 +192,17 @@ main {
   padding-left: 0.5em;
 }
 
-/* filter dropdown */
+#filter-button:hover #filter-dropdown {
+  display: flex;
+}
 
+/* filter dropdown */
 #filter-dropdown {
+  display: none;
+  right: 0;
   font-size: 0;
   color: white;
   position: absolute;
-  display: flex;
   justify-content: space-evenly;
   width: fit-content;
   z-index: 2;

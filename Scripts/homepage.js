@@ -17,6 +17,19 @@ function openTabContent (tabContentName, thisKeyword) {
     thisKeyword.style.backgroundColor = "#c11905";
 }
 
+//function to display the filters
+function openFilters () {
+    var overlayToOpen = document.getElementById('filter-dropdown');
+    overlayToOpen.style.display = "flex";
+}
+
+function closeFilters () {
+    var overlayToClose = document.getElementById('filter-dropdown');
+    overlayToClose.style.display = "none";
+}
+
+//if (!(mouseover filter-button || filter-dropdown)) --> .style.display = "none";
+
 //displays the overlay and the overlay background
 function displayOverlay (overlayId) {
     document.getElementById(overlayId).style.display = "flex";
@@ -39,7 +52,7 @@ function swapFavoritesIcon (currentIconId, newIconId) {
     newIcon.style.display = "";
 }
 
-//function for prototype
+//function for prototype to remove users from the favorites tab
 function favoritesRemove (currentUserDisplay) {
     var displayToRemove = document.getElementById(currentUserDisplay)
     displayToRemove.style.display = "none";

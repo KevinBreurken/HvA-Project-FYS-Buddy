@@ -52,12 +52,12 @@
                 <button class="tab-button" onclick="openTabContent('recently-content', this)">Recently viewed</button>
                 <button class="tab-button" onclick="openTabContent('matched-content', this)">Matched</button>
                 <button class="tab-button" onclick="openTabContent('favorites-content', this)">Favorites</button>
-                <button id="filter-button" class="tab-button">filters<img src="Image/down-arrow-v3.png"></button>
+                <button id="filter-button" class="tab-button" onmouseover="openFilters()">filters<img src="Image/down-arrow-v3.png"></button>
             </div>
         </div>
 
         <!--filter-dropdown-->
-        <div id="filter-dropdown">
+        <div id="filter-dropdown" onmouseleave="closeFilters()">
             <div class="filter-row">
                 <p>Distance</p>
                 <button>< 5km</button>
