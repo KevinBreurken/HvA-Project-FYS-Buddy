@@ -132,6 +132,8 @@ nav li + li {
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  border: 1px solid #efefef;
+  padding: 0 15px;
 }
 
 .content input[type="range"]#distance {
@@ -189,6 +191,7 @@ nav li + li {
 
 .settings-controls {
   text-align: center;
+  padding-bottom: 15px;
 }
 
 .settings-controls button {
