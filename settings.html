@@ -2,48 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Fasten Your Seatbelts - Settings</title>
         <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>
         <!--TODO: Edit routing -->
-        <link rel="shortcut icon" type="image/x-icon" href="Content/Images/favicon.ico" />
+        <script src="Scripts/general.js"></script>
         <link rel="stylesheet" href="Content/settings.css" />
     </head>
     <body>
-        <header>
-            <div class="main-header">
-                <div class="main-banner">
-                    <div class="profile-display">
-                        <img alt="Profile" class="profile-display-icon-profile" src="Image/user-icon.svg">
-                        <div class="profile-display-text"></div>
-                        <img alt="Expand profile menu" class="profile-display-icon-arrow" src="Image/down-arrow.svg">
-                    </div>
-                    <a href="homepage.html">
-                        <img alt="Corendon banner" src="Image/banner-heavy.png">
-                    </a>
-                </div>
-                <nav class="main-menu">
-                    <!--TODO: dynamische header achtergrond en main-menu. (js)-->
-                    <ul class="main-menu-items">
-                        <li>
-                            <a class="main-menu-buttons" href="index.html" type="home">
-                            <img alt="Home" src="https://www.flaticon.com/svg/static/icons/svg/25/25694.svg">
-                            Home</a>
-                        </li>
-                        <li>
-                            <a class="main-menu-buttons" href="profile.html" type="profile">Profile</a>
-                        </li>
-                        <li>
-                            <a class="main-menu-buttons" href="#" type="settings" current>Settings</a>
-                        </li>
-                        <li>
-                            <a class="main-menu-buttons" href="support.html" type="help">Help</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
         <main>
             <div class="content">
                 <h1>Settings</h1>
@@ -163,25 +127,6 @@
                 </form>
             </div>
         </main>
-        <footer class="main-footer">
-            <div class="footer-panel language-selection">
-                <h1>Change Language</h1>
-                <button>
-                    Dutch <img alt="Dutch flag" src="Image/language-netherlands.png">
-                </button>
-                <button>
-                    English <img alt="British flag" src="Image/language-english.png">
-                </button>
-            </div>
-            <div class="footer-panel footer-links">
-                <h1>Links</h1>
-                <ul>
-                    <li><a href="#">Help Page</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Corendon Vacations</a></li>
-                </ul>
-            </div>
-        </footer>
         <script src="Scripts/settings.js"></script>
     </body>
 </html>
