@@ -108,8 +108,8 @@ form input.success {
     transition: 600ms;
 }
 .profielBewerkenKnop {
+    margin: 0 auto;
     text-align: right;
-    float: bottom;
 }
 
 .opslaanKnop:hover, .profielBewerkenKnop:hover, .match:hover, .block:hover {
