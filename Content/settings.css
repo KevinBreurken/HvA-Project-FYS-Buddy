@@ -187,6 +187,10 @@ nav li + li {
   content: "✖";
 }
 
+#identifyAsContainer {
+  display: none;
+}
+
 .settings-controls {
   text-align: center;
 }
