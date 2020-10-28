@@ -188,6 +188,9 @@ main {
 
 /* user displays */
 .user-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   min-width: max-content;
   margin: 5px;
@@ -208,11 +211,7 @@ main {
   width: 200px;
 }
 
-#favorites-icon {
-  width: 20px;
-}
-
-.user-display img {
+.profile-picture {
   width: 160px;
   border-radius: 2%;
   margin: 10px 0 20px 0;
@@ -236,6 +235,17 @@ main {
 .user-display button:hover {
   color: white;
   background-color: #d81e05;
+}
+
+.tab-content-column-4 {
+  display: flex;
+  align-items: center;
+}
+
+.favorite-icon {
+  width: 25px;
+  height: 25px;
+  margin: 10px 5px 15px 5px;
 }
 
 /* overlay */
