@@ -13,7 +13,7 @@
     <h1>Tom van den Berg</h1>
     <form class="row">
         <div class="column">
-            <img id="img" class="img" src="https://www.db-m.nl/wp-content/uploads/2014/10/geenfoto.jpg" alt="Profielfoto" width="200"
+            <img id="img" class="img" src="Image/profile-picture-5.jpg" alt="Profielfoto" width="200"
                  height=120>
             <h2>Gender</h2>
             <p>Man</p>
@@ -41,7 +41,7 @@
             </div>
             <h2>Biography</h2>
             <label for="biografie"></label>
-            <textarea rows="10" cols="33%" id="biografie" name="Biografie" maxlength="500" disabled>My name is Tom. I am 24 years old and i adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
+            <textarea rows="10" cols="30" id="biografie" name="Biografie" maxlength="500" disabled>My name is Tom. I am 24 years old and i adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
         </div>
         <div class="column">
             <h2>Contactinformation</h2>
@@ -56,9 +56,10 @@
         </div>
     </form>
     <br>
-    <button class="match">Match</button>
-    <button class="block">Block</button>
+    <button onclick="changeButton()" class="match">Match</button>
+    <button onclick="changeButton2()" class="block">Block</button>
 </main>
 </div>
 </body>
+<script src="Scripts/profile.js"></script>
 </html>
