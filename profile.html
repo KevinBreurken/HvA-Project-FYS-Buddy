@@ -14,7 +14,7 @@
 <body>
 <main class="main">
     <h1>Tom van den Berg</h1>
-<form class="row">
+<form action="profile-edit.html" class="row">
     <div class="column">
         <img id="img" class="img" src="Image/profile-picture-3.jpg" alt="Profielfoto" width="200"
              height=120>
@@ -48,7 +48,7 @@
         </div>
         <h2>Biography</h2>
         <label for="biografie"></label>
-        <textarea rows="10" cols="30%" id="biografie" name="Biografie" maxlength="500" disabled>My name is Tom. I am 24 years old and I adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
+        <textarea rows="10" cols="30%" id="biografie" class="biografie" name="Biografie" maxlength="500" disabled>My name is Tom. I am 24 years old and I adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
     </div>
     <div class="column">
         <h2>Contactinformation</h2>
@@ -61,11 +61,11 @@
         <p><b>Untill:</b> 13-02-2021</p>
         <p><b>I am looking for:</b> A travel buddy</p>
         </div>
+    <div id="profielBewerkenknop">
+        <button type="submit" class="profielBewerkenKnop">Edit profile</button>
+    </div>
 </form>
 <br>
-    <div id="profielBewerkenknop">
- <button class="profielBewerkenKnop">Edit profile</button>
-    </div>
 </main>
 </body>
 </html>
