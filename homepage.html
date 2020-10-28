@@ -10,11 +10,15 @@
         isOnAdminProfile = false;
         currentMenuType = 'home';
     </script>
+    <script src="Scripts/homepage.js"></script>
     <link rel="stylesheet" href="Content/homepage.css">
 </head>
 <body>
 <main>
-    <!--todo: key frames, transitions-->
+    <!--todo: key frames/transitions-->
+    <!--todo:filters-->
+    <!--todo:favorites icon-->
+
 
     <div id="travel-container">
         <div id="travel-content">
@@ -62,18 +66,15 @@
             </div>
         </div>
 
-        <!--todo:filters-->
-
         <!--tabs with matched and matchable users-->
-        <!--todo:favorites icon-->
         <div id="results-content" class="tab-content">
             <div id="1" class="user-display">
-                <h1>Sophia</h1>
+                <h1>Sophia</h1><img id="favorites-icon" src="Image/favorite-v1.png">
                 <img src="Image/profile-picture-1.jpg">
                 <p>Paris, France</p>
                 <p>from date <br> until date</p>
                 <p>travel buddy</p>
-                <button onclick="displayFlex('overlay-1')">more info</button>
+                <button onclick="displayOverlay('overlay-1')">more info</button>
                 <button onclick="closeFunction('1')">X</button>
             </div>
             <div id="2" class="user-display">
@@ -82,7 +83,7 @@
                 <p>city, country</p>
                 <p>from date <br> until date</p>
                 <p>travel buddy</p>
-                <button onclick="displayFlex('overlay-1')">more info</button>
+                <button onclick="displayOverlay('overlay-1')">more info</button>
                 <button onclick="closeFunction('2')">X</button>
             </div>
             <div id="3" class="user-display">
@@ -91,7 +92,7 @@
                 <p>city, country</p>
                 <p>from date <br> until date</p>
                 <p>activity buddy</p>
-                <button onclick="displayFlex('overlay-1')">more info</button>
+                <button onclick="displayOverlay('overlay-1')">more info</button>
                 <button onclick="closeFunction('3')">X</button>
             </div>
             <div id="4" class="user-display">
@@ -100,7 +101,7 @@
                 <p>city, country</p>
                 <p>from date <br> until date</p>
                 <p>travel buddy</p>
-                <button onclick="displayFlex('overlay-1')">more info</button>
+                <button onclick="displayOverlay('overlay-1')">more info</button>
                 <button onclick="closeFunction('4')">X</button>
             </div>
             <div id="5" class="user-display">
@@ -109,7 +110,7 @@
                 <p>city, country</p>
                 <p>from date <br> until date</p>
                 <p>travel buddy</p>
-                <button onclick="displayFlex('overlay-1')">more info</button>
+                <button onclick="displayOverlay('overlay-1')">more info</button>
                 <button onclick="closeFunction('5')">X</button>
             </div>
         </div>
@@ -125,15 +126,16 @@
     <div id="overlay-1" class="overlay-container">
         <div class="overlay-content">
 
-            <div class="overlay-row" id="overlay-img">
+            <div class="overlay-row" id="overlay-row-1">
                 <img src="Image/profile-picture-1.jpg">
             </div>
-            <div class="overlay-row">
+            <div class="overlay-row" id="overlay-row-2">
                 <div id="overlay-name">
                     <h2>Sophia Jenkins</h2>
                     <p>a.k.a. Sophia</p>
                 </div>
                 <div id="overlay-interests">
+                    <p class="header-text">Interests</p>
                     <ul>
                         <li>Cooking</li>
                         <li>Working out</li>
@@ -141,9 +143,9 @@
                 </div>
             </div>
             <div class="overlay-row" id="overlay-bio">
+                <p class="header-text">Biography</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa dicta dolorum labore odit, perferendis quaerat quam qui quisquam quod veritatis.</p>
             </div>
-
         </div>
         <div class="overlay-header">
             <button class="close-button" onclick="closeFunction('overlay-1')">X</button>
@@ -153,35 +155,6 @@
     </div>
 
     <div id="overlay-background"></div>
-
 </main>
-<script>
-    document.getElementById("default-active").click();
-
-    function openTabContent (tabContentName, thisKeyword) {
-        var tabButton = document.getElementsByClassName("tab-button");
-        var tabContent = document.getElementsByClassName("tab-content");
-
-        for (let i = 0; i < tabContent.length; i++) {
-            tabContent[i].style.display = "none";
-        }
-        document.getElementById(tabContentName).style.display = "flex";
-
-        for (var i = 0; i < tabButton.length; i++) {
-            tabButton[i].style.backgroundColor = "";
-        }
-        thisKeyword.style.backgroundColor = "#c11905";
-    }
-
-    function displayFlex (overlayId) {
-        document.getElementById(overlayId).style.display = "flex";
-    }
-
-    function closeFunction (currentDisplay) {
-        document.getElementById(currentDisplay).style.display = "none";
-    }
-
-
-</script>
 </body>
 </html>
