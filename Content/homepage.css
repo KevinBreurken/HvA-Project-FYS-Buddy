@@ -7,16 +7,73 @@ main {
   margin: 0 auto 40px auto;
   border: var(--border-corendon-grey);
   padding: 20px;
+  width: max-content;
 }
 
 #travel-content {
-  width: max-content;
-  margin: 0 auto 0 auto;
-  padding: 0;
-  border: var(--border-corendon-grey);
+  display: flex;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+/* set tree image specs */
+#travel-content img {
+  width: 100%;
+  max-width: 15em;
+  height: auto;
+}
+
+/* set travel specifications text over image */
+#update-hidden {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.8s, opacity 0.8s ease-in-out;
+}
+.text-wrapper {
+  position: absolute;
+  width: fit-content;
+  left: 50%;
+  top: 28%;
+  text-align: center;
+  transition: all 0.8s ease-in-out;
+}
+#travel-content:hover > .show-options > .text-wrapper {
+  left: 38%;
+}
+
+#travel-content:hover > .show-options > .text-wrapper > #update-hidden {
+  visibility: visible;
+  opacity: 1;
 }
 
 
+
+.text-wrapper h2 {
+  color: white;
+  background-color: green;
+}
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow:hidden;
+  width:0;
+  transition: width 1s;
+}
+
+.show-options:hover + .form-wrapper {
+  width: 600px;
+}
+
+.form-wrapper:hover {
+width: 600px;
+}
+
+#travel-form {
+  display: flex;
+  flex-direction: column;
+}
 
 /* matches tabs titles */
 #matches-tabs-border {
