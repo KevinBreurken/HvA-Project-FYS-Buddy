@@ -1,0 +1,59 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Uni sans WFx, serif;
+}
+#admin {
+  border: #efefef solid 1px;
+}
+#admin table {
+  margin: 24px auto 24px auto;
+  text-align: center;
+}
+#admin table,
+#admin th,
+#admin tr,
+#admin td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 10px;
+}
+#admin .pointer {
+  cursor: pointer;
+}
+#admin #overlay {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  opacity: 1;
+  z-index: 2;
+  display: none;
+  height: auto;
+  width: 600px;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+#admin #overlay .user-info {
+  display: inline-block;
+  vertical-align: top;
+}
+#admin .fake-btn {
+  padding: 8px 12px;
+  border-radius: 3px;
+  background: #6db93f;
+  display: inline-block;
+  text-decoration: none;
+  color: white;
+  transition: 500ms;
+  cursor: pointer;
+}
+#admin .fake-btn:hover {
+  background: #1e8410;
+  transition: 500ms;
+}
+#admin #overlay .fake-btn {
+  float: right;
+}
+/*# sourceMappingURL=admin-panel.css.map */
