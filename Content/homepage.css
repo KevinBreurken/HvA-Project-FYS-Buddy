@@ -33,7 +33,6 @@ main {
   position: absolute;
   width: fit-content;
   left: 50%;
-  top: 28%;
   text-align: center;
   transition: all 0.8s ease-in-out;
 }
@@ -46,12 +45,13 @@ main {
   opacity: 1;
 }
 
-
-
 .text-wrapper h2 {
   color: white;
+  padding: 5px;
   background-color: green;
 }
+
+/*travel specifiactions wrapper */
 .form-wrapper {
   display: flex;
   flex-direction: column;
@@ -73,6 +73,10 @@ width: 600px;
 #travel-form {
   display: flex;
   flex-direction: column;
+}
+
+#my-list-label {
+  margin-top: 30px;
 }
 
 /* matches tabs titles */
