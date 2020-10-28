@@ -53,13 +53,24 @@
                 <button class="tab-button" onclick="openTabContent('recently-content', this)">Recently viewed</button>
                 <button class="tab-button" onclick="openTabContent('matched-content', this)">Matched</button>
                 <button class="tab-button" onclick="openTabContent('favorites-content', this)">Favorites</button>
+                <button id="filter-button" class="tab-button">filters<img src="Image/down-arrow-v3.png"></button>
+            </div>
+        </div>
 
-                <div id="filter-dropdown">
-                    <button id="filter-button" class="tab-button">filters<img src="Image/down-arrow-v3.png"></button>
-                    <div id="dropdown-options">
-                        <button>distance</button>
-                        <button>type of buddy</button>
-                    </div>
+        <!--filter-dropdown-->
+        <div id="filter-dropdown">
+            <div class="filter-row">
+                <p>Distance</p>
+                <button>< 5km</button>
+                <button>> 5km</button>
+                <button>> 10km</button>
+            </div>
+            <div class="filter-row">
+                <p>Buddy</p>
+                <div>
+                    <button>Travel buddy</button>
+                    <button>Activity buddy</button>
+                    <button>Both</button>
                 </div>
             </div>
         </div>
