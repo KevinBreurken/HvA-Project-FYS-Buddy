@@ -27,22 +27,37 @@ main {
 #update-hidden {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0.8s, opacity 0.8s ease-in-out;
+  animation: 0.5s ease-in 1.2s 1 show-hidden;
+  animation-fill-mode: forwards;
 }
+
+@keyframes show-hidden{
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+}
+
 .text-wrapper {
   position: absolute;
   width: fit-content;
   left: 50%;
   text-align: center;
-  transition: all 0.8s ease-in-out;
-}
-#travel-content:hover > .show-options > .text-wrapper {
-  left: 38%;
+  animation: 0.4s linear 0.8s 1 slide-to-left;
+  animation-fill-mode: forwards;
 }
 
-#travel-content:hover > .show-options > .text-wrapper > #update-hidden {
-  visibility: visible;
-  opacity: 1;
+@keyframes slide-to-left {
+  0% {
+    left: 50%;
+  }
+  100% {
+    left: 38%;
+  }
 }
 
 .text-wrapper h2 {
@@ -58,16 +73,37 @@ main {
   align-items: center;
   justify-content: center;
   overflow:hidden;
-  width:0;
-  transition: width 1s;
+  width:0px;
+}
+#travel-form{
+  visibility: hidden;
+  animation: 0.5s ease-in 1.3s 1 show-form;
+  animation-fill-mode: forwards;
 }
 
-.show-options:hover + .form-wrapper {
-  width: 600px;
+@keyframes show-form {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-.form-wrapper:hover {
-width: 600px;
+.show-options + .form-wrapper {
+  animation: 0.5s ease-out 0.8s 1 open-slider;
+  animation-fill-mode: forwards;
+}
+
+@keyframes open-slider {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 600px;
+  }
 }
 
 #travel-form {
