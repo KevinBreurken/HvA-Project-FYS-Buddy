@@ -51,8 +51,8 @@
             <div class="tab-menu-border">
                 <button id="default-active" class="tab-button" onclick="openTabContent('results-content', this)">All results</button>
                 <button class="tab-button" onclick="openTabContent('recently-content', this)">Recently viewed</button>
-                <button class="tab-button" onclick="openTabContent('matched-content', this)">Matched</button>
-                <button class="tab-button" onclick="openTabContent('favorites-content', this)">Favorites</button>
+                <button data-tooltip="Filter for your matched users" class="tab-button" onclick="openTabContent('matched-content', this)">Matched</button>
+                <button data-tooltip="Filter all your favorite users" class="tab-button" onclick="openTabContent('favorites-content', this)">Favorites</button>
                 <button id="filter-button" class="tab-button" onmouseover="openFilters()">filters<img src="Image/down-arrow-v3.png"></button>
             </div>
         </div>
