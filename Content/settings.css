@@ -68,6 +68,10 @@
   content: "✖";
 }
 
+#identifyAsContainer {
+  display: none;
+}
+
 .settings-controls {
   text-align: center;
   padding-bottom: 15px;
