@@ -164,15 +164,15 @@
     let currentStep = 0
     showTab(currentStep)
 
-    function showTab(n) {
-        const x = document.getElementsByClassName("step")
+    function showTab(number) {
+        const step = document.getElementsByClassName("step")
 
         const MAX_STEP = 2
         const MIN_STEP = 0
 
-        x[n].style.display = "block"
+        step[number].style.display = "block"
 
-        swapNav(n)
+        swapNav(number)
 
         if (currentStep === MIN_STEP) {
             document.getElementById('btn-back').style.display = 'none'
@@ -189,35 +189,35 @@
         }
     }
 
-    function swapStep(n) {
-        let x = document.getElementsByClassName('step')
+    function swapStep(number) {
+        let step = document.getElementsByClassName('step')
 
-        if (n === 1 && !validateForm()) return false;
+        if (number === 1 && !validateForm()) return false;
 
-        x[currentStep].style.display = "none"
-        currentStep = currentStep + n
+        step[currentStep].style.display = "none"
+        currentStep = currentStep + number
 
         showTab(currentStep)
         console.log(currentStep)
     }
 
 
-    function swapNav(n) {
-        let i, x = document.getElementsByClassName("nav-step");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace("active", "")
+    function swapNav(number) {
+        let i, step = document.getElementsByClassName("nav-step");
+        for (i = 0; i < step.length; i++) {
+            step[i].className = step[i].className.replace("active", "")
         }
-        x[n].className = "active nav-step"
+        step[number].className = "active nav-step"
     }
 
     function validateForm() {
-        let x, y, i, valid = true;
-        x = document.getElementsByClassName("step");
-        y = x[currentStep].getElementsByTagName("input");
+        let step, input, i, valid = true;
+        step = document.getElementsByClassName("step");
+        input = step[currentStep].getElementsByTagName("input");
 
-        for (i = 0; i < y.length; i++) {
-            if (y[i].value === "") {
-                y[i].className += " invalid";
+        for (i = 0; i < input.length; i++) {
+            if (input[i].value === "") {
+                input[i].className += " invalid";
                 valid = false;
             }
         }
