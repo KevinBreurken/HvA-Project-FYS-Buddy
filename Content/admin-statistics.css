@@ -1,18 +1,4 @@
-:root {
-  --main-corendon-color: rgb(216, 30, 5);
-  --main-bg-color: rgb(245, 245, 245);
-
-  --corendon-button-green: rgb(38, 165, 20);
-  --corendon-button-green-hover: rgb(30, 132, 16);
-
-  --helvetica-font: "Helvetica", "Arial", sans-serif;
-}
-
 main {
-  border: 1px solid #d9d9d9;
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
   background-color: var(--main-bg-color);
 }
 
@@ -21,17 +7,15 @@ main {
 }
 
 .statistics-group {
-  border: 1px solid #d9d9d9;
-  background-color: white;
+  border: 1px solid #d81e0e;
+  background-color: var(--color-corendon-white);
   display: block;
+  margin-bottom: 40px;
 }
 
 .statistics-group-title {
-  background-color: var(--main-corendon-color);
-  font-family: var(--helvetica-font);
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  color: white;
+  background-color: var(--color-corendon-red);
+  color: var(--color-corendon-white);
   padding: 10px;
   padding-left: 18px;
   font-weight: bold;
@@ -40,24 +24,23 @@ main {
 
 #statistics-title {
   padding-left: 18px;
-  font-family: var(--helvetica-font);
 }
 
 /* Dropdown */
 #time-dropdown select {
   float: right;
-
+  margin-top: 10px;
+  margin-right: 10px;
   /* From Corendon site */
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   padding-left: 5px;
-  color: #495057;
-  background-color: #fff;
+  color: var(--color-corendon-dark-grey);
+  background-color: var(--color-corendon-white);
   background-clip: padding-box;
-  border: 1px solid #d9d9d9;
+  border: var(--border-corendon-grey);
   border-radius: 6px;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
 #time-dropdown select option {
@@ -76,7 +59,6 @@ main {
   margin-left: auto;
   margin-right: auto;
   max-width: auto;
-  font-family: var(--helvetica-font);
 }
 
 .statistics-item-number-title {
@@ -98,8 +80,7 @@ main {
 }
 
 .statistics-item-list-button {
-  background-color: var(--corendon-button-green);
-  font-family: var(--helvetica-font);
+  background-color: var(--background-color-corendon-green);
   font-weight: bold;
   color: white;
   cursor: pointer;
@@ -115,13 +96,12 @@ main {
 
 .active,
 .statistics-item-list-button:hover {
-  background-color: var(--corendon-button-green-hover);
+  background-color: var(--background-color-corendon-dark-green);
 }
 
 .statistics-item-list-content {
   display: none;
-  background-color: var(--main-bg-color);
-  font-family: var(--helvetica-font);
+  background-color: var(--border-corendon-grey);
   margin: 0;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -140,7 +120,6 @@ main {
   padding: 10px;
   font-weight: bold;
   text-align: center;
-  font-family: var(--helvetica-font);
 }
 
 .statistics-item-piechart {
