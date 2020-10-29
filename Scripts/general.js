@@ -95,7 +95,8 @@ function overrideMenuButtons(newButtons) {
 
     for (let i = 0; i < newButtons.length; i++) {
         //Add the homepage icon to the first item only.
-        const homeImageHTML = i == 0 ? '<img src="Image/home-icon.png">' : '';
+        const homeImageHTML = i == 0 ? `<img class="main-menu-home-icon"
+        src="Image/home-icon.png">`: '';
         //Create the list item.
         $(itemList).append(`<li><a class="main-menu-buttons" href="${newButtons[i][1]}
         " type="${newButtons[i][0]}">${homeImageHTML}${newButtons[i][0]}</a></li>`);
