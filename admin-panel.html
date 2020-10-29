@@ -73,17 +73,17 @@
 </html>
 <script>
     function showDetails() {
-        let x = document.getElementById('overlay')
-        x.style.display = 'block'
+        let overlay = document.getElementById('overlay')
+        overlay.style.display = 'block'
     }
 
     function closeDetails() {
-        let x = document.getElementById('overlay')
-        x.style.display = 'none'
+        let overlay = document.getElementById('overlay')
+        overlay.style.display = 'none'
     }
 
-    function deleteRow(n) {
-        let x = document.getElementById('row-data-' + n)
-        x.remove()
+    function deleteRow(number) {
+        let overlay = document.getElementById('row-data-' + number)
+        overlay.remove()
     }
 </script>
