@@ -1,16 +1,10 @@
 
-let btnMatch = document.querySelector('button');
-
 function changeButton() {
-    btnMatch.addEventListener('click', () => {
-        btnMatch.innerText = 'Matched';
-    });
+    document.getElementById('match').value = "Requested";
 }
-let btnBlock = document.querySelector('button');
+
 function changeButton2() {
-    btnBlock.addEventListener('click', () => {
-        btnBlock.innerText = 'Blocked'
-    });
+    document.getElementById('block').value = "Blocked";
 }
 
 
