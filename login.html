@@ -14,7 +14,7 @@
     <div class="content-wrapper">
     <div class="form-wrapper">
         <h1 id="form-title">Login form</h1>
-        <form class="login-form" action="" method="post"></form>
+        <form class="login-form" action="" method="post" onsubmit="return validateForm()">
         <i class="fas fa-user"></i>
         <input class="user-input" type="text" name="" placeholder="Username" required>
         <input class="user-input" type="password" name="" placeholder="Password" required>
@@ -28,6 +28,7 @@
             </p>
         </div>
         <a href="/home-not-logged-in.html"><input type="button" name="" value="BACK" id="back-btn"></a>
+        </form>
     </div>
     </div>
     <!--login area end-->
