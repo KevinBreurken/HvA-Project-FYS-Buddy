@@ -83,6 +83,31 @@ main {
   overflow:hidden;
   width:0;
 }
+
+@media screen and (max-width:700px) {
+  .text-wrapper {
+    z-index: 1;
+    left:25%;
+    top: 19%;
+    animation: none;
+  }
+  .text-wrapper #update-hidden {
+    display:none;
+  }
+  #tree-image {
+    display: none;
+  }
+  #travel-container {
+    width: auto;
+  }
+  #travel-content {
+    max-width: 700px;
+  }
+  #travel-form {
+   animation: none; 
+  }
+}
+
 #travel-form{
   visibility: hidden;
   animation: 0.5s ease-in 1.3s 1 show-form;
