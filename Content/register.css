@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Uni sans WFx;
+    list-style: none;
+}
+main {
+    border: #efefef solid 1px;
+}
+#nav {
+    height: 50px;
+    margin-top: 24px;
+}
+#nav ul {
+    width: 100%;
+    text-align: center;
+}
+#nav ul li {
+    text-align: center;
+    background: #d81e05;
+    color: white;
+    padding: 15px 20px;
+    border: 0 solid black;
+    display: inline;
+}
+#nav ul .active {
+    background: #6db93f;
+}
+.register {
+    margin: 12px auto;
+}
+.register .step {
+    height: 400px;
+}
+.register .right-panel {
+    float: right;
+    width: 200px;
+    border: 1px solid black;
+}
+.register .form-group {
+    margin: 12px 0 0 0;
+}
+.register .form-group input {
+    display: block;
+    width: 250px;
+    height: 34px;
+    padding: 0 12px;
+}
+.register .form-group .inline-form {
+    display: inline-block;
+    padding: 0;
+    width: 15px;
+    height: 15px;
+}
+#btn-back,
+.step,
+.register button {
+    display: none;
+}
+.btn {
+    padding: 12px 24px;
+    color: white;
+    background: #6db93f;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: 500ms;
+    font-size: 16px;
+}
+.btn:hover {
+    background: #60a338;
+    transition: 500ms;
+}
+.btn-group {
+    margin: 24px auto;
+    text-align: center;
+}
+#bio {
+    display: block;
+}
+/*# sourceMappingURL=register.css.map */

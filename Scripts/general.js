@@ -18,6 +18,8 @@ $('head').append('<script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min
 //add the favicon to the page's header.
 $('head').append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
 
+$('head').append(`<title>Corendon Travel Buddy</title>`);
+
 $(document).ready(function () {
     //Add the header to the start of the body.
     var headerElement = document.createElement('header');
@@ -34,7 +36,7 @@ function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
-            overrideMenuButtons([["account", "#"], ["overview data", "#"], ["statistics", "#"]]);
+            overrideMenuButtons([["account", "admin-profile.html"], ["overview data", "admin-users.html"], ["statistics", "admin-statistics.html"]]);
 
         updateMenuButtons();
     }
@@ -50,10 +52,18 @@ function onHeaderLoaded() {
         'Barry',
         'Anthonius',
         'Bernardus',
-        'Gijsbertus'
+        'Gijsbertinandus'
     ];
     const preText = 'Welcome, ';
     $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
+
+    const notificationText = " has sent a contact request";
+    // $('.notification-text').html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
+
+    $('.notification-text').each(function (index, element) {
+        $(this).html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
+    });
+
 }
 
 /**
