@@ -46,24 +46,47 @@ document.querySelector("#maxDistance").addEventListener("change", function() {
 
 // Block handling:
 document.querySelector("input#search-block").addEventListener("input", function() {
-    // resultContainer = <div class="search-block-result"></div>
-    let resultContainer = document.createElement("div");
-    resultContainer.setAttribute("class", "search-block-result");
-    let eleToAppendAfter = document.querySelector("button#block-user");
-    // If no container element exists, create one:
-    // TODO: Think of a way to prevent duplicate code in following sample
-    if(this.parentNode.querySelector(".search-block-result") == null) {
-        // Display whatever is entered (sample):
-        resultContainer.innerText = "Name: " + this.value;
-        eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
-
-        // TODO: Dynamically load in a list of all possible users that match search criteria and are somehow connected to given logged in user
+    const resultContainer = this.parentNode.querySelector("#searchBlockResult");
+    let result = "";
+    // Check if given input is empty:
+    if(this.value === "") {
+        // remove any existing result container if available:
+        resultContainer.remove();
     }
     else {
-        // Element already exists, change its contents:
-        this.parentNode.querySelector(".search-block-result").innerText = "Name: " + this.value;
-
-        // TODO: Dynamically load in a list of all possible users that match search criteria and are somehow connected to given logged in user
+        // Get a collection of users:
+        // TODO: Get a list of users from the backend that are connected to the person editing the settings.
+        // temp:
+        const users = ["Barry Stavenuiter", "Dylan van den Berg", "Hanna Toenbreker", "Kiet van Wijk", "Kevin Breurken", "Irene Doodeman", "Chris Verra"];
+        // Loop through collection of users and compare it to provided input for matching results:
+        let providedInput = this.value.toUpperCase();
+        for(let i = 0; i < users.length; i++) {
+            if(users[i].toUpperCase().indexOf(providedInput) > -1) {
+                result += "<div class=\"user-card\">" +
+                    "<div class=\"user-card-image\"></div>" +
+                    "<div class=\"user-card-content\">" +
+                    "<div class=\"card-info\">" + users[i] + "<br />Eventual information...</div>" +
+                    "<div class=\"card-control\">" +
+                    "<button>Block</button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+            }
+        }
+        // If no container element exists, create one:
+        if(resultContainer === null) {
+            // resultContainer = <div class="search-block-result"></div>
+            const resultContainer = document.createElement("div");
+            resultContainer.setAttribute("id", "searchBlockResult");
+            const eleToAppendAfter = document.querySelector("button#block-user");
+            // Display whatever is entered (sample):
+            resultContainer.innerHTML = result;
+            eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
+        }
+        else {
+            // Element already exists, change its contents:
+            resultContainer.innerHTML =  result;
+        }
     }
 });
 
@@ -157,3 +180,18 @@ document.querySelector("#apply").addEventListener("click", function(event) {
 document.querySelector("#cancel").addEventListener("click", function() {
     window.location.href = "index.html";
 })
+
+/* Some sample code to pull a HTML file
+var request = new XMLHttpRequest();
+
+request.open('GET', '/somepage', true);
+
+request.onload = function() {
+    if (request.status >= 200 && request.status < 400) {
+        var resp = request.responseText;
+
+        document.querySelector('#div').innerHTML = resp;
+    }
+};
+
+request.send();*/
