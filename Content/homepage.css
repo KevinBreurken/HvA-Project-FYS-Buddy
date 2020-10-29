@@ -444,6 +444,11 @@ main {
   background-color: var(--main-background-color-corendon-dark-red);
 }
 
+.header-buttons a {
+  color: inherit;
+  text-decoration: none;
+}
+
 /* overlay background */
 #overlay-background {
   display: none;
