@@ -11,7 +11,6 @@
         <main>
             <div class="content">
                 <h1>Settings</h1>
-                <hr />
                 <form name="myForm">
                     <label for="language">Language</label>
                     <select id="language" name="language">
@@ -26,8 +25,8 @@
                     <label>Disable profile</label>
                     <a href="#" id="disableProfile">Disable</a>
                     <h2>Protection</h2>
-                    <label for="oldAccountPassword">Old password</label>
-                    <input type="password" id="oldAccountPassword" name="oldAccountPassword">
+                    <label for="currentAccountPassword">Current password</label>
+                    <input type="password" id="currentAccountPassword" name="currentAccountPassword">
                     <br />
                     <label for="newAccountPassword">New password</label>
                     <input type="password" id="newAccountPassword" name="newAccountPassword">
@@ -46,7 +45,7 @@
                     <h2>Privacy</h2>
                     <label for="profileAvailability">Profile visible to</label>
                     <select id="profileAvailability" name="profileAvailability">
-                        <option disabled selected hidden value=""></option>
+                        <!--<option disabled selected hidden value=""></option>-->
                         <option value="everyone">Everyone</option>
                         <option value="matchesOnly">Matches only</option>
                         <option value="justMe">Just me</option>
@@ -56,14 +55,6 @@
                     <input type="search" id="search-block" />
                     <button type="button" id="block-user">Block</button>
                     <h2>Preferences</h2>
-                    <label for="showMeGender">Show me</label>
-                    <select id="showMeGender" name="showMeGender">
-                        <option disabled selected hidden value=""></option>
-                        <option value="men">Men</option>
-                        <option value="women">Women</option>
-                        <option value="everyone">Every one</option>
-                    </select>
-                    <br />
                     <div>
                         <input type="checkbox" class="" id="showOwnGenderOnly">
                         <label class="disable-highlight-select" for="showOwnGenderOnly">Only show results matching my own gender.</label>
@@ -78,7 +69,7 @@
                     <br />-->
                     <label for="maxDistance">Maximum distance</label>
                     <select id="maxDistance" name="maxDistance">
-                        <option disabled selected hidden value=""></option>
+                        <!--<option disabled selected hidden value=""></option>-->
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
@@ -88,7 +79,7 @@
                         <option value="70">70</option>
                         <option value="80">80</option>
                         <option value="90">90</option>
-                        <option value="100">100</option>
+                        <option value="100" selected>100</option>
                         <option value="unlimited">Unlimited</option>
                     </select>
                     <br />
