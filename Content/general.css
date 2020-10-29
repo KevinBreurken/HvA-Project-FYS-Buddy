@@ -87,6 +87,10 @@ header {
 }
 
 /* Footer */
+.footer {
+  margin-top: 40px;
+}
+
 .footer-divider {
   display: flex;
   padding: 4px;
@@ -103,6 +107,10 @@ header {
   display: flex;
   align-items: flex-start;
   justify-content: center;
+}
+
+.footer-content-title {
+  font-weight: bold;
 }
 
 .language-selection,
