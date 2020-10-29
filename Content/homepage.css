@@ -29,8 +29,8 @@ main {
   opacity: 0;
   animation: 0.5s ease-in 1.2s 1 show-hidden;
   animation-fill-mode: forwards;
-  color: white;
-  background-color: #d81e05;
+  color: var(--color-corendon-white);
+  background-color: var(--main-background-color-corendon-red);
   transition: 600ms;
   cursor: pointer;
 }
@@ -42,14 +42,14 @@ main {
   opacity: 0;
   animation: 0.5s ease-in 1.7s 1 show-hidden;
   animation-fill-mode: forwards;
-  color: white;
-  background-color: #d81e05;
+  color: var(--color-corendon-white);
+  background-color: var(--main-background-color-corendon-red);
   transition: 600ms;
   cursor: pointer;
 }
 
 #update-hidden:hover {
-  background-color: #b31804;
+  background-color: var(--main-background-color-corendon-dark-red);
 }
 
 @keyframes show-hidden{
@@ -82,9 +82,9 @@ main {
 }
 
 .text-wrapper h2 {
-  color: white;
+  color: var(--color-corendon-white);
   padding: 5px;
-  background-color: green;
+  background-color: var(--background-color-corendon-dark-green);
 }
 
 /*travel specifications wrapper */
@@ -175,10 +175,10 @@ main {
 }
 
 #myList {
-  background: #b31804;
+  background: var(--main-background-color-corendon-red);
   padding: 5px;
   margin: 5px 0;
-  color: white;
+  color: var(--color-corendon-white);
   border: none;
   font-size: 16px;
 }
@@ -189,7 +189,7 @@ main {
 
 /* matches tabs titles */
 #matches-tabs-border {
-  border: #efefef solid 1px;
+  border: var(--border-corendon-grey);
   position: relative;
 }
 
@@ -203,12 +203,11 @@ main {
   display: flex;
   border: #c11905 solid 1px;
   width: 100%;
-  background-color: #d81e05;
+  background-color: var(--main-background-color-corendon-red);
 }
 
 /* tab buttons */
 .tab-menu-container button {
-  /*text-transform: uppercase;*/
   font-size: 18px;
   color: var(--color-corendon-white);
   border: none;
@@ -226,7 +225,6 @@ main {
   margin-left: auto;
   border: none;
   width: max-content;
-  /*border-left: var(--color-corendon-dark-red) groove;*/
 }
 
 #filter-button img {
@@ -243,7 +241,7 @@ main {
   display: none;
   right: 0;
   font-size: 0;
-  color: white;
+  color: var(--color-corendon-white);
   position: absolute;
   justify-content: space-evenly;
   width: fit-content;
@@ -290,7 +288,6 @@ main {
   padding: 40px 0 40px 0;
   margin-left: auto;
   margin-right: auto;
-  /*border: #efefef solid 1px;*/
 }
 
 /* user displays */
@@ -331,7 +328,7 @@ main {
 .user-display button {
   font-size: 18px;
   font-weight: bold;
-  color: #d81e05;
+  color: var(--main-background-color-corendon-red);
   padding: 5px 10px 5px 10px;
   margin: 10px 5px 15px 5px;
   border: #d81e05 solid 1px;
@@ -340,7 +337,7 @@ main {
 }
 
 .user-display button:hover {
-  color: white;
+  color: var(--color-corendon-white);
   background-color: #d81e05;
 }
 
@@ -432,7 +429,7 @@ main {
 }
 
 .overlay-header button {
-  color: white;
+  color: var(--color-corendon-white);
   border: none;
   background-color: var(--color-corendon-red);
 }

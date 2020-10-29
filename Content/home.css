@@ -33,12 +33,12 @@ body{
     font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px 0px;
+    margin: 10px 0;
 }
 .btn:hover{
     background-color: white;
-    color: rgb(184, 26, 4);
-    border: 2px solid rgb(184, 26, 4);
+    color: var(--color-corendon-dark-red);
+    border: 2px solid var(--main-background-color-corendon-dark-red);
 }
 .banner-image{
     width: 100%;

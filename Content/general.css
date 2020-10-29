@@ -11,7 +11,7 @@
   --main-background-color-corendon-dark-red: #c11905;
   --background-color-corendon-green: #26a514;
   --background-color-corendon-dark-green: #1e8410;
-  /* background colors */
+  /* border colors */
   --border-corendon-grey: 1px solid #d9d9d9;
   /* variables nav menu */
   --color-nav-menu: #000;
@@ -54,7 +54,7 @@ header {
 }
 
 .main-menu-items {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 .main-menu ul {
@@ -190,12 +190,12 @@ header {
 .profile-display-dropdown-content ul {
   display: block;
   padding-top: 35px;
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 .profile-display-dropdown-item {
   color: var(--color-corendon-light-blue);
-  font-family: Uni Sans WFx, sans-serif;
+  font-family: var(--font-family);
   font-weight: bold;
   font-style: italic;
   font-size: 14px;
@@ -244,7 +244,7 @@ header {
   padding-left: 5px;
   padding-right: 5px;
   color: var(--color-corendon-light-blue);
-  font-family: Uni Sans WFx, sans-serif;
+  font-family: var(--font-family);
   font-weight: bold;
   font-size: 14px;
   text-transform: uppercase;
@@ -272,7 +272,6 @@ header {
 
 .notification-display-dropdown-content {
   position: absolute;
-  width: 100%;
   height: auto;
   width: auto;
   background-color: var(--color-corendon-white);
@@ -310,7 +309,7 @@ header {
 }
 .notification-display-dropdown-content li + li {
   padding-top: 10px;
-  margin-left: 0px;
+  margin-left: 0;
   padding-bottom: 5px;
   border-top: 1px solid var(--color-corendon-yellow);
 }

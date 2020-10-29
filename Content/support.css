@@ -24,8 +24,8 @@
 }
 
 .collapsible {
-    background-color: #d81e05;
-    color: white;
+    background-color: var(--main-background-color-corendon-red);
+    color: var(--color-corendon-white);
     cursor: pointer;
     padding: 18px;
     text-align: left;
@@ -35,7 +35,7 @@
 }
 
 .collapsible:hover, .collapsible.active {
-    background-color: #b81a04;
+    background-color: var(--main-background-color-corendon-red);
 }
 
 h3.collapsible {
@@ -46,7 +46,7 @@ h3.collapsible {
     padding: 0 18px;
     display: none;
     overflow: hidden;
-    background-color: #f1f1f1;
+    background-color: var(--color-corendon-white);
     border: 1px solid #d81e05;
 }
 
@@ -66,5 +66,5 @@ h3.collapsible {
 .support-controls button#back {
     background-color: #d7503d;
     border-color: #d46e5f;
-    color: #fff;
+    color: var(--color-corendon-white);
 }

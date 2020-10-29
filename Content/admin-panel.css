@@ -1,10 +1,10 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: Uni sans WFx, serif;
+  font-family: var(--font-family);
 }
 #admin {
-  border: #efefef solid 1px;
+  border: var(--border-corendon-grey);
 }
 #admin table {
   margin: 24px auto 24px auto;
@@ -14,7 +14,7 @@
 #admin th,
 #admin tr,
 #admin td {
-  border: 1px solid black;
+  border: var(--border-corendon-grey);
   border-collapse: collapse;
   padding: 10px;
 }

@@ -49,7 +49,7 @@
 }
 
 .valid {
-  color: green;
+  color: var(--background-color-corendon-dark-green);
 }
 
 .valid:before {
@@ -140,11 +140,11 @@
 .settings-controls button#apply {
   background-color: #d7503d;
   border-color: #d46e5f;
-  color: #fff;
+  color: var(--color-corendon-white);
 }
 
 .settings-controls button#cancel {
   background-color: #b8b8b8;
   border-color: #cfcfcf;
-  color: #fff;
+  color: var(--color-corendon-white);
 }
