@@ -162,7 +162,7 @@ main {
 }
 
 .date-picker {
-  background-color: #b31804;
+  background-color: var(--color-corendon-red);
   color: white;
   padding: 5px;
   border: none;
@@ -335,14 +335,14 @@ main {
   color: var(--main-background-color-corendon-red);
   padding: 5px 10px 5px 10px;
   margin: 10px 5px 15px 5px;
-  border: #d81e05 solid 1px;
+  border: var(--color-corendon-red) solid 1px;
   transition: 600ms;
   background-color: inherit;
 }
 
 .user-display button:hover {
   color: var(--color-corendon-white);
-  background-color: #d81e05;
+  background-color: var(--color-corendon-red);
 }
 
 .tab-content-column-4 {
