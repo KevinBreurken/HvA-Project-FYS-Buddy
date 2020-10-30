@@ -11,6 +11,31 @@
         </script>
     </head>
     <body>
+        <!--<nav id="settingsNavigation">
+            <ul>
+                <li>
+                    <a href="#accountSettings">Account</a>
+                </li>
+                <li>
+                    <a href="#protectionSettings">Protection</a>
+                </li>
+                <li>
+                    <a href="#privacySettings">Privacy</a>
+                </li>
+                <li>
+                    <a href="#blockSettings">Block</a>
+                </li>
+                <li>
+                    <a href="#preferencesSettings">Preferences</a>
+                </li>
+                <li>
+                    <a href="#notificationsSettings">Notifications</a>
+                </li>
+                <li>
+                    <a href="#appInformation">Information</a>
+                </li>
+            </ul>
+        </nav>-->
         <main>
             <div class="content">
                 <h1>Settings</h1>
@@ -24,10 +49,10 @@
                             Nederlands
                         </option>
                     </select>
-                    <h2>Account</h2>
+                    <h2 id="accountSettings">Account</h2>
                     <label>Disable profile</label>
                     <a href="#" id="disableProfile">Disable</a>
-                    <h2>Protection</h2>
+                    <h2 id="protectionSettings">Protection</h2>
                     <label for="currentAccountPassword">Current password</label>
                     <input type="password" id="currentAccountPassword" name="currentAccountPassword">
                     <br />
@@ -45,7 +70,7 @@
                             <li id="lengthVal" class="invalid">Minimum of <b>8 characters</b></li>
                         </ul>
                     </div>
-                    <h2>Privacy</h2>
+                    <h2 id="privacySettings">Privacy</h2>
                     <label for="profileAvailability">Profile visible to</label>
                     <select id="profileAvailability" name="profileAvailability">
                         <!--<option disabled selected hidden value=""></option>-->
@@ -53,11 +78,11 @@
                         <option value="matchesOnly">Matches only</option>
                         <option value="justMe">Just me</option>
                     </select>
-                    <h2>Block</h2>
+                    <h2 id="blockSettings">Block</h2>
                     <label for="search-block">Search</label>
                     <input type="search" id="search-block" />
                     <button type="button" id="block-user">Block</button>
-                    <h2>Preferences</h2>
+                    <h2 id="preferencesSettings">Preferences</h2>
                     <div>
                         <input type="checkbox" class="" id="showOwnGenderOnly">
                         <label class="disable-highlight-select" for="showOwnGenderOnly">Only show results matching my own gender.</label>
@@ -100,7 +125,7 @@
                     <label for="distance">Radial distance</label>
                     <input type="range" id="distance" name="distance" min="0" max="100" value="20" />
                     <p>The distance has been set to: <span id="distanceResult"></span> <span id="distanceUnitResult">km</span></p>
-                    <h2>Notifications</h2>
+                    <h2 id="notificationsSettings">Notifications</h2>
                     <div>
                         <input type="checkbox" class="" id="statusNotified">
                         <label class="disable-highlight-select" for="statusNotified">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>
@@ -109,7 +134,7 @@
                         <input type="checkbox" class="" id="updatesNotified">
                         <label class="disable-highlight-select" for="updatesNotified">I would like to get notified by e-mail about updates to the app</label>
                     </div>
-                    <h2>Information</h2>
+                    <h2 id="appInformation">Information</h2>
                     <span>Version 1.0</span>
                     <br />
                     <br />

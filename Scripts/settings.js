@@ -154,16 +154,20 @@ pwdInput.addEventListener("input", function() {
 });
 
 // Check whether own gender should only be shown:
-// document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
-//     if(this.checked) {
-//         if(confirm("What do you indentify as?")) {
-//             document.querySelector("#identifyAsContainer").style.display = "block";
-//         }
-//     }
-//     else {
-//         document.querySelector("#identifyAsContainer").style.display = "none";
-//     }
-// });
+document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
+    if(this.checked) {
+        // TODO: Get information from back-end related to what logged in person's gender identify as.
+        /*if(confirm("What do you indentify as?")) {
+            document.querySelector("#identifyAsContainer").style.display = "block";
+        }*/
+    }
+    else {
+        let display = getComputedStyle(document.querySelector("#identifyAsContainer")).display;
+        if(display !== "none") {
+            document.querySelector("#identifyAsContainer").style.display = "none";
+        }
+    }
+});
 
 // Validate fields on submition:
 document.querySelector("#apply").addEventListener("click", function(event) {
@@ -177,9 +181,9 @@ document.querySelector("#apply").addEventListener("click", function(event) {
 });
 
 // On cancellation:
-document.querySelector("#cancel").addEventListener("click", function() {
+/*document.querySelector("#cancel").addEventListener("click", function() {
     window.location.href = "index.html";
-})
+})*/
 
 /* Some sample code to pull a HTML file
 var request = new XMLHttpRequest();
