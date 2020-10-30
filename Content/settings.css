@@ -29,7 +29,6 @@ nav#settingsNavigation {
   top: 0;
   max-width: 300px;
   background-color: #fff;
-  border: 1px solid #efefef;
 }
 
 nav#settingsNavigation > ul {
@@ -58,8 +57,11 @@ nav#settingsNavigation > ul a:hover {
 }
 
 /* Content */
+.content, nav#settingsNavigation {
+  border: var(--border-corendon-grey);
+}
+
 .content {
-  border: 1px solid #efefef;
   padding: 0 15px;
 }
 
