@@ -138,13 +138,17 @@
 }
 
 .settings-controls button#apply {
-  background-color: #d7503d;
-  border-color: #d46e5f;
   color: var(--color-corendon-white);
+  background-color: var(--main-background-color-corendon-red);
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px 10px 5px 10px;
+  margin: 10px 5px 15px 5px;
+  border: #d81e05 solid 1px;
+  transition: 600ms;
 }
 
-.settings-controls button#cancel {
-  background-color: #b8b8b8;
-  border-color: #cfcfcf;
+/* .settings-controls button#cancel {
+  background-color: var(--color-corendon-red);
   color: var(--color-corendon-white);
-}
+} */

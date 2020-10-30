@@ -6,6 +6,7 @@
 }
 main {
     border: var(--border-corendon-grey);
+    padding: 10px;
 }
 #nav {
     height: 50px;

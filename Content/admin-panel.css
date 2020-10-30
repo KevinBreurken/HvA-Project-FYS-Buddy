@@ -1,11 +1,8 @@
 * {
-  margin: 0;
   padding: 0;
   font-family: var(--font-family);
 }
-#admin {
-  border: var(--border-corendon-grey);
-}
+
 #admin table {
   margin: 24px auto 24px auto;
   text-align: center;
@@ -33,7 +30,8 @@
   height: auto;
   width: 600px;
   margin: 0 auto;
-  border: 1px solid black;
+  padding: 10px;
+  border: var(--border-corendon-grey);
 }
 #admin #overlay .user-info {
   display: inline-block;
@@ -42,7 +40,7 @@
 #admin .fake-btn {
   padding: 8px 12px;
   border-radius: 3px;
-  background: #6db93f;
+  background: var(--background-color-corendon-green);
   display: inline-block;
   text-decoration: none;
   color: white;
@@ -50,10 +48,24 @@
   cursor: pointer;
 }
 #admin .fake-btn:hover {
-  background: #1e8410;
+  background: var(--background-color-corendon-dark-green);
   transition: 500ms;
 }
 #admin #overlay .fake-btn {
   float: right;
+}
+
+/* background overlay */
+
+#overlay-background {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+  pointer-events: none;
+  z-index: 1;
 }
 /*# sourceMappingURL=admin-panel.css.map */

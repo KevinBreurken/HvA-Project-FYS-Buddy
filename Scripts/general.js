@@ -36,7 +36,7 @@ function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
-            overrideMenuButtons([["account", "admin-profile.html"], ["overview data", "admin-users.html"], ["statistics", "admin-statistics.html"]]);
+            overrideMenuButtons([["account", "admin-profile.html"], ["overview data", "admin-panel.html"], ["statistics", "admin-statistics.html"]]);
 
         updateMenuButtons();
     }
@@ -82,6 +82,8 @@ function updateMenuButtons() {
 
 function setNavigationVisibility(state) {
     $('.main-menu-buttons').toggle(state);
+    if(state === false)
+        $('.main-menu').empty();
 }
 
 /**

@@ -154,16 +154,16 @@ pwdInput.addEventListener("input", function() {
 });
 
 // Check whether own gender should only be shown:
-document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
-    if(this.checked) {
-        if(confirm("Are you a helicopter?")) {
-            document.querySelector("#identifyAsContainer").style.display = "block";
-        }
-    }
-    else {
-        document.querySelector("#identifyAsContainer").style.display = "none";
-    }
-});
+// document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
+//     if(this.checked) {
+//         if(confirm("What do you indentify as?")) {
+//             document.querySelector("#identifyAsContainer").style.display = "block";
+//         }
+//     }
+//     else {
+//         document.querySelector("#identifyAsContainer").style.display = "none";
+//     }
+// });
 
 // Validate fields on submition:
 document.querySelector("#apply").addEventListener("click", function(event) {

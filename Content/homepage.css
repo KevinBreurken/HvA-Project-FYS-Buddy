@@ -227,6 +227,10 @@ main {
   width: max-content;
 }
 
+.tab-button:focus {
+  outline: none;
+}
+
 #filter-button img {
   width: 0.7em;
   padding-left: 0.5em;
