@@ -506,8 +506,8 @@ span .tooltip-icon {
   font-weight: bold;
   visibility: hidden;
   opacity: 0; 
-  transform: translateY(15px);
-  transform: opacity 1s, transform 1s;
+  transform: translateY(-15px);
+  transition: opacity 1s, transform 1s;
 }
 
 [data-tooltip]:hover::after {

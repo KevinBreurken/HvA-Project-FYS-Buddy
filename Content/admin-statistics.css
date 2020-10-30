@@ -82,10 +82,10 @@
   font-size: 15px;
 }
 
-.active,
+/*.active,
 .statistics-item-list-button:hover {
-  /*background-color: var(--background-color-corendon-dark-green);*/
-}
+  background-color: var(--background-color-corendon-dark-green);
+}*/
 
 .statistics-item-list-content {
   display: block;
