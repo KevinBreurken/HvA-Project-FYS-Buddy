@@ -40,7 +40,7 @@
 #admin .fake-btn {
   padding: 8px 12px;
   border-radius: 3px;
-  background: var(--background-color-corendon-green);
+  background: var(--color-corendon-green);
   display: inline-block;
   text-decoration: none;
   color: white;
@@ -48,7 +48,7 @@
   cursor: pointer;
 }
 #admin .fake-btn:hover {
-  background: var(--background-color-corendon-dark-green);
+  background: var(--color-corendon-dark-green);
   transition: 500ms;
 }
 #admin #overlay .fake-btn {

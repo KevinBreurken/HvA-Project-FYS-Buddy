@@ -6,17 +6,13 @@
   --color-corendon-dark-red: #c11905;
   --color-corendon-dark-grey: #666666;
   --color-corendon-yellow: #ffc61e;
-  /* background colors */
-  --main-background-color-corendon-red: #d81e05;
-  --main-background-color-corendon-dark-red: #c11905;
-  --background-color-corendon-green: #26a514;
-  --background-color-corendon-dark-green: #1e8410;
+  --color-corendon-green: #26a514;
+  --color-corendon-dark-green: #1e8410;
   /* border colors */
   --border-corendon-grey: 1px solid #d9d9d9;
+  --border-corendon-red: 1px solid #d81e05;
   /* variables nav menu */
   --color-nav-menu: #000;
-  --background-color-nav-menu: #fff;
-  /* kevin's kleurtjes :) */
   --color-corendon-light-blue: #00bce2;
   --color-corendon-lighter-blue: #99e4f3;
 }
@@ -79,7 +75,7 @@ header {
 
 .main-menu a {
   text-decoration: none;
-  background-color: var(--background-color-nav-menu);
+  background-color: var(--color-corendon-white);
   color: var(--color-nav-menu);
   font-family: var(--font-family);
   text-transform: uppercase;
@@ -97,7 +93,7 @@ header {
 .footer-divider {
   display: flex;
   padding: 4px;
-  background-color: var(--main-background-color-corendon-red);
+  background-color: var(--color-corendon-red);
 }
 
 .footer-divider img {
@@ -125,7 +121,7 @@ header {
 .language-selection button {
   display: flex;
   align-items: center;
-  background-color: var(--background-color-nav-menu);
+  background-color: var(--color-corendon-white);
   max-height: 25px;
   border: none;
   cursor: pointer;

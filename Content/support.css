@@ -19,7 +19,7 @@
 }
 
 .collapsible {
-    background-color: var(--main-background-color-corendon-red);
+    background-color: var(--color-corendon-red);
     color: var(--color-corendon-white);
     cursor: pointer;
     padding: 18px;
@@ -30,7 +30,7 @@
 }
 
 .collapsible:hover, .collapsible.active {
-    background-color: var(--main-background-color-corendon-red);
+    background-color: var(--color-corendon-red);
 }
 
 h3.collapsible {
