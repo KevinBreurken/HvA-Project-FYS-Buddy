@@ -47,30 +47,29 @@
 
     <div id="matches-tabs-border">
         <!--tab title buttons-->
-        <div class="tab-menu-container">
-            <div class="tab-menu-border">
-                <button id="default-active" class="tab-button" onclick="openTabContent('results-content', this)">All results</button>
+        <div id="button-menu-container">
+            <div id="tab-buttons-border">
+                <button class="tab-button" onclick="openTabContent('results-content', this)" id="default-active">All results</button>
                 <button class="tab-button" onclick="openTabContent('recently-content', this)">Recently viewed</button>
-                <button data-tooltip="Filter for your matched users" class="tab-button" onclick="openTabContent('matched-content', this)">Matched</button>
-                <button data-tooltip="Filter all your favorite users" class="tab-button" onclick="openTabContent('favorites-content', this)">Favorites</button>
-                <button id="filter-button" class="tab-button" onmouseover="openFilters()">filters<img src="Content/Images/down-arrow-v3.png"></button>
+                <button class="tab-button" onclick="openTabContent('matched-content', this)">Matched</button>
+                <button class="tab-button" onclick="openTabContent('favorites-content', this)">Favorites</button>
             </div>
-        </div>
-
-        <!--filter-dropdown-->
-        <div id="filter-dropdown" onmouseleave="closeFilters()">
-            <div class="filter-row">
-                <p>Distance</p>
-                <button>< 5km</button>
-                <button>> 5km</button>
-                <button>> 10km</button>
-            </div>
-            <div class="filter-row">
-                <p>Buddy</p>
-                <div>
-                    <button>Travel buddy</button>
-                    <button>Activity buddy</button>
-                    <button>Both</button>
+            <button id="filters">filters<img src="Content/Images/down-arrow-v3.png"></button>
+            <div id="filter-dropdown">
+                <div class="filter-option">
+                    <p>Travel distance</p>
+                    <div class="filter-option-buttons">
+                        <button>< 5km</button>
+                        <button>< 10km</button>
+                        <button>< 20km</button>
+                    </div>
+                </div>
+                <div class="filter-option">
+                    <p>Type of buddy</p>
+                    <div class="filter-option-buttons">
+                        <button>Only travel buddies</button>
+                        <button>Only activity buddies</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -296,8 +295,9 @@
         </div>
         <div class="overlay-header">
             <button class="close-button" onclick="closeFunction('overlay-1')">X</button>
-            <button id="send-request-button" class="header-buttons">
-                send request</button>
+            <button id="send-request-button" class="header-buttons" onclick="swapColor(this)">
+                send request
+            </button>
             <button id="profile-button" class="header-buttons">
                 <a href="profile2.html">profile</a></button>
         </div>

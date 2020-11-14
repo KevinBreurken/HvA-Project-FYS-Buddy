@@ -20,8 +20,7 @@ function openTabContent (currentTab, currentButton) {
 //displays the current overlay and the overlay-background
 function displayOverlay (overlayId) {
     document.getElementById(overlayId).style.display = "flex";
-    var overlayBackground = document.getElementById("overlay-background")
-    overlayBackground.style.display = "block";
+    document.getElementById("overlay-background").style.display = "block";
 }
 
 //function to close the active user-display or overlay
@@ -32,19 +31,12 @@ function closeFunction (currentDisplay) {
 
 //function to swap the favorites icon
 function swapFavoritesIcon (currentIconId, newIconId) {
-    var currentIcon = document.getElementById(currentIconId);
-    var newIcon = document.getElementById(newIconId);
-    currentIcon.style.display = "none";
-    newIcon.style.display = "";
+    document.getElementById(currentIconId).style.display = "none";
+    document.getElementById(newIconId).style.display = "";
 }
 
-// //function to display the filters
-// function openFilters () {
-//     var overlayToOpen = document.getElementById('filter-dropdown');
-//     overlayToOpen.style.display = "flex";
-// }
-//
-// function closeFilters () {
-//     var overlayToClose = document.getElementById('filter-dropdown');
-//     overlayToClose.style.display = "none";
-// }
+//function that swaps the color of the 'send request' button
+function swapColor(button) {
+    button.style.backgroundColor = "var(--color-corendon-dark-red)";
+}
+
