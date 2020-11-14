@@ -1,7 +1,19 @@
+/* Settings related CSS: */
+.disable-highlight-select {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+/* Settings related CSS: */
 .content {
-  max-width: 700px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
+  border: 1px solid #efefef;
+  padding: 0 15px;
 }
 
 .content input[type="range"]#distance {
@@ -16,7 +28,6 @@
   margin-bottom: 0.5rem;
 }
 
-/* use only without bootstrap: */
 #distanceUnit {
   display: inline-block;
 }
@@ -28,3 +39,116 @@
 #distanceUnit input.radio {
   float: left;
 }
+
+#validationMessage {
+  display: none;
+}
+
+.validation-list {
+  list-style: none;
+}
+
+.valid {
+  color: var(--color-corendon-dark-green);
+}
+
+.valid:before {
+  position: relative;
+  left: -30px;
+  content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -30px;
+  content: "✖";
+}
+
+#identifyAsContainer {
+  display: none;
+}
+
+#searchBlockResult {
+  border: 1px solid #efefef;
+  height: 170px;
+  overflow-y: scroll;
+}
+
+.user-card, .user-card-content {
+  margin: 5px;
+  border: 1px solid #efefef;
+}
+
+.user-card {
+  display: flex;
+  flex: 1 0 calc(50% - 24px);
+  height: 75px;
+}
+
+.user-card-image {
+  flex: 1 0 calc(25% - 22px);
+  margin: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-card-content {
+  flex: 1 0 calc(75% - 22px);
+  display: flex;
+}
+
+.card-info {
+  flex: 1;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.card-control {
+  display: flex;
+  padding: 5px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* Use full screen real estate on dekstop by using flexbox: */
+@media only screen and (min-width: 1000px) {/* <-- please hit me up what the min width for desktop will be */
+  #searchBlockResult {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.settings-controls {
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.settings-controls button {
+  padding: .375rem .75rem;
+  user-select: none;
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.settings-controls button#apply {
+  color: var(--color-corendon-white);
+  background-color: var(--color-corendon-red);
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px 10px 5px 10px;
+  margin: 10px 5px 15px 5px;
+  border: #d81e05 solid 1px;
+  transition: 600ms;
+}
+
+/* .settings-controls button#cancel {
+  background-color: var(--color-corendon-red);
+  color: var(--color-corendon-white);
+} */

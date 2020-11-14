@@ -1,64 +1,44 @@
+main {
+    border: var(--border-corendon-grey);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px 30px 30px 30px;
+    margin-bottom: 30px;
+}
+body {
+    font-family: var(--font-family);
+    color: var(--color-corendon-dark-grey);
+}
+legend {
+    border: black;
+    margin-left: 1em;
+    padding: 0.2em 0.8em;
+}
 .flex-container {
     display: flex;
     flex-direction: row;
-    justify-content: left;
-    width: 100%;
 }
-.blok1, .blok2, .blok3, .blok4, .blok5, .blok6 {
-    flex: 1;
-}
-.profielBewerkenKnop {
-    text-align: right;
-}
-.opslaanKnop {
-    text-align: end;
-}
-#container {
-    height: 300px;
-    width: 1400px;
-    border: 1px solid black;
-    position: relative;
-    align-items: stretch;
-}
-#label {
-    position: absolute;
-    top:-10px;
-    left: 20px;
-    height: 20px;
-    width: 80px;
-    border: 2px;
-    text-align: center;
-    background-color: white;
-}
-#container2 {
-    height: 300px;
-    width: 1400px;
-    border: 1px solid black;
-    position: relative;
-}
-#label2 {
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    height: 20px;
-    width: 120px;
-    border: 2px;
-    text-align: center;
-    background-color: white;
-}
-
 .profielfoto {
     flex: 1;
+}
+.adminProfielfoto {
+    border-radius: 6px;
+    height: 200px;
+    border: 4px solid #ffffff;
+    box-shadow: 0 5px 10px rgba(0,0,0,3);
 }
 .naam {
    flex: 2;
     align-items: center;
 }
+.rightbox {
+    color: red;
+}
 .geslacht {
     flex: 2;
 }
 table {
-    border-spacing: 30px;
+    border-spacing: 15px;
 }
 th {
     text-align: left;
@@ -71,3 +51,145 @@ form input.error {
 form input.success {
     border-color: #c3e6cb
 }
+.badge1, .badge2, .badge3, .badge4, .badge5 {
+    color: var(--color-corendon-white);
+    background-color: var(--color-corendon-red);
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25rem;
+    margin: 2px;
+}
+.biografie {
+    resize: none;
+}
+.img {
+    border-radius: 6px;
+    height: 200px;
+    border: 4px solid #ffffff;
+    box-shadow: 0 5px 10px rgba(0,0,0,3);
+
+}
+.match {
+    color: var(--color-corendon-white);
+    background-color: var(--color-corendon-red);
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 5px 15px 5px;
+    border: #d81e05 solid 1px;
+    transition: 600ms;
+}
+
+.block {
+    color: var(--color-corendon-white);
+    background-color: var(--color-corendon-red);
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 5px 15px 5px;
+    border: #d81e05 solid 1px;
+    transition: 600ms;
+}
+
+.opslaanKnop, .profielBewerkenKnop{
+    color: var(--color-corendon-white);
+    background-color: var(--color-corendon-red);
+    font-size: 18px;
+    font-weight: bold;
+    padding: 5px 10px 5px 10px;
+    margin: 10px 5px 15px 5px;
+    border: #d81e05 solid 1px;
+    transition: 600ms;
+}
+.profielBewerkenKnop {
+    margin: 0 auto;
+    text-align: right;
+}
+
+.opslaanKnop:hover, .profielBewerkenKnop:hover, .match:hover, .block:hover {
+    background-color: var(--color-corendon-dark-red);
+    color: white;
+}
+.column {
+    float: left;
+    width:33.3%;
+}
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+    }
+}
+
+/* tooltips */
+[data-tooltip] {
+    position: relative;
+    cursor: default;
+  }
+  
+  [data-tooltip]::after {
+    position: absolute;
+    width: 300px;
+    left: calc(120%);
+    top: -100%;
+    text-align: center;
+    box-sizing: border-box;
+    content: attr(data-tooltip);
+    color: #ffffff;
+    background-color: var(--color-corendon-light-blue);
+    padding: 8px;
+    border-radius: 10px;
+    font-size: 0.9em;
+    font-weight: bold;
+    visibility: hidden;
+    opacity: 0; 
+    transform: translatex(15px);
+    transition: opacity 1s, transform 1s;
+  }
+  
+  [data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translatex(0);
+  }
+  
+  [f-data-tooltip] {
+      position: relative;
+      cursor: default;
+    }
+  
+  [f-data-tooltip]::after {
+      position: absolute;
+      width: 300px;
+      left: calc(140%);
+      top: -100%;
+      text-align: center;
+      box-sizing: border-box;
+      content: attr(f-data-tooltip);
+      color: #ffffff;
+      background-color: var(--color-corendon-light-blue);
+      padding: 8px;
+      border-radius: 10px;
+      font-size: 0.9em;
+      font-weight: bold;
+      visibility: hidden;
+      opacity: 0; 
+      transform: translatex(15px);
+      transition: opacity 1s, transform 1s;
+    }
+  
+  [f-data-tooltip]:hover::after {
+      opacity: 1;
+      visibility: visible;
+      transform: translatex(0);
+    }

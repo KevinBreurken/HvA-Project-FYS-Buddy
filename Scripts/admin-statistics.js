@@ -30,9 +30,9 @@ function renderStatistics() {
     for (const item of listItems) {
         item.innerHTML = generateListStatisticItemHTML(item.getAttribute('name'), $(item).data('items'));
 
-        $(item).find('button').click(function () {
-            $(item.lastElementChild).toggle();
-        });
+        // $(item).find('button').click(function () {
+        //     $(item.lastElementChild).toggle();
+        // });
     }
 
     //Update pie charts.
