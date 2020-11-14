@@ -257,7 +257,11 @@
                 <div class="tab-content-column-4">
                     <button onclick="displayOverlay('overlay-1')">more info</button>
                     <button onclick="closeFunction('5')">X</button>
-                    <div id="favorite-9-v2" onclick="favoritesRemove('9')">
+                    <div id="favorite-9-v1" onclick="swapFavoritesIcon('favorite-9-v1', 'favorite-9-v2')">
+                        <img class="favorite-icon" src="Content/Images/favorite-v1.png">
+                    </div>
+                    <div id="favorite-9-v2" onclick="swapFavoritesIcon('favorite-9-v2', 'favorite-9-v1')"
+                         style="display: none">
                         <img class="favorite-icon" src="Content/Images/favorite-v2.png">
                     </div>
                 </div>
