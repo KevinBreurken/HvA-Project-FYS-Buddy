@@ -194,6 +194,7 @@ main {
 }
 
 #button-menu-container {
+  position: relative;
   font-size: 0;
   display: flex;
   flex-wrap: wrap;
@@ -232,6 +233,9 @@ main {
 }
 
 #filter-dropdown {
+  position: absolute;
+  right: 0;
+  top: 41px;
   font-size: 18px;
   display: none;
   justify-content: center;
