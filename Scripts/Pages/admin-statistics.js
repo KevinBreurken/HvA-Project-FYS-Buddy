@@ -12,7 +12,6 @@ $('select').on('change', function () {
 });
 
 renderStatistics();
-
 function renderStatistics() {
 
     //Update number items.

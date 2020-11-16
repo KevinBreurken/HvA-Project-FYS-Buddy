@@ -11,25 +11,19 @@ var currentMenuType = 'home';
  */
 var isNavigationVisible = true;
 
-//add the general stylesheet to the page's header.
-$('head').append('<link rel="stylesheet" type="text/css" href="Content/general.css">');
-//add the fyscloud to the page's header.
-$('head').append('<script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>');
-//add the favicon to the page's header.
-$('head').append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+$.get("Views/general-header.html", function (data) {
+    $("body").prepend($(data));
+    onHeaderLoaded();
+});
 
-$('head').append(`<title>Corendon Travel Buddy</title>`);
+// "is a shorthand for : $(document).ready(function() { ... });"
+$(function (){
 
-$(document).ready(function () {
-    //Add the header to the start of the body.
-    var headerElement = document.createElement('header');
-    document.body.insertBefore(headerElement, document.body.firstChild);
-    $('header').load("general-header.html", onHeaderLoaded);
+    //Voeg toe aan het einde van de pagina.
+    $.get("Views/general-footer.html", function (data){
+        $("body").append($(data));
+    });
 
-    //Add the footer to the end of the body.
-    var footerElement = document.createElement('footer');
-    document.body.appendChild(footerElement);
-    $('footer').load("general-footer.html");
 });
 
 function onHeaderLoaded() {
