@@ -11,6 +11,14 @@ var currentMenuType = 'home';
  */
 var isNavigationVisible = true;
 
+let headElement = $('head');
+//add the general stylesheet to the page's header.
+headElement.append('<link rel="stylesheet" type="text/css" href="Content/CSS/general.css">');
+//add the favicon to the page's header.
+headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+//add the config file
+headElement.append(`<title>Corendon Travel Buddy</title>`);
+
 $.get("Views/general-header.html", function (data) {
     $("body").prepend($(data));
     onHeaderLoaded();
