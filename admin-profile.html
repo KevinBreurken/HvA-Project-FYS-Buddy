@@ -5,7 +5,6 @@
     <title>Admin profile page</title>
     <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
     <link rel="stylesheet" href="Content/CSS/general.css">
-    <script src="Script/general.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/54479eeac2.js" crossorigin="anonymous"></script>
@@ -13,6 +12,7 @@
     <script>
         isOnAdminProfile = true;
         currentMenuType = 'account';
+        isNavigationVisible = true;
     </script>
 </head>
 <body>
@@ -21,13 +21,13 @@
 <fieldset id="container">
     <legend id="label"><i class="fas fa-user-alt"></i>Admin</legend>
     <section class="flex-container">
-        <div class="profielfoto">
+        <div class="profilePicture">
             <br>
-            <img class="adminProfielfoto" src="Content/Images/profile-picture-1.jpg" alt="Profielfoto" width="180"
+            <img class="adminProfilePicture" src="Content/Images/profile-picture-1.jpg" alt="profilePicture" width="180"
                  height=150><br>
         </div>
-        <div class="naam">
-            <table class="namen" style="width: 75%">
+        <div class="name">
+            <table class="names" style="width: 75%">
                 <tr>
                     <th>Last seen:</th>
                     <th class="rightbox">27-10-20 19:11</th>

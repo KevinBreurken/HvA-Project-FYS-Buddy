@@ -10,7 +10,9 @@
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="Scripts/general.js"></script>
     <script>
+        isOnAdminProfile = false;
         currentMenuType = 'profile';
+        isNavigationVisible = true;
     </script>
 </head>
 
@@ -19,7 +21,7 @@
     <h1>Tom van den Berg</h1>
 <form action="profile-edit.html" class="row">
     <div class="column">
-        <img id="img" class="img" src="Content/Images/profile-picture-3.jpg" alt="Profielfoto" width="200"
+        <img id="img" class="img" src="Content/Images/profile-picture-3.jpg" alt="profilePicture" width="200"
              height=120>
         <br>
         <br>
@@ -50,8 +52,8 @@
         <p>Going out </p>
         </div>
         <h2>Biography</h2>
-        <label for="biografie"></label>
-        <textarea rows="10" cols="30%" id="biografie" class="biografie" name="Biografie" maxlength="500" disabled>My name is Tom. I am 24 years old and I adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
+        <label for="biography"></label>
+        <textarea rows="10" cols="30%" id="biography" class="biography" name="Biography" maxlength="500" disabled>My name is Tom. I am 24 years old and I adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
     </div>
     <div class="column">
         <h2>Contactinformation</h2>
@@ -65,7 +67,7 @@
         <p><b>I am looking for:</b> A travel buddy</p>
         <div>
             <br><br><br><br><br><br><br><br><br>
-            <button class="profielBewerkenKnop" type="submit">Edit profile</button>
+            <button class="editProfileBtn" type="submit">Edit profile</button>
         </div>
         </div>
 </form>
