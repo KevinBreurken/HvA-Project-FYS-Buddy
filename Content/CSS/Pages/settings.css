@@ -1,4 +1,11 @@
 /* Settings related CSS: */
+/* Resetting some styling on main because of settings side navigation*/
+main {
+  margin: 0;
+  width: 100%;
+  max-width: none;
+}
+
 .disable-highlight-select {
   user-select: none; /* supported by Chrome and Opera */
   -webkit-user-select: none; /* Safari */
@@ -7,12 +14,54 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
-/* Settings related CSS: */
-.content {
-  max-width: 1000px;
+/* Settings side navigation */
+.settings-nav-container {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px; /* <-- change max-width of the page here for settings instead (because of the sticky navigation menu) */
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #efefef;
+}
+
+nav#settingsNavigation {
+  display: table; /* Using table as it is compatible with most browsers but could also use align-self: flex-start instead. */
+  position: sticky;
+  top: 0;
+  max-width: 300px;
+  background-color: #fff;
+}
+
+nav#settingsNavigation > ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav#settingsNavigation > ul a {
+  display: block;
+  margin: 5px;
+  padding: 15px 10px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--main-background-color-corendon-red);
+}
+
+nav#settingsNavigation > ul a:hover {
+  background-color: var(--color-corendon-dark-red);
+}
+
+@media only screen and (max-width: 1000px) {
+  nav#settingsNavigation {
+    display: none;
+  }
+}
+
+/* Content */
+.content, nav#settingsNavigation {
+  border: var(--border-corendon-grey);
+}
+
+.content {
   padding: 0 15px;
 }
 
