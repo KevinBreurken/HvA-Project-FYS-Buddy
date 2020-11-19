@@ -6,7 +6,7 @@
 }
 
 .statistics-group-title {
-  background-color: var(--main-background-color-corendon-red);
+  background-color: var(--color-corendon-red);
   color: var(--color-corendon-white);
   padding: 10px 10px 10px 18px;
   font-weight: bold;
@@ -69,7 +69,7 @@
 }
 
 .statistics-item-list-button {
-  background-color: var(--background-color-corendon-green);
+  background-color: var(--color-corendon-green);
   font-weight: bold;
   color: var(--color-corendon-white);
   height: 40px;

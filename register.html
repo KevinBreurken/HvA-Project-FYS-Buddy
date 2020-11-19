@@ -11,7 +11,7 @@
         currentMenuType = 'home';
         isNavigationVisible = false;
     </script>
-    <link rel="stylesheet" href="Content/register.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/register.css">
 </head>
 <body>
 <main>
@@ -26,6 +26,7 @@
     </div>
 
     <form class="register" action="homepage.html" method="post">
+
         <div class="step">
             <div class="right-panel">
                 <h2>Info</h2>
@@ -155,7 +156,7 @@
         <div class="btn-group">
             <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
             <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
-            <button class="btn" id="btn-register">Register</button>
+            <button class="btn" id="btn-register" onclick="location.href=('homepage.html')">Register</button>
         </div>
     </form>
 </main>

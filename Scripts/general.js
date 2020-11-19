@@ -11,25 +11,27 @@ var currentMenuType = 'home';
  */
 var isNavigationVisible = true;
 
+let headElement = $('head');
 //add the general stylesheet to the page's header.
-$('head').append('<link rel="stylesheet" type="text/css" href="Content/general.css">');
-//add the fyscloud to the page's header.
-$('head').append('<script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>');
+headElement.append('<link rel="stylesheet" type="text/css" href="Content/CSS/general.css">');
 //add the favicon to the page's header.
-$('head').append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+//add the config file
+headElement.append(`<title>Corendon Travel Buddy</title>`);
 
-$('head').append(`<title>Corendon Travel Buddy</title>`);
+$.get("Views/general-header.html", function (data) {
+    $("body").prepend($(data));
+    onHeaderLoaded();
+});
 
-$(document).ready(function () {
-    //Add the header to the start of the body.
-    var headerElement = document.createElement('header');
-    document.body.insertBefore(headerElement, document.body.firstChild);
-    $('header').load("Includes/general-header.html", onHeaderLoaded);
+// "is a shorthand for : $(document).ready(function() { ... });"
+$(function (){
 
-    //Add the footer to the end of the body.
-    var footerElement = document.createElement('footer');
-    document.body.appendChild(footerElement);
-    $('footer').load("Includes/general-footer.html");
+    //Voeg toe aan het einde van de pagina.
+    $.get("Views/general-footer.html", function (data){
+        $("body").append($(data));
+    });
+
 });
 
 function onHeaderLoaded() {
@@ -98,7 +100,7 @@ function overrideMenuButtons(newButtons) {
     for (let i = 0; i < newButtons.length; i++) {
         //Add the homepage icon to the first item only.
         const homeImageHTML = i == 0 ? `<img class="main-menu-home-icon"
-        src="Image/home-icon.png">`: '';
+        src="Content/Images/home-icon.png">`: '';
         //Create the list item.
         $(itemList).append(`<li><a class="main-menu-buttons" href="${newButtons[i][1]}
         " type="${newButtons[i][0]}">${homeImageHTML}${newButtons[i][0]}</a></li>`);

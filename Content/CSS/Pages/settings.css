@@ -98,7 +98,7 @@ nav#settingsNavigation > ul a:hover {
 }
 
 .valid {
-  color: var(--background-color-corendon-dark-green);
+  color: var(--color-corendon-dark-green);
 }
 
 .valid:before {
@@ -188,7 +188,7 @@ nav#settingsNavigation > ul a:hover {
 
 .settings-controls button#apply {
   color: var(--color-corendon-white);
-  background-color: var(--main-background-color-corendon-red);
+  background-color: var(--color-corendon-red);
   font-size: 18px;
   font-weight: bold;
   padding: 5px 10px 5px 10px;
