@@ -43,7 +43,7 @@ nav#settingsNavigation > ul a {
   color: #fff;
   text-decoration: none;
   text-align: center;
-  background-color: var(--main-background-color-corendon-red);
+  background-color: var(--color-corendon-red);
 }
 
 nav#settingsNavigation > ul a:hover {
