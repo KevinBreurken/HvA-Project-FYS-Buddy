@@ -1,8 +1,11 @@
 .statistics-group {
-  border: 1px solid #d81e0e;
   background-color: var(--color-corendon-white);
   display: block;
   margin-bottom: 40px;
+}
+
+.statistics-group-content{
+  border: 1px solid var(--color-corendon-red);
 }
 
 .statistics-group-title {
