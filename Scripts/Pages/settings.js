@@ -1,29 +1,27 @@
 let validation = true;
 // Distance handling:
-let distanceUnitResult;
-let distanceUnit;
-// Store the selected distance unit when an option has been changed and display proper distance unit:
-distanceUnitResult = document.getElementById("distanceUnitResult");
-document.getElementById("distanceUnit").addEventListener("change", function(e) {
-    if(e.target.name === "distanceUnit") {
-        // Store selected distance unit:
-        distanceUnit = e.target.value;
-        console.log("Distance unit has been changed to: ", distanceUnit);
-
-        // Apply distance unit:
-        distanceUnitResult.innerHTML = distanceUnit;
-    }
-});
-
+let distanceControls;
 let distanceRange;
+let distanceMax;
 let distanceResult;
+
+// Get distance control elements:
+distanceControls = document.querySelector("#distance-controls");
+// Get maximum distance:
+distanceMax = document.querySelector("#maxDistance");
 // Get provided distance:
 distanceRange = document.querySelector("#distance");
 // Get element to print result in:
 distanceResult = document.querySelector("#distanceResult");
 
-// Print the output of provided distance:
-distanceResult.innerHTML = distanceRange.value;
+if(distanceMax.value === "unlimited") {
+    distanceControls.style.display = "none";
+    distanceResult.innerHTML = "&infin;";
+}
+else {
+    // Print the output of provided distance:
+    distanceResult.innerHTML = distanceRange.value;
+}
 
 // When changing the range bar's value, print the changed value:
 distanceRange.oninput = function() {
@@ -31,13 +29,16 @@ distanceRange.oninput = function() {
 }
 
 // Change maximum distance for slider when option has been changed:
-document.querySelector("#maxDistance").addEventListener("change", function() {
+distanceMax.addEventListener("change", function() {
     if(this.value === "unlimited") {
-        // TODO: Hide the elements related to configuring the distance...
+        distanceControls.style.display = "none";
+        distanceResult.innerHTML = "&infin;";
     }
     else {
+        distanceControls.style.display = "block";
         distanceRange.setAttribute("max", this.value);
         // Update distance result when selected option exceeds slider's previous value.
+        // TODO: Fix bug where distance is not being shown correctly when a maximum value of "100" is being set and then changed back to a lower maximum value
         if(distanceResult.innerHTML > this.value) {
             distanceResult.innerHTML = this.value;
         }
@@ -156,7 +157,8 @@ pwdInput.addEventListener("input", function() {
 // Check whether own gender should only be shown:
 document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
     if(this.checked) {
-        // TODO: Get information from back-end related to what logged in person's gender identify as.
+        //TODO: Add a check whether user has identified as a certain gender at all or not (e.g. there are people who do know want to identify as either male or/and female).
+        //TODO: Get information from back-end related to what logged in person's gender identify as.
         /*if(confirm("What do you indentify as?")) {
             document.querySelector("#identifyAsContainer").style.display = "block";
         }*/
