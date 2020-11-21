@@ -13,7 +13,7 @@ var isNavigationVisible = true;
 
 $.get("Views/general-header.html", function (data) {
     $("body").prepend($(data));
-    onHeaderLoaded();
+
 });
 
 // "is a shorthand for : $(document).ready(function() { ... });"

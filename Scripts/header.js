@@ -72,3 +72,7 @@ function overrideMenuButtons(newButtons) {
 
     updateMenuButtons();
 }
+
+$(function (){
+    onHeaderLoaded();
+});
