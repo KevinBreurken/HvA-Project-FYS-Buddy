@@ -11,14 +11,13 @@ var currentMenuType = 'home';
  */
 var isNavigationVisible = true;
 
-$.get("Views/general-header.html", function (data) {
-    $("body").prepend($(data));
 
-});
 
 // "is a shorthand for : $(document).ready(function() { ... });"
 $(function (){
-
+    $.get("Views/general-header.html", function (data) {
+        $("body").prepend($(data));
+    });
     //Voeg toe aan het einde van de pagina.
     $.get("Views/general-footer.html", function (data){
         $("body").append($(data));
