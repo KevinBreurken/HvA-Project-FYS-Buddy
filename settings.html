@@ -2,7 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <!-- TODO: Remove all of the following scripts as soon as these will be provided by general.js -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>
+        <script>
+            FYSCloud.API.configure({
+                url: "https://api.fys.cloud",
+                apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
+                database: "fys_is111_1_barry",
+                environment: "mockup"
+            });
+        </script>
         <!--TODO: Edit routing -->
         <script src="Scripts/general.js"></script>
         <link rel="stylesheet" href="Content/CSS/Pages/settings.css" />

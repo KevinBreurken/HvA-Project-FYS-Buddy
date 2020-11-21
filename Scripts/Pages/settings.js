@@ -1,4 +1,16 @@
 let validation = true;
+let users;
+let currentUser;
+
+// TODO: only get the user information of users who communicated to the current user stored in the session.
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM users"
+).done(function(data) {
+    users = data;
+}).fail(function(reason) {
+    console.log(reason);
+});
+
 // Distance handling:
 let distanceControls;
 let distanceRange;
@@ -55,18 +67,13 @@ document.querySelector("input#search-block").addEventListener("input", function(
         resultContainer.remove();
     }
     else {
-        // Get a collection of users:
-        // TODO: Get a list of users from the backend that are connected to the person editing the settings.
-        // temp:
-        const users = ["Barry Stavenuiter", "Dylan van den Berg", "Hanna Toenbreker", "Kiet van Wijk", "Kevin Breurken", "Irene Doodeman", "Chris Verra"];
-        // Loop through collection of users and compare it to provided input for matching results:
         let providedInput = this.value.toUpperCase();
         for(let i = 0; i < users.length; i++) {
-            if(users[i].toUpperCase().indexOf(providedInput) > -1) {
+            if(users[i].firstname.toUpperCase().indexOf(providedInput) > -1) {
                 result += "<div class=\"user-card\">" +
                     "<div class=\"user-card-image\"></div>" +
                     "<div class=\"user-card-content\">" +
-                    "<div class=\"card-info\">" + users[i] + "<br />Eventual information...</div>" +
+                    "<div class=\"card-info\">" + users[i].firstname + "<br />Eventual information...</div>" +
                     "<div class=\"card-control\">" +
                     "<button>Block</button>" +
                     "</div>" +
@@ -74,6 +81,26 @@ document.querySelector("input#search-block").addEventListener("input", function(
                     "</div>";
             }
         }
+
+        // // temp:
+        // const users = ["Barry Stavenuiter", "Dylan van den Berg", "Hanna Toenbreker", "Kiet van Wijk", "Kevin Breurken", "Irene Doodeman", "Chris Verra"];
+        // // Loop through collection of users and compare it to provided input for matching results:
+        // let providedInput = this.value.toUpperCase();
+        // for(let i = 0; i < users.length; i++) {
+        //     if(users[i].toUpperCase().indexOf(providedInput) > -1) {
+        //         result += "<div class=\"user-card\">" +
+        //             "<div class=\"user-card-image\"></div>" +
+        //             "<div class=\"user-card-content\">" +
+        //             "<div class=\"card-info\">" + users[i] + "<br />Eventual information...</div>" +
+        //             "<div class=\"card-control\">" +
+        //             "<button>Block</button>" +
+        //             "</div>" +
+        //             "</div>" +
+        //             "</div>";
+        //     }
+        // }
+
+
         // If no container element exists, create one:
         if(resultContainer === null) {
             // resultContainer = <div class="search-block-result"></div>
@@ -157,11 +184,20 @@ pwdInput.addEventListener("input", function() {
 // Check whether own gender should only be shown:
 document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
     if(this.checked) {
-        //TODO: Add a check whether user has identified as a certain gender at all or not (e.g. there are people who do know want to identify as either male or/and female).
         //TODO: Get information from back-end related to what logged in person's gender identify as.
-        /*if(confirm("What do you indentify as?")) {
+
+        // temp:
+        currentUser = users[0];
+        // null checking
+        let firstname = currentUser.firstname == null ? "" : currentUser.firstname + " ";
+        let middlename = currentUser.middlename == null ? "" : currentUser.middlename + " ";
+        let lastname = currentUser.lastname == null ? "" : currentUser.lastname + " ";
+        // logging
+        console.log("User " + firstname + middlename + lastname + "is of gender \'" + currentUser.gender + "\'");
+
+        if(currentUser.gender.toLowerCase() === "other") {
             document.querySelector("#identifyAsContainer").style.display = "block";
-        }*/
+        }
     }
     else {
         let display = getComputedStyle(document.querySelector("#identifyAsContainer")).display;
