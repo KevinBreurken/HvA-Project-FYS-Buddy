@@ -1,6 +1,9 @@
 let validation = true;
 let users;
 let currentUser;
+let firstname;
+let middlename;
+let lastname;
 
 // TODO: only get the user information of users who communicated to the current user stored in the session.
 FYSCloud.API.queryDatabase(
@@ -68,12 +71,20 @@ document.querySelector("input#search-block").addEventListener("input", function(
     }
     else {
         let providedInput = this.value.toUpperCase();
+
         for(let i = 0; i < users.length; i++) {
-            if(users[i].firstname.toUpperCase().indexOf(providedInput) > -1) {
+            // null checking
+            firstname = users[i].firstname == null ? "" : users[i].firstname + " ";
+            middlename = users[i].middlename == null ? "" : users[i].middlename + " ";
+            lastname = users[i].lastname == null ? "" : users[i].lastname + " ";
+
+            if(firstname.toUpperCase().indexOf(providedInput) > -1
+                || middlename.toUpperCase().indexOf(providedInput) > -1
+                || lastname.toUpperCase().indexOf(providedInput) > -1) {
                 result += "<div class=\"user-card\">" +
                     "<div class=\"user-card-image\"></div>" +
                     "<div class=\"user-card-content\">" +
-                    "<div class=\"card-info\">" + users[i].firstname + "<br />Eventual information...</div>" +
+                    "<div class=\"card-info\">" + firstname + middlename + lastname + "<br />Eventual information...</div>" +
                     "<div class=\"card-control\">" +
                     "<button>Block</button>" +
                     "</div>" +
@@ -189,9 +200,9 @@ document.querySelector("#showOwnGenderOnly").addEventListener("change", function
         // temp:
         currentUser = users[0];
         // null checking
-        let firstname = currentUser.firstname == null ? "" : currentUser.firstname + " ";
-        let middlename = currentUser.middlename == null ? "" : currentUser.middlename + " ";
-        let lastname = currentUser.lastname == null ? "" : currentUser.lastname + " ";
+        firstname = currentUser.firstname == null ? "" : currentUser.firstname + " ";
+        middlename = currentUser.middlename == null ? "" : currentUser.middlename + " ";
+        lastname = currentUser.lastname == null ? "" : currentUser.lastname + " ";
         // logging
         console.log("User " + firstname + middlename + lastname + "is of gender \'" + currentUser.gender + "\'");
 
