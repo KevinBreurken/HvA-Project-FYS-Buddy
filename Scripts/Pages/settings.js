@@ -1,9 +1,19 @@
 let validation = true;
+// User
 let users;
 let currentUser;
 let firstname;
 let middlename;
 let lastname;
+// Distance
+let distanceControls;
+let distanceRange;
+let distanceMax;
+let distanceResult;
+// Language
+let languages;
+let languageControl;
+let languageOptions;
 
 // TODO: only get the user information of users who communicated to the current user stored in the session.
 FYSCloud.API.queryDatabase(
@@ -14,12 +24,41 @@ FYSCloud.API.queryDatabase(
     console.log(reason);
 });
 
-// Distance handling:
-let distanceControls;
-let distanceRange;
-let distanceMax;
-let distanceResult;
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM languages"
+).done(function(data) {
+    languages = data;
+}).fail(function(reason) {
+    console.log(reason);
+});
 
+// Language handling:
+languageControl = document.querySelector("#language");
+document.querySelector("label").addEventListener("click", function() {
+    // Languages exists here but only on events such as click?:
+    console.log(languages);
+    languageOptions = "";
+    for(let i = 0; i < languages.length; i++) {
+        languageOptions += "<option value=\"" + languages[i].name + "\">" + languages[i].name + "</option>"
+    }
+    languageControl.innerHTML = languageOptions;
+});
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    console.log('DOM is ready.')
+    // Languages doesn't exist here?:
+    console.log(languages);
+});
+
+(function() {
+    // Languages doesn't exist here?
+    console.log(languages);
+    // for(let i = 0; i < languages.length; i++) {
+    //     languageOptions += "<option value=\"" + languages[i].name + "\">" + languages[i].name + "</option>"
+    // }
+})();
+
+// Distance handling:
 // Get distance control elements:
 distanceControls = document.querySelector("#distance-controls");
 // Get maximum distance:
