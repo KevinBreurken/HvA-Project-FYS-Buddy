@@ -1,29 +1,42 @@
 let validation = true;
-// Distance handling:
-let distanceUnitResult;
-let distanceUnit;
-// Store the selected distance unit when an option has been changed and display proper distance unit:
-distanceUnitResult = document.getElementById("distanceUnitResult");
-document.getElementById("distanceUnit").addEventListener("change", function(e) {
-    if(e.target.name === "distanceUnit") {
-        // Store selected distance unit:
-        distanceUnit = e.target.value;
-        console.log("Distance unit has been changed to: ", distanceUnit);
+let users;
+let currentUser;
+let firstname;
+let middlename;
+let lastname;
 
-        // Apply distance unit:
-        distanceUnitResult.innerHTML = distanceUnit;
-    }
+// TODO: only get the user information of users who communicated to the current user stored in the session.
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM users"
+).done(function(data) {
+    users = data;
+}).fail(function(reason) {
+    console.log(reason);
 });
 
+// Distance handling:
+let distanceControls;
 let distanceRange;
+let distanceMax;
 let distanceResult;
+
+// Get distance control elements:
+distanceControls = document.querySelector("#distance-controls");
+// Get maximum distance:
+distanceMax = document.querySelector("#maxDistance");
 // Get provided distance:
 distanceRange = document.querySelector("#distance");
 // Get element to print result in:
 distanceResult = document.querySelector("#distanceResult");
 
-// Print the output of provided distance:
-distanceResult.innerHTML = distanceRange.value;
+if(distanceMax.value === "unlimited") {
+    distanceControls.style.display = "none";
+    distanceResult.innerHTML = "&infin;";
+}
+else {
+    // Print the output of provided distance:
+    distanceResult.innerHTML = distanceRange.value;
+}
 
 // When changing the range bar's value, print the changed value:
 distanceRange.oninput = function() {
@@ -31,14 +44,16 @@ distanceRange.oninput = function() {
 }
 
 // Change maximum distance for slider when option has been changed:
-document.querySelector("#maxDistance").addEventListener("change", function() {
+distanceMax.addEventListener("change", function() {
     if(this.value === "unlimited") {
-        // TODO: Hide the elements related to configuring the distance...
+        distanceControls.style.display = "none";
+        distanceResult.innerHTML = "&infin;";
     }
     else {
+        distanceControls.style.display = "block";
         distanceRange.setAttribute("max", this.value);
         // Update distance result when selected option exceeds slider's previous value.
-        if(distanceResult.innerHTML > this.value) {
+        if(Number(distanceResult.innerHTML) > this.value) {
             distanceResult.innerHTML = this.value;
         }
     }
@@ -54,18 +69,21 @@ document.querySelector("input#search-block").addEventListener("input", function(
         resultContainer.remove();
     }
     else {
-        // Get a collection of users:
-        // TODO: Get a list of users from the backend that are connected to the person editing the settings.
-        // temp:
-        const users = ["Barry Stavenuiter", "Dylan van den Berg", "Hanna Toenbreker", "Kiet van Wijk", "Kevin Breurken", "Irene Doodeman", "Chris Verra"];
-        // Loop through collection of users and compare it to provided input for matching results:
         let providedInput = this.value.toUpperCase();
+
         for(let i = 0; i < users.length; i++) {
-            if(users[i].toUpperCase().indexOf(providedInput) > -1) {
+            // null checking
+            firstname = users[i].firstname == null ? "" : users[i].firstname + " ";
+            middlename = users[i].middlename == null ? "" : users[i].middlename + " ";
+            lastname = users[i].lastname == null ? "" : users[i].lastname + " ";
+
+            if(firstname.toUpperCase().indexOf(providedInput) > -1
+                || middlename.toUpperCase().indexOf(providedInput) > -1
+                || lastname.toUpperCase().indexOf(providedInput) > -1) {
                 result += "<div class=\"user-card\">" +
                     "<div class=\"user-card-image\"></div>" +
                     "<div class=\"user-card-content\">" +
-                    "<div class=\"card-info\">" + users[i] + "<br />Eventual information...</div>" +
+                    "<div class=\"card-info\">" + firstname + middlename + lastname + "<br />Eventual information...</div>" +
                     "<div class=\"card-control\">" +
                     "<button>Block</button>" +
                     "</div>" +
@@ -73,6 +91,26 @@ document.querySelector("input#search-block").addEventListener("input", function(
                     "</div>";
             }
         }
+
+        // // temp:
+        // const users = ["Barry Stavenuiter", "Dylan van den Berg", "Hanna Toenbreker", "Kiet van Wijk", "Kevin Breurken", "Irene Doodeman", "Chris Verra"];
+        // // Loop through collection of users and compare it to provided input for matching results:
+        // let providedInput = this.value.toUpperCase();
+        // for(let i = 0; i < users.length; i++) {
+        //     if(users[i].toUpperCase().indexOf(providedInput) > -1) {
+        //         result += "<div class=\"user-card\">" +
+        //             "<div class=\"user-card-image\"></div>" +
+        //             "<div class=\"user-card-content\">" +
+        //             "<div class=\"card-info\">" + users[i] + "<br />Eventual information...</div>" +
+        //             "<div class=\"card-control\">" +
+        //             "<button>Block</button>" +
+        //             "</div>" +
+        //             "</div>" +
+        //             "</div>";
+        //     }
+        // }
+
+
         // If no container element exists, create one:
         if(resultContainer === null) {
             // resultContainer = <div class="search-block-result"></div>
@@ -156,10 +194,20 @@ pwdInput.addEventListener("input", function() {
 // Check whether own gender should only be shown:
 document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
     if(this.checked) {
-        // TODO: Get information from back-end related to what logged in person's gender identify as.
-        /*if(confirm("What do you indentify as?")) {
+        //TODO: Get information from back-end related to what logged in person's gender identify as.
+
+        // temp:
+        currentUser = users[0];
+        // null checking
+        firstname = currentUser.firstname == null ? "" : currentUser.firstname + " ";
+        middlename = currentUser.middlename == null ? "" : currentUser.middlename + " ";
+        lastname = currentUser.lastname == null ? "" : currentUser.lastname + " ";
+        // logging
+        console.log("User " + firstname + middlename + lastname + "is of gender \'" + currentUser.gender + "\'");
+
+        if(currentUser.gender.toLowerCase() === "other") {
             document.querySelector("#identifyAsContainer").style.display = "block";
-        }*/
+        }
     }
     else {
         let display = getComputedStyle(document.querySelector("#identifyAsContainer")).display;
