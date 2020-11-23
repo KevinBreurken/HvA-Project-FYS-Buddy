@@ -2,9 +2,9 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <!-- TODO: Remove all of the following scripts as soon as these will be provided by general.js -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>
+        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+        <script src="Scripts/config.js"></script>
+        <script src="Scripts/app.js"></script>
         <script>
             FYSCloud.API.configure({
                 url: "https://api.fys.cloud",
@@ -13,12 +13,12 @@
                 environment: "mockup"
             });
         </script>
-        <!--TODO: Edit routing -->
         <script src="Scripts/general.js"></script>
-        <link rel="stylesheet" href="Content/CSS/Pages/settings.css" />
         <script>
             currentMenuType = 'settings';
         </script>
+        <!--TODO: Edit routing -->
+        <link rel="stylesheet" href="Content/CSS/Pages/settings.css" />
     </head>
     <body>
         <div class="settings-nav-container">

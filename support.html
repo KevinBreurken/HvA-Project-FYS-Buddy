@@ -2,9 +2,10 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.min.js"></script>
-        <script>
+        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+        <script src="Scripts/config.js"></script>
+        <script src="Scripts/app.js"></script>
+         <script>
             FYSCloud.API.configure({
                 url: "https://api.fys.cloud",
                 apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
@@ -12,12 +13,12 @@
                 environment: "mockup"
             });
         </script>
-        <!--TODO: Edit routing-->
         <script src="Scripts/general.js"></script>
-        <link rel="stylesheet" href="Content/CSS/Pages/support.css">
         <script>
             currentMenuType = 'help';
         </script>
+        <!--TODO: Edit routing-->
+        <link rel="stylesheet" href="Content/CSS/Pages/support.css">
     </head>
     <body>
         <main>
