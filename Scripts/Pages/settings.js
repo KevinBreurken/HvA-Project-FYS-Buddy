@@ -53,8 +53,7 @@ distanceMax.addEventListener("change", function() {
         distanceControls.style.display = "block";
         distanceRange.setAttribute("max", this.value);
         // Update distance result when selected option exceeds slider's previous value.
-        // TODO: Fix bug where distance is not being shown correctly when a maximum value of "100" is being set and then changed back to a lower maximum value
-        if(distanceResult.innerHTML > this.value) {
+        if(Number(distanceResult.innerHTML) > this.value) {
             distanceResult.innerHTML = this.value;
         }
     }
