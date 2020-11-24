@@ -112,7 +112,7 @@
     border-right: var(--border-corendon-grey);
 }
 
-.statistics-item-list:not(first-child){
+.statistics-item-list:not(:first-child){
     border-left: var(--border-corendon-grey);
 }
 
