@@ -67,34 +67,21 @@
 }
 
 /* Item - Foldable List */
-.statistics-item-list {
-    /*border: 1px solid var(--color-corendon-dark-grey);*/
-}
-
-.statistics-item-list-button {
+.statistics-item-list-header {
     background-color: var(--color-corendon-green);
-    font-weight: bold;
     color: var(--color-corendon-white);
-    height: 40px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    padding: 12px 18px 18px;
-    outline: none;
-    font-size: 15px;
+    font-weight: bold;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 16px;
 }
-
-/*.active,
-.statistics-item-list-button:hover {
-  background-color: var(--background-color-corendon-dark-green);
-}*/
 
 .statistics-item-list-content {
-    display: block;
     background-color: var(--border-corendon-grey);
+    display: block;
     margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     padding-left: 64px;
 }
 
@@ -108,11 +95,11 @@
 
 }
 
-.statistics-item-list:first-child{
+.statistics-item-list:first-child {
     border-right: var(--border-corendon-grey);
 }
 
-.statistics-item-list:not(:first-child){
+.statistics-item-list:not(:first-child) {
     border-left: var(--border-corendon-grey);
 }
 
