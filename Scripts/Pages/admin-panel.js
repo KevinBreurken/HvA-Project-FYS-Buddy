@@ -31,13 +31,14 @@ FYSCloud.API.queryDatabase(
     var tdArray = [];
     var cellArray = [];
 
+    // Create a <tr> element for each property in the object
     for (let i = 0; i < data.length; i++) {
         var tr = document.createElement("TR");
         tr.setAttribute("id", "Tr-" + i);
         document.getElementById("tableBody").appendChild(tr);
 
-        // Create element <td> for each object property
-        for (let j = 0; j < Object.keys(data[1]).length; j++) {
+        // Create a <td> element for each attribute in the object
+        for (let j = 0; j < Object.keys(data[0]).length; j++) {
             tdArray[j] = document.createElement("TD");
             cellArray[j] = document.createTextNode(data[i][Object.keys(data[0])[j]]);
             tdArray[j].appendChild(cellArray[j]);
