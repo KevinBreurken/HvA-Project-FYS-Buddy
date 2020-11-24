@@ -67,3 +67,14 @@ function validateForm() {
 function countChars(countFrom, displayTo) {
     document.getElementById(displayTo).innerHTML = document.getElementById(countFrom).value.length;
 }
+
+const MIN_AGE = 18;
+const MAX_AGE = 100;
+var dateYear = new Date().getFullYear();
+var dateMonth = new Date().getMonth();
+var dateDate = new Date().getDate();
+var minimumAgeDate = dateYear - MIN_AGE + '-' + dateMonth + '-' + dateDate;
+var maximumAgeDate = dateYear - MAX_AGE + '-' + dateMonth + '-' + dateDate;
+
+document.getElementById('DoB').setAttribute('max', minimumAgeDate);
+document.getElementById('DoB').setAttribute('min', maximumAgeDate);
