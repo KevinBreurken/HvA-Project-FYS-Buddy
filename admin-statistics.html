@@ -34,7 +34,7 @@
             <div class="statistics-group-title">Traffic</div>
             <div class="statistics-group-content">
                 <div class="statistics-group-container-vertical">
-                    <div class="statistics-item-number" id="user-amount">
+                    <div class="statistics-item-number">
                         <div class="statistics-item-number-title">Site Visitors</div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
@@ -63,9 +63,9 @@
             <div class="statistics-group-title">Users</div>
             <div class="statistics-group-content">
                 <div class="statistics-group-container-vertical">
-                    <div class="statistics-item-number" id="new-accounts">
-                        <div class="statistics-item-number-title">New Accounts</div>
-                        <div class="statistics-item-number-value">100</div>
+                    <div class="statistics-item-number">
+                        <div class="statistics-item-number-title">Total Accounts</div>
+                        <div class="statistics-item-number-value" id="total-accounts">100</div>
                     </div>
                     <div class="statistics-item-number" id="average-visit-time">
                         <div class="statistics-item-number-title">Average visit time</div>
@@ -101,9 +101,9 @@
                         <div class="statistics-item-list-header">Most Matched With Equal Interest:</div>
                         <ol class="statistics-item-list-content" style="display: block;"></ol>
                     </div>
-                    <div class="statistics-item-list" id="most-match-equal-destination">
+                    <div class="statistics-item-list">
                         <div class="statistics-item-list-header">Most Matched With Equal Destination:</div>
-                        <ol class="statistics-item-list-content" style="display: block;"></ol>
+                        <ol class="statistics-item-list-content" id="most-match-equal-destination"></ol>
                     </div>
                 </div>
             </div>
@@ -129,4 +129,6 @@
 </body>
 <script src="Vendors/ChartJS/chart2.8.js"></script>
 <script src="Scripts/Pages/admin-statistics.js"></script>
+<script src="Scripts/Pages/admin-fetches.js"></script>
+
 </html>

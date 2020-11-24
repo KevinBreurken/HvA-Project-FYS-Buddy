@@ -21,11 +21,11 @@ renderStatistics();
 function renderStatistics() {
 
     //Update list items.
-    const listItems = document.getElementsByClassName('statistics-item-list-content');
-    var itemList = ["test","words","in","this","list","group"];
-    for (const item of listItems) {
-        item.innerHTML = makeOL(itemList).innerHTML;
-    }
+    // const listItems = document.getElementsByClassName('statistics-item-list-content');
+    // var itemList = ["test","words","in","this","list","group"];
+    // for (const item of listItems) {
+    //     item.innerHTML = makeOL(itemList).innerHTML;
+    // }
 
     //Update pie charts.
     const pieItems = document.getElementsByClassName('statistics-item-piechart');
@@ -47,14 +47,15 @@ function renderStatistics() {
 
 function makeOL(array) {
     // Create the list element:
-    var list = document.createElement('ol');
-    for (var i = 0; i < array.length; i++) {
+    var list = document.createElement('div');
+    for (var i = 0; i < array[0].length; i++) {
         // Create the list item:
         var item = document.createElement('li');
 
         // Set its contents:
-        item.appendChild(document.createTextNode(array[i]));
-
+        item.appendChild(document.createTextNode(array[0][i]));
+        if(array[1] != null)
+        item.appendChild(document.createTextNode(" (" +array[1][i] + ")"));
         // Add it to the list:
         list.appendChild(item);
     }
