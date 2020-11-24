@@ -2,13 +2,23 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-        <!--TODO: Edit routing -->
+        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+        <script src="Scripts/config.js"></script>
+        <script src="Scripts/app.js"></script>
+        <script>
+            FYSCloud.API.configure({
+                url: "https://api.fys.cloud",
+                apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
+                database: "fys_is111_1_barry",
+                environment: "mockup"
+            });
+        </script>
         <script src="Scripts/general.js"></script>
-        <link rel="stylesheet" href="Content/CSS/Pages/settings.css" />
         <script>
             currentMenuType = 'settings';
         </script>
+        <!--TODO: Edit routing -->
+        <link rel="stylesheet" href="Content/CSS/Pages/settings.css" />
     </head>
     <body>
         <div class="settings-nav-container">
@@ -115,16 +125,10 @@
                             <option value="unlimited">Unlimited</option>
                         </select>
                         <br />
-                        <label>Show distance in</label>
-                        <div id="distanceUnit">
-                            <input type="radio" name="distanceUnit" value="km" id="distanceUnit1" checked />
-                            <label for="distanceUnit1">Km</label>
-                            <input type="radio" name="distanceUnit" value="miles" id="distanceUnit2" />
-                            <label for="distanceUnit2">Miles</label>
+                        <div id="distance-controls">
+                            <label for="distance">Radial distance</label>
+                            <input type="range" id="distance" name="distance" min="0" max="100" value="20" />
                         </div>
-                        <br />
-                        <label for="distance">Radial distance</label>
-                        <input type="range" id="distance" name="distance" min="0" max="100" value="20" />
                         <p>The distance has been set to: <span id="distanceResult"></span> <span id="distanceUnitResult">km</span></p>
                         <h2 id="notificationsSettings">Notifications</h2>
                         <div>
@@ -151,6 +155,6 @@
                 </div>
             </main>
         </div>
-        <script src="Scripts/settings.js"></script>
+        <script src="Scripts/Pages/settings.js"></script>
     </body>
 </html>

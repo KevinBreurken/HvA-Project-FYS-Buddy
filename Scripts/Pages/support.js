@@ -1,3 +1,10 @@
+// TODO: Enable following once login system has been implemented:
+// let userId = FYSCloud.Session.get("userId");
+//
+// if(userId === undefined) {
+//     window.location.href = "home-not-logged-in.html";
+// }
+
 // Collapsible block elements:
 const coll = document.querySelectorAll(".collapsible");
 for (let i = 0; i < coll.length; i++) {

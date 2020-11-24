@@ -1,8 +1,4 @@
 /* Support related CSS: */
-main {
-    max-width: 1000px; /* <-- is overwriting general.css, using same value as homepage is using however. Consider changing homepage width or general.css */
-}
-
 .disable-highlight-select {
     user-select: none; /* supported by Chrome and Opera */
     -webkit-user-select: none; /* Safari */
