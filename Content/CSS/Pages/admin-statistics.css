@@ -68,6 +68,11 @@
 }
 
 /* Item - Foldable List */
+.statistics-item-list {
+    display: flex;
+    flex-direction: column;
+}
+
 .statistics-item-list-header {
     background-color: var(--color-corendon-green);
     color: var(--color-corendon-white);
@@ -79,8 +84,7 @@
 
 .statistics-item-list-content {
     background-color: var(--border-corendon-grey);
-    display: block;
-    height: auto;
+    height: 100%;
     margin: 0;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -95,7 +99,7 @@
     overflow: auto;
 }
 
-.statistics-item-list:first-child .statistics-item-list-content{
+.statistics-item-list:first-child .statistics-item-list-content {
     border-right: var(--border-corendon-grey);
 }
 
