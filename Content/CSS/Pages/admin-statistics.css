@@ -79,6 +79,7 @@
 .statistics-item-list-content {
     background-color: var(--border-corendon-grey);
     display: block;
+    height: auto;
     margin: 0;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -91,15 +92,13 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
     overflow: auto;
-
-
 }
 
-.statistics-item-list:first-child {
+.statistics-item-list:first-child .statistics-item-list-content{
     border-right: var(--border-corendon-grey);
 }
 
-.statistics-item-list:not(:first-child) {
+.statistics-item-list:not(:first-child) .statistics-item-list-content {
     border-left: var(--border-corendon-grey);
 }
 
