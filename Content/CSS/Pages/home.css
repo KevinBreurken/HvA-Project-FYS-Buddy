@@ -1,46 +1,47 @@
-body{
+.container {
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     height: calc(100vh - 20px);
 }
-.container{
-    display: flex;
-    justify-content: center;
-    align-self: center;
-}
-.content-container{
+
+.content-container {
     display: flex;
     padding: 10px;
     margin: 10px;
 }
-.content-container .description{
+.content-container .description {
     max-width: fit-content;
 }
-.part2{
+
+.part1 {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+}
+
+.part2 {
     padding-left: 3em;
 }
-.btn{
+
+.btn {
     outline: none;
     border: none;
     width: 320px;
     height: 50px;
     background: var(--color-corendon-red);
-    color: white;
+    color: var(--color-corendon-white);
     letter-spacing: 1px;
     font-size: 18px;
     border-radius: 5px;
     cursor: pointer;
     margin: 10px 0;
 }
-.btn:hover{
-    background-color: white;
+.btn:hover {
+    background-color: var(--color-corendon-white);
     color: var(--color-corendon-red);
     border: 2px solid var(--color-corendon-red);
 }
-.banner-image{
+.banner-image {
     width: 100%;
     max-width: 50em;
     height: auto;
@@ -48,8 +49,88 @@ body{
 
 @media (max-width: 700px) {
     .content-container {
-      display: block;
+        display: block;
     }
-  }
+}
 
+/* login form csss: */
+#form-title {
+    color: #404040;
+}
 
+.form-wrapper {
+    z-index: 1;
+    width: 420px;
+    height: fit-content;
+    text-align: center;
+    margin: auto;
+}
+
+.form-wrapper i {
+    z-index: 1;
+    color: #ccc;
+    font-size: 65px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.form-wrapper .user-input {
+    width: 420px;
+    height: 55px;
+    outline: none;
+    border: none;
+    background: #424242;
+    color: #fff;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.form-wrapper .option-1 a {
+    font-style: italic;
+}
+
+.form-wrapper .option-2 {
+    color: #888;
+}
+
+.form-wrapper .option-1, .form-wrapper .option-2 {
+    font-size: 14px;
+}
+
+.form-wrapper .option-1 a, .form-wrapper .option-2 a {
+    color: #4285f4;
+    text-decoration: none;
+}
+
+.form-wrapper .btn {
+    outline: none;
+    border: none;
+    width: 420px;
+    height: 55px;
+    background: var(--color-corendon-red);
+    color: var(--color-corendon-white);
+    letter-spacing: 1px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-wrapper .btn:hover{
+    background-color: var(--color-corendon-white);
+    color: var(--color-corendon-red);
+    border: 2px solid var(--color-corendon-red);
+}
+
+.form-wrapper .btn, .form-wrapper .user-input,
+.form-wrapper .option-1, .form-wrapper .option-2 {
+    margin-bottom: 30px;
+}
+
+/* hide the login form labels, only available to screen readers: */
+.form-wrapper label {
+    position: absolute;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
