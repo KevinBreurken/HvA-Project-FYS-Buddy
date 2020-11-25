@@ -1,12 +1,5 @@
-//----  TRAFIC ----
-// ** SITE VISITORS **
-
-// ** LOGGED IN USERS **
-
-// ** TYPE DEVICE **
-
-// ** BROWSER TYPE **
-
+fillPagesWindow();
+fillTraficWindow();
 
 //----  USERS ----
 // ** TOTAL ACCOUNTS **
@@ -20,41 +13,23 @@ FYSCloud.API.queryDatabase(
 });
 
 // ** AVERAGE VISIT TIME **
-
-//----  PAGES  ----
-// ** BOUNCE RATE **
 FYSCloud.API.queryDatabase(
-    "SELECT * " +
-    "FROM pages " +
-    "ORDER BY bounce DESC;"
+    "SELECT * FROM session"
 ).done(function (data) {
-    let listData = [[data.length], [data.length]];
-    for (let i = 0; i < data.length; i++) {
-        listData[0][i] = data[i].pageName;
-        listData[1][i] = data[i].bounce;
+    let avgtimes = 0;
+    for (let i = 0; i < data.length; i++) { //Count all of the seconds of every visit.
+        let loginTime = new Date(data[i].loginTime).getTime() / 1000;
+        let logoffTime = new Date(data[i].logoffTime).getTime() / 1000;
+        avgtimes += ((logoffTime - loginTime));
     }
-    $('#page-bounce').html(makeOL(listData));
+    $('#visit-time-average').html(toTimeString((avgtimes / data.length)));
 }).fail(function (reason) {
     console.log(reason);
-    $('#page-bounce').html("ERROR");
 });
 
-// ** AMOUNT OF VIEWS **
-FYSCloud.API.queryDatabase(
-    "SELECT * " +
-    "FROM pages " +
-    "ORDER BY visits DESC;"
-).done(function (data) {
-    let listData = [[data.length], [data.length]];
-    for (let i = 0; i < data.length; i++) {
-        listData[0][i] = data[i].pageName;
-        listData[1][i] = data[i].visits;
-    }
-    $('#page-views').html(makeOL(listData));
-}).fail(function (reason) {
-    console.log(reason);
-    $('#page-views').html("ERROR");
-});
+function toTimeString(seconds) {
+    return (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
+}
 
 function fillMatchesWindow(totalUserCount) {
     //----  MATCHING  ----
@@ -65,8 +40,6 @@ function fillMatchesWindow(totalUserCount) {
         let totalContactsShared = 0;
         for (let i = 0; i < data.length; i++)
             totalContactsShared += data[i].contactShared;
-
-        console.log(totalUserCount);
 
         // ** MADE MATCHES **
         $('#made-matches').html(totalMatchesCount);
@@ -95,7 +68,6 @@ function fillMatchesWindow(totalUserCount) {
         $('#most-match-equal-interests').html(makeOL(listData));
     }).fail(function (reason) {
         console.log(reason);
-        $('#most-match-equal-interests').html("ERROR");
     });
 
 // ** MOST MATCHES WITH EQUAL DESTINATION **
@@ -113,6 +85,79 @@ function fillMatchesWindow(totalUserCount) {
         $('#most-match-equal-destination').html(makeOL(listData));
     }).fail(function (reason) {
         console.log(reason);
-        $('#most-match-equal-destination').html("ERROR");
+    });
+}
+
+function fillPagesWindow() {
+    //----  PAGES  ----
+    // ** BOUNCE RATE **
+    FYSCloud.API.queryDatabase(
+        "SELECT * " +
+        "FROM pages " +
+        "ORDER BY bounce DESC;"
+    ).done(function (data) {
+        let listData = [[data.length], [data.length]];
+        for (let i = 0; i < data.length; i++) {
+            listData[0][i] = data[i].pageName;
+            listData[1][i] = data[i].bounce;
+        }
+        $('#page-bounce').html(makeOL(listData));
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+
+    // ** AMOUNT OF VIEWS **
+    FYSCloud.API.queryDatabase(
+        "SELECT * " +
+        "FROM pages " +
+        "ORDER BY visits DESC;"
+    ).done(function (data) {
+        let listData = [[data.length], [data.length]];
+        for (let i = 0; i < data.length; i++) {
+            listData[0][i] = data[i].pageName;
+            listData[1][i] = data[i].visits;
+        }
+        $('#page-views').html(makeOL(listData));
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+}
+
+function fillTraficWindow() {
+    //----  TRAFIC ----
+    // ** SITE VISITORS **
+
+    // ** LOGGED IN USERS **
+
+    // ** TYPE DEVICE **
+    FYSCloud.API.queryDatabase(
+        "SELECT deviceType, count(*) as 'amount' FROM session GROUP BY deviceType"
+    ).done(function (data) {
+        console.log(data);
+
+        let pieData = [[data.length], [data.length]];
+        for (let i = 0; i < data.length; i++) {
+            pieData[0][i] = data[i].deviceType;
+            pieData[1][i] = data[i].amount;
+        }
+
+        generatePiechart('#device-type', pieData);
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+
+    // ** BROWSER TYPE **
+    FYSCloud.API.queryDatabase(
+        "SELECT browserType, count(*) as 'amount' FROM session GROUP BY browserType"
+    ).done(function (data) {
+        let pieData = [[data.length], [data.length]];
+        for (let i = 0; i < data.length; i++) {
+            pieData[0][i] = data[i].browserType;
+            pieData[1][i] = data[i].amount;
+        }
+
+        generatePiechart('#browser-type', pieData);
+    }).fail(function (reason) {
+        console.log(reason);
     });
 }

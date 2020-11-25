@@ -28,21 +28,6 @@ function renderStatistics() {
     // }
 
     //Update pie charts.
-    const pieItems = document.getElementsByClassName('statistics-item-piechart');
-    for (const item of pieItems) {
-        //Create a Chart.js pie chart.
-        var context = item.getElementsByClassName('statistics-item-piechart-chart')[0].getContext('2d');
-        var myChart = new Chart(context, {
-            type: 'pie',
-            data: {
-                labels: ["One","Two","Three"],
-                datasets: [{
-                    backgroundColor: pieChartColors,
-                    data: [161,237,484]
-                }]
-            }
-        });
-    }
 }
 
 function makeOL(array) {
@@ -54,12 +39,29 @@ function makeOL(array) {
 
         // Set its contents:
         item.appendChild(document.createTextNode(array[0][i]));
-        if(array[1] != null)
-        item.appendChild(document.createTextNode(" (" +array[1][i] + ")"));
+        if (array[1] != null)
+            item.appendChild(document.createTextNode(" (" + array[1][i] + ")"));
         // Add it to the list:
         list.appendChild(item);
     }
 
     // Finally, return the constructed list:
     return list;
+}
+
+function generatePiechart(divID, data) {
+    //Create a Chart.js pie chart.
+    var context = $(divID);
+    var myChart = new Chart(context, {
+        type: 'pie',
+        data: {
+            labels: data[0],
+            datasets: [{
+                backgroundColor: pieChartColors,
+                data: data[1]
+            }]
+        }
+    });
+
+
 }
