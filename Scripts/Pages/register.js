@@ -48,20 +48,25 @@ function swapNav(number) {
 }
 
 function validateForm() {
-    let step, input, i, valid = true;
-    step = document.getElementsByClassName("step");
-    input = step[currentStep].getElementsByTagName("input");
+    let step, input, i, valid = true
+    step = document.getElementsByClassName("step")
+    input = step[currentStep].getElementsByTagName("input")
 
     for (i = 0; i < input.length; i++) {
         if (input[i].value === "") {
-            input[i].className += " invalid";
-            valid = false;
+            //input[i].className += " invalid";
+            input[i].classList.add("invalid")
+            valid = false
         }
     }
     if (valid) {
-        document.getElementsByClassName("step")[currentStep].className += " finish";
+        for (i = 0; i < input.length; i++) {
+            if (input[i].classList.contains("invalid")) {
+                input[i].classList.remove("invalid")
+            }
+        }
     }
-    return valid;
+    return valid
 }
 
 function countChars(countFrom, displayTo) {
