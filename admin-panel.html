@@ -14,43 +14,18 @@
 </head>
 <body>
 <main id="admin">
-    <table>
-        <tr class="row-header">
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
-            <th scope="col">Actions</th>
+    <table id="myTable">
+        <thead>
+        <tr>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>Email</th>
+            <th>Age</th>
         </tr>
+        </thead>
+        <tbody id="tableBody">
 
-        <tr class="row-data" id="row-data-1">
-            <td class="pointer" onclick="showDetails(1)">John</td>
-            <td>John@gmail.com</td>
-            <td>New York</td>
-            <td>
-                <a href="#" class="fake-btn" onclick="deleteRow(1)">Delete</a>
-                <a href="#" class="fake-btn">Edit</a>
-            </td>
-        </tr>
-
-        <tr class="row-data" id="row-data-2">
-            <td class="pointer">Peter</td>
-            <td>Peter@gmail.com</td>
-            <td>Las Vegas</td>
-            <td>
-                <a href="#" class="fake-btn" onclick="deleteRow(2)">Delete</a>
-                <a href="#" class="fake-btn">Edit</a>
-            </td>
-        </tr>
-
-        <tr class="row-data" id="row-data-3">
-            <td class="pointer">Marie</td>
-            <td>Marie@gmail.com</td>
-            <td>Boston</td>
-            <td>
-                <a href="#" class="fake-btn" onclick="deleteRow(3)">Delete</a>
-                <a href="#" class="fake-btn">Edit</a>
-            </td>
-        </tr>
+        </tbody>
     </table>
 
     <div id="overlay">
@@ -61,11 +36,11 @@
              style="display: inline"/>
 
         <div class="user-info">
-            <p>Name: John Smith</p>
-            <p>Email: John@gmail.com</p>
-            <p>Address: New York</p>
-            <p>Last login: 14:34</p>
-            <p>Number of matches: 34</p>
+            <p>Name: Placeholder</p>
+            <p>Email: Placeholder</p>
+            <p>Address: Placeholder</p>
+            <p>Last login: Placeholder</p>
+            <p>Number of matches: Placeholder</p>
         </div>
     </div>
     <div id="overlay-background"></div>
