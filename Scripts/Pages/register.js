@@ -35,12 +35,11 @@ function swapStep(number) {
     currentStep = currentStep + number
 
     showTab(currentStep)
-    console.log(currentStep)
 }
 
 
 function swapNav(number) {
-    let i, step = document.getElementsByClassName("nav-step");
+    let i, step = document.getElementsByClassName("nav-step")
     for (i = 0; i < step.length; i++) {
         step[i].className = step[i].className.replace("active", "")
     }
@@ -52,6 +51,7 @@ function validateForm() {
     step = document.getElementsByClassName("step")
     input = step[currentStep].getElementsByTagName("input")
 
+    // Adds invalid class to input if it's empty
     for (i = 0; i < input.length; i++) {
         if (input[i].value === "") {
             //input[i].className += " invalid";
@@ -59,6 +59,7 @@ function validateForm() {
             valid = false
         }
     }
+    // If a previously invalid input is now valid it removes the invalid class from the input
     if (valid) {
         for (i = 0; i < input.length; i++) {
             if (input[i].classList.contains("invalid")) {
@@ -69,8 +70,9 @@ function validateForm() {
     return valid
 }
 
+// Function for the biography input. Writes the amount of used characters in text
 function countChars(countFrom, displayTo) {
-    document.getElementById(displayTo).innerHTML = document.getElementById(countFrom).value.length;
+    document.getElementById(displayTo).innerHTML = document.getElementById(countFrom).value.length
 }
 
 // Get the current year month and date and put it inside of maximum and minimum attributes of DoB input
