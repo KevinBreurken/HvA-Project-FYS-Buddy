@@ -31,7 +31,16 @@ if (month < 10) {
     month = '0' + month
 }
 ageCheck = year + '-' + month + '-' + day;
-
-
 document.getElementById("dateOfBirth").setAttribute("max", today);
 document.getElementById("dateOfBirth").setAttribute("min", ageCheck);
+
+var el;
+function countCharacters(e) {
+    var textEntered, countRemaining, counter;
+    textEntered = document.getElementById('biography').value;
+    counter = (500- (textEntered.length));
+    countRemaining = document.getElementById('charactersRemaining');
+    countRemaining.textContent = counter;
+}
+el = document.getElementById('biography');
+el.addEventListener('keyup', countCharacters, false);

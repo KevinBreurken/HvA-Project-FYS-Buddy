@@ -29,13 +29,13 @@
             <input id="image" type="file" accept="image/*" value="Upload new picture">
             <h2>Name</h2>
             <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" placeholder="tvandenberg00" maxlength="50" required>
+            <input type="text" id="username" name="username" placeholder="username" maxlength="50" required>
             <br>
             <label for="firstName">First name:</label><br>
-            <input type="text" id="firstName" name="firstName" placeholder="Tom" maxlength="50" required>
+            <input type="text" id="firstName" name="firstName" placeholder="first name" maxlength="50" required>
             <br>
             <label for="lastName">Last name:</label><br>
-            <input type="text" id="lastName" name="lastName" placeholder="van den Berg" maxlength="50" required>
+            <input type="text" id="lastName" name="lastName" placeholder="last name" maxlength="50" required>
 
             <h2>Gender</h2>
             <input type="radio" id="male" name="gender">
@@ -49,8 +49,7 @@
             <label for="dateOfBirth">Date of birth</label><br>
                 <input type="date" id="dateOfBirth" name="dateOfBirth" required>
             <br>
-            <label for="age">Age</label><br>
-                <input type="number" id="age" name="age" min="18" max="100" step="1" required>
+            <p>Age: age</p>
         </div>
 
         <div class="column">
@@ -79,13 +78,14 @@
             <h2>Biography</h2>
             <label for="biography"></label>
             <textarea rows="10" cols="30%" class="biography" id="biography" name="biography" placeholder="Max 500 characters"
-                      maxlength="500" ></textarea>
+                      maxlength="500"></textarea>
+            <div id="charactersRemaining">500 characters</div>
             <br>
         </div>
         <div class="column">
             <h2>Contactinformation</h2>
             <label for="email">E-mail: </label><br>
-            <input type="email" id="email" name="email" placeholder="tvandenberg@hotmail.com" required><br>
+            <input type="email" id="email" name="email" placeholder="name@hotmail.com" required><br>
             <label for="telephone">Tel: </label><br>
             <input type="tel" id="telephone" name="telephone" placeholder="0612345678" size="10" required><br>
             <br>
@@ -111,7 +111,7 @@
                 <label for="choice2" data-tooltip="Somebody you want to do activities with like swimming">An activity buddy</label><br>
             </div>
             <br><br><br><br><br><br><br><br><br><br><br>
-                <button class="saveChangesBtn">Save changes</button>
+                <button class="saveChangesBtn" type="submit">Save changes</button>
         </div>
 </div>
 </form>
