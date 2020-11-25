@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div class="user-display">
+    <!--todo: placeholders-->
+    <h1>Sophia</h1>
+    <img class="profile-picture" src="Content/Images/profile-picture-1.jpg">
+    <div>
+        <p>Paris, France</p>
+        <p>from date <br> until date</p>
+        <p>travel buddy</p>
+    </div>
+    <div class="tab-content-column-4">
+        <button onclick="displayOverlay('overlay-1')">more info</button>
+        <button onclick="closeFunction('1')">X</button>
+        <div id="favorite-1-v1" onclick="swapFavoritesIcon('favorite-1-v1', 'favorite-1-v2')">
+            <img class="favorite-icon" src="Content/Images/favorite-v1.png">
+        </div>
+        <div id="favorite-1-v2" onclick="swapFavoritesIcon('favorite-1-v2', 'favorite-1-v1')"
+             style="display: none">
+            <img class="favorite-icon" src="Content/Images/favorite-v2.png">
+        </div>
+    </div>
+</div>
+</body>
+</html>
