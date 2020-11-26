@@ -8,28 +8,6 @@ var pieChartColors = [
     "#34495e"
 ];
 
-var currentTimeSelection = "day";
-/** Dropdown item */
-var timeSelection = document.getElementById('time-dropdown');
-$('select').on('change', function () {
-    currentTimeSelection = this.value;
-    renderStatistics();
-});
-
-renderStatistics();
-
-function renderStatistics() {
-
-    //Update list items.
-    // const listItems = document.getElementsByClassName('statistics-item-list-content');
-    // var itemList = ["test","words","in","this","list","group"];
-    // for (const item of listItems) {
-    //     item.innerHTML = makeOL(itemList).innerHTML;
-    // }
-
-    //Update pie charts.
-}
-
 function makeOL(array) {
     // Create the list element:
     var list = document.createElement('div');

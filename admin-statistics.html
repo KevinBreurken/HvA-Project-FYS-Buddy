@@ -18,17 +18,6 @@
 
 <body>
 <main>
-    <div id="time-dropdown">
-        <label>
-            <select>
-                <option value="day">Day</option>
-                <option value="week">Week</option>
-                <option value="month">Month</option>
-                <option value="year">Year</option>
-                <option value="total">Total</option>
-            </select>
-        </label>
-    </div>
     <div id="statistics-window">
         <div class="statistics-group">
             <div class="statistics-group-title">Traffic</div>
@@ -39,8 +28,8 @@
                         <div class="statistics-item-number-value"></div>
                     </div>
                     <div class="statistics-item-number" id="logged-in-users">
-                        <div class="statistics-item-number-title">Logged in Users</div>
-                        <div class="statistics-item-number-value"></div>
+                        <div class="statistics-item-number-title">Logged in Today</div>
+                        <div class="statistics-item-number-value" id="logged-in"></div>
                     </div>
                 </div>
                 <div class="statistics-group-container-vertical">

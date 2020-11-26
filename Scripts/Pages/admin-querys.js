@@ -17,12 +17,17 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM session"
 ).done(function (data) {
     let avgtimes = 0;
+    let loginTodayAmount = 0;
     for (let i = 0; i < data.length; i++) { //Count all of the seconds of every visit.
-        let loginTime = new Date(data[i].loginTime).getTime() / 1000;
+        let loginDate = new Date(data[i].loginTime);
+        let loginTime = loginDate.getTime() / 1000;
+
         let logoffTime = new Date(data[i].logoffTime).getTime() / 1000;
         avgtimes += ((logoffTime - loginTime));
+        loginTodayAmount += isDateToday(loginDate);
     }
     $('#visit-time-average').html(toTimeString((avgtimes / data.length)));
+    $('#logged-in').html(loginTodayAmount);
 }).fail(function (reason) {
     console.log(reason);
 });
@@ -160,4 +165,16 @@ function fillTraficWindow() {
     }).fail(function (reason) {
         console.log(reason);
     });
+}
+
+function isDateToday(date){
+    var today = new Date();
+    if(date.getDate() !== today.getDate())
+        return false;
+    if(date.getMonth() !== today.getMonth())
+        return false;
+    if(date.getFullYear() !== today.getFullYear())
+        return false;
+
+    return true;
 }
