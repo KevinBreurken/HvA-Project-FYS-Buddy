@@ -6,6 +6,7 @@ function openTabContent (currentButton) {
     var tabButtons = $(".tab-button");
     var tabContent = $("#tab-content");
 
+    //swaps the button colors
     for (let i = 0; i < tabButtons.length; i++) {
         tabButtons[i].style.backgroundColor = "";
     }
@@ -18,6 +19,9 @@ function openTabContent (currentButton) {
         $.get("Views/user-display.html", function (htmlData) {
             tabContent.html("");
             for (let i = 0; i < data.length; i++) {
+
+                //todo: adding id's
+                //todo: replacing placeholders with database instances
                 tabContent.append($(htmlData));
             }
         });
