@@ -12,7 +12,6 @@
         currentMenuType = 'statistics';
         isNavigationVisible = true;
     </script>
-
     <link rel="stylesheet" href="Content/CSS/Pages/admin-statistics.css">
 </head>
 
@@ -31,44 +30,40 @@
     </div>
     <div id="statistics-window">
         <div class="statistics-group">
-            <div class="statistics-group-title">Traffic</div>
+            <div class="statistics-group-title" data-translate="trafic.title"></div>
             <div class="statistics-group-content">
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-number" id="user-amount">
-                        <div class="statistics-item-number-title">Site Visitors</div>
+                        <div class="statistics-item-number-title" data-translate="trafic.visitors"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                     <div class="statistics-item-number" id="logged-in-users">
-                        <div class="statistics-item-number-title">Logged in Users</div>
+                        <div class="statistics-item-number-title" data-translate="trafic.login"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                 </div>
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-piechart" id="device-type">
-                        <div class="statistics-item-piechart-title">Type Device</div>
+                        <div class="statistics-item-piechart-title" data-translate="trafic.device"></div>
                         <canvas class="statistics-item-piechart-chart"></canvas>
                     </div>
                     <div class="statistics-item-piechart" id="browser-type">
-                        <div class="statistics-item-piechart-title">Browser Type</div>
+                        <div class="statistics-item-piechart-title" data-translate="trafic.browser"></div>
                         <canvas class="statistics-item-piechart-chart"></canvas>
                     </div>
-                </div>
-                <div class="statistics-item-piechart" id="trafic-origin">
-                    <div class="statistics-item-piechart-title">Traffic origin</div>
-                    <canvas class="statistics-item-piechart-chart"></canvas>
                 </div>
             </div>
         </div>
         <div class="statistics-group">
-            <div class="statistics-group-title">Users</div>
+            <div class="statistics-group-title" data-translate="users.title"></div>
             <div class="statistics-group-content">
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-number" id="new-accounts">
-                        <div class="statistics-item-number-title">New Accounts</div>
+                        <div class="statistics-item-number-title" data-translate="users.accounts"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                     <div class="statistics-item-number" id="average-visit-time">
-                        <div class="statistics-item-number-title">Average visit time</div>
+                        <div class="statistics-item-number-title" data-translate="users.visit"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                 </div>
@@ -76,33 +71,33 @@
         </div>
 
         <div class="statistics-group">
-            <div class="statistics-group-title">Matching</div>
+            <div class="statistics-group-title" data-translate="matching.title"></div>
             <div class="statistics-group-content">
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-number" id="made-matches">
-                        <div class="statistics-item-number-title">Made matches</div>
+                        <div class="statistics-item-number-title" data-translate="matching.matches"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                     <div class="statistics-item-number" id="contacts-shared">
-                        <div class="statistics-item-number-title">Contacts shared</div>
+                        <div class="statistics-item-number-title" data-translate="matching.contacts"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                     <div class="statistics-item-number" id="average-match-user">
-                        <div class="statistics-item-number-title">Average matches per user</div>
+                        <div class="statistics-item-number-title" data-translate="matching.matchesAvg"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                     <div class="statistics-item-number" id="average-contact-shared-user">
-                        <div class="statistics-item-number-title">Average contacts shared per user</div>
+                        <div class="statistics-item-number-title" data-translate="matching.contactsAvg"></div>
                         <div class="statistics-item-number-value">100</div>
                     </div>
                 </div>
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-list" id="most-match-equal-interest">
-                        <div class="statistics-item-list-header">Most Matched With Equal Interest:</div>
+                        <div class="statistics-item-list-header" data-translate="matching.equalInterest"></div>
                         <ol class="statistics-item-list-content" style="display: block;"></ol>
                     </div>
                     <div class="statistics-item-list" id="most-match-equal-destination">
-                        <div class="statistics-item-list-header">Most Matched With Equal Destination:</div>
+                        <div class="statistics-item-list-header" data-translate="matching.equalDestination"></div>
                         <ol class="statistics-item-list-content" style="display: block;"></ol>
                     </div>
                 </div>
@@ -111,15 +106,15 @@
     </div>
 
     <div class="statistics-group">
-        <div class="statistics-group-title">Pages</div>
+        <div class="statistics-group-title" data-translate="pages.title">Pages</div>
         <div class="statistics-group-content">
             <div class="statistics-group-container-vertical">
                 <div class="statistics-item-list" id="people-exiting-pages">
-                    <div class="statistics-item-list-header">Bounce Rate:</div>
+                    <div class="statistics-item-list-header" data-translate="pages.bounce"></div>
                     <ol class="statistics-item-list-content"></ol>
                 </div>
                 <div class="statistics-item-list" id="page-view-amount">
-                    <div class="statistics-item-list-header">Amount of Views:</div>
+                    <div class="statistics-item-list-header" data-translate="pages.views"></div>
                     <ol class="statistics-item-list-content"></ol>
                 </div>
             </div>
