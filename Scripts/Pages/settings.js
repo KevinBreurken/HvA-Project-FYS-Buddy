@@ -26,37 +26,21 @@ FYSCloud.API.queryDatabase(
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM languages"
-).done(function(data) {
-    languages = data;
+).done(function(languages) {
+    setLanguages(languages)
 }).fail(function(reason) {
     console.log(reason);
 });
 
 // Language handling:
-languageControl = document.querySelector("#language");
-document.querySelector("label").addEventListener("click", function() {
-    // Languages exists here but only on events such as click?:
-    console.log(languages);
+function setLanguages(languages) {
+    languageControl = document.querySelector("#language");
     languageOptions = "";
     for(let i = 0; i < languages.length; i++) {
         languageOptions += "<option value=\"" + languages[i].name + "\">" + languages[i].name + "</option>"
     }
     languageControl.innerHTML = languageOptions;
-});
-
-document.addEventListener("DOMContentLoaded", (event) => {
-    console.log('DOM is ready.')
-    // Languages doesn't exist here?:
-    console.log(languages);
-});
-
-(function() {
-    // Languages doesn't exist here?
-    console.log(languages);
-    // for(let i = 0; i < languages.length; i++) {
-    //     languageOptions += "<option value=\"" + languages[i].name + "\">" + languages[i].name + "</option>"
-    // }
-})();
+}
 
 // Distance handling:
 // Get distance control elements:
