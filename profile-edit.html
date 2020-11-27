@@ -1,26 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <head>
     <meta charset="UTF-8">
     <title>Edit profile page</title>
-    <link rel="stylesheet" href="Content/profile.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
     <script src=""></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"
             integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="Scripts/general.js"></script>
+    <script src="Content/CSS/default.css"></script>
+    <script>
+        currentMenuType = 'profile';
+    </script>
 </head>
 
 <body>
 <main class="main" id="main">
 <h1>Profile settings</h1>
-<form onsubmit="return valideerFormulier()" name="myForm" id="myForm" action="" method="post">
+<form action="profile.html" method="post">
     <div class="row">
         <div class="column">
             <h2 class="foto"></h2>
-            <img src="https://www.db-m.nl/wp-content/uploads/2014/10/geenfoto.jpg" alt="Profielfoto" width="200"
-                 height=120">
+            <img src="Content/Images/profile-picture-3.jpg" alt="Profielfoto" width="180"
+                 height=150">
             <br>
             <input type="button" value="Upload new picture">
             <h2>Name</h2>
@@ -74,8 +77,8 @@
             <br>
             <h2>Biography</h2>
             <label for="biografie"></label>
-            <textarea rows="10" cols="33%" id="biografie" name="Biografie" placeholder="Max 500 characters"
-                      maxlength="500" required></textarea>
+            <textarea rows="10" cols="30%" class="biografie" id="biografie" name="Biografie" placeholder="Max 500 characters"
+                      maxlength="500" ></textarea>
             <br>
         </div>
         <div class="column">
@@ -100,13 +103,13 @@
                 <br>
             </div>
             <div class="opzoek">
-                <p>I am looking for</p>
+                <p>I am looking for:</p>
                 <input type="radio" id="keuze1" name="keuze1">
-                <label for="keuze1">A travel buddy</label><br>
+                <label for="keuze1" f-data-tooltip="Somebody you want to explore the country with">A travel buddy</label><br>
                 <input type="radio" id="keuze2" name="keuze2">
-                <label for="keuze2">An activity buddy</label><br>
+                <label for="keuze2" data-tooltip="Somebody you want to do activities with like swimming">An activity buddy</label><br>
             </div>
-            <br><br><br><br><br><br><br><br><br>
+            <br><br><br><br><br><br><br><br><br><br><br>
                 <button class="opslaanKnop">Save changes</button>
         </div>
 </div>

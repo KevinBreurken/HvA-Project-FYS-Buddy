@@ -2,45 +2,165 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Registratie</title>
-    <link rel="stylesheet" href="Content/kiet.css">
+    <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+    <script src="Scripts/config.js"></script>
+    <script src="Scripts/app.js"></script>
+    <script src="Scripts/general.js"></script>
+    <script>
+        isOnAdminProfile = false;
+        currentMenuType = 'home';
+        isNavigationVisible = false;
+    </script>
+
+    <link rel="stylesheet" href="Content/CSS/Pages/register.css">
 </head>
 <body>
-<header>
-    <h1>Registreren</h1>
-    <a href="registreer.html">Registreer </a>
-    <a href="onboarding.html">Onboarding </a>
-    <a href="admin_panel.html">Admin paneel </a>
-</header>
-<main id="registratie">
-    <div>
-        <h2>Welkom bij Corendon. Registreer hier. </h2>
-        <form action="onboarding.html" method="post">
-            <ul>
-                <li>
-                    <label for="email">Email:</label>
-                    <input type="text" id="email" name="email" required>
-                </li>
-                <li>
-                    <label for="wachtwoord">Wachtwoord:</label>
-                    <input type="password" id="wachtwoord" name="wachtwoord" required>
-                </li>
+<main>
+    <h1>Welcome at Corendon. You can register your account here. </h1>
 
-                <li>
-                    <label for="herhaalWachtwoord">Herhaal wachtwood:</label>
-                    <input type="password" id="herhaalWachtwoord" name="herhaalWachtwoord" required>
-                </li>
-            </ul>
-            <button type="submit">Registreer</button>
-        </form>
+    <div id="nav">
+        <ul>
+            <li class="active nav-step">Login Details</li>
+            <li class="active nav-step">User Information</li>
+            <li class="active nav-step">Interests</li>
+        </ul>
     </div>
 
-    <div>
+    <form class="register" action="homepage.html" method="post">
 
-    </div>
+        <div class="step">
+            <div class="right-panel">
+                <h2>Info</h2>
+                <p>
+                    Wil je de wereld ontdekken, maar wil je dit niet alleen doen? Corendon Matching biedt een website
+                    waarbij je andere reizigers kan vinden met wie je op reis kan. Je wordt op basis van dezelfde
+                    interesses met een andere alleenstaande reiziger gematcht.
+                </p>
+            </div>
+
+            <div>
+                <h2>Login details</h2>
+                <div class="form-group">
+                    <label for="Username">Username </label>
+                    <input type="text" id="Username" name="Username" maxlength="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email </label>
+                    <input type="text" id="email" name="email" maxlength="50" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password </label>
+                    <input type="password" id="password" name="password" maxlength="16" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="repeat-password">Confirm password </label>
+                    <input type="password" id="repeat-password" name="repeat password" maxlength="16" required>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="step">
+            <h2>User information</h2>
+
+            <div style="float: right">
+                <p>Choose a profile picture</p>
+                <!-- TODO foto preview in de website laden -->
+                <input type="file" accept="image/*">
+            </div>
+
+            <div class="form-group">
+                <label for="first-name">First name </label>
+                <input type="text" id="first-name" name="first-name" maxlength="50" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last-name">Last name </label>
+                <input type="text" id="last-name" required>
+            </div>
+
+            <div class="form-group">
+                <p>Gender</p>
+                <input type="radio" class="inline-form" id="male" name="Gender" value="Male" required>
+                <label for="male">Man </label><br>
+
+                <input type="radio" class="inline-form" id="female" name="Gender" value="Female" required>
+                <label for="female">Female </label><br>
+
+                <input type="radio" class="inline-form" id="other-gender" name="Gender" value="Other" required>
+                <label for="other-gender">Other </label>
+            </div>
+        </div>
+
+        <div class="step">
+            <h2>Interests</h2>
+            <div class="form-group">
+                <label for="bio">Bio </label>
+                <textarea id="bio" cols="40" rows="5" maxlength="500"
+                          onkeyup="countChars('bio','charCountBio');"
+                          onkeydown="countChars('bio','charCountBio');"
+                          onmouseout="countChars('bio','charCountBio');"></textarea>
+                <span id="charCountBio">0</span>/200 characters entered.
+            </div>
+
+            <div class="form-group">
+                <h3>Hobby's</h3>
+                <ul>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="sport" name="sport" value="sport">
+                        <label for="sport">Sport </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="hiking" name="hiking" value="hiking">
+                        <label for="hiking">Hiking </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="cooking" name="cooking" value="cooking">
+                        <label for="cooking">Cooking </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="art" name="art" value="art and painting">
+                        <label for="art">Art or painting </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="museum" name="museum" value="museum">
+                        <label for="museum">Museum visiting </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="music" name="music" value="music">
+                        <label for="music">Music </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="dancing" name="dancing" value="dancing">
+                        <label for="dancing">Dancing </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="theater" name="theater" value="theater">
+                        <label for="theater">Theater visiting</label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="partying" name="partying" value="partying">
+                        <label for="partying">Partying </label>
+                    </li>
+                    <li>
+                        <input type="checkbox" class="inline-form" id="gaming" name="gaming" value="gaming">
+                        <label for="gaming">Gaming </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
+            <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
+            <button class="btn" id="btn-register" onclick="location.href=('homepage.html')">Register</button>
+        </div>
+    </form>
 </main>
 </body>
 </html>
-<script>
-
-</script>
+<script src="Scripts/Pages/register.js"></script>
