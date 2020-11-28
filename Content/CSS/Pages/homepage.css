@@ -273,7 +273,7 @@ main {
 }
 
 /* tab content */
-#tab-content {
+#tab {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -339,6 +339,7 @@ main {
 }
 
 .favorite-icon {
+  display: block;
   width: 25px;
   height: 25px;
   margin: 10px 5px 15px 5px;
