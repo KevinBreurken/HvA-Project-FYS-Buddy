@@ -11,19 +11,23 @@ FYSCloud.API.configure({
     apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
     database: "fys_is111_1_dev_kiet",
     environment: "dev"
-});
+})
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user"
 ).done(function (data) {
+    console.log(data)
+
     var tdArray = []
     var cellArray = []
+    const btnCol = 2
 
     // TODO Unsure about using standard variables(i, j) for the for loop or row. column
     // Create a row element for each property in the object
     for (let row = 0; row < data.length; row++) {
         var tr = document.createElement("tr")
 
+        // Set unique attributes for each row
         tr.setAttribute("id", "tr-" + row)
         document.getElementById("tableBody").appendChild(tr)
 
@@ -35,7 +39,7 @@ FYSCloud.API.queryDatabase(
             document.getElementById("tr-" + row).appendChild(tdArray[column])
         }
         // Add two columns to each rows for admin buttons
-        for (let column = 0; column < 2; column++) {
+        for (let column = 0; column < btnCol; column++) {
             var buttonTd = document.createElement("td")
 
             buttonTd.setAttribute("id", "td-" + row + "-" + column)
@@ -43,6 +47,7 @@ FYSCloud.API.queryDatabase(
 
             // First button is for deletion and second button for edit
             var adminButton = document.createElement("button")
+            adminButton.setAttribute("class", "btn")
 
             if (column === 0) {
                 adminButton.innerHTML = "Delete"
