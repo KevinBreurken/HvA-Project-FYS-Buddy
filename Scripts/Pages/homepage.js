@@ -17,14 +17,14 @@ function openTabContent (currentButton) {
     ).done(function(data) {
         console.log(data);
         tab.html("");
-        generatedUserDisplay(tab, data);
+        generatedUserDisplays(tab, data);
     }).fail(function(reason) {
         console.log(reason);
     });
 }
 
 //generates user-displays
-function generatedUserDisplay(tab, data) {
+function generatedUserDisplays(tab, data) {
     let userDisplays = [];
     for (let i = 0; i < data.length; i++) {
 
@@ -65,6 +65,7 @@ function generatedUserDisplay(tab, data) {
         userDisplayDiv3.setAttribute("id", "favorite-v1-" + i);
 
         let userDisplayDiv4 = document.createElement("div");
+        userDisplayDiv4.style.display = "none";
         userDisplayDiv4.setAttribute("id", "favorite-v2-" + i);
 
         userdisplayDiv2.append(userDisplayButton1, userDisplayButton2, userDisplayDiv3, userDisplayDiv4);
@@ -73,9 +74,9 @@ function generatedUserDisplay(tab, data) {
         userDisplayImg2.className = "favorite-icon";
         userDisplayImg2.src = "Content/Images/favorite-v1.png";
         userDisplayDiv3.append(userDisplayImg2);
+
         let userDisplayImg3 = document.createElement("img");
         userDisplayImg3.className = "favorite-icon";
-        userDisplayImg3.style.display = "none";
         userDisplayImg3.src = "Content/Images/favorite-v2.png";
         userDisplayDiv4.append(userDisplayImg3);
 
