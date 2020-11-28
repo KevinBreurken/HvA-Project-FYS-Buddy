@@ -31,16 +31,18 @@ function generatedUserDisplays(tab, data) {
         userDisplays[i] = document.createElement("div");
         userDisplays[i].className = "user-display";
         userDisplays[i].setAttribute("id", "user-display-" + i);
+
         tab.append(userDisplays[i]);
 
         let userdisplayH1 = document.createElement("h1");
         userdisplayH1.innerText = "username" + i;
         let userdisplayImg1 = document.createElement("img");
         userdisplayImg1.className = "profile-picture";
-        userdisplayImg1.src = "Content/Images/profile-picture-1.jpg";
+        userdisplayImg1.src = "Content/Images/profile-picture-" + (i+1) + ".jpg";
         let userdisplayDiv1 = document.createElement("div");
         let userdisplayDiv2 = document.createElement("div");
         userdisplayDiv2.className = "tab-content-column-4";
+
         userDisplays[i].append(userdisplayH1, userdisplayImg1, userdisplayDiv1, userdisplayDiv2);
 
         let userDisplayP1 = document.createElement("p");
@@ -51,6 +53,7 @@ function generatedUserDisplays(tab, data) {
         userDisplayP3.innerText = "until date";
         let userDisplayP4 = document.createElement("p");
         userDisplayP4.innerText = "type of buddy";
+
         userdisplayDiv1.append(userDisplayP1, userDisplayP2, userDisplayP3, userDisplayP4);
 
         let userDisplayButton1 = document.createElement("button");
