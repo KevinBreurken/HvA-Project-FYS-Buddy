@@ -31,7 +31,7 @@ legend {
    flex: 2;
     align-items: center;
 }
-.rightbox {
+.rightbox, .leftbox {
     color: var(--color-corendon-red);
 }
 .gender {
@@ -106,6 +106,9 @@ th {
 .saveChangesBtn:hover, .editProfileBtn:hover, .match:hover, .block:hover {
     background-color: var(--color-corendon-dark-red);
     color: var(--color-corendon-white);
+}
+.button {
+    margin-top: 180px;
 }
 .column {
     float: left;

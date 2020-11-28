@@ -7,7 +7,7 @@ function changeButton2() {
 }
 
 const MIN_AGE = 18;
-const MAX_AGE = 120;
+const MAX_AGE = 100;
 let today = new Date();
 let dd = today.getDate();
 let mm = today.getMonth() + 1;
@@ -34,13 +34,15 @@ ageCheck = year + '-' + month + '-' + day;
 document.getElementById("dateOfBirth").setAttribute("max", today);
 document.getElementById("dateOfBirth").setAttribute("min", ageCheck);
 
-var el;
-function countCharacters(e) {
+let count;
+function countCharacters() {
     var textEntered, countRemaining, counter;
     textEntered = document.getElementById('biography').value;
     counter = (500- (textEntered.length));
     countRemaining = document.getElementById('charactersRemaining');
     countRemaining.textContent = counter;
 }
-el = document.getElementById('biography');
-el.addEventListener('keyup', countCharacters, false);
+count = document.getElementById('biography');
+count.addEventListener('keyup', countCharacters, false);
+
+
