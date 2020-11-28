@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FYS Register</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+    <script src="Scripts/config.js"></script>
+    <script src="Scripts/app.js"></script>
     <script src="Scripts/general.js"></script>
     <script>
         isOnAdminProfile = false;
@@ -15,13 +15,14 @@
 </head>
 <body>
 <main>
-    <h1>Welcome at Corendon. You can register your account here. </h1>
+    <h1>Welcome at Corendon. </h1>
+    <h4>You can register your account here. </h4>
 
     <div id="nav">
         <ul>
-            <li class="active nav-step">Login Details</li>
-            <li class="active nav-step">User Information</li>
-            <li class="active nav-step">Interests</li>
+            <li class="active nav-step">1. Login Details</li>
+            <li class="active nav-step">2. User Information</li>
+            <li class="active nav-step">3. Interests</li>
         </ul>
     </div>
 
@@ -30,9 +31,11 @@
         <div class="step">
             <div class="right-panel">
                 <h2>Info</h2>
-                <p>Wil je de wereld ontdekken, maar wil je dit niet alleen doen? Corendon Matching biedt een website
+                <p>
+                    Wil je de wereld ontdekken, maar wil je dit niet alleen doen? Corendon Matching biedt een website
                     waarbij je andere reizigers kan vinden met wie je op reis kan. Je wordt op basis van dezelfde
-                    interesses met een andere alleenstaande reiziger gematcht.</p>
+                    interesses met een andere alleenstaande reiziger gematcht.
+                </p>
             </div>
 
             <div>
@@ -44,7 +47,7 @@
 
                 <div class="form-group">
                     <label for="email">Email </label>
-                    <input type="text" id="email" name="email" maxlength="50" required>
+                    <input type="email" id="email" name="email" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
@@ -72,24 +75,30 @@
 
             <div class="form-group">
                 <label for="first-name">First name </label>
-                <input type="text" id="first-name" name="first-name" maxlength="50" required>
+                <input type="text" id="first-name" name="first-name" maxlength="25" required>
             </div>
 
             <div class="form-group">
                 <label for="last-name">Last name </label>
-                <input type="text" id="last-name" required>
+                <input type="text" id="last-name" name="last-name" maxlength="25" required>
             </div>
 
             <div class="form-group">
                 <p>Gender</p>
-                <input type="radio" class="inline-form" id="male" name="Gender" value="Male" required>
+
+                <input type="radio" class="inline-form" id="male" name="gender" value="Male" required>
                 <label for="male">Man </label><br>
 
-                <input type="radio" class="inline-form" id="female" name="Gender" value="Female" required>
+                <input type="radio" class="inline-form" id="female" name="gender" value="Female" required>
                 <label for="female">Female </label><br>
 
-                <input type="radio" class="inline-form" id="other-gender" name="Gender" value="Other" required>
+                <input type="radio" class="inline-form" id="other-gender" name="gender" value="Other" required>
                 <label for="other-gender">Other </label>
+            </div>
+
+            <div class="form-group">
+                <label for="DoB">Date of birth</label>
+                <input type="Date" id="DoB" name="DoB" required>
             </div>
         </div>
 
@@ -101,7 +110,7 @@
                           onkeyup="countChars('bio','charCountBio');"
                           onkeydown="countChars('bio','charCountBio');"
                           onmouseout="countChars('bio','charCountBio');"></textarea>
-                <span id="charCountBio">0</span>/200 characters entered.
+                <span id="charCountBio">0</span>/500 characters entered.
             </div>
 
             <div class="form-group">
@@ -148,89 +157,16 @@
                         <label for="gaming">Gaming </label>
                     </li>
                 </ul>
-
-
             </div>
         </div>
 
         <div class="btn-group">
             <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
             <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
-            <button class="btn" id="btn-register" onclick="location.href=('homepage.html')">Register</button>
+            <button class="btn" id="btn-register">Register</button>
         </div>
     </form>
 </main>
 </body>
 </html>
-<script>
-    let currentStep = 0
-    showTab(currentStep)
-
-    function showTab(number) {
-        const step = document.getElementsByClassName("step")
-
-        const MAX_STEP = 2
-        const MIN_STEP = 0
-
-        step[number].style.display = "block"
-
-        swapNav(number)
-
-        if (currentStep === MIN_STEP) {
-            document.getElementById('btn-back').style.display = 'none'
-        } else {
-            document.getElementById('btn-back').style.display = 'inline'
-        }
-
-        if (currentStep < MAX_STEP) {
-            document.getElementById('btn-next').style.display = 'inline'
-            document.getElementById('btn-register').style.display = 'none'
-        } else {
-            document.getElementById('btn-next').style.display = 'none'
-            document.getElementById('btn-register').style.display = 'inline'
-        }
-    }
-
-    function swapStep(number) {
-        let step = document.getElementsByClassName('step')
-
-        if (number === 1 && !validateForm()) return false;
-
-        step[currentStep].style.display = "none"
-        currentStep = currentStep + number
-
-        showTab(currentStep)
-        console.log(currentStep)
-    }
-
-
-    function swapNav(number) {
-        let i, step = document.getElementsByClassName("nav-step");
-        for (i = 0; i < step.length; i++) {
-            step[i].className = step[i].className.replace("active", "")
-        }
-        step[number].className = "active nav-step"
-    }
-
-    function validateForm() {
-        let step, input, i, valid = true;
-        step = document.getElementsByClassName("step");
-        input = step[currentStep].getElementsByTagName("input");
-
-        for (i = 0; i < input.length; i++) {
-            if (input[i].value === "") {
-                input[i].className += " invalid";
-                valid = false;
-            }
-        }
-        if (valid) {
-            document.getElementsByClassName("step")[currentStep].className += " finish";
-        }
-        return valid;
-    }
-
-    function countChars(countFrom, displayTo) {
-        document.getElementById(displayTo).innerHTML = document.getElementById(countFrom).value.length;
-    }
-
-</script>
+<script src="Scripts/Pages/register.js"></script>
