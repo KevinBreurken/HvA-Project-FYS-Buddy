@@ -2,19 +2,32 @@
 document.getElementById("default-active").click();
 
 //function to switch the tab and active tab-button
-function openTabContent (currentTab, currentButton) {
-    var tabButton = document.getElementsByClassName("tab-button");
-    var tabContent = document.getElementsByClassName("tab-content");
+function openTabContent (currentButton) {
+    var tabButtons = $(".tab-button");
+    var tabContent = $("#tab-content");
 
-    for (let i = 0; i < tabContent.length; i++) {
-        tabContent[i].style.display = "none";
-    }
-    document.getElementById(currentTab).style.display = "flex";
-
-    for (let i = 0; i < tabButton.length; i++) {
-        tabButton[i].style.backgroundColor = "";
+    //swaps the button colors
+    for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].style.backgroundColor = "";
     }
     currentButton.style.backgroundColor = "#c11905";
+
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM user"
+    ).done(function(data) {
+        // console.log(data);
+        $.get("Views/user-display.html", function (htmlData) {
+            tabContent.html("");
+            for (let i = 0; i < data.length; i++) {
+
+                //todo: adding id's
+                //todo: replacing placeholders with database instances
+                tabContent.append($(htmlData));
+            }
+        });
+    }).fail(function(reason) {
+        console.log(reason);
+    });
 }
 
 //displays the current overlay and the overlay-background

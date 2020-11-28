@@ -65,3 +65,11 @@ main {
   visibility: visible;
   transform: translateY(0);
 }
+
+[data-translate] {
+  visibility: hidden;
+}
+
+[data-translate][translated] {
+  visibility: visible;
+}
