@@ -1,3 +1,17 @@
+var translations = {
+    notification: {
+        contactRequest: {
+            nl: "heeft een contactverzoek verstuurd.",
+            en: "has sent a contact request."
+        }
+    }
+};
+FYSCloud.Localization.setTranslations(translations);
+
+$(function () {
+    onHeaderLoaded();
+});
+
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
@@ -66,32 +80,71 @@ function overrideMenuButtons(newButtons) {
     updateMenuButtons();
 }
 
-$(function () {
-    onHeaderLoaded();
-});
+function openProfile(userID) {
+    //TODO:Open profile to correct profile.
+    window.open("profile2.html", "_self");
+}
 
+/** Notifications */
+var currentNotificationAmount = 0;
+
+function updateNotificationCounter() {
+    let amountDisplayString = (currentNotificationAmount > 9) ? "9+" : currentNotificationAmount;
+    $("#notification-display-counter-text").html(amountDisplayString);
+
+    // $(".notification-display-dropdown-content").toggle(currentNotificationAmount !== 0);
+}
+
+function closeNotification(userID) {
+    //Remove the html element.
+    $("#notification-user-" + userID).remove();
+    // Decrease and update the notification counter.
+    currentNotificationAmount--;
+    updateNotificationCounter();
+    //TODO:Remove database entry of notification.
+}
+
+function addNotification(userData) {
+    let userID = userData["userID"];
+    return "<li class=\"notification-display-content-item\" id='notification-user-" + userID + "'>" +
+        "<div class=\"notification-text\">" +
+        "<div class=\"notification-text-name\">" + userData["firstName"] + "</div>" +
+        "<div data-translate=\"notification.contactRequest\"></div>" +
+        "</div>" +
+        "<div class=\"notification-buttons\">" +
+        "<img class=\"notification-profile-icon\" src=\"Content/Images/open-profile.svg\" onclick=\"openProfile(" + userID + ")\">" +
+        "<img class=\"notification-close-icon\" src=\"Content/Images/close.svg\" onclick=\"closeNotification(" + userID + ")\">" +
+        "</div>" +
+        "</li>"
+}
+
+/** Notification - Database connection */
 //Fetch user notifications.
 FYSCloud.API.queryDatabase(
     "SELECT * FROM notifications WHERE userID = ?",
     [1] //TODO: add the logged in user ID to fetch it's own notifications.
 ).done(function (notificationData) {
+    if (notificationData.length <= 0) {
+        updateNotificationCounter();
+        return;
+    }
 
     let notificationIDs = [notificationData.length];
     for (let i = 0; i < notificationData.length; i++) {
         notificationIDs[i] = notificationData[i]["sentUserID"];
     }
-
     let string = "(" + notificationIDs.toString() + ")";
+    console.log(string);
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userID IN " + string
     ).done(function (userData) {
-        let amountDisplayString = (userData.length > 9) ? "9+" : userData.length;
-        $("#notification-display-counter-text").html(amountDisplayString);
-
+        currentNotificationAmount = userData.length;
+        updateNotificationCounter();
         for (let i = 0; i < userData.length; i++) {
-            // $("#notification-display-list").append(addNotification(userData[i]));
+            $("#notification-display-list").append(addNotification(userData[i]));
         }
-        console.log(userData);
+        //translate the newly added objects.
+        FYSCloud.Localization.translate(false);
     }).fail(function (reason) {
         console.log(reason);
     });
@@ -99,28 +152,3 @@ FYSCloud.API.queryDatabase(
 }).fail(function (reason) {
     console.log(reason);
 });
-
-function addNotification(userData) {
-
-    let userID = userData["userID"];
-    //TODO: Change notification language.
-    let notificationText = userData["firstName"] + " heeft een contactverzoek gestuurd.";
-    return "<li class=\"notification-display-content-item\" id='notification-user-"+userID+"'>" +
-        "<div class=\"notification-text\">" + notificationText + "</div>" +
-        "<div class=\"notification-buttons\">" +
-        "<img class=\"notification-profile-icon\" src=\"Content/Images/open-profile.svg\" onclick=\"openProfile(" + userID + ")\">" +
-        "<img class=\"notification-close-icon\" src=\"Content/Images/close.svg\" onclick=\"closeNotification(" + userID + ")\">" +
-        "</div>" +
-        "</li>";
-}
-
-function openProfile(userID) {
-    //TODO:Open profile to correct profile.
-    window.open("profile2.html","_self");
-}
-
-function closeNotification(userID) {
-    //Remove the html element.
-    $("#notification-user-"+userID).remove();
-    //TODO:Remove database entry of notification.
-}
