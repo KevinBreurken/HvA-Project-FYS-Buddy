@@ -44,24 +44,20 @@ function generatedUserDisplays(tab, data) {
             "<p>type of buddy</p>" +
             "</div>" +
             "<div class=\"tab-content-column-4\">" +
-            "<button id=\"button1-" + i + "\">more info</button>" +
-            "<button id=\"button2-" + i + "\">X</button>" +
-            "<div id=\"favorite-v1-" + i + "\">" +
+            "<button id=\"button1-" + i + "\" onclick=\"displayOverlay('overlay-1')\">more info</button>" +
+            "<button id=\"button2-" + i + "\" onclick=\"closeFunction('user-display-' + i)\">X</button>" +
+            "<div id=\"favorite-v1-" + i + "\" onclick=\"swapFavoritesIcon('favorite-v1-' + i, 'favorite-v2-' + i)\">" +
             "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v1.png\">" +
             "</div>" +
-            "<div id=\"favorite-v2-" + i + "\" style=\"display: none\">" +
+            "<div id=\"favorite-v2-" + i + "\" style=\"display: none\" onclick=\"swapFavoritesIcon('favorite-v2-' + i, 'favorite-v1-' + i)\">" +
             "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v2.png\">" +
             "</div>" +
             "</div>";
 
-        document.getElementById("button1-" + i)
-            .onclick = function(){displayOverlay('overlay-1')};
-        document.getElementById("button2-" + i)
-            .onclick = function (){closeFunction("user-display-" + i)};
-        document.getElementById("favorite-v1-" + i)
-            .onclick = function (){swapFavoritesIcon("favorite-v1-" + i, "favorite-v2-" + i)};
-        document.getElementById("favorite-v2-" + i)
-            .onclick = function (){swapFavoritesIcon("favorite-v2-" + i, "favorite-v1-" + i)};
+        // document.getElementById("favorite-v1-" + i)
+        //     .onclick = function (){swapFavoritesIcon("favorite-v1-" + i, "favorite-v2-" + i)};
+        // document.getElementById("favorite-v2-" + i)
+        //     .onclick = function (){swapFavoritesIcon("favorite-v2-" + i, "favorite-v1-" + i)};
     }
 }
 
@@ -83,8 +79,8 @@ function swapFavoritesIcon (currentIconId, newIconId) {
     document.getElementById(newIconId).style.display = "";
 }
 
-//function that swaps the color of the 'send request' button
-function swapColor(button) {
-    button.style.backgroundColor = "var(--color-corendon-dark-red)";
-}
+// //function that swaps the color of the 'send request' button
+// function swapColor(button) {
+//     button.style.backgroundColor = "var(--color-corendon-dark-red)";
+// }
 
