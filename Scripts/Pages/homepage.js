@@ -34,63 +34,74 @@ function generatedUserDisplays(tab, data) {
 
         tab.append(userDisplays[i]);
 
-        let userdisplayH1 = document.createElement("h1");
-        userdisplayH1.innerText = "username" + i;
-        let userdisplayImg1 = document.createElement("img");
-        userdisplayImg1.className = "profile-picture";
-        userdisplayImg1.src = "Content/Images/profile-picture-" + (i+1) + ".jpg";
-        let userdisplayDiv1 = document.createElement("div");
-        let userdisplayDiv2 = document.createElement("div");
-        userdisplayDiv2.className = "tab-content-column-4";
+        userDisplays[i].innerHTML =
+            "<h1 id=\"user-display-h1-" + i + "\"></h1>" +
+            "<img src='/Content/Images/profile-picture-1.jpg'>" +
+            "<div>" +
+            "<p></p>" +
+            "<p></p>" +
+            "<p></p>" +
+            "<p></p>" +
+            "</div>" +
+            "<div></div>";
 
-        userDisplays[i].append(userdisplayH1, userdisplayImg1, userdisplayDiv1, userdisplayDiv2);
-
-        let userDisplayP1 = document.createElement("p");
-        userDisplayP1.innerText = "City, Country";
-        let userDisplayP2 = document.createElement("p");
-        userDisplayP2.innerText = "from date";
-        let userDisplayP3 = document.createElement("p");
-        userDisplayP3.innerText = "until date";
-        let userDisplayP4 = document.createElement("p");
-        userDisplayP4.innerText = "type of buddy";
-
-        userdisplayDiv1.append(userDisplayP1, userDisplayP2, userDisplayP3, userDisplayP4);
-
-        let userDisplayButton1 = document.createElement("button");
-        userDisplayButton1.setAttribute("id", "button1-" + i);
-        userDisplayButton1.innerText = "more info";
-
-        let userDisplayButton2 = document.createElement("button");
-        userDisplayButton2.setAttribute("id", "button2-" + i);
-        userDisplayButton2.innerText = "X";
-
-        let userDisplayDiv3 = document.createElement("div");
-        userDisplayDiv3.setAttribute("id", "favorite-v1-" + i);
-
-        let userDisplayDiv4 = document.createElement("div");
-        userDisplayDiv4.style.display = "none";
-        userDisplayDiv4.setAttribute("id", "favorite-v2-" + i);
-
-        userdisplayDiv2.append(userDisplayButton1, userDisplayButton2, userDisplayDiv3, userDisplayDiv4);
-
-        let userDisplayImg2 = document.createElement("img");
-        userDisplayImg2.className = "favorite-icon";
-        userDisplayImg2.src = "Content/Images/favorite-v1.png";
-        userDisplayDiv3.append(userDisplayImg2);
-
-        let userDisplayImg3 = document.createElement("img");
-        userDisplayImg3.className = "favorite-icon";
-        userDisplayImg3.src = "Content/Images/favorite-v2.png";
-        userDisplayDiv4.append(userDisplayImg3);
-
-        document.getElementById("button1-" + i)
-            .onclick = function(){displayOverlay('overlay-1')};
-        document.getElementById("button2-" + i)
-            .onclick = function (){closeFunction("user-display-" + i)};
-        document.getElementById("favorite-v1-" + i)
-            .onclick = function (){swapFavoritesIcon("favorite-v1-" + i, "favorite-v2-" + i)};
-        document.getElementById("favorite-v2-" + i)
-            .onclick = function (){swapFavoritesIcon("favorite-v2-" + i, "favorite-v1-" + i)};
+        // let userdisplayH1 = document.createElement("h1");
+        // userdisplayH1.innerText = "username" + i;
+        // let userdisplayImg1 = document.createElement("img");
+        // userdisplayImg1.className = "profile-picture";
+        // userdisplayImg1.src = "Content/Images/profile-picture-" + (i+1) + ".jpg";
+        // let userdisplayDiv1 = document.createElement("div");
+        // let userdisplayDiv2 = document.createElement("div");
+        // userdisplayDiv2.className = "tab-content-column-4";
+        //
+        // userDisplays[i].append(userdisplayH1, userdisplayImg1, userdisplayDiv1, userdisplayDiv2);
+        //
+        // let userDisplayP1 = document.createElement("p");
+        // userDisplayP1.innerText = "City, Country";
+        // let userDisplayP2 = document.createElement("p");
+        // userDisplayP2.innerText = "from date";
+        // let userDisplayP3 = document.createElement("p");
+        // userDisplayP3.innerText = "until date";
+        // let userDisplayP4 = document.createElement("p");
+        // userDisplayP4.innerText = "type of buddy";
+        //
+        // userdisplayDiv1.append(userDisplayP1, userDisplayP2, userDisplayP3, userDisplayP4);
+        //
+        // let userDisplayButton1 = document.createElement("button");
+        // userDisplayButton1.setAttribute("id", "button1-" + i);
+        // userDisplayButton1.innerText = "more info";
+        //
+        // let userDisplayButton2 = document.createElement("button");
+        // userDisplayButton2.setAttribute("id", "button2-" + i);
+        // userDisplayButton2.innerText = "X";
+        //
+        // let userDisplayDiv3 = document.createElement("div");
+        // userDisplayDiv3.setAttribute("id", "favorite-v1-" + i);
+        //
+        // let userDisplayDiv4 = document.createElement("div");
+        // userDisplayDiv4.style.display = "none";
+        // userDisplayDiv4.setAttribute("id", "favorite-v2-" + i);
+        //
+        // userdisplayDiv2.append(userDisplayButton1, userDisplayButton2, userDisplayDiv3, userDisplayDiv4);
+        //
+        // let userDisplayImg2 = document.createElement("img");
+        // userDisplayImg2.className = "favorite-icon";
+        // userDisplayImg2.src = "Content/Images/favorite-v1.png";
+        // userDisplayDiv3.append(userDisplayImg2);
+        //
+        // let userDisplayImg3 = document.createElement("img");
+        // userDisplayImg3.className = "favorite-icon";
+        // userDisplayImg3.src = "Content/Images/favorite-v2.png";
+        // userDisplayDiv4.append(userDisplayImg3);
+        //
+        // document.getElementById("button1-" + i)
+        //     .onclick = function(){displayOverlay('overlay-1')};
+        // document.getElementById("button2-" + i)
+        //     .onclick = function (){closeFunction("user-display-" + i)};
+        // document.getElementById("favorite-v1-" + i)
+        //     .onclick = function (){swapFavoritesIcon("favorite-v1-" + i, "favorite-v2-" + i)};
+        // document.getElementById("favorite-v2-" + i)
+        //     .onclick = function (){swapFavoritesIcon("favorite-v2-" + i, "favorite-v1-" + i)};
     }
 }
 
