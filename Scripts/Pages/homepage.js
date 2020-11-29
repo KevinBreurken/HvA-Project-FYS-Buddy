@@ -45,19 +45,14 @@ function generatedUserDisplays(tab, data) {
             "</div>" +
             "<div class=\"tab-content-column-4\">" +
             "<button id=\"button1-" + i + "\" onclick=\"displayOverlay('overlay-1')\">more info</button>" +
-            "<button id=\"button2-" + i + "\" onclick=\"closeFunction('user-display-' + i)\">X</button>" +
-            "<div id=\"favorite-v1-" + i + "\" onclick=\"swapFavoritesIcon('favorite-v1-' + i, 'favorite-v2-' + i)\">" +
+            "<button id=\"button2-" + i + "\" onclick=\"closeFunction(" + "'user-display-" + i + "'" + ")\">X</button>" +
+            "<div id=\"favorite-v1-" + i + "\" onclick=\"swapFavoritesIcon(" + "'favorite-v1-" + i + "'," + "'favorite-v2-" + i + "'" + ")\">" +
             "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v1.png\">" +
             "</div>" +
-            "<div id=\"favorite-v2-" + i + "\" style=\"display: none\" onclick=\"swapFavoritesIcon('favorite-v2-' + i, 'favorite-v1-' + i)\">" +
+            "<div id=\"favorite-v2-" + i + "\" style=\"display: none\" onclick=\"swapFavoritesIcon(" + "'favorite-v2-" + i + "'," + "'favorite-v1-" + i + "'" + ")\">" +
             "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v2.png\">" +
             "</div>" +
             "</div>";
-
-        // document.getElementById("favorite-v1-" + i)
-        //     .onclick = function (){swapFavoritesIcon("favorite-v1-" + i, "favorite-v2-" + i)};
-        // document.getElementById("favorite-v2-" + i)
-        //     .onclick = function (){swapFavoritesIcon("favorite-v2-" + i, "favorite-v1-" + i)};
     }
 }
 
