@@ -21,30 +21,22 @@
                         <div class="notification-display-counter">
                             <img class="notification-display-counter-circle"
                                  src="Content/Images/notification-counter-backdrop.svg">
-                            <div class="notification-display-counter-text">5</div>
+                            <div id="notification-display-counter-text">5</div>
                         </div>
                     </button>
                     <div class="notification-display-dropdown-content">
-                        <ul>
-                            <li class="notification-display-content-item">
-                                <div class="notification-text"></div>
-                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                            </li>
-                            <li class="notification-display-content-item">
-                                <div class="notification-text"></div>
-                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                            </li>
-                            <li class="notification-display-content-item">
-                                <div class="notification-text"></div>
-                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                            </li>
-                            <li class="notification-display-content-item">
-                                <div class="notification-text"></div>
-                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                            </li>
-                            <li class="notification-display-content-item">
-                                <div class="notification-text"></div>
-                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
+                        <ul id="notification-display-list">
+                            <li class="notification-display-content-item" id='notification-user-1'>
+                                <div class="notification-text">
+                                    <div class="notification-text-name">Kevin</div>
+                                    <div data-translate="notification.contactrequest"> has sent a contact request</div>
+                                </div>
+                                <div class="notification-buttons">
+                                    <img class="notification-profile-icon" src="Content/Images/open-profile.svg"
+                                         onclick="openProfile()">
+                                    <img class="notification-close-icon" src="Content/Images/close.svg"
+                                         onclick="closeNotification()">
+                                </div>
                             </li>
                         </ul>
                     </div>
@@ -66,7 +58,6 @@
                                     Sign Out
                                 </a>
                             </li>
-                            <!-- <li class="profile-display-dropdown-item">Sign Out</li> -->
                         </ul>
                     </div>
                 </div>

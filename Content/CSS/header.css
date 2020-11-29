@@ -197,10 +197,18 @@ header {
     padding-top: 5px;
     width: auto;
     white-space: nowrap;
+    display: flex;
+    justify-content: left;
 }
+
+.notification-text-name {
+    padding-right: 8px;
+}
+
 .notification-display-dropdown-content li {
     padding-bottom: 5px;
 }
+
 .notification-display-dropdown-content li + li {
     padding-top: 10px;
     margin-left: 0;
@@ -208,10 +216,24 @@ header {
     border-top: 1px solid var(--color-corendon-yellow);
 }
 
+.notification-buttons{
+    display: flex;
+    justify-content: right;
+}
+
 .notification-profile-icon {
+    padding-bottom: 10px;
     padding-left: 10px;
     width: 25px;
     height: 25px;
+    float: right;
+}
+
+.notification-close-icon {
+    padding-top: 5px;
+    padding-left: 10px;
+    width: 15px;
+    height: 15px;
     float: right;
 }
 
@@ -223,7 +245,7 @@ header {
     text-align: center;
 }
 
-.notification-display-counter-text {
+#notification-display-counter-text {
     color: var(--color-corendon-white);
     text-decoration: solid;
     position: absolute;
