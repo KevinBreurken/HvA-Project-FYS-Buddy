@@ -6,6 +6,9 @@ header {
     margin-bottom: 40px;
 }
 
+.banner-image{
+    height: 150px;
+}
 .main-banner {
     display: flex;
     justify-content: center;
