@@ -91,8 +91,10 @@ var currentNotificationAmount = 0;
 function updateNotificationCounter() {
     let amountDisplayString = (currentNotificationAmount > 9) ? "9+" : currentNotificationAmount;
     $("#notification-display-counter-text").html(amountDisplayString);
-
-    // $(".notification-display-dropdown-content").toggle(currentNotificationAmount !== 0);
+    if (currentNotificationAmount === 0) {
+        //hide the whole notification counter when no notification is available.
+        $(".notification-display-dropdown").parent().hide();
+    }
 }
 
 function closeNotification(userID) {
@@ -134,7 +136,6 @@ FYSCloud.API.queryDatabase(
         notificationIDs[i] = notificationData[i]["sentUserID"];
     }
     let string = "(" + notificationIDs.toString() + ")";
-    console.log(string);
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userID IN " + string
     ).done(function (userData) {
