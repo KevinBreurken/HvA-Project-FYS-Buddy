@@ -22,13 +22,11 @@ function deleteUser(i) {
     }).fail(function (reason) {
         console.log(reason)
     })
-
 }
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user"
 ).done(function (data) {
-
     var tdArray = []
     var cellArray = []
     const btnCol = 2
@@ -66,6 +64,7 @@ FYSCloud.API.queryDatabase(
                 adminButton.setAttribute("onclick", "deleteUser(" + data[row]["id"] + ")")
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             } else {
+                // TODO Add edit user functionality
                 adminButton.innerHTML = "Edit"
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             }
