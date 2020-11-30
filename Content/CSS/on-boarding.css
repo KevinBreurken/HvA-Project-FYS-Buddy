@@ -1,0 +1,35 @@
+#on-boarding {
+    display: none;
+    position: absolute;
+    width: 968px;
+    border: 1px solid black;
+    background: rgba(255, 255, 255, 0.9);
+    top: 300px;
+    margin: 0 auto;
+    padding: 15px;
+    z-index: 2;
+}
+
+#on-boarding p {
+    text-align: left;
+}
+
+#on-boarding .first-header {
+    margin-top: 0;
+}
+
+#on-boarding button {
+    float: right;
+    border: var(--border-corendon-red);
+    background: var(--color-corendon-red);
+    border-radius: 10px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+#on-boarding button:hover {
+    background: var(--color-corendon-white);
+    border: var(--border-corendon-red);
+    transition: 200ms;
+}

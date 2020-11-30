@@ -1,3 +1,14 @@
+var headerTranslations = {
+    header: {
+        notificationText: {
+            nl: "Heeft een contactverzoek verstuurd.",
+            en: "Has sent a contact request."
+        }
+    }
+};
+
+FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
+
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
@@ -31,7 +42,6 @@ function onHeaderLoaded() {
     });
 
 }
-
 /**
  * Updates the button menu's 'current' attributes.
  * @param {string} typeName name of the menu button's type attribute.

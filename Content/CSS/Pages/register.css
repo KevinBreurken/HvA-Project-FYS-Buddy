@@ -4,18 +4,22 @@
     font-family: var(--font-family);
     list-style: none;
 }
+
 main {
     border: var(--border-corendon-grey);
     padding: 10px;
 }
+
 #nav {
     height: 50px;
     margin-top: 24px;
 }
+
 #nav ul {
     width: 100%;
     text-align: center;
 }
+
 #nav ul li {
     text-align: center;
     background: var(--color-corendon-red);
@@ -24,40 +28,47 @@ main {
     border: 0 solid black;
     display: inline;
 }
+
 #nav ul .active {
     background: var(--color-corendon-green);
 }
+
 .register {
     margin: 12px auto;
 }
-.register .step {
-    height: 400px;
-}
+
 .register .right-panel {
     float: right;
-    width: 200px;
+    width: 300px;
+    padding: 15px;
     border: var(--border-corendon-grey);
 }
+
 .register .form-group {
     margin: 12px 0 0 0;
 }
+
 .register .form-group input {
     display: block;
-    width: 250px;
+    max-width: 320px;
+    width: 100%;
     height: 34px;
     padding: 0 12px;
 }
+
 .register .form-group .inline-form {
     display: inline-block;
     padding: 0;
     width: 15px;
     height: 15px;
 }
+
 #btn-back,
 .step,
 .register button {
     display: none;
 }
+
 .btn {
     padding: 12px 24px;
     color: var(--color-corendon-white);
@@ -68,15 +79,22 @@ main {
     transition: 500ms;
     font-size: 16px;
 }
+
 .btn:hover {
     background: var(--color-corendon-green);
     transition: 500ms;
 }
+
 .btn-group {
     margin: 24px auto;
     text-align: center;
 }
+
 #bio {
     display: block;
 }
-/*# sourceMappingURL=register.css.map */
+
+.img-preview img{
+    max-height: 200px;
+    max-width: 200px;
+}
