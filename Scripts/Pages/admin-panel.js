@@ -13,11 +13,21 @@ FYSCloud.API.configure({
     environment: "dev"
 })
 
+function deleteUser(i) {
+    FYSCloud.API.queryDatabase(
+        "DELETE FROM `user` WHERE id = ?",
+        [i]
+    ).done(function (data) {
+        //console.log(data);
+        location.reload();
+    }).fail(function (reason) {
+        console.log(reason)
+    })
+}
+
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user"
 ).done(function (data) {
-    console.log(data)
-
     var tdArray = []
     var cellArray = []
     const btnCol = 2
@@ -51,8 +61,11 @@ FYSCloud.API.queryDatabase(
 
             if (column === 0) {
                 adminButton.innerHTML = "Delete"
+                // Create an onclick with parameter in the button which will delete a user
+                adminButton.setAttribute("onclick", "deleteUser(" + data[row]["id"] + ")")
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             } else {
+                // TODO Add edit user functionality
                 adminButton.innerHTML = "Edit"
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             }
