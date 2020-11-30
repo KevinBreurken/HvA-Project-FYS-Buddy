@@ -22,7 +22,7 @@ function renderStatistics() {
 
     //Update list items.
     const listItems = document.getElementsByClassName('statistics-item-list-content');
-    var itemList = ["test","words","in","this","list","group"];
+    var itemList = ["test", "words", "in", "this", "list", "group"];
     for (const item of listItems) {
         item.innerHTML = makeOL(itemList).innerHTML;
     }
@@ -35,10 +35,10 @@ function renderStatistics() {
         var myChart = new Chart(context, {
             type: 'pie',
             data: {
-                labels: ["One","Two","Three"],
+                labels: ["One", "Two", "Three"],
                 datasets: [{
                     backgroundColor: pieChartColors,
-                    data: [161,237,484]
+                    data: [161, 237, 484]
                 }]
             }
         });
@@ -63,12 +63,7 @@ function makeOL(array) {
     return list;
 }
 
-/** TODO: Create a general loading method for language */
-
- //Localisation
- var initialLanguage = "nl";
-
- var translations = {
+var statisticsTranslation = {
     trafic: {
         title: {
             nl: "Verkeer",
@@ -92,66 +87,62 @@ function makeOL(array) {
         },
     },
     users: {
-        title:{
+        title: {
             nl: "Gebruikers",
             en: "Users"
         },
-        accounts:{
+        accounts: {
             nl: "Aantal Accounts",
             en: "Total Accounts"
         },
-        visit:{
+        visit: {
             nl: "Gemiddelde Bezoekstijd",
             en: "Average Visit Time"
         },
     },
     matching: {
-        title:{
+        title: {
             nl: "Matchen",
             en: "Matching"
         },
-        matches:{
+        matches: {
             nl: "Totaal Aantal Matches",
             en: "Made Matches"
         },
-        contacts:{
+        contacts: {
             nl: "Contacten Verstuurd",
             en: "Contacts Shared"
         },
-        matchesAvg:{
+        matchesAvg: {
             nl: "Gemiddelde Aantal Matches Per Gebruiker",
             en: "Average Matches Per User"
         },
-        contactsAvg:{
+        contactsAvg: {
             nl: "Gemiddelde Contacten Verstuurd Per Gebruiker",
             en: "Average Contacts Shared Per User"
         },
-        equalInterest:{
+        equalInterest: {
             nl: "Meest Gematchde Interesses:",
             en: "Most Matched With Equal Interest:"
         },
-        equalDestination:{
+        equalDestination: {
             nl: "Meest Gematchde Locaties:",
             en: "Most Matched With Equal Destination:"
         }
     },
     pages: {
-        title:{
+        title: {
             nl: "Pagina's",
             en: "Pages"
         },
-        bounce:{
+        bounce: {
             nl: "Bounce Rate:",
             en: "Bounce Rate:"
         },
-        views:{
+        views: {
             nl: "Aantal Keer Bekeken:",
             en: "Amount of Views:"
-        },
+        }
     }
 };
-
- $(function () {
-    FYSCloud.Localization.setTranslations(translations);
-    FYSCloud.Localization.switchLanguage(initialLanguage);
-});
+FYSCloud.Localization.Buddy.addTranslationJSON(statisticsTranslation);
