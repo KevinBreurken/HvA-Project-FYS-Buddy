@@ -54,7 +54,8 @@
                 <div class="profile-display-dropdown">
                     <button class="profile-display-button">
                         <img class="profile-display-icon-profile" src="Content/Images/user-icon.svg">
-                        <div class="profile-display-text"></div>
+                        <div class="profile-display-text" data-translate="header.userDisplay.welcomeText"></div>
+                        <div class="profile-display-text" id="profile-display-name"></div>
                         <img class="profile-display-icon-arrow" src="Content/Images/down-arrow.svg">
                     </button>
                     <div class="profile-display-dropdown-content">
@@ -63,7 +64,7 @@
                                 <a href="home-not-logged-in.html" class="profile-display-dropdown-item">
                                     <img class="profile-display-icon-profile"
                                          src="Content/Images/icon-sign-out.svg">
-                                    <div data-translate="header.userDisplay.signOut">Sign Out</div>
+                                    <div id="profile-display-logout-text" data-translate="header.userDisplay.signOut">Sign Out</div>
                                 </a>
                             </li>
                             <!-- <li class="profile-display-dropdown-item">Sign Out</li> -->

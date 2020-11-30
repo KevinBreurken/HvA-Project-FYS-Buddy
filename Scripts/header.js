@@ -38,8 +38,8 @@ var headerTranslations = {
         },
         userDisplay: {
             welcomeText:{
-                nl: "Welkom, ",
-                en: "Welcome, "
+                nl: "Welkom,",
+                en: "Welcome,"
             },
             signOut:{
                 nl: "Uitloggen",
@@ -73,8 +73,7 @@ function onHeaderLoaded() {
         'Bernardus',
         'Gijsbertinandus'
     ];
-    const preText = 'Welcome, ';
-    $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
+    $('#profile-display-name').html(testNames[Math.floor(Math.random() * testNames.length)]);
 
     const notificationText = " has sent a contact request";
     // $('.notification-text').html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
