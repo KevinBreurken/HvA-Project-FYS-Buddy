@@ -17,3 +17,19 @@
 #on-boarding .first-header {
     margin-top: 0;
 }
+
+#on-boarding button {
+    float: right;
+    border: var(--border-corendon-red);
+    background: var(--color-corendon-red);
+    border-radius: 10px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: 200ms;
+}
+
+#on-boarding button:hover {
+    background: var(--color-corendon-white);
+    border: var(--border-corendon-red);
+    transition: 200ms;
+}
