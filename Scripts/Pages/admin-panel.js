@@ -15,7 +15,8 @@ FYSCloud.API.configure({
 
 function deleteUser(i) {
     FYSCloud.API.queryDatabase(
-        "DELETE FROM `user` WHERE id="+i
+        "DELETE FROM `user` WHERE id = ?",
+        [i]
     ).done(function (data) {
         //console.log(data);
         location.reload();
