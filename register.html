@@ -46,8 +46,8 @@
             <div>
                 <h2>Login details</h2>
                 <div class="form-group">
-                    <label for="Username">Username </label>
-                    <input type="text" id="Username" name="Username" maxlength="50" required>
+                    <label for="username">Username </label>
+                    <input type="text" id="username" name="username" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
@@ -62,11 +62,9 @@
 
                 <div class="form-group">
                     <label for="repeat-password">Confirm password </label>
-                    <input type="password" id="repeat-password" name="repeat password" maxlength="16" required>
+                    <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required>
                 </div>
             </div>
-
-
         </div>
 
         <div class="step">
@@ -75,7 +73,7 @@
             <div style="float: right">
                 <div>
                     <p>Choose a profile picture</p>
-                    <input type="file" id="fileUpload" accept="image/*">
+                    <input type="file" id="fileUpload" name="profile_picture" accept="image/*">
                 </div>
                 <div class="img-preview">
                     <img id="imagePreview"/>
@@ -84,24 +82,24 @@
 
             <div class="form-group">
                 <label for="first-name">First name </label>
-                <input type="text" id="first-name" name="first-name" maxlength="25" required>
+                <input type="text" id="first-name" name="first_name" maxlength="25" required>
             </div>
 
             <div class="form-group">
                 <label for="last-name">Last name </label>
-                <input type="text" id="last-name" name="last-name" maxlength="25" required>
+                <input type="text" id="last-name" name="last_name" maxlength="25" required>
             </div>
 
             <div class="form-group">
                 <p>Gender</p>
 
-                <input type="radio" class="inline-form" id="male" name="gender" value="Male" required>
+                <input type="radio" class="inline-form" id="male" name="gender" value="male" required>
                 <label for="male">Man </label><br>
 
-                <input type="radio" class="inline-form" id="female" name="gender" value="Female" required>
+                <input type="radio" class="inline-form" id="female" name="gender" value="female" required>
                 <label for="female">Female </label><br>
 
-                <input type="radio" class="inline-form" id="other-gender" name="gender" value="Other" required>
+                <input type="radio" class="inline-form" id="other-gender" name="gender" value="other" required>
                 <label for="other-gender">Other </label>
             </div>
 
@@ -115,7 +113,7 @@
             <h2>Interests</h2>
             <div class="form-group">
                 <label for="bio">Bio </label>
-                <textarea id="bio" cols="40" rows="5" maxlength="500"
+                <textarea id="bio" cols="40" rows="5" maxlength="500" name="bio"
                           onkeyup="countChars('bio','charCountBio');"
                           onkeydown="countChars('bio','charCountBio');"
                           onmouseout="countChars('bio','charCountBio');"></textarea>
