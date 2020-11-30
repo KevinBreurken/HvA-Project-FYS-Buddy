@@ -93,3 +93,8 @@ main {
 #bio {
     display: block;
 }
+
+.img-preview img{
+    max-height: 200px;
+    max-width: 200px;
+}
