@@ -16,15 +16,15 @@ FYSCloud.Localization.Buddy = (function ($) {
             currentTranslations = jsonObject;
         else
             $.extend(currentTranslations, jsonObject);
-
         FYSCloud.Localization.setTranslations(currentTranslations);
+        FYSCloud.Localization.translate(false);
     }
 
     return exports;
 })(jQuery);
 
 //TODO: Change this to the users preference.
-var initialLanguage = "en";
+var initialLanguage = "nl";
 $(function () {
     FYSCloud.Localization.switchLanguage(initialLanguage);
 });
