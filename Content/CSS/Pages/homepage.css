@@ -187,106 +187,94 @@ main {
   margin-top: 30px;
 }
 
-/* matches tabs titles */
+/* matches tabs buttons */
 #matches-tabs-border {
   border: var(--border-corendon-grey);
   position: relative;
 }
 
-.tab-menu-container {
+#button-menu-container {
+  position: relative;
+  font-size: 0;
   display: flex;
-  font-size: 16px;
-  width: 100%;
+  flex-wrap: wrap;
+  margin: 0 auto 0 auto;
 }
 
-.tab-menu-border {
-  display: flex;
-  border: #c11905 solid 1px;
-  width: 100%;
-  background-color: var(--color-corendon-red);
-}
-
-/* tab buttons */
-.tab-menu-container button {
-  font-size: 18px;
+#filters, #tab-buttons-border button {
   color: var(--color-corendon-white);
+  font-size: 18px;
   border: none;
   border-right: var(--color-corendon-dark-red) groove;
   padding: 10px 15px 10px 15px;
   background-color: var(--color-corendon-red);
 }
 
-.tab-menu-container button:hover {
-  background-color: var(--color-corendon-dark-red)
+#tab-buttons-border button:hover {
+  background-color: var(--color-corendon-dark-red);
 }
 
-/* filter button */
-.tab-button:last-of-type {
-  margin-left: auto;
-  border: none;
-  width: max-content;
-}
-
-.tab-button:focus {
-  outline: none;
-}
-
-#filter-button img {
-  width: 0.7em;
-  padding-left: 0.5em;
-}
-
-#filter-button:hover #filter-dropdown {
-  display: flex;
-}
-
-/* filter dropdown */
-#filter-dropdown {
-  display: none;
-  right: 0;
-  font-size: 0;
-  color: var(--color-corendon-white);
-  position: absolute;
-  justify-content: space-evenly;
-  width: fit-content;
-  z-index: 2;
-  border: var(--color-corendon-dark-red) 1px solid;
+#tab-buttons-border {
+  width: 90%;
   background-color: var(--color-corendon-red);
 }
 
-.filter-row {
-  font-size: 16px;
+/* filters */
+#filters {
+  display: flex;
+  width: 10%;
+  border: none;
+  justify-content: flex-end;
+}
+
+#filters img {
+  width: 18px;
+  margin: 0 5px 0 5px;
+}
+
+#filter-dropdown {
+  position: absolute;
+  right: 0;
+  top: 41px;
+  font-size: 18px;
+  display: none;
+  justify-content: center;
+  width: max-content;
+  background-color: var(--color-corendon-red);
+  color: var(--color-corendon-white);
+  margin-left: auto;
+  border-top: var(--color-corendon-dark-red) 1px solid;
+}
+
+#filters:hover + #filter-dropdown{
+  display: flex;
+}
+
+#filter-dropdown:hover {
+  display: flex;
+}
+
+/* filter options */
+.filter-option {
+  padding: 5px;
+}
+
+.filter-option-buttons {
   display: flex;
   flex-direction: column;
-  margin: 10px;
-  width: 125px;
+  margin-top: 5px;
 }
 
-.filter-row p {
-  font-weight: bold;
-  margin-bottom: 5px;
-  text-align: left;
-  padding-left: 5px;
-}
-
-.filter-row button {
-  font-family: var(--font-family);
-  font-size: 16px;
-  color: var(--color-corendon-white);
-  display: flex;
-  padding: 5px;
+.filter-option-buttons button {
   border: none;
-  width: inherit;
-  background-color: var(--color-corendon-red);
-}
-
-.filter-row button:hover {
-  font-weight: bold;
+  color: var(--color-corendon-white);
+  background-color: inherit;
+  height: 22px;
 }
 
 /* tab content */
-.tab-content {
-  display: none;
+#tab-content {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   padding: 40px 0 40px 0;
@@ -410,6 +398,12 @@ main {
   overflow: hidden;
 }
 
+#overlay-interests ul {
+  text-align: center;
+  padding: 0;
+  margin-top: 5px;
+}
+
 #overlay-bio {
   margin-top: 10px;
   flex: 2;
@@ -478,44 +472,4 @@ main {
   background-color: rgba(0, 0, 0, .5);
   pointer-events: none;
   z-index: 4;
-}
-
-/* tooltips */
-span .tooltip-icon {
-  width: 25px;
-  height: 25px;
-  align-self: center;
-  padding-left: 10px;
-}
-
-[data-tooltip] {
-  display: flex;
-  position: relative;
-  cursor: default;
-}
-
-[data-tooltip]::after {
-  position: absolute;
-  width: 300px;
-  left: calc(50% - 150px);
-  bottom: 125%;
-  text-align: center;
-  box-sizing: border-box;
-  content: attr(data-tooltip);
-  color: #ffffff;
-  background-color: var(--color-corendon-light-blue);
-  padding: 8px;
-  border-radius: 10px;
-  font-size: 0.9em;
-  font-weight: bold;
-  visibility: hidden;
-  opacity: 0; 
-  transform: translateY(-15px);
-  transition: opacity 1s, transform 1s;
-}
-
-[data-tooltip]:hover::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
 }
