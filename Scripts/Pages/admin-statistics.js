@@ -45,16 +45,34 @@ function renderStatistics() {
     }
 }
 
+function generatePiechart(divID, data) {
+    //Create a Chart.js pie chart.
+    var context = $(divID);
+    var myChart = new Chart(context, {
+        type: 'pie',
+        data: {
+            labels: data[0],
+            datasets: [{
+                backgroundColor: pieChartColors,
+                data: data[1]
+            }]
+        }
+    });
+
+
+}
+
 function makeOL(array) {
     // Create the list element:
-    var list = document.createElement('ol');
-    for (var i = 0; i < array.length; i++) {
+    var list = document.createElement('div');
+    for (var i = 0; i < array[0].length; i++) {
         // Create the list item:
         var item = document.createElement('li');
 
         // Set its contents:
-        item.appendChild(document.createTextNode(array[i]));
-
+        item.appendChild(document.createTextNode(array[0][i]));
+        if (array[1] != null)
+            item.appendChild(document.createTextNode(" (" + array[1][i] + ")"));
         // Add it to the list:
         list.appendChild(item);
     }
@@ -145,4 +163,5 @@ var statisticsTranslation = {
         }
     }
 };
+
 FYSCloud.Localization.Buddy.addTranslationJSON(statisticsTranslation);
