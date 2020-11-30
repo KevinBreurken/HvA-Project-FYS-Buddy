@@ -89,6 +89,7 @@ function openProfile(userID) {
 var currentNotificationAmount = 0;
 
 function updateNotificationCounter() {
+    //Only show +9 when notifications are above 10.
     let amountDisplayString = (currentNotificationAmount > 9) ? "9+" : currentNotificationAmount;
     $("#notification-display-counter-text").html(amountDisplayString);
     if (currentNotificationAmount === 0) {
@@ -135,9 +136,11 @@ FYSCloud.API.queryDatabase(
     for (let i = 0; i < notificationData.length; i++) {
         notificationIDs[i] = notificationData[i]["sentUserID"];
     }
-    let string = "(" + notificationIDs.toString() + ")";
+    let arrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
+
+    //Fetch all the notifications that match all the ID's in arrayString.
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE userID IN " + string
+        "SELECT * FROM user WHERE userID IN " + arrayString
     ).done(function (userData) {
         currentNotificationAmount = userData.length;
         updateNotificationCounter();
