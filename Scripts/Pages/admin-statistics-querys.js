@@ -10,7 +10,7 @@ fetchStatisticsFromDatabase();
 function fetchStatisticsFromDatabase() {
     // ~~~~ FETCH AMOUNT OF USERS ~~~~
     FYSCloud.API.queryDatabase(
-        "SELECT Count(*) AS totalUserCount FROM users"
+        "SELECT Count(*) AS totalUserCount FROM user"
     ).done(function (data) {
         let userCount = data[0]["totalUserCount"];
         // ** USERS - TOTAL ACCOUNTS **
