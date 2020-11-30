@@ -37,7 +37,6 @@ function swapStep(number) {
     showTab(currentStep)
 }
 
-
 function swapNav(number) {
     let i, step = document.getElementsByClassName("nav-step")
     for (i = 0; i < step.length; i++) {
@@ -86,3 +85,18 @@ var maximumAgeDate = dateYear - MAX_AGE + '-' + dateMonth + '-' + dateDate
 
 document.getElementById('DoB').setAttribute('max', minimumAgeDate)
 document.getElementById('DoB').setAttribute('min', maximumAgeDate)
+
+//Upload files function from FYS CLoud
+$("#fileUpload").on("change", function () {
+    FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
+        //$("#filePreviewResult").html(`${data.fileName} (${data.extension}) => ${data.mimeType} (Is image: ${data.isImage})`);
+
+        if (data.isImage) {
+            $("#imagePreview").attr("src", data.url);
+        } else {
+
+        }
+    }).fail(function (reason) {
+        $("#filePreviewResult").html(reason);
+    });
+});
