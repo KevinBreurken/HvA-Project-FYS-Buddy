@@ -11,18 +11,18 @@
         currentMenuType = 'home';
         isNavigationVisible = false;
     </script>
-
     <link rel="stylesheet" href="Content/CSS/Pages/register.css">
 </head>
 <body>
 <main>
-    <h1>Welcome at Corendon. You can register your account here. </h1>
+    <h1>Welcome at Corendon. </h1>
+    <h4>You can register your account here. </h4>
 
     <div id="nav">
         <ul>
-            <li class="active nav-step">Login Details</li>
-            <li class="active nav-step">User Information</li>
-            <li class="active nav-step">Interests</li>
+            <li class="active nav-step">1. Login Details</li>
+            <li class="active nav-step">2. User Information</li>
+            <li class="active nav-step">3. Interests</li>
         </ul>
     </div>
 
@@ -47,7 +47,7 @@
 
                 <div class="form-group">
                     <label for="email">Email </label>
-                    <input type="text" id="email" name="email" maxlength="50" required>
+                    <input type="email" id="email" name="email" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
@@ -75,24 +75,30 @@
 
             <div class="form-group">
                 <label for="first-name">First name </label>
-                <input type="text" id="first-name" name="first-name" maxlength="50" required>
+                <input type="text" id="first-name" name="first-name" maxlength="25" required>
             </div>
 
             <div class="form-group">
                 <label for="last-name">Last name </label>
-                <input type="text" id="last-name" required>
+                <input type="text" id="last-name" name="last-name" maxlength="25" required>
             </div>
 
             <div class="form-group">
                 <p>Gender</p>
-                <input type="radio" class="inline-form" id="male" name="Gender" value="Male" required>
+
+                <input type="radio" class="inline-form" id="male" name="gender" value="Male" required>
                 <label for="male">Man </label><br>
 
-                <input type="radio" class="inline-form" id="female" name="Gender" value="Female" required>
+                <input type="radio" class="inline-form" id="female" name="gender" value="Female" required>
                 <label for="female">Female </label><br>
 
-                <input type="radio" class="inline-form" id="other-gender" name="Gender" value="Other" required>
+                <input type="radio" class="inline-form" id="other-gender" name="gender" value="Other" required>
                 <label for="other-gender">Other </label>
+            </div>
+
+            <div class="form-group">
+                <label for="DoB">Date of birth</label>
+                <input type="Date" id="DoB" name="DoB" required>
             </div>
         </div>
 
@@ -104,7 +110,7 @@
                           onkeyup="countChars('bio','charCountBio');"
                           onkeydown="countChars('bio','charCountBio');"
                           onmouseout="countChars('bio','charCountBio');"></textarea>
-                <span id="charCountBio">0</span>/200 characters entered.
+                <span id="charCountBio">0</span>/500 characters entered.
             </div>
 
             <div class="form-group">
@@ -157,7 +163,7 @@
         <div class="btn-group">
             <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
             <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
-            <button class="btn" id="btn-register" onclick="location.href=('homepage.html')">Register</button>
+            <button class="btn" id="btn-register">Register</button>
         </div>
     </form>
 </main>

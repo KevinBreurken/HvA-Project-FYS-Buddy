@@ -2,7 +2,7 @@
 // let userId = FYSCloud.Session.get("userId");
 //
 // if(userId === undefined) {
-//     window.location.href = "home-not-logged-in.html";
+//     window.location.href = "index.html";
 // }
 
 // Collapsible block elements:

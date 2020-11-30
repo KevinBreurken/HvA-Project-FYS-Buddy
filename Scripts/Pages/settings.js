@@ -1,9 +1,19 @@
 let validation = true;
+// User
 let users;
 let currentUser;
 let firstname;
 let middlename;
 let lastname;
+// Distance
+let distanceControls;
+let distanceRange;
+let distanceMax;
+let distanceResult;
+// Language
+let languages;
+let languageControl;
+let languageOptions;
 
 // TODO: only get the user information of users who communicated to the current user stored in the session.
 FYSCloud.API.queryDatabase(
@@ -14,12 +24,25 @@ FYSCloud.API.queryDatabase(
     console.log(reason);
 });
 
-// Distance handling:
-let distanceControls;
-let distanceRange;
-let distanceMax;
-let distanceResult;
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM languages"
+).done(function(languages) {
+    setLanguages(languages)
+}).fail(function(reason) {
+    console.log(reason);
+});
 
+// Language handling:
+function setLanguages(languages) {
+    languageControl = document.querySelector("#language");
+    languageOptions = "";
+    for(let i = 0; i < languages.length; i++) {
+        languageOptions += "<option value=\"" + languages[i].name + "\">" + languages[i].name + "</option>"
+    }
+    languageControl.innerHTML = languageOptions;
+}
+
+// Distance handling:
 // Get distance control elements:
 distanceControls = document.querySelector("#distance-controls");
 // Get maximum distance:
@@ -53,7 +76,7 @@ distanceMax.addEventListener("change", function() {
         distanceControls.style.display = "block";
         distanceRange.setAttribute("max", this.value);
         // Update distance result when selected option exceeds slider's previous value.
-        if(Number(distanceResult.innerHTML) > this.value) {
+        if(Number(distanceResult.innerHTML) > this.value || distanceResult.innerHTML.charCodeAt(0) === 8734) {
             distanceResult.innerHTML = this.value;
         }
     }

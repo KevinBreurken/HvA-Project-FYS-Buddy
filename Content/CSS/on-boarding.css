@@ -13,4 +13,7 @@
 #on-boarding p {
     text-align: left;
 }
-/*# sourceMappingURL=on-boarding.css.map */
+
+#on-boarding .first-header {
+    margin-top: 0;
+}

@@ -1,88 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <link rel="stylesheet" href="Content/CSS/header.css">
-    <script src="Scripts/header.js"></script>
-</head>
-
-<body>
-    <div class="main-header">
-        <div class="main-banner">
-            <a href="homepage.html">
-                <img src="Content/Images/banner-heavy.png">
-            </a>
-        </div>
-        <nav class="main-menu">
-            <!--todo: dynamische header achtergrond en main-menu. (js)-->
-            <ul class="main-menu-items">
-                <li><a class="main-menu-buttons" href="homepage.html" type="home">
-                        <img class="main-menu-home-icon"
-                            src="Content/Images/home-icon.png">
-                        Home</a></li>
-                <li><a class="main-menu-buttons" href="profile.html" type="profile">Profile</a></li>
-                <li><a class="main-menu-buttons" href="settings.html" type="settings">Settings</a></li>
-                <li><a class="main-menu-buttons" href="support.html" type="help">Help</a></li>
-                <li>
-                    <div class="notification-display-dropdown">
-                        <button class="notification-display-button">
-                            <img class="notification-display-icon" src="Content/Images/notification-yellow.svg">
-                            <div class="notification-display-counter">
-                                <img class="notification-display-counter-circle"
-                                    src="Content/Images/notification-counter-backdrop.svg">
-                                <div class="notification-display-counter-text">5</div>
-                            </div>
-                        </button>
-                        <div class="notification-display-dropdown-content">
-                            <ul>
-                                <li class="notification-display-content-item">
-                                    <div class="notification-text"></div>
-                                    <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                                </li>
-                                <li class="notification-display-content-item">
-                                    <div class="notification-text"></div>
-                                    <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                                </li>
-                                <li class="notification-display-content-item">
-                                    <div class="notification-text"></div>
-                                    <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                                </li>
-                                <li class="notification-display-content-item">
-                                    <div class="notification-text"></div>
-                                    <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                                </li>
-                                <li class="notification-display-content-item">
-                                    <div class="notification-text"></div>
-                                    <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-                <li>
-                    <div class="profile-display-dropdown">
-                        <button class="profile-display-button">
-                            <img class="profile-display-icon-profile" src="Content/Images/user-icon.svg">
-                            <div class="profile-display-text"></div>
-                            <img class="profile-display-icon-arrow" src="Content/Images/down-arrow.svg">
-                        </button>
-                        <div class="profile-display-dropdown-content">
-                            <ul>
-                                <li class="profile-display-dropdown-item">
-                                    <a href="home-not-logged-in.html">
-                                        <img class="profile-display-icon-profile"
-                                            src="Content/Images/icon-sign-out.svg">
-                                        Sign Out
-                                    </a>
-                                </li>
-                                <!-- <li class="profile-display-dropdown-item">Sign Out</li> -->
-                            </ul>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </nav>
+<div class="main-header">
+    <div class="main-banner">
+        <a href="homepage.html">
+            <img src="Content/Images/banner-heavy.png">
+        </a>
     </div>
-</body>
-
-</html>
+    <nav class="main-menu">
+        <!--todo: dynamische header achtergrond en main-menu. (js)-->
+        <ul class="main-menu-items">
+            <li><a class="main-menu-buttons" href="homepage.html" type="home">
+                <img class="main-menu-home-icon"
+                     src="Content/Images/home-icon.png">
+                Home</a></li>
+            <li><a class="main-menu-buttons" href="profile.html" type="profile">Profile</a></li>
+            <li><a class="main-menu-buttons" href="settings.html" type="settings">Settings</a></li>
+            <li><a class="main-menu-buttons" href="support.html" type="help">Help</a></li>
+            <li>
+                <div class="notification-display-dropdown">
+                    <button class="notification-display-button">
+                        <img class="notification-display-icon" src="Content/Images/notification-yellow.svg">
+                        <div class="notification-display-counter">
+                            <img class="notification-display-counter-circle"
+                                 src="Content/Images/notification-counter-backdrop.svg">
+                            <div class="notification-display-counter-text">5</div>
+                        </div>
+                    </button>
+                    <div class="notification-display-dropdown-content">
+                        <ul>
+                            <li class="notification-display-content-item">
+                                <div class="notification-text"></div>
+                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
+                            </li>
+                            <li class="notification-display-content-item">
+                                <div class="notification-text"></div>
+                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
+                            </li>
+                            <li class="notification-display-content-item">
+                                <div class="notification-text"></div>
+                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
+                            </li>
+                            <li class="notification-display-content-item">
+                                <div class="notification-text"></div>
+                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
+                            </li>
+                            <li class="notification-display-content-item">
+                                <div class="notification-text"></div>
+                                <img class="notification-profile-icon" src="Content/Images/open-profile.svg">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="profile-display-dropdown">
+                    <button class="profile-display-button">
+                        <img class="profile-display-icon-profile" src="Content/Images/user-icon.svg">
+                        <div class="profile-display-text"></div>
+                        <img class="profile-display-icon-arrow" src="Content/Images/down-arrow.svg">
+                    </button>
+                    <div class="profile-display-dropdown-content">
+                        <ul>
+                            <li class="profile-display-dropdown-item">
+                                <a href="home-not-logged-in.html">
+                                    <img class="profile-display-icon-profile"
+                                         src="Content/Images/icon-sign-out.svg">
+                                    Sign Out
+                                </a>
+                            </li>
+                            <!-- <li class="profile-display-dropdown-item">Sign Out</li> -->
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</div>
