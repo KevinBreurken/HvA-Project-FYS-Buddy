@@ -37,7 +37,7 @@ FYSCloud.Localization.Buddy = (function ($) {
 
         const localizeKeys = translateKey.split(".");
 
-        var result = currentTranslations;
+        let result = currentTranslations;
         for (let i = 0; i < localizeKeys.length; i++) {
             result = result[localizeKeys[i]];
             if (result === undefined) {
@@ -63,6 +63,5 @@ FYSCloud.Localization.Buddy = (function ($) {
 //TODO: Change this to the users preference.
 var initialLanguage = "en";
 $(function () {
-    FYSCloud.Localization.Buddy.setLanguage("en");
     FYSCloud.Localization.Buddy.setLanguage(initialLanguage);
 });
