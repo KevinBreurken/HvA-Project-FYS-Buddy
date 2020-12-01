@@ -40,6 +40,7 @@ function generateUserDisplays(tab, data) {
         let username = userData.username == null ? "username" : userData.username;
 
         //todo: profile picture
+        let userIdIndex = userData.userId;
 
         //location
         let location = userData.location == null ? "City, Country" : userData.location;
@@ -67,24 +68,25 @@ function generateUserDisplays(tab, data) {
         }
 
         userDisplays[i].innerHTML =
-            "<h1 id=\"user-display-h1-" + i + "\">" + username + "</h1>" +
-            "<img class=\"profile-picture\" src=\"Content/Images/profile-picture-" + (i+1) + ".jpg\">" +
-            "<div>" +
-            "<p>" + location + "</p>" +
-            "<p>from " + startDate + "</p>" +
-            "<p>until " + endDate + "</p>" +
-            "<p>looking for " + buddy + "</p>" +
-            "</div>" +
-            "<div class=\"tab-content-column-4\">" +
-            "<button id=\"button1-" + i + "\" onclick=\"displayOverlay('overlay-1')\">more info</button>" +
-            "<button id=\"button2-" + i + "\" onclick=\"closeFunction(" + "'user-display-" + i + "'" + ")\">X</button>" +
-            "<div id=\"favorite-v1-" + i + "\" onclick=\"swapFavoritesIcon(" + "'favorite-v1-" + i + "'," + "'favorite-v2-" + i + "'" + ")\">" +
-            "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v1.png\">" +
-            "</div>" +
-            "<div id=\"favorite-v2-" + i + "\" style=\"display: none\" onclick=\"swapFavoritesIcon(" + "'favorite-v2-" + i + "'," + "'favorite-v1-" + i + "'" + ")\">" +
-            "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v2.png\">" +
-            "</div>" +
-            "</div>";
+            `<h1 id=user-display-h1-${i}>${username}</h1>
+            <img class="profile-picture" src="https://dev-is111-1.fys.cloud/uploads/profile-pictures/pp-${userIdIndex}.jpg">
+            <div>
+            <p>${location}</p>
+            <p>from ${startDate}</p>
+            <p>until ${endDate}</p>
+            <p>${buddy}</p>
+            </div>
+            <div class="tab-content-column-4">
+            <button id="button1-${i}" onclick="displayOverlay('overlay-1')">more info</button>
+            <button id="button2-${i}" onclick="closeFunction('user-display-${i}')">X</button>
+            <div id="favorite-v1-${i}" onclick="swapFavoritesIcon('favorite-v1-${i}','favorite-v2-${i}')">
+            <img class="favorite-icon" src="Content/Images/favorite-v1.png">
+            </div>
+            <div id="favorite-v2-${i}" style="display: none" onclick="swapFavoritesIcon('favorite-v2-${i}','favorite-v1-${i}')">
+            <img class="favorite-icon" src="Content/Images/favorite-v2.png">
+            </div>
+            </div>
+            </div>`;
     }
 }
 
