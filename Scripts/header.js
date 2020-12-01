@@ -60,29 +60,19 @@ function onHeaderLoaded() {
         updateMenuButtons();
     }
 
-    //For testing purposes
-    //Randomise Account name.
-    const testNames = [
-        'Irene',
-        'Hanna',
-        'Kiet',
-        'Dylan',
-        'Kevin',
-        'Barry',
-        'Anthonius',
-        'Bernardus',
-        'Gijsbertinandus'
-    ];
-    $('#profile-display-name').html(testNames[Math.floor(Math.random() * testNames.length)]);
-
-    const notificationText = " has sent a contact request";
-    // $('.notification-text').html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
-
-    $('.notification-text').each(function (index, element) {
-        $(this).html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM user WHERE userID = ?",
+        [getCurrentUserID()]
+    ).done(function (data) {
+        console.log(data);
+        $('#profile-display-name').html(data[0]["firstName"]);
+    }).fail(function (reason) {
+        console.log(reason);
     });
 
+
     FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
+
 }
 
 /**
