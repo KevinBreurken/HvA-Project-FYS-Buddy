@@ -88,16 +88,25 @@ header {
 }
 
 .profile-display-dropdown-item {
+    display: flex;
+    justify-content: left;
     color: var(--color-corendon-light-blue);
     font-family: var(--font-family);
     font-weight: bold;
     font-style: italic;
     font-size: 14px;
     text-transform: uppercase;
-    padding-top: 5px;
-    padding-bottom: 10px;
-    margin-left: 20px;
-    margin-right: 20px;
+    padding-bottom: 5px;
+    padding-left: 4px;
+}
+
+#profile-display-logout-text{
+   padding-left: 3px;
+}
+
+/** Shortens the spacing between welcome text and name */
+#profile-display-name{
+    padding-left: 0px;
 }
 
 .profile-display-dropdown-item a {
