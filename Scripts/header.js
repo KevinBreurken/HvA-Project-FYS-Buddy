@@ -37,11 +37,11 @@ var headerTranslations = {
             en: "Has sent a contact request."
         },
         userDisplay: {
-            welcomeText:{
+            welcomeText: {
                 nl: "Welkom,",
                 en: "Welcome,"
             },
-            signOut:{
+            signOut: {
                 nl: "Uitloggen",
                 en: "Log out"
             }
@@ -64,8 +64,8 @@ function onHeaderLoaded() {
         "SELECT * FROM user WHERE userID = ?",
         [getCurrentUserID()]
     ).done(function (data) {
-        console.log(data);
-        $('#profile-display-name').html(data[0]["firstName"]);
+        if (data.length !== 0)
+            $('#profile-display-name').html(data[0]["firstName"]);
     }).fail(function (reason) {
         console.log(reason);
     });
