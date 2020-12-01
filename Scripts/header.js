@@ -1,8 +1,61 @@
+var headerTranslations = {
+    header: {
+        navigation: {
+            home: {
+                nl: "Home",
+                en: "Home"
+            },
+            profile: {
+                nl: "Profiel",
+                en: "Profile"
+            },
+            settings: {
+                nl: "Instellingen",
+                en: "Settings"
+            },
+            help: {
+                nl: "Help",
+                en: "Help"
+            }
+        },
+        adminNavigation: {
+            account: {
+                nl: "Account",
+                en: "Account"
+            },
+            overview: {
+                nl: "Data Overzicht",
+                en: "Data Overview"
+            },
+            statistics: {
+                nl: "Statistieken",
+                en: "Statistics"
+            }
+        },
+        notificationText: {
+            nl: "Heeft een contactverzoek verstuurd.",
+            en: "Has sent a contact request."
+        },
+        userDisplay: {
+            welcomeText:{
+                nl: "Welkom,",
+                en: "Welcome,"
+            },
+            signOut:{
+                nl: "Uitloggen",
+                en: "Log out"
+            }
+        }
+    }
+};
+
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
-            overrideMenuButtons([["account", "admin-profile.html"], ["overview data", "admin-panel.html"], ["statistics", "admin-statistics.html"]]);
+            overrideMenuButtons([["account", "admin-profile.html", "header.adminNavigation.account"],
+                ["overview data", "admin-panel.html", "header.adminNavigation.overview"],
+                ["statistics", "admin-statistics.html", "header.adminNavigation.statistics"]]);
 
         updateMenuButtons();
     }
@@ -20,8 +73,7 @@ function onHeaderLoaded() {
         'Bernardus',
         'Gijsbertinandus'
     ];
-    const preText = 'Welcome, ';
-    $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
+    $('#profile-display-name').html(testNames[Math.floor(Math.random() * testNames.length)]);
 
     const notificationText = " has sent a contact request";
     // $('.notification-text').html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
@@ -30,6 +82,7 @@ function onHeaderLoaded() {
         $(this).html(testNames[Math.floor(Math.random() * testNames.length)] + notificationText);
     });
 
+    FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
 }
 
 /**
@@ -48,7 +101,7 @@ function updateMenuButtons() {
 
 function setNavigationVisibility(state) {
     $('.main-menu-buttons').toggle(state);
-    if(state === false)
+    if (state === false)
         $('.main-menu').empty();
 }
 
@@ -64,15 +117,15 @@ function overrideMenuButtons(newButtons) {
     for (let i = 0; i < newButtons.length; i++) {
         //Add the homepage icon to the first item only.
         const homeImageHTML = i == 0 ? `<img class="main-menu-home-icon"
-        src="Content/Images/home-icon.png">`: '';
+        src="Content/Images/home-icon.png">` : '';
         //Create the list item.
-        $(itemList).append(`<li><a class="main-menu-buttons" href="${newButtons[i][1]}
+        $(itemList).append(`<li><a class="main-menu-buttons" data-translate="${newButtons[i][2]}" href="${newButtons[i][1]}
         " type="${newButtons[i][0]}">${homeImageHTML}${newButtons[i][0]}</a></li>`);
     }
 
     updateMenuButtons();
 }
 
-$(function (){
+$(function () {
     onHeaderLoaded();
 });
