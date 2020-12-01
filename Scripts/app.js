@@ -6,6 +6,7 @@ headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/
 //add the config file
 headElement.append(`<title>Corendon Travel Buddy</title>`);
 
+/** Localisation */
 FYSCloud.Localization.Buddy = (function ($) {
     const exports = {
         addTranslationJSON: addTranslationJSON,
@@ -53,15 +54,34 @@ FYSCloud.Localization.Buddy = (function ($) {
             currentTranslations = jsonObject;
         else
             $.extend(currentTranslations, jsonObject);
-
         FYSCloud.Localization.setTranslations(currentTranslations);
+        FYSCloud.Localization.translate(false);
     }
 
     return exports;
 })(jQuery);
 
 //TODO: Change this to the users preference.
-var initialLanguage = "en";
+var initialLanguage = "nl";
 $(function () {
     FYSCloud.Localization.Buddy.setLanguage(initialLanguage);
 });
+/** Sessions */
+let currentUserID = FYSCloud.Session.get("userID",-1);
+console.log("currentUserID = " + currentUserID);
+if(currentUserID === -1){
+    console.log("Not logged in");
+}
+
+function setCurrentUserID(id){
+    FYSCloud.Session.set("userID",id);
+}
+
+function getCurrentUserID(){
+    return currentUserID;
+}
+
+function closeSession(){
+    window.open("index.html","_self");
+    FYSCloud.Session.set("userID",-1);
+}
