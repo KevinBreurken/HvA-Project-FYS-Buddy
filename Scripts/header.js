@@ -70,9 +70,7 @@ function onHeaderLoaded() {
         console.log(reason);
     });
 
-
     FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
-
 }
 
 /**
