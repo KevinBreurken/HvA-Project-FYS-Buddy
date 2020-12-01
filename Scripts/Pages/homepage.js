@@ -15,16 +15,15 @@ function openTabContent (currentButton) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user"
     ).done(function(data) {
-        console.log(data);
         tab.html("");
-        generatedUserDisplays(tab, data);
+        generateUserDisplays(tab, data);
     }).fail(function(reason) {
         console.log(reason);
     });
 }
 
 //generates user-displays
-function generatedUserDisplays(tab, data) {
+function generateUserDisplays(tab, data) {
     let userDisplays = [];
     for (let i = 0; i < data.length; i++) {
 
@@ -34,14 +33,43 @@ function generatedUserDisplays(tab, data) {
 
         tab.append(userDisplays[i]);
 
+        //getting data
+        let userData = data[i];
+
+        //username
+        let username = userData.username == null ? "username" : userData.username;
+
+        //todo: profile picture
+
+        //location
+        let location = userData.location == null ? "City, Country" : userData.location;
+
+        //start date
+        let date = new Date(userData.startDate);
+        let startDate = userData.startDate == null
+            ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+
+        //end date
+        date = new Date(userData.endDate);
+        let endDate = userData.endDate == null
+            ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+
+        //type of buddy
+        let buddy;
+        if (userData.travelBuddy === 1 && userData.activityBuddy === 1) buddy = "a buddy";
+        else if (userData.travelBuddy === 1 && !(userData.activityBuddy === 1)) buddy = "a travel buddy";
+        else if (!(userData.travelBuddy === 1) && userData.activityBuddy === 1) buddy = "an activity buddy";
+        else buddy = " a buddy";
+
+
         userDisplays[i].innerHTML =
-            "<h1 id=\"user-display-h1-" + i + "\">username" + i + "</h1>" +
+            "<h1 id=\"user-display-h1-" + i + "\">" + username + "</h1>" +
             "<img class=\"profile-picture\" src=\"Content/Images/profile-picture-" + (i+1) + ".jpg\">" +
             "<div>" +
-            "<p>City, Country</p>" +
-            "<p>from dd-mm-yyyy</p>" +
-            "<p>until dd-mm-yyyy</p>" +
-            "<p>type of buddy</p>" +
+            "<p>" + location + "</p>" +
+            "<p>from " + startDate + "</p>" +
+            "<p>until " + endDate + "</p>" +
+            "<p>looking for " + buddy + "</p>" +
             "</div>" +
             "<div class=\"tab-content-column-4\">" +
             "<button id=\"button1-" + i + "\" onclick=\"displayOverlay('overlay-1')\">more info</button>" +
@@ -55,6 +83,9 @@ function generatedUserDisplays(tab, data) {
             "</div>";
     }
 }
+
+//getting user data
+
 
 //displays the current overlay and the overlay-background
 function displayOverlay (overlayId) {
