@@ -3,8 +3,8 @@ document.getElementById("default-active").click();
 
 //function to switch the tab and active tab-button
 function openTabContent (currentButton) {
-    var tabButtons = $(".tab-button");
-    var tabContent = $("#tab-content");
+    let tabButtons = $(".tab-button");
+    let tab = $("#tab");
 
     //swaps the button colors
     for (let i = 0; i < tabButtons.length; i++) {
@@ -15,19 +15,45 @@ function openTabContent (currentButton) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user"
     ).done(function(data) {
-        // console.log(data);
-        $.get("Views/user-display.html", function (htmlData) {
-            tabContent.html("");
-            for (let i = 0; i < data.length; i++) {
-
-                //todo: adding id's
-                //todo: replacing placeholders with database instances
-                tabContent.append($(htmlData));
-            }
-        });
+        console.log(data);
+        tab.html("");
+        generatedUserDisplays(tab, data);
     }).fail(function(reason) {
         console.log(reason);
     });
+}
+
+//generates user-displays
+function generatedUserDisplays(tab, data) {
+    let userDisplays = [];
+    for (let i = 0; i < data.length; i++) {
+
+        userDisplays[i] = document.createElement("div");
+        userDisplays[i].className = "user-display";
+        userDisplays[i].setAttribute("id", "user-display-" + i);
+
+        tab.append(userDisplays[i]);
+
+        userDisplays[i].innerHTML =
+            "<h1 id=\"user-display-h1-" + i + "\">username" + i + "</h1>" +
+            "<img class=\"profile-picture\" src=\"Content/Images/profile-picture-" + (i+1) + ".jpg\">" +
+            "<div>" +
+            "<p>City, Country</p>" +
+            "<p>from dd-mm-yyyy</p>" +
+            "<p>until dd-mm-yyyy</p>" +
+            "<p>type of buddy</p>" +
+            "</div>" +
+            "<div class=\"tab-content-column-4\">" +
+            "<button id=\"button1-" + i + "\" onclick=\"displayOverlay('overlay-1')\">more info</button>" +
+            "<button id=\"button2-" + i + "\" onclick=\"closeFunction(" + "'user-display-" + i + "'" + ")\">X</button>" +
+            "<div id=\"favorite-v1-" + i + "\" onclick=\"swapFavoritesIcon(" + "'favorite-v1-" + i + "'," + "'favorite-v2-" + i + "'" + ")\">" +
+            "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v1.png\">" +
+            "</div>" +
+            "<div id=\"favorite-v2-" + i + "\" style=\"display: none\" onclick=\"swapFavoritesIcon(" + "'favorite-v2-" + i + "'," + "'favorite-v1-" + i + "'" + ")\">" +
+            "<img class=\"favorite-icon\" src=\"Content/Images/favorite-v2.png\">" +
+            "</div>" +
+            "</div>";
+    }
 }
 
 //displays the current overlay and the overlay-background
@@ -48,8 +74,8 @@ function swapFavoritesIcon (currentIconId, newIconId) {
     document.getElementById(newIconId).style.display = "";
 }
 
-//function that swaps the color of the 'send request' button
-function swapColor(button) {
-    button.style.backgroundColor = "var(--color-corendon-dark-red)";
-}
+// //function that swaps the color of the 'send request' button
+// function swapColor(button) {
+//     button.style.backgroundColor = "var(--color-corendon-dark-red)";
+// }
 
