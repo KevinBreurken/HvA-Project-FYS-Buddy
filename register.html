@@ -68,9 +68,13 @@
             <h2>User information</h2>
 
             <div style="float: right">
-                <p>Choose a profile picture</p>
-                <!-- TODO foto preview in de website laden -->
-                <input type="file" accept="image/*">
+                <div>
+                    <p>Choose a profile picture</p>
+                    <input type="file" id="fileUpload" accept="image/*">
+                </div>
+                <div class="img-preview">
+                    <img id="imagePreview"/>
+                </div>
             </div>
 
             <div class="form-group">
