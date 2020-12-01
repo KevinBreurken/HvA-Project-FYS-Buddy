@@ -56,11 +56,15 @@ function generateUserDisplays(tab, data) {
 
         //type of buddy
         let buddy;
-        if (userData.travelBuddy === 1 && userData.activityBuddy === 1) buddy = "a buddy";
-        else if (userData.travelBuddy === 1 && !(userData.activityBuddy === 1)) buddy = "a travel buddy";
-        else if (!(userData.travelBuddy === 1) && userData.activityBuddy === 1) buddy = "an activity buddy";
-        else buddy = " a buddy";
-
+        if (userData.travelBuddy === 1 && userData.activityBuddy === 1) {
+            buddy = "a buddy";
+        } else if (userData.travelBuddy === 1 && !(userData.activityBuddy === 1)) {
+            buddy = "a travel buddy";
+        } else if (!(userData.travelBuddy === 1) && userData.activityBuddy === 1) {
+            buddy = "an activity buddy";
+        } else {
+            buddy = " a buddy";
+        }
 
         userDisplays[i].innerHTML =
             "<h1 id=\"user-display-h1-" + i + "\">" + username + "</h1>" +
@@ -83,8 +87,6 @@ function generateUserDisplays(tab, data) {
             "</div>";
     }
 }
-
-//getting user data
 
 
 //displays the current overlay and the overlay-background
