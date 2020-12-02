@@ -33,8 +33,8 @@ var headerTranslations = {
             }
         },
         notificationText: {
-            nl: "Heeft een contactverzoek verstuurd.",
-            en: "Has sent a contact request."
+            nl: "%name Heeft een contactverzoek verstuurd.",
+            en: "%naam Has sent a contact request."
         },
         userDisplay: {
             welcomeText: {
@@ -117,6 +117,8 @@ function overrideMenuButtons(newButtons) {
 
 $(function () {
     onHeaderLoaded();
+});
+
 function openProfile(userID) {
     //TODO:Open profile to correct profile.
     window.open("profile2.html", "_self");
@@ -146,10 +148,25 @@ function closeNotification(userID) {
 
 function addNotification(userData) {
     let userID = userData["userID"];
+    let displayString = FYSCloud.Localization.Buddy.getStringFromTranslations("header.notificationText");
+    displayString = displayString.replace("%name", userData["firstName"]);
+    console.log(displayString);
+
+    return `
+    <li class="notification-display-content-item" id='notification-user-${userID}'>
+        <div class="notification-text">
+        <div class="notification-text-name">${displayString}</div>
+        </div>
+        <div class="notification-buttons">
+        <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="openProfile(${userID})">
+        <img class="notification-close-icon" src="Content/Images/close.svg" onclick="closeNotification(${userID})">
+        </div>
+        </li>
+    `;
+
     return "<li class=\"notification-display-content-item\" id='notification-user-" + userID + "'>" +
         "<div class=\"notification-text\">" +
-        "<div class=\"notification-text-name\">" + userData["firstName"] + "</div>" +
-        "<div data-translate=\"notification.contactRequest\"></div>" +
+        "<div class=\"notification-text-name\">" + displayString + "</div>" +
         "</div>" +
         "<div class=\"notification-buttons\">" +
         "<img class=\"notification-profile-icon\" src=\"Content/Images/open-profile.svg\" onclick=\"openProfile(" + userID + ")\">" +
@@ -162,7 +179,7 @@ function addNotification(userData) {
 //Fetch user notifications.
 FYSCloud.API.queryDatabase(
     "SELECT * FROM notifications WHERE userID = ?",
-    [1] //TODO: add the logged in user ID to fetch it's own notifications.
+    [getCurrentUserID()] //TODO: add the logged in user ID to fetch it's own notifications.
 ).done(function (notificationData) {
     if (notificationData.length <= 0) {
         updateNotificationCounter();
@@ -185,12 +202,11 @@ FYSCloud.API.queryDatabase(
             $("#notification-display-list").append(addNotification(userData[i]));
         }
         //translate the newly added objects.
-        FYSCloud.Localization.translate(false);
+        FYSCloud.Localization.translate(true);
     }).fail(function (reason) {
         console.log(reason);
     });
 
 }).fail(function (reason) {
     console.log(reason);
-});
 });
