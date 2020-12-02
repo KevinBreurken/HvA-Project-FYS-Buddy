@@ -34,7 +34,7 @@ var headerTranslations = {
         },
         notificationText: {
             nl: "%name Heeft een contactverzoek verstuurd.",
-            en: "%naam Has sent a contact request."
+            en: "%name Has sent a contact request."
         },
         userDisplay: {
             welcomeText: {
@@ -150,12 +150,11 @@ function addNotification(userData) {
     let userID = userData["userID"];
     let displayString = FYSCloud.Localization.Buddy.getStringFromTranslations("header.notificationText");
     displayString = displayString.replace("%name", userData["firstName"]);
-    console.log(displayString);
 
     return `
     <li class="notification-display-content-item" id='notification-user-${userID}'>
         <div class="notification-text">
-        <div class="notification-text-name">${displayString}</div>
+        <div class="notification-text-name" name-user="${userData["firstName"]}">${displayString}</div>
         </div>
         <div class="notification-buttons">
         <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="openProfile(${userID})">
@@ -163,17 +162,14 @@ function addNotification(userData) {
         </div>
         </li>
     `;
-
-    return "<li class=\"notification-display-content-item\" id='notification-user-" + userID + "'>" +
-        "<div class=\"notification-text\">" +
-        "<div class=\"notification-text-name\">" + displayString + "</div>" +
-        "</div>" +
-        "<div class=\"notification-buttons\">" +
-        "<img class=\"notification-profile-icon\" src=\"Content/Images/open-profile.svg\" onclick=\"openProfile(" + userID + ")\">" +
-        "<img class=\"notification-close-icon\" src=\"Content/Images/close.svg\" onclick=\"closeNotification(" + userID + ")\">" +
-        "</div>" +
-        "</li>"
 }
+
+document.addEventListener("languageChangeEvent", function (event) {
+    let displayString = FYSCloud.Localization.Buddy.getStringFromTranslations("header.notificationText");
+    $(".notification-text-name").each(function() {
+        $(this).html(displayString.replace("%name", $(this).attr("name-user")));
+    });
+});
 
 /** Notification - Database connection */
 //Fetch user notifications.
@@ -196,6 +192,7 @@ FYSCloud.API.queryDatabase(
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userID IN " + arrayString
     ).done(function (userData) {
+        receivedNotificationUsers = userData;
         currentNotificationAmount = userData.length;
         updateNotificationCounter();
         for (let i = 0; i < userData.length; i++) {

@@ -36,11 +36,11 @@ $(function () {
 });
 
 document.getElementById("dutch-language").onclick = function (){
-    FYSCloud.Localization.switchLanguage('nl');
+    FYSCloud.Localization.Buddy.setLanguage('nl');
     //TODO: Set users language preference in database.
 };
 
 document.getElementById("english-language").onclick = function (){
-    FYSCloud.Localization.switchLanguage('en');
+    FYSCloud.Localization.Buddy.setLanguage('en');
     //TODO: Set users language preference in database.
 };
