@@ -12,6 +12,12 @@ function openTabContent (currentButton) {
     }
     currentButton.style.backgroundColor = "#c11905";
 
+    //todo: create different query's;
+    //1.All results: all results matching the users location, date and gender preference
+    //2.Friends
+    //3.Recently viewed: swap to 'friend requests'??
+    //4.Favorites
+
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user"
     ).done(function(data) {
@@ -30,19 +36,18 @@ function generateUserDisplays(tab, data) {
         console.log(data[i])
 
         let userId = data[i].userId;  //userId
-        let username = data[i].username == null ? "username" : data[i].username;  //username
-        let userUrl = data[i].url;  //profile pic
-        let location = data[i].location == null ? "City, Country" : data[i].location; //location
+        let username = data[i].username === "" ? "username" : data[i].username;  //username
+        //todo: default/placeholder profile-picture
+        let userUrl = data[i].url === "" ? "#" : data[i].url;  //profile pic
+        let location = data[i].location === "" ? "City, Country" : data[i].location; //location
 
         //start date
         let date = new Date(data[i].startDate);
-        let startDate = data[i].startDate == null
-            ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        let startDate = data[i].startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
         //end date
         date = new Date(data[i].endDate);
-        let endDate = data[i].endDate == null
-            ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        let endDate = data[i].endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
         //type of buddy
         let buddy;
@@ -89,19 +94,29 @@ function displayOverlay (currentUserId) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userId = ?", [currentUserId]
     ).done(function(data) {
-        //todo: add placeholder
-        $("#overlay-row-1").html(`<img src="${data[0].url}">`);
-        $("#overlay-full-name").html(data[0].firstName + " " + data[0].lastName);
-        $("#overlay-username").html("a.k.a. " + data[0].username);
-        //todo: fix interests
-        $("#overlay-interests").html(data[0].interest);
-        $("#overlay-bio").html(data[0].bio);
-
-        document.getElementById("overlay").style.display = "flex";
-        document.getElementById("overlay-background").style.display = "block";
+        addOverlaydata(data);
     }).fail(function(reason) {
         console.log(reason);
     });
+}
+
+function addOverlaydata(data) {
+    let userUrl = data[0].url === "" ? "#" : data[0].url;
+    let firstName = data[0].firstName === "" ? "FirstName" : data[0].firstName;
+    let lastName = data[0].lastName === "" ? "LastName" : data[0].lastName;
+    let username = data[0].username === "" ? "username" : data[0].username;
+    let bio = data[0].bio === "" ? "..." : data[0].bio;
+
+    //todo: default/placeholder profile-picture
+    $("#overlay-row-1").html(`<img src="${userUrl}">`);
+    $("#overlay-full-name").html(firstName + " " + lastName);
+    $("#overlay-username").html("a.k.a. " + username);
+    //todo: properly add interests
+    $("#overlay-interests").html(data[0].interest);
+    $("#overlay-bio").html(bio);
+
+    document.getElementById("overlay").style.display = "flex";
+    document.getElementById("overlay-background").style.display = "block";
 }
 
 //function to close the active user-display or overlay
@@ -110,14 +125,13 @@ function closeFunction (currentDisplay) {
     document.getElementById("overlay-background").style.display = "none";
 }
 
-//function to swap the favorites icon
+//todo: set database data when clicking
+//function that swaps the favorites icon
 function swapFavoritesIcon (currentIconId, newIconId) {
     document.getElementById(currentIconId).style.display = "none";
     document.getElementById(newIconId).style.display = "";
 }
 
-// //function that swaps the color of the 'send request' button
-// function swapColor(button) {
-//     button.style.backgroundColor = "var(--color-corendon-dark-red)";
-// }
-
+//todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
+//todo: set database data when clicking on the button
+//todo: send notification to the other user
