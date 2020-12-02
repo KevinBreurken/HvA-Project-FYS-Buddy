@@ -64,7 +64,7 @@ function onHeaderLoaded() {
         "SELECT * FROM user WHERE userID = ?",
         [getCurrentUserID()]
     ).done(function (data) {
-        if (data.length !== 0)
+        if (data.length !== undefined)
             $('#profile-display-name').html(data[0]["firstName"]);
     }).fail(function (reason) {
         console.log(reason);
