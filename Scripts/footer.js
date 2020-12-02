@@ -32,15 +32,15 @@ var footerTranslations = {
 };
 
 $(function () {
-    FYSCloud.Localization.Buddy.addTranslationJSON(footerTranslations);
+    FYSCloud.Localization.CustomTranslations.addTranslationJSON(footerTranslations);
 });
 
 document.getElementById("dutch-language").onclick = function (){
-    FYSCloud.Localization.switchLanguage('nl');
+    FYSCloud.Localization.CustomTranslations.setLanguage('nl');
     //TODO: Set users language preference in database.
 };
 
 document.getElementById("english-language").onclick = function (){
-    FYSCloud.Localization.switchLanguage('en');
+    FYSCloud.Localization.CustomTranslations.setLanguage('en');
     //TODO: Set users language preference in database.
 };

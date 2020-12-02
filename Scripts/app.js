@@ -1,3 +1,19 @@
+let currentUserID = FYSCloud.Session.get("userID");
+console.log("currentUserID = " + currentUserID);
+if (currentUserID === undefined) {
+    console.log("Not logged in");
+}
+/** Redirect when not logged in */
+let appElement = document.getElementById("app");
+if (appElement !== undefined) {
+    let attrElement = appElement.getAttribute("data-pageType");
+    if (attrElement === "user" || attrElement === "admin") {
+        //Check if user is logged in.
+        if (getCurrentUserID() === undefined)
+            window.open("index.html", "_self");
+    }
+}
+
 let headElement = $('head');
 //add the general stylesheet to the page's header.
 headElement.append('<link rel="stylesheet" type="text/css" href="Content/CSS/default.css">');
@@ -7,7 +23,7 @@ headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/
 headElement.append(`<title>Corendon Travel Buddy</title>`);
 
 /** Localisation */
-FYSCloud.Localization.Buddy = (function ($) {
+FYSCloud.Localization.CustomTranslations = (function ($) {
     const exports = {
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,
@@ -35,9 +51,9 @@ FYSCloud.Localization.Buddy = (function ($) {
      *  Partially used code form FYSCloud translate function.
      *  See FYSCloud documentation.
      */
-    function getStringFromTranslations(translateKey,languageID) {
+    function getStringFromTranslations(translateKey, languageID) {
         //no language is given, use current language.
-        if(languageID === undefined)
+        if (languageID === undefined)
             languageID = currentLanguage;
 
         const localizeKeys = translateKey.split(".");
@@ -66,28 +82,22 @@ FYSCloud.Localization.Buddy = (function ($) {
 })(jQuery);
 
 /** Sessions */
-let currentUserID = FYSCloud.Session.get("userID",-1);
-console.log("currentUserID = " + currentUserID);
-if(currentUserID === -1){
-    console.log("Not logged in");
+function setCurrentUserID(id) {
+    FYSCloud.Session.set("userID", id);
 }
 
-function setCurrentUserID(id){
-    FYSCloud.Session.set("userID",id);
-}
-
-function getCurrentUserID(){
+function getCurrentUserID() {
     return currentUserID;
 }
 
-function closeSession(){
-    window.open("index.html","_self");
-    FYSCloud.Session.set("userID",-1);
+function closeSession() {
+    window.open("index.html", "_self");
+    FYSCloud.Session.clear();
 }
 
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = "nl";
 document.addEventListener("headerLoadedEvent", function (event) {
-    FYSCloud.Localization.Buddy.setLanguage(initialLanguage);
+    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
 });

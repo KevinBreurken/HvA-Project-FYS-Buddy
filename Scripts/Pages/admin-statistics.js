@@ -164,4 +164,4 @@ var statisticsTranslation = {
     }
 };
 
-FYSCloud.Localization.Buddy.addTranslationJSON(statisticsTranslation);
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation);
