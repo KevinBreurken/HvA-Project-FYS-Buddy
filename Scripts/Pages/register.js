@@ -1,15 +1,15 @@
 const MAX_USERNAME = 50
 const MAX_EMAIL = 50
-const MAX_PASSWORD = 16;
+const MAX_PASSWORD = 16
 const MAX_FIRSTNAME = 25
 const MAX_LASTNAME = 25
 
 // Get the current year month and date and put it inside of maximum and minimum attributes of DoB input
 const MIN_AGE = 18
 const MAX_AGE = 100
-const dateYear = new Date().getFullYear();
-const dateMonth = new Date().getMonth();
-const dateDate = new Date().getDate();
+const dateYear = new Date().getFullYear()
+const dateMonth = new Date().getMonth()
+const dateDate = new Date().getDate()
 
 // Date for input max and min attributes
 let minimumAgeDate = dateYear - MIN_AGE + '-' + (dateMonth + 1) + '-' + dateDate
@@ -72,13 +72,13 @@ function swapStep(number) {
                 console.log('genders checked')
                 if (genders[i].checked) {
                     gender = genders[i].value
-                    break;
+                    break
                 }
             }
 
             // Check if nothing is left empty and if it's within the given parameter
-            if (firstname !== "" && firstname <= MAX_FIRSTNAME &&
-                lastname !== "" && lastname <= MAX_LASTNAME &&
+            if (firstname !== "" && firstname.length <= MAX_FIRSTNAME &&
+                lastname !== "" && lastname.length <= MAX_LASTNAME &&
                 dob !== "" && dobDate <= dateMin && dobDate >= dateMax &&
                 (gender === "male" || gender === "female" || gender === "other")) {
 
@@ -92,7 +92,6 @@ function swapStep(number) {
             nextBtn.style.display = 'inline'
             registerBtn.style.display = 'none'
         }
-
         // Step 3 interest - No validation needed
         // TODO Add database functionality
         if (currentStep === 2) {
@@ -135,14 +134,14 @@ function countChars(countFrom, displayTo) {
 // Upload files function from FYS CLoud
 $("#fileUpload").on("change", function () {
     FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
-        //$("#filePreviewResult").html(`${data.fileName} (${data.extension}) => ${data.mimeType} (Is image: ${data.isImage})`);
+        //$("#filePreviewResult").html(`${data.fileName} (${data.extension}) => ${data.mimeType} (Is image: ${data.isImage})`)
 
         if (data.isImage) {
-            $("#imagePreview").attr("src", data.url);
+            $("#imagePreview").attr("src", data.url)
         } else {
 
         }
     }).fail(function (reason) {
-        $("#filePreviewResult").html(reason);
-    });
-});
+        $("#filePreviewResult").html(reason)
+    })
+})
