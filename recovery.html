@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+    <script src="Scripts/config.js"></script>
+    <script src="Scripts/app.js"></script>
+    <script src="Scripts/general.js"></script>
+    <script>
+        isOnAdminProfile = false;
+        currentMenuType = 'home';
+        isNavigationVisible = false;
+    </script>
+    <!-- TODO: keep or remove this stylesheet link? - Kevin Breurken -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/recovery.css">
+    <title>Fasten Your Seatbelts</title>
+</head>
+<body>
+    <div class="container">
+        <div class="content-wrapper">
+            <h1 id="form-title">Recover password</h1>
+                <div class="inputs">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" placeholder="email@hotmail.nl" id="recovery-email">
+                </div>
+                <div class="button-options">
+                    <a href="index.html"><input type="button" name="" value="Canel" class="back-btn"></a>
+                    <button type="submit" class="back-btn" id="sendbtn">Send</button>
+                </div>
+        </div>
+    </div>
+</body>
+</html>
