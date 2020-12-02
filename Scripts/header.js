@@ -70,7 +70,7 @@ function onHeaderLoaded() {
         console.log(reason);
     });
 
-    FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
+    FYSCloud.Localization.CustomTranslations.addTranslationJSON(headerTranslations);
     document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
 }
 
