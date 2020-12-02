@@ -273,7 +273,7 @@ main {
 }
 
 /* tab content */
-#tab-content {
+#tab {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

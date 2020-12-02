@@ -1,42 +1,77 @@
-var translations = {
-    notification: {
-        contactRequest: {
-            nl: "heeft een contactverzoek verstuurd.",
-            en: "has sent a contact request."
+var headerTranslations = {
+    header: {
+        navigation: {
+            home: {
+                nl: "Home",
+                en: "Home"
+            },
+            profile: {
+                nl: "Profiel",
+                en: "Profile"
+            },
+            settings: {
+                nl: "Instellingen",
+                en: "Settings"
+            },
+            help: {
+                nl: "Help",
+                en: "Help"
+            }
+        },
+        adminNavigation: {
+            account: {
+                nl: "Account",
+                en: "Account"
+            },
+            overview: {
+                nl: "Data Overzicht",
+                en: "Data Overview"
+            },
+            statistics: {
+                nl: "Statistieken",
+                en: "Statistics"
+            }
+        },
+        notificationText: {
+            nl: "Heeft een contactverzoek verstuurd.",
+            en: "Has sent a contact request."
+        },
+        userDisplay: {
+            welcomeText: {
+                nl: "Welkom,",
+                en: "Welcome,"
+            },
+            signOut: {
+                nl: "Uitloggen",
+                en: "Log out"
+            }
         }
     }
 };
-FYSCloud.Localization.setTranslations(translations);
-
-$(function () {
-    onHeaderLoaded();
-});
 
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
-            overrideMenuButtons([["account", "admin-profile.html"], ["overview data", "admin-panel.html"], ["statistics", "admin-statistics.html"]]);
+            overrideMenuButtons([["account", "admin-profile.html", "header.adminNavigation.account"],
+                ["overview data", "admin-panel.html", "header.adminNavigation.overview"],
+                ["statistics", "admin-statistics.html", "header.adminNavigation.statistics"]]);
 
         updateMenuButtons();
     }
 
-    //For testing purposes
-    //Randomise Account name.
-    const testNames = [
-        'Irene',
-        'Hanna',
-        'Kiet',
-        'Dylan',
-        'Kevin',
-        'Barry',
-        'Anthonius',
-        'Bernardus',
-        'Gijsbertinandus'
-    ];
-    const preText = 'Welcome, ';
-    $('.profile-display-text').html(preText + testNames[Math.floor(Math.random() * testNames.length)]);
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM user WHERE userID = ?",
+        [getCurrentUserID()]
+    ).done(function (data) {
+        if (data.length !== 0)
+            $('#profile-display-name').html(data[0]["firstName"]);
+    }).fail(function (reason) {
+        console.log(reason);
+    });
 
+    FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
+    document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
 }
 
 /**
@@ -73,13 +108,15 @@ function overrideMenuButtons(newButtons) {
         const homeImageHTML = i == 0 ? `<img class="main-menu-home-icon"
         src="Content/Images/home-icon.png">` : '';
         //Create the list item.
-        $(itemList).append(`<li><a class="main-menu-buttons" href="${newButtons[i][1]}
+        $(itemList).append(`<li><a class="main-menu-buttons" data-translate="${newButtons[i][2]}" href="${newButtons[i][1]}
         " type="${newButtons[i][0]}">${homeImageHTML}${newButtons[i][0]}</a></li>`);
     }
 
     updateMenuButtons();
 }
 
+$(function () {
+    onHeaderLoaded();
 function openProfile(userID) {
     //TODO:Open profile to correct profile.
     window.open("profile2.html", "_self");
@@ -155,4 +192,5 @@ FYSCloud.API.queryDatabase(
 
 }).fail(function (reason) {
     console.log(reason);
+});
 });
