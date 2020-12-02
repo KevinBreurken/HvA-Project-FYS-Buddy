@@ -21,6 +21,10 @@ FYSCloud.Localization.Buddy = (function ($) {
     function setLanguage(language) {
         currentLanguage = language;
         FYSCloud.Localization.switchLanguage(currentLanguage);
+        //Fire an event.
+        document.dispatchEvent(new CustomEvent("languageChangeEvent", {
+            detail: {id: currentLanguage}
+        }));
     }
 
     function getLanguage() {
