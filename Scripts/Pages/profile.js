@@ -51,26 +51,23 @@ $(function () {
 
 function main() {
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user"
+        "SELECT * FROM user WHERE id = 1"
     ).done(function (data) {
         console.log(data);
-        let template = $("#databases").html();
-
-        for (let i = 0; i < data.length; i++) {
-            let databases = $(template);
-            let databases2 = data[i];
-
-            //databases.find(".gebruikersnaam").text(databases.username)
-            $(".databases2").append(databases);
-        }
+        let profileDisplay = $("profile-display");
+        let profile = $(profileDisplay);
+        $(".databasesDisplay").append(profile);
     }).fail(function () {
         alert("paniek");
     });
 }
-// FYSCloud.API.queryDatabase(
-//     "SELECT * FROM user"
-// ).done(function(data) {
-//     console.log(data);
-// }).fail(function(reason) {
-//     console.log(reason);
-// });
+
+
+
+
+
+
+// let profile = data;
+// let username = profile.username;
+// let firstname = profile.firstname;
+// let lastname = profile.lastname;
