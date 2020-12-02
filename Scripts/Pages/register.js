@@ -45,7 +45,7 @@ function swapStep(number) {
             // Check if nothing is left empty and if it's within the given parameter
             if (username !== "" && username.length <= MAX_USERNAME &&
                 email !== "" && email.length <= MAX_EMAIL &&
-                password !== "" ** password.length <= MAX_PASSWORD && password === passwordRepeat) {
+                password !== "" && password.length <= MAX_PASSWORD && password === passwordRepeat) {
 
                 // Hides the current step and will display the next step
                 step[currentStep].style.display = 'none'
