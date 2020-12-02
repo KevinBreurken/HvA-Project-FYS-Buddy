@@ -7,7 +7,7 @@ headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/
 headElement.append(`<title>Corendon Travel Buddy</title>`);
 
 /** Localisation */
-FYSCloud.Localization.Buddy = (function ($) {
+FYSCloud.Localization.CustomTranslations = (function ($) {
     const exports = {
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,
@@ -89,5 +89,5 @@ function closeSession(){
 /** Change language when the Header is Loaded */
 var initialLanguage = "nl";
 document.addEventListener("headerLoadedEvent", function (event) {
-    FYSCloud.Localization.Buddy.setLanguage(initialLanguage);
+    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
 });

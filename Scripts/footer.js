@@ -32,7 +32,7 @@ var footerTranslations = {
 };
 
 $(function () {
-    FYSCloud.Localization.Buddy.addTranslationJSON(footerTranslations);
+    FYSCloud.Localization.CustomTranslations.addTranslationJSON(footerTranslations);
 });
 
 document.getElementById("dutch-language").onclick = function (){
