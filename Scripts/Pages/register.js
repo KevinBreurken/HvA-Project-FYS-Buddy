@@ -1,8 +1,25 @@
+// Temporary dummy database connection - will be removed once moved out of development
+FYSCloud.API.configure({
+    url: "https://api.fys.cloud",
+    apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
+    database: "fys_is111_1_dev_kiet",
+    environment: "dev"
+})
 const MAX_USERNAME = 50
 const MAX_EMAIL = 50
 const MAX_PASSWORD = 16
 const MAX_FIRSTNAME = 25
 const MAX_LASTNAME = 25
+
+let username
+let email
+let password
+let passwordRepeat
+
+let firstname
+let lastname
+let dob
+let dobDate
 
 // Get the current year month and date and put it inside of maximum and minimum attributes of DoB input
 const MIN_AGE = 18
@@ -34,14 +51,15 @@ function swapStep(number) {
 
     // If the user pressed the next button check for each step if input is correct
     if (number === 1) {
-        let username = document.querySelector('#username').value
-        let email = document.querySelector('#email').value
-        let password = document.querySelector('#password').value
-        let passwordRepeat = document.querySelector('#repeat-password').value
 
         // TODO If something doesn't have correct input change the input to show it's invalid to the user
         // Step 1 Login Details
         if (currentStep === 0) {
+            username = document.querySelector('#username').value
+            email = document.querySelector('#email').value
+            password = document.querySelector('#password').value
+            passwordRepeat = document.querySelector('#repeat-password').value
+
             // Check if nothing is left empty and if it's within the given parameter
             if (username !== "" && username.length <= MAX_USERNAME &&
                 email !== "" && email.length <= MAX_EMAIL &&
@@ -60,10 +78,9 @@ function swapStep(number) {
 
         // Step 2 User information
         if (currentStep === 1) {
-            let firstname = document.querySelector('#firstname').value
-            let lastname = document.querySelector('#lastname').value
-            let dob = document.querySelector('#DoB').value
-            let dobDate = new Date(dob)
+            firstname = document.querySelector('#firstname').value
+            lastname = document.querySelector('#lastname').value
+            dob = new Date(document.querySelector('#DoB').value)
 
             let genders = document.getElementsByClassName('gender')
             let gender
@@ -79,7 +96,7 @@ function swapStep(number) {
             // Check if nothing is left empty and if it's within the given parameter
             if (firstname !== "" && firstname.length <= MAX_FIRSTNAME &&
                 lastname !== "" && lastname.length <= MAX_LASTNAME &&
-                dob !== "" && dobDate <= dateMin && dobDate >= dateMax &&
+                dob !== "" && dob <= dateMin && dob >= dateMax &&
                 (gender === "male" || gender === "female" || gender === "other")) {
 
                 // Hides the current step and will display the next step
@@ -92,6 +109,7 @@ function swapStep(number) {
             nextBtn.style.display = 'inline'
             registerBtn.style.display = 'none'
         }
+
         // Step 3 interest - No validation needed
         // TODO Add database functionality
         if (currentStep === 2) {
@@ -102,7 +120,7 @@ function swapStep(number) {
     } else { // If the user pressed back don't check for valid input and show previous step
         step[currentStep].style.display = 'none'
         step[currentStep + number].style.display = 'block'
-        // For clarity: currentStep - currentStep - - -1
+        // For clarity: currentStep = currentStep - - -1
         currentStep = currentStep - -number
 
         if (currentStep === 0) {
