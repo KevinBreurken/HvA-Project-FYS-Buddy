@@ -46,22 +46,22 @@
             <div>
                 <h2>Login details</h2>
                 <div class="form-group">
-                    <label for="username">Username </label>
+                    <label for="username">Username *</label>
                     <input type="text" id="username" name="username" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email </label>
+                    <label for="email">Email *</label>
                     <input type="email" id="email" name="email" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password </label>
+                    <label for="password">Password *</label>
                     <input type="password" id="password" name="password" maxlength="16" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="repeat-password">Confirm password </label>
+                    <label for="repeat-password">Confirm password *</label>
                     <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required>
                 </div>
             </div>
@@ -81,30 +81,30 @@
             </div>
 
             <div class="form-group">
-                <label for="first-name">First name </label>
-                <input type="text" id="first-name" name="first_name" maxlength="25" required>
+                <label for="firstname">First name *</label>
+                <input type="text" id="firstname" name="first_name" maxlength="25" required>
             </div>
 
             <div class="form-group">
-                <label for="last-name">Last name </label>
-                <input type="text" id="last-name" name="last_name" maxlength="25" required>
+                <label for="lastname">Last name *</label>
+                <input type="text" id="lastname" name="last_name" maxlength="25" required>
             </div>
 
             <div class="form-group">
-                <p>Gender</p>
+                <p>Gender *</p>
 
-                <input type="radio" class="inline-form" id="male" name="gender" value="male" required>
+                <input type="radio" class="inline-form gender" id="male" name="gender" value="male" required>
                 <label for="male">Man </label><br>
 
-                <input type="radio" class="inline-form" id="female" name="gender" value="female" required>
+                <input type="radio" class="inline-form gender" id="female" name="gender" value="female" required>
                 <label for="female">Female </label><br>
 
-                <input type="radio" class="inline-form" id="other-gender" name="gender" value="other" required>
+                <input type="radio" class="inline-form gender" id="other-gender" name="gender" value="other" required>
                 <label for="other-gender">Other </label>
             </div>
 
             <div class="form-group">
-                <label for="DoB">Date of birth</label>
+                <label for="DoB">Date of birth *<span class="minAge">18 years or older</span></label>
                 <input type="Date" id="DoB" name="DoB" required>
             </div>
         </div>
@@ -170,7 +170,7 @@
         <div class="btn-group">
             <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
             <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
-            <button class="btn" id="btn-register">Register</button>
+            <button type="submit" class="btn" id="btn-register">Register</button>
         </div>
     </form>
 </main>
