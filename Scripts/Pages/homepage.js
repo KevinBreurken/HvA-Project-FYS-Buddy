@@ -39,8 +39,8 @@ function generateUserDisplays(tab, data) {
         //username
         let username = userData.username == null ? "username" : userData.username;
 
-        //todo: profile picture
-        let userIdIndex = userData.userId;
+        //profile pic
+        let userUrl = userData.url;
 
         //location
         let location = userData.location == null ? "City, Country" : userData.location;
@@ -69,7 +69,7 @@ function generateUserDisplays(tab, data) {
 
         userDisplays[i].innerHTML =
             `<h1 id=user-display-h1-${i}>${username}</h1>
-            <img class="profile-picture" src="https://dev-is111-1.fys.cloud/uploads/profile-pictures/pp-${userIdIndex}.jpg">
+            <img class="profile-picture" src="${userUrl}">
             <div>
             <p>${location}</p>
             <p>from ${startDate}</p>
