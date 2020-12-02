@@ -192,7 +192,6 @@ FYSCloud.API.queryDatabase(
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userID IN " + arrayString
     ).done(function (userData) {
-        receivedNotificationUsers = userData;
         currentNotificationAmount = userData.length;
         updateNotificationCounter();
         for (let i = 0; i < userData.length; i++) {
