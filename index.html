@@ -5,7 +5,7 @@
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js"></script>
-    <script src="Scripts/login.js"></script>
+    <script src="Scripts/Pages/index-page.js"></script>
     <link rel="stylesheet" href="Content/CSS/Pages/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
@@ -34,16 +34,16 @@
 <!--                <p>Already have an account?</p>-->
                 <div class="form-wrapper">
                     <h1 id="form-title">Login</h1>
-                    <form class="login-form" action="homepage.html" method="post">
+                    <form class="login-form" method="post">
                         <i class="fas fa-user"></i>
-                        <label for="username">Username</label>
-                        <input class="user-input" type="text" id="username" name="" placeholder="Username" required>
+                        <label for="e-mail">E-mail</label>
+                        <input class="user-input" type="email" id="e-mail" name="" placeholder="email" required>
                         <label for="password">Password</label>
                         <input class="user-input" type="password" id="password" name="" placeholder="Password" required>
                         <div class="option-1">
                             <a href="./recovery.html">Forgot your password?</a>
                         </div>
-                        <input class="btn" onclick="validateLogin()" type="submit" name="" value="Sign in">
+                        <input class="btn" type="button" name="" value="Sign in" onclick="validationCheck()">
                         <div class="option-2">
                             <p>Not registered?
                                 <a href="./register.html">Create an Account</a>
