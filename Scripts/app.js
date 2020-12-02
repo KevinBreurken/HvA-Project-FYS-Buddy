@@ -21,6 +21,10 @@ FYSCloud.Localization.Buddy = (function ($) {
     function setLanguage(language) {
         currentLanguage = language;
         FYSCloud.Localization.switchLanguage(currentLanguage);
+        //Fire an event.
+        document.dispatchEvent(new CustomEvent("languageChangeEvent", {
+            detail: {id: currentLanguage}
+        }));
     }
 
     function getLanguage() {
@@ -61,11 +65,6 @@ FYSCloud.Localization.Buddy = (function ($) {
     return exports;
 })(jQuery);
 
-//TODO: Change this to the users preference.
-var initialLanguage = "nl";
-$(function () {
-    FYSCloud.Localization.Buddy.setLanguage(initialLanguage);
-});
 /** Sessions */
 let currentUserID = FYSCloud.Session.get("userID",-1);
 console.log("currentUserID = " + currentUserID);
@@ -85,3 +84,10 @@ function closeSession(){
     window.open("index.html","_self");
     FYSCloud.Session.set("userID",-1);
 }
+
+//TODO: Change this to the users preference.
+/** Change language when the Header is Loaded */
+var initialLanguage = "nl";
+document.addEventListener("headerLoadedEvent", function (event) {
+    FYSCloud.Localization.Buddy.setLanguage(initialLanguage);
+});
