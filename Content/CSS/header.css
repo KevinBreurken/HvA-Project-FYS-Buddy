@@ -63,7 +63,6 @@ header {
     margin-top: -10px;
     display: flex;
     justify-content: space-between;
-    z-index: 10;
     background-color: white;
 }
 
@@ -135,18 +134,18 @@ header {
     padding-left: 5px;
     max-width: 16px;
     max-height: 16px;
-    z-index: 10;
+    z-index: 20;
 }
 
 .profile-display-icon-arrow {
     padding-right: 8px;
     max-width: 16px;
     max-height: 16px;
-    z-index: 10;
+    z-index: 20;
 }
 
 .profile-display-text {
-    z-index: 10;
+    z-index: 20;
     padding-left: 5px;
     padding-right: 5px;
     color: var(--color-corendon-light-blue);
@@ -182,7 +181,7 @@ header {
     width: auto;
     background-color: var(--color-corendon-white);
     border: 1px solid var(--color-corendon-yellow);
-    z-index: 10;
+    z-index: 40;
     border-radius: 6px;
     display: none;
 }
