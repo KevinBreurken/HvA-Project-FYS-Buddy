@@ -1,16 +1,11 @@
 /** Redirect when not logged in */
-let currentUserID = FYSCloud.Session.get("userID", -1);
+let currentUserID = FYSCloud.Session.get("userID");
 let appElement = document.getElementById("app");
 if (appElement !== undefined) {
     let attrElement = appElement.getAttribute("data-pageType");
-    if (attrElement === "user") {
+    if (attrElement === "user" || attrElement === "admin") {
         //Check if user is logged in.
-        if (getCurrentUserID() === -1)
-            window.open("index.html", "_self");
-    }
-    if (attrElement === "admin") {
-        //Check if admin is logged in.
-        if (getCurrentUserID() === -1)
+        if (getCurrentUserID() === undefined)
             window.open("index.html", "_self");
     }
 }
@@ -98,7 +93,7 @@ function getCurrentUserID() {
 
 function closeSession() {
     window.open("index.html", "_self");
-    FYSCloud.Session.set("userID", -1);
+    FYSCloud.Session.clear();
 }
 
 //TODO: Change this to the users preference.
