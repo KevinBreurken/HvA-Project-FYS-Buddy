@@ -1,5 +1,9 @@
-/** Redirect when not logged in */
 let currentUserID = FYSCloud.Session.get("userID");
+console.log("currentUserID = " + currentUserID);
+if (currentUserID === undefined) {
+    console.log("Not logged in");
+}
+/** Redirect when not logged in */
 let appElement = document.getElementById("app");
 if (appElement !== undefined) {
     let attrElement = appElement.getAttribute("data-pageType");
@@ -78,11 +82,6 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
 })(jQuery);
 
 /** Sessions */
-console.log("currentUserID = " + currentUserID);
-if (currentUserID === -1) {
-    console.log("Not logged in");
-}
-
 function setCurrentUserID(id) {
     FYSCloud.Session.set("userID", id);
 }
