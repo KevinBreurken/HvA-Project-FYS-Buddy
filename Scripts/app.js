@@ -14,6 +14,19 @@ if (appElement !== undefined) {
     }
 }
 
+function redirectToHome(){
+    let appElement = document.getElementById("app");
+    if (appElement !== undefined) {
+        let attrElement = appElement.getAttribute("data-pageType");
+        if (attrElement === "user") {
+            window.open("homepage.html", "_self");
+        }
+        if(attrElement === "admin"){
+            window.open("admin-profile.html", "_self");
+        }
+    }
+}
+
 let headElement = $('head');
 //add the general stylesheet to the page's header.
 headElement.append('<link rel="stylesheet" type="text/css" href="Content/CSS/default.css">');
