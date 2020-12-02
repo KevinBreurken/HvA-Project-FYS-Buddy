@@ -83,6 +83,7 @@ function onHeaderLoaded() {
     });
 
     FYSCloud.Localization.Buddy.addTranslationJSON(headerTranslations);
+    document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
 }
 
 /**
