@@ -18,8 +18,12 @@ let passwordRepeat
 
 let firstname
 let lastname
+let gender
 let dob
-let dobDate
+let dobFormat
+
+let bio
+let hobby
 
 // Get the current year month and date and put it inside of maximum and minimum attributes of DoB input
 const MIN_AGE = 18
@@ -81,12 +85,11 @@ function swapStep(number) {
             firstname = document.querySelector('#firstname').value
             lastname = document.querySelector('#lastname').value
             dob = new Date(document.querySelector('#DoB').value)
+            dobFormat = dob.getFullYear() + "-" + (dob.getMonth()+1) + "-" + dob.getDate()
 
             let genders = document.getElementsByClassName('gender')
-            let gender
             // Loops through all the available gender options until its hits the user selected option then assigns in to gender variable
             for (let i = 0; i < genders.length; i++) {
-                console.log('genders checked')
                 if (genders[i].checked) {
                     gender = genders[i].value
                     break
@@ -113,6 +116,10 @@ function swapStep(number) {
         // Step 3 interest - No validation needed
         // TODO Add database functionality
         if (currentStep === 2) {
+            bio = document.querySelector('#bio').value
+            // TODO Get value from all selected boxes
+            hobby = "test"
+
             backBtn.style.display = 'inline'
             nextBtn.style.display = 'none'
             registerBtn.style.display = 'inline'
@@ -163,3 +170,15 @@ $("#fileUpload").on("change", function () {
         $("#filePreviewResult").html(reason)
     })
 })
+
+function register() {
+    console.log(dobFormat)
+    FYSCloud.API.queryDatabase(
+        "INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `gender`, `dob`, `bio`, `hobby`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        [username, email, password, firstname, lastname, gender, dobFormat, bio, hobby]
+).done(function (data) {
+        //location.href = "homepage.html"
+    }).fail(function (reason) {
+        console.log(reason)
+    })
+}
