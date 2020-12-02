@@ -98,18 +98,20 @@ function setNavigationVisibility(state) {
  */
 function overrideMenuButtons(newButtons) {
     //remove all menu buttons.
-    const itemList = $('.main-menu-items');
-    itemList.empty();
+    const itemList = $('.nav-button');
+    itemList.remove();
+    $('#notification-display').remove();
 
-    for (let i = 0; i < newButtons.length; i++) {
+    for (let i = newButtons.length -1; i >= 0; i--) {
         //Add the homepage icon to the first item only.
         const homeImageHTML = i == 0 ? `<img class="main-menu-home-icon"
         src="Content/Images/home-icon.png">` : '';
+        const btn = newButtons[i];
         //Create the list item.
-        $(itemList).append(`<li><a class="main-menu-buttons" data-translate="${newButtons[i][2]}" href="${newButtons[i][1]}
-        " type="${newButtons[i][0]}">${homeImageHTML}${newButtons[i][0]}</a></li>`);
+        $(".main-menu-items").prepend(`
+            <li><a class="main-menu-buttons" data-translate="${btn[2]}" href="${btn[1]}" type="${btn[0]}">${homeImageHTML}${btn[0]}</a>
+        </li>`);
     }
-
     updateMenuButtons();
 }
 
