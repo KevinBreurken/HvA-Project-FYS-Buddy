@@ -48,7 +48,7 @@ var headerTranslations = {
         }
     }
 };
-
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(headerTranslations);
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
@@ -70,10 +70,8 @@ function onHeaderLoaded() {
         console.log(reason);
     });
 
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(headerTranslations);
     document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
 }
-
 /**
  * Updates the button menu's 'current' attributes.
  * @param {string} typeName name of the menu button's type attribute.
@@ -148,7 +146,7 @@ function closeNotification(userID) {
 
 function addNotification(userData) {
     let userID = userData["userID"];
-    let displayString = FYSCloud.Localization.Buddy.getStringFromTranslations("header.notificationText");
+    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
     displayString = displayString.replace("%name", userData["firstName"]);
 
     return `
@@ -165,7 +163,7 @@ function addNotification(userData) {
 }
 
 document.addEventListener("languageChangeEvent", function (event) {
-    let displayString = FYSCloud.Localization.Buddy.getStringFromTranslations("header.notificationText");
+    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
     $(".notification-text-name").each(function() {
         $(this).html(displayString.replace("%name", $(this).attr("name-user")));
     });
@@ -206,3 +204,4 @@ FYSCloud.API.queryDatabase(
 }).fail(function (reason) {
     console.log(reason);
 });
+
