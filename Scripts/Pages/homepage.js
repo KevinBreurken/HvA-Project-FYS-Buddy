@@ -77,7 +77,7 @@ function generateUserDisplays(tab, data) {
             <p>${buddy}</p>
             </div>
             <div class="tab-content-column-4">
-            <button id="button1-${i}" onclick="displayOverlay('overlay-1')">more info</button>
+            <button id="button1-${i}" onclick="displayOverlay('overlay')">more info</button>
             <button id="button2-${i}" onclick="closeFunction('user-display-${i}')">X</button>
             <div id="favorite-v1-${i}" onclick="swapFavoritesIcon('favorite-v1-${i}','favorite-v2-${i}')">
             <img class="favorite-icon" src="Content/Images/favorite-v1.png">

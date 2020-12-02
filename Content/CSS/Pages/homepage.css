@@ -345,7 +345,7 @@ main {
 }
 
 /* overlay */
-.overlay-container {
+#overlay {
   display: none;
   position: fixed;
   top: 50%;
@@ -368,12 +368,12 @@ main {
 
 /* overlay content rows */
 .overlay-row {
+  display: flex;
   width: 100%;
   flex: 0 50%;
 }
 
 #overlay-row-1 {
-  display: flex;
   justify-content: center;
 }
 
@@ -384,12 +384,11 @@ main {
 }
 
 #overlay-row-2 {
-  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
-#overlay-name h2, p {
+#overlay-full-name, #overlay-username {
   text-align: center;
   margin: 0;
 }
@@ -404,7 +403,7 @@ main {
   margin-top: 5px;
 }
 
-#overlay-bio {
+#overlay-row-3 {
   margin-top: 10px;
   flex: 2;
 }
