@@ -24,6 +24,7 @@ $(function (){
     //Voeg toe aan het einde van de pagina.
     $.get("Views/general-footer.html", function (data){
         $("body").append($(data));
+        $("head").append(`<script src="Scripts/footer.js"></script>`);
     });
 
 });

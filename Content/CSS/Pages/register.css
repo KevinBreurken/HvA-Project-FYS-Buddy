@@ -69,6 +69,10 @@ main {
     display: none;
 }
 
+#btn-next {
+    display: inline;
+}
+
 .btn {
     padding: 12px 24px;
     color: var(--color-corendon-white);
@@ -91,5 +95,15 @@ main {
 }
 
 #bio {
+    display: block;
+}
+
+.img-preview img{
+    max-height: 200px;
+    max-width: 200px;
+}
+
+.minAge {
+    font-size: 10px;
     display: block;
 }

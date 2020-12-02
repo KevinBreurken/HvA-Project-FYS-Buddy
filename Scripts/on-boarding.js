@@ -14,3 +14,7 @@ function openOverlay() {
         document.getElementById('on-boarding').style.display = 'none'
     }
 }
+
+function closeOverlay(){
+    document.getElementById("on-boarding").style.display = "none"
+}
