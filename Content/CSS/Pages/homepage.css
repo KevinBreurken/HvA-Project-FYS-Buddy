@@ -404,6 +404,7 @@ main {
 }
 
 #overlay-row-3 {
+  flex-direction: column;
   margin-top: 10px;
   flex: 2;
 }
