@@ -33,8 +33,8 @@ var headerTranslations = {
             }
         },
         notificationText: {
-            nl: "Heeft een contactverzoek verstuurd.",
-            en: "Has sent a contact request."
+            nl: "%name Heeft een contactverzoek verstuurd.",
+            en: "%name Has sent a contact request."
         },
         userDisplay: {
             welcomeText: {
@@ -48,7 +48,7 @@ var headerTranslations = {
         }
     }
 };
-
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(headerTranslations);
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
@@ -70,10 +70,8 @@ function onHeaderLoaded() {
         console.log(reason);
     });
 
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(headerTranslations);
     document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
 }
-
 /**
  * Updates the button menu's 'current' attributes.
  * @param {string} typeName name of the menu button's type attribute.
@@ -118,3 +116,92 @@ function overrideMenuButtons(newButtons) {
 $(function () {
     onHeaderLoaded();
 });
+
+function openProfile(userID) {
+    //TODO:Open profile to correct profile.
+    window.open("profile2.html", "_self");
+}
+
+/** Notifications */
+var currentNotificationAmount = 0;
+
+function updateNotificationCounter() {
+    //Only show +9 when notifications are above 10.
+    let amountDisplayString = (currentNotificationAmount > 9) ? "9+" : currentNotificationAmount;
+    $("#notification-display-counter-text").html(amountDisplayString);
+    if (currentNotificationAmount === 0) {
+        //hide the whole notification counter when no notification is available.
+        $(".notification-display-dropdown").parent().hide();
+    }
+}
+
+function closeNotification(userID) {
+    //Remove the html element.
+    $("#notification-user-" + userID).remove();
+    // Decrease and update the notification counter.
+    currentNotificationAmount--;
+    updateNotificationCounter();
+    //TODO:Remove database entry of notification.
+}
+
+function addNotification(userData) {
+    let userID = userData["userID"];
+    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
+    displayString = displayString.replace("%name", userData["firstName"]);
+
+    return `
+    <li class="notification-display-content-item" id='notification-user-${userID}'>
+        <div class="notification-text">
+        <div class="notification-text-name" name-user="${userData["firstName"]}">${displayString}</div>
+        </div>
+        <div class="notification-buttons">
+        <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="openProfile(${userID})">
+        <img class="notification-close-icon" src="Content/Images/close.svg" onclick="closeNotification(${userID})">
+        </div>
+        </li>
+    `;
+}
+
+document.addEventListener("languageChangeEvent", function (event) {
+    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
+    $(".notification-text-name").each(function() {
+        $(this).html(displayString.replace("%name", $(this).attr("name-user")));
+    });
+});
+
+/** Notification - Database connection */
+//Fetch user notifications.
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM notifications WHERE userID = ?",
+    [getCurrentUserID()] //TODO: add the logged in user ID to fetch it's own notifications.
+).done(function (notificationData) {
+    if (notificationData.length <= 0) {
+        updateNotificationCounter();
+        return;
+    }
+
+    let notificationIDs = [notificationData.length];
+    for (let i = 0; i < notificationData.length; i++) {
+        notificationIDs[i] = notificationData[i]["sentUserID"];
+    }
+    let arrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
+
+    //Fetch all the notifications that match all the ID's in arrayString.
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM user WHERE userID IN " + arrayString
+    ).done(function (userData) {
+        currentNotificationAmount = userData.length;
+        updateNotificationCounter();
+        for (let i = 0; i < userData.length; i++) {
+            $("#notification-display-list").append(addNotification(userData[i]));
+        }
+        //translate the newly added objects.
+        FYSCloud.Localization.translate(true);
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+
+}).fail(function (reason) {
+    console.log(reason);
+});
+
