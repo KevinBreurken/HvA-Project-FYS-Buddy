@@ -5,7 +5,7 @@ if (currentUserID === undefined) {
 }
 /** Redirect when not logged in */
 let appElement = document.getElementById("app");
-if (appElement !== undefined) {
+if (appElement !== null) {
     let attrElement = appElement.getAttribute("data-pageType");
     if (attrElement === "user" || attrElement === "admin") {
         //Check if user is logged in.
@@ -16,7 +16,7 @@ if (appElement !== undefined) {
 
 function redirectToHome(){
     let appElement = document.getElementById("app");
-    if (appElement !== undefined) {
+    if (appElement !== null) {
         let attrElement = appElement.getAttribute("data-pageType");
         if (attrElement === "user") {
             window.open("homepage.html", "_self");
