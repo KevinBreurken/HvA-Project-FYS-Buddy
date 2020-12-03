@@ -1,24 +1,21 @@
 * {
-  padding: 0;
-  font-family: var(--font-family);
+    padding: 0;
+    font-family: var(--font-family);
 }
 
 #admin table {
-  margin: 24px auto 24px auto;
-  text-align: center;
+    margin: 24px auto 24px auto;
+    text-align: center;
 }
 
-#admin table,
-#admin th,
-#admin tr,
-#admin td {
-  border: var(--border-corendon-grey);
-  border-collapse: collapse;
-  padding: 10px;
+#admin table, #admin th, #admin tr, #admin td {
+    border: var(--border-corendon-grey);
+    border-collapse: collapse;
+    padding: 10px;
 }
 
 #admin .pointer {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 #admin #edit-user {
