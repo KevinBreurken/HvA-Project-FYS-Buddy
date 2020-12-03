@@ -190,6 +190,7 @@ main {
 /* matches tabs buttons */
 #matches-tabs-border {
   border: var(--border-corendon-grey);
+  border-top: none;
   position: relative;
 }
 
@@ -235,7 +236,7 @@ main {
 #filter-dropdown {
   position: absolute;
   right: 0;
-  top: 41px;
+  top: 40px;
   font-size: 18px;
   display: none;
   justify-content: center;

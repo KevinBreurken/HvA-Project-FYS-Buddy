@@ -33,21 +33,18 @@ function generateUserDisplays(tab, data) {
     let userDisplays = [];
     for (let i = 0; i < data.length; i++) {
 
-        console.log(data[i])
-
-        let userId = data[i].userId;  //userId
-        let username = data[i].username === "" ? "username" : data[i].username;  //username
-        //todo: default/placeholder profile-picture
-        let userUrl = data[i].url === "" ? "#" : data[i].url;  //profile pic
-        let location = data[i].location === "" ? "City, Country" : data[i].location; //location
+        const userId = data[i].userId;  //userId
+        const username = data[i].username === "" ? "username" : data[i].username;  //username
+        const userUrl = data[i].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[i].url;  //profile pic
+        const location = data[i].location === "" ? "City, Country" : data[i].location; //location
 
         //start date
         let date = new Date(data[i].startDate);
-        let startDate = data[i].startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        const startDate = data[i].startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
         //end date
         date = new Date(data[i].endDate);
-        let endDate = data[i].endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+        const endDate = data[i].endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
         //type of buddy
         let buddy;
@@ -76,7 +73,7 @@ function generateUserDisplays(tab, data) {
             <p>${buddy}</p>
             </div>
             <div class="tab-content-column-4">
-            <button id="button1-${i}" onclick="displayOverlay('${userId}')">more info</button>
+            <button id="button1-${i}" onclick="getOverlayData('${userId}')">more info</button>
             <button id="button2-${i}" onclick="closeFunction('user-display-${i}')">X</button>
             <div id="favorite-v1-${i}" onclick="swapFavoritesIcon('favorite-v1-${i}','favorite-v2-${i}')">
             <img class="favorite-icon" src="Content/Images/favorite-v1.png">
@@ -90,33 +87,30 @@ function generateUserDisplays(tab, data) {
 }
 
 //displays the current overlay and the overlay-background
-function displayOverlay (currentUserId) {
+function getOverlayData (currentUserId) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userId = ?", [currentUserId]
     ).done(function(data) {
-        addOverlaydata(data);
+        const userUrl = data[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[0].url;
+        const firstName = data[0].firstName === "" ? "FirstName" : data[0].firstName;
+        const lastName = data[0].lastName === "" ? "LastName" : data[0].lastName;
+        const username = data[0].username === "" ? "username" : data[0].username;
+        const bio = data[0].bio === "" ? "..." : data[0].bio;
+
+        //interests
+
+        $("#overlay-row-1").html(`<img src="${userUrl}">`);
+        $("#overlay-full-name").html(firstName + " " + lastName);
+        $("#overlay-username").html("a.k.a. " + username);
+        //todo: properly add interests
+        $("#overlay-interests").html(data[0].interest);
+        $("#overlay-bio").html(bio);
+
+        document.getElementById("overlay").style.display = "flex";
+        document.getElementById("overlay-background").style.display = "block";
     }).fail(function(reason) {
         console.log(reason);
     });
-}
-
-function addOverlaydata(data) {
-    let userUrl = data[0].url === "" ? "#" : data[0].url;
-    let firstName = data[0].firstName === "" ? "FirstName" : data[0].firstName;
-    let lastName = data[0].lastName === "" ? "LastName" : data[0].lastName;
-    let username = data[0].username === "" ? "username" : data[0].username;
-    let bio = data[0].bio === "" ? "..." : data[0].bio;
-
-    //todo: default/placeholder profile-picture
-    $("#overlay-row-1").html(`<img src="${userUrl}">`);
-    $("#overlay-full-name").html(firstName + " " + lastName);
-    $("#overlay-username").html("a.k.a. " + username);
-    //todo: properly add interests
-    $("#overlay-interests").html(data[0].interest);
-    $("#overlay-bio").html(bio);
-
-    document.getElementById("overlay").style.display = "flex";
-    document.getElementById("overlay-background").style.display = "block";
 }
 
 //function to close the active user-display or overlay
