@@ -2,17 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Admin profile page</title>
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="admin"></script>
     <script src="Scripts/general.js"></script>
-    <script>
-        isOnAdminProfile = true;
-        currentMenuType = 'account';
-    </script>
-
-    <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
+    <script src="Scripts/profile.js"></script>
     <script src="https://kit.fontawesome.com/54479eeac2.js" crossorigin="anonymous"></script>
+    <script>
+        isOnAdminProfile = false;
+        currentMenuType = 'profile';
+        isNavigationVisible = true;
+    </script>
+    <link rel="stylesheet" href="Content/CSS/default.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
+
 </head>
 <body>
 <main class="main">
@@ -20,20 +24,20 @@
 <fieldset id="container">
     <legend id="label"><i class="fas fa-user-alt"></i>Admin</legend>
     <section class="flex-container">
-        <div class="profielfoto">
+        <div class="profilePicture">
             <br>
-            <img class="adminProfielfoto" src="Content/Images/profile-picture-1.jpg" alt="Profielfoto" width="180"
+            <img class="adminProfilePicture" src="Content/Images/profile-picture-1.jpg" alt="profilePicture" width="180"
                  height=150><br>
         </div>
-        <div class="naam">
-            <table class="namen" style="width: 75%">
+        <div class="name">
+            <table class="names" style="width: 75%">
                 <tr>
                     <th>Last seen:</th>
-                    <th class="rightbox">27-10-20 19:11</th>
+                    <th class="leftbox"></th>
                 </tr>
                 <tr>
                     <th>IP-Adres:</th>
-                    <th class="rightbox">192.0.2.197.</th>
+                    <th class="rightbox"></th>
                 </tr>
             </table>
         </div>
