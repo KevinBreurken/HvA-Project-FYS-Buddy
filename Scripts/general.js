@@ -101,7 +101,7 @@ $("head").append('<link rel="stylesheet" href="Content/CSS/footer.css">');
 // "is a shorthand for : $(document).ready(function() { ... });"
 $(function (){
     $.get("Views/general-header.html", function (data) {
-        $("body").prepend($(data));
+        $("header").prepend($(data));
         $("head").append('<script src="Scripts/header.js"></script>');
     });
     //Voeg toe aan het einde van de pagina.
