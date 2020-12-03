@@ -8,43 +8,6 @@ var pieChartColors = [
     "#34495e"
 ];
 
-var currentTimeSelection = "day";
-/** Dropdown item */
-var timeSelection = document.getElementById('time-dropdown');
-$('select').on('change', function () {
-    currentTimeSelection = this.value;
-    renderStatistics();
-});
-
-renderStatistics();
-
-function renderStatistics() {
-
-    //Update list items.
-    const listItems = document.getElementsByClassName('statistics-item-list-content');
-    var itemList = ["test", "words", "in", "this", "list", "group"];
-    for (const item of listItems) {
-        item.innerHTML = makeOL(itemList).innerHTML;
-    }
-
-    //Update pie charts.
-    const pieItems = document.getElementsByClassName('statistics-item-piechart');
-    for (const item of pieItems) {
-        //Create a Chart.js pie chart.
-        var context = item.getElementsByClassName('statistics-item-piechart-chart')[0].getContext('2d');
-        var myChart = new Chart(context, {
-            type: 'pie',
-            data: {
-                labels: ["One", "Two", "Three"],
-                datasets: [{
-                    backgroundColor: pieChartColors,
-                    data: [161, 237, 484]
-                }]
-            }
-        });
-    }
-}
-
 function generatePiechart(divID, data) {
     //Create a Chart.js pie chart.
     var context = $(divID);
@@ -58,8 +21,7 @@ function generatePiechart(divID, data) {
             }]
         }
     });
-
-
+    
 }
 
 function makeOL(array) {

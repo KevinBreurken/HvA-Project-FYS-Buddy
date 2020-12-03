@@ -99,7 +99,7 @@
     overflow: auto;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1000px) {
     .statistics-group-container-vertical {
         display: block;
     }
