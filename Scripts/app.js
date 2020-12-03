@@ -5,12 +5,25 @@ if (currentUserID === undefined) {
 }
 /** Redirect when not logged in */
 let appElement = document.getElementById("app");
-if (appElement !== undefined) {
+if (appElement !== null) {
     let attrElement = appElement.getAttribute("data-pageType");
     if (attrElement === "user" || attrElement === "admin") {
         //Check if user is logged in.
         if (getCurrentUserID() === undefined)
             window.open("index.html", "_self");
+    }
+}
+
+function redirectToHome(){
+    let appElement = document.getElementById("app");
+    if (appElement !== null) {
+        let attrElement = appElement.getAttribute("data-pageType");
+        if (attrElement === "user") {
+            window.open("homepage.html", "_self");
+        }
+        if(attrElement === "admin"){
+            window.open("admin-profile.html", "_self");
+        }
     }
 }
 
