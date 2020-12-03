@@ -395,10 +395,14 @@ main {
 }
 
 #overlay-interests {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
   overflow: hidden;
 }
 
 #overlay-interests ul {
+  max-height: 75px;
   text-align: center;
   padding: 0;
   margin-top: 5px;

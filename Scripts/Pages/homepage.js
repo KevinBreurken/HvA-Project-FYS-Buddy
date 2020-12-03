@@ -3,13 +3,10 @@ document.getElementById("default-active").click();
 
 //function to switch the tab and active tab-button
 function openTabContent (currentButton) {
-    let tabButtons = $(".tab-button");
-    let tab = $("#tab");
+    const tabButtons = $(".tab-button");
 
     //swaps the button colors
-    for (let i = 0; i < tabButtons.length; i++) {
-        tabButtons[i].style.backgroundColor = "";
-    }
+    for (let i = 0; i < tabButtons.length; i++) {tabButtons[i].style.backgroundColor = "";}
     currentButton.style.backgroundColor = "#c11905";
 
     //todo: create different query's;
@@ -21,50 +18,42 @@ function openTabContent (currentButton) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user"
     ).done(function(data) {
-        tab.html("");
-        generateUserDisplays(tab, data);
-    }).fail(function(reason) {
-        console.log(reason);
-    });
-}
+        $("#tab").html("");
+        let userDisplays = [];
+        for (let i = 0; i < data.length; i++) {
 
-//generates user-displays
-function generateUserDisplays(tab, data) {
-    let userDisplays = [];
-    for (let i = 0; i < data.length; i++) {
+            const userId = data[i].userId;  //userId
+            const username = data[i].username === "" ? "username" : data[i].username;  //username
+            const userUrl = data[i].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[i].url;  //profile pic
+            const location = data[i].location === "" ? "City, Country" : data[i].location; //location
 
-        const userId = data[i].userId;  //userId
-        const username = data[i].username === "" ? "username" : data[i].username;  //username
-        const userUrl = data[i].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[i].url;  //profile pic
-        const location = data[i].location === "" ? "City, Country" : data[i].location; //location
+            //start date
+            let date = new Date(data[i].startDate);
+            const startDate = data[i].startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-        //start date
-        let date = new Date(data[i].startDate);
-        const startDate = data[i].startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+            //end date
+            date = new Date(data[i].endDate);
+            const endDate = data[i].endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-        //end date
-        date = new Date(data[i].endDate);
-        const endDate = data[i].endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+            //type of buddy
+            let buddy;
+            if (data[i].travelBuddy === 1 && data[i].activityBuddy === 1) {
+                buddy = "a buddy";
+            } else if (data[i].travelBuddy === 1 && !(data[i].activityBuddy === 1)) {
+                buddy = "a travel buddy";
+            } else if (!(data[i].travelBuddy === 1) && data[i].activityBuddy === 1) {
+                buddy = "an activity buddy";
+            } else {
+                buddy = " a buddy";
+            }
 
-        //type of buddy
-        let buddy;
-        if (data[i].travelBuddy === 1 && data[i].activityBuddy === 1) {
-            buddy = "a buddy";
-        } else if (data[i].travelBuddy === 1 && !(data[i].activityBuddy === 1)) {
-            buddy = "a travel buddy";
-        } else if (!(data[i].travelBuddy === 1) && data[i].activityBuddy === 1) {
-            buddy = "an activity buddy";
-        } else {
-            buddy = " a buddy";
-        }
+            userDisplays[i] = document.createElement("div");
+            userDisplays[i].className = "user-display";
+            userDisplays[i].setAttribute("id", "user-display-" + userId);
+            $("#tab").append(userDisplays[i]);
 
-        userDisplays[i] = document.createElement("div");
-        userDisplays[i].className = "user-display";
-        userDisplays[i].setAttribute("id", "user-display-" + userId);
-        tab.append(userDisplays[i]);
-
-        userDisplays[i].innerHTML =
-            `<h1 id=user-display-h1-${userId}>${username}</h1>
+            userDisplays[i].innerHTML =
+                `<h1 id=user-display-h1-${userId}>${username}</h1>
             <img class="profile-picture" src="${userUrl}">
             <div>
             <p>${location}</p>
@@ -83,7 +72,10 @@ function generateUserDisplays(tab, data) {
             </div>
             </div>
             </div>`;
-    }
+        }
+    }).fail(function(reason) {
+        console.log(reason);
+    });
 }
 
 //displays the current overlay and the overlay-background
@@ -91,20 +83,29 @@ function getOverlayData (currentUserId) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE userId = ?", [currentUserId]
     ).done(function(data) {
+        //getting data for the overlay
         const userUrl = data[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[0].url;
         const firstName = data[0].firstName === "" ? "FirstName" : data[0].firstName;
         const lastName = data[0].lastName === "" ? "LastName" : data[0].lastName;
         const username = data[0].username === "" ? "username" : data[0].username;
         const bio = data[0].bio === "" ? "..." : data[0].bio;
 
-        //interests
-
         $("#overlay-row-1").html(`<img src="${userUrl}">`);
         $("#overlay-full-name").html(firstName + " " + lastName);
         $("#overlay-username").html("a.k.a. " + username);
-        //todo: properly add interests
         $("#overlay-interests").html(data[0].interest);
         $("#overlay-bio").html(bio);
+
+        //geting the interests from the user that needs to be displayed in the overlay
+        FYSCloud.API.queryDatabase(
+            "SELECT * FROM interests WHERE userId = ?", [currentUserId]
+        ).done(function(interestsData) {
+            let userInterest = [];
+            interestsData.forEach(element => userInterest.push("<li>"+element.interest+"</li>"));
+            $("#overlay-interests-ul").html(userInterest);
+        }).fail(function(reason) {
+            console.log(reason);
+        });
 
         document.getElementById("overlay").style.display = "flex";
         document.getElementById("overlay-background").style.display = "block";
