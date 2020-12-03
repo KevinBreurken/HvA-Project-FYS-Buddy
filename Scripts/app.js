@@ -96,7 +96,7 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
 
 /** Sessions */
 function setCurrentUserID(id) {
-    FYSCloud.Session.set("userID", id);
+    FYSCloud.Session.set("userID", `${id}`);
 }
 
 function getCurrentUserID() {
