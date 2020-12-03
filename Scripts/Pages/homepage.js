@@ -12,7 +12,7 @@ function openTabContent (currentButton) {
     //todo: create different query's;
     //1.All results: all results matching the users location, date and gender preference
     //2.Friends
-    //3.Recently viewed: swap to 'friend requests'??
+    //3.Friend requests (ingoing)
     //4.Favorites
 
     FYSCloud.API.queryDatabase(
@@ -22,7 +22,7 @@ function openTabContent (currentButton) {
         let userDisplays = [];
         for (let i = 0; i < data.length; i++) {
 
-            const userId = data[i].userId;  //userId
+            const currentDisplayUserId = data[i].userId;  //userId
             const username = data[i].username === "" ? "username" : data[i].username;  //username
             const userUrl = data[i].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[i].url;  //profile pic
             const location = data[i].location === "" ? "City, Country" : data[i].location; //location
@@ -49,11 +49,11 @@ function openTabContent (currentButton) {
 
             userDisplays[i] = document.createElement("div");
             userDisplays[i].className = "user-display";
-            userDisplays[i].setAttribute("id", "user-display-" + userId);
+            userDisplays[i].setAttribute("id", "user-display-" + currentDisplayUserId);
             $("#tab").append(userDisplays[i]);
 
             userDisplays[i].innerHTML =
-                `<h1 id=user-display-h1-${userId}>${username}</h1>
+                `<h1 id=user-display-h1-${currentDisplayUserId}>${username}</h1>
             <img class="profile-picture" src="${userUrl}">
             <div>
             <p>${location}</p>
@@ -62,7 +62,7 @@ function openTabContent (currentButton) {
             <p>${buddy}</p>
             </div>
             <div class="tab-content-column-4">
-            <button id="button1-${i}" onclick="getOverlayData('${userId}')">more info</button>
+            <button id="button1-${i}" onclick="getOverlayData('${currentDisplayUserId}')">more info</button>
             <button id="button2-${i}" onclick="closeFunction('user-display-${i}')">X</button>
             <div id="favorite-v1-${i}" onclick="swapFavoritesIcon('favorite-v1-${i}','favorite-v2-${i}')">
             <img class="favorite-icon" src="Content/Images/favorite-v1.png">
@@ -79,9 +79,9 @@ function openTabContent (currentButton) {
 }
 
 //displays the current overlay and the overlay-background
-function getOverlayData (currentUserId) {
+function getOverlayData (currentOverlayUserId) {
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE userId = ?", [currentUserId]
+        "SELECT * FROM user WHERE userId = ?", [currentOverlayUserId]
     ).done(function(data) {
         //getting data for the overlay
         const userUrl = data[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : data[0].url;
@@ -98,7 +98,7 @@ function getOverlayData (currentUserId) {
 
         //geting the interests from the user that needs to be displayed in the overlay
         FYSCloud.API.queryDatabase(
-            "SELECT * FROM interests WHERE userId = ?", [currentUserId]
+            "SELECT * FROM interests WHERE userId = ?", [currentOverlayUserId]
         ).done(function(interestsData) {
             let userInterest = [];
             interestsData.forEach(element => userInterest.push("<li>"+element.interest+"</li>"));
@@ -109,6 +109,9 @@ function getOverlayData (currentUserId) {
 
         document.getElementById("overlay").style.display = "flex";
         document.getElementById("overlay-background").style.display = "block";
+
+        //function to redirect the user to the profilepage
+        document.getElementById("profile-button").onclick = function (){redirectToProfile(currentOverlayUserId)};
     }).fail(function(reason) {
         console.log(reason);
     });
@@ -120,11 +123,18 @@ function closeFunction (currentDisplay) {
     document.getElementById("overlay-background").style.display = "none";
 }
 
-//todo: set database data when clicking
+//todo: set favorites data in the database when clicking
 //function that swaps the favorites icon
 function swapFavoritesIcon (currentIconId, newIconId) {
     document.getElementById(currentIconId).style.display = "none";
     document.getElementById(newIconId).style.display = "";
+}
+
+//function that redirects the user to the user-profile page
+function redirectToProfile(currentOverlayUserId) {
+    FYSCloud.URL.redirect("profile.html", {
+        id: currentOverlayUserId
+    });
 }
 
 //todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
