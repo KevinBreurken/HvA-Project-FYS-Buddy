@@ -162,7 +162,7 @@ function generateProfileDisplay(data) {
     };
 
 $(function () {
-    FYSCloud.Localization.Buddy.addTranslationJSON(profileTranslation);
+    FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
 });
 
 // TODO: make translation language dynamic.
