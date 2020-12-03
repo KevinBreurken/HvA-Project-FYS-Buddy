@@ -2,67 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Profile page</title>
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="user"></script>
     <script src="Scripts/general.js"></script>
+    <script src="Scripts/profile.js"></script>
     <script>
+        isOnAdminProfile = false;
         currentMenuType = '';
+        isNavigationVisible = true;
     </script>
+    <link rel="stylesheet" href="Content/CSS/default.css">
     <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
 </head>
 <body>
 <main class="main">
-    <h1>Tom van den Berg</h1>
+    <h1 id="usernameTitle"></h1>
     <form class="row">
         <div class="column">
-            <img id="img" class="img" src="Content/Images/profile-picture-5.jpg" alt="Profielfoto" width="200"
+            <img id="img" class="img" src="Content/Images/profile-picture-5.jpg" alt="profilePicture" width="200"
                  height=120>
             <h2>Gender</h2>
-            <p>Man</p>
+            <p id="gender">gender</p>
 
             <h2>Age</h2>
-            <p><b>Age:</b> 31</p>
-            <p><b>Date of birth:</b> 01-09-1989</p>
+            <p id="age"><b>Age:</b></p>
+            <p id="dob"><b>Date of birth:</b></p>
         </div>
         <div class="column">
             <h2>Interests</h2>
-            <div id="badge1" class="badge1">
-                <p>Sports</p>
+            <div id="badge10" class="badge1">
+                <p>interest</p>
             </div>
             <div id="badge2" class="badge2">
-                <p>Cooking</p>
+                <p>interest</p>
             </div>
             <div id="badge3" class="badge3">
-                <p>Visiting Nature</p>
+                <p>interest</p>
             </div>
             <div id="badge4" class="badge4">
-                <p>Music</p>
+                <p>interest</p>
             </div>
             <div id="badge5" class="badge5">
-                <p>Going out </p>
+                <p>interest</p>
             </div>
             <h2>Biography</h2>
-            <label for="biografie"></label>
-            <textarea class="biografie" rows="10" cols="30" id="biografie" name="Biografie" maxlength="500" disabled>My name is Tom. I am 24 years old and i adore the Italian culture and cuisine. I am looking for someone who wants to discover Rome with me.</textarea>
+            <label for="biography"></label>
+            <textarea class="biography" rows="10" cols="30" id="biography" name="biography" maxlength="500" disabled>biography</textarea>
         </div>
         <div class="column">
             <h2>Contactinformation</h2>
-            <p><b>E-mail:</b> tvandenberg@hotmail.com</p>
-            <p><b>Tel:</b> 0612345678</p>
+            <p id="email"><b>E-mail: </b></p>
+            <p id="tel"><b>Tel: </b></p>
             <br>
             <h2>Trip Information</h2>
-            <p><b>Destination:</b> Rome</p>
-            <p><b>From:</b> 06-02-2021</p>
-            <p><b>Untill:</b> 13-02-2021</p>
-            <p><b>I am looking for:</b> A travel buddy</p>
+            <p id="destination"><b>Destination: </b></p>
+            <p id="from"><b>From: </b></p>
+            <p id="untill"><b>Untill: </b></p>
+            <p id="lookingFor"><b>I am looking for: </b></p>
         </div>
     </form>
     <br>
-    <input type="button" onclick="changeButton()" id="match" class="match" value="Send request"></input>
-    <input type="button" onclick="changeButton2()" id="block" class="block" value="Block"></input>
+    <input type="button" onclick="changeButton()" id="match" class="match" value="Send request">
+    <input type="button" onclick="changeButton2()" id="block" class="block" value="Block">
 </main>
-</div>
 </body>
 <script src="Scripts/Pages/profile.js"></script>
 </html>
