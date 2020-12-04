@@ -1,54 +1,3 @@
-var headerTranslations = {
-    header: {
-        navigation: {
-            home: {
-                nl: "Home",
-                en: "Home"
-            },
-            profile: {
-                nl: "Profiel",
-                en: "Profile"
-            },
-            settings: {
-                nl: "Instellingen",
-                en: "Settings"
-            },
-            help: {
-                nl: "Help",
-                en: "Help"
-            }
-        },
-        adminNavigation: {
-            account: {
-                nl: "Account",
-                en: "Account"
-            },
-            overview: {
-                nl: "Data Overzicht",
-                en: "Data Overview"
-            },
-            statistics: {
-                nl: "Statistieken",
-                en: "Statistics"
-            }
-        },
-        notificationText: {
-            nl: "%name Heeft een contactverzoek verstuurd.",
-            en: "%name Has sent a contact request."
-        },
-        userDisplay: {
-            welcomeText: {
-                nl: "Welkom,",
-                en: "Welcome,"
-            },
-            signOut: {
-                nl: "Uitloggen",
-                en: "Log out"
-            }
-        }
-    }
-};
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(headerTranslations);
 function onHeaderLoaded() {
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
@@ -198,7 +147,7 @@ FYSCloud.API.queryDatabase(
             $("#notification-display-list").append(addNotification(userData[i]));
         }
         //translate the newly added objects.
-        FYSCloud.Localization.translate(true);
+        FYSCloud.Localization.translate(false);
     }).fail(function (reason) {
         console.log(reason);
     });

@@ -21,6 +21,10 @@
   font-family: var(--font-family);
 }
 
+header {
+  min-height: 214px;
+}
+
 body {
   color: var(--color-corendon-dark-grey);
   margin: 0;
