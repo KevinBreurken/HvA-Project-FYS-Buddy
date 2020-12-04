@@ -104,8 +104,25 @@ function getCurrentUserID() {
 }
 
 function closeSession() {
-    window.open("index.html", "_self");
+    /** Statistics - Set page visit */
+    (function setDatabasePageData() {
+        var name = window.location.pathname
+            .split("/")
+            .filter(function (c) {
+                return c.length;
+            })
+            .pop();
+        FYSCloud.API.queryDatabase(
+            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
+        logoutamount = logoutamount + 1`,
+            [name]
+        ).done(function (data) {
+        }).fail(function (reason) {
+            console.log(reason);
+        });
+    })();
     FYSCloud.Session.clear();
+    window.open("index.html", "_self");
 }
 
 function redirectToProfileById(id) {
@@ -130,7 +147,7 @@ document.addEventListener("headerLoadedEvent", function (event) {
         })
         .pop();
     FYSCloud.API.queryDatabase(
-        `INSERT INTO adminpagedata (name, visitcount, bouncerate) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
+        `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
         visitcount = visitcount + 1`,
         [name]
     ).done(function (data) {
