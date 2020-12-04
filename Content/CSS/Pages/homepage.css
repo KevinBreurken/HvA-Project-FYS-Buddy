@@ -367,7 +367,7 @@ main {
   height: fit-content;
   max-height: 500px;
   overflow: hidden;
-  z-index: 11;
+  z-index: 80;
   background-color: var(--color-corendon-white);
 }
 /* overlay content */
@@ -486,5 +486,5 @@ main {
   bottom: 0;
   background-color: rgba(0, 0, 0, .5);
   pointer-events: none;
-  z-index: 4;
+  z-index: 60;
 }

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
-
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
-    <script src="Scripts/app.js"></script>
+    <script src="Scripts/app.js" id="app" data-pageType="admin"></script>
+    <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
     <script>
         isOnAdminProfile = true;
@@ -16,6 +16,7 @@
 </head>
 
 <body>
+<header></header>
 <main>
     <div id="statistics-window">
         <div class="statistics-group">
@@ -65,7 +66,7 @@
                     </div>
                     <div class="statistics-item-number">
                         <div class="statistics-item-number-title" data-translate="matching.contacts"></div>
-                        <div class="statistics-item-number-value"id="contacts-shared"></div>
+                        <div class="statistics-item-number-value" id="contacts-shared"></div>
                     </div>
                     <div class="statistics-item-number">
                         <div class="statistics-item-number-title" data-translate="matching.matchesAvg"></div>
