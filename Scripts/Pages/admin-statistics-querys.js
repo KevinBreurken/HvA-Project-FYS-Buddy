@@ -37,7 +37,6 @@ function fetchStatisticsFromDatabase() {
     });
 
     fetchTraffic();
-    fetchPages();
 }
 
 function fetchMatches(totalUserCount) {
@@ -91,7 +90,7 @@ function fetchMatches(totalUserCount) {
     });
 }
 
-function fetchPages() {
+(function fetchPages() {
     // ~~~~ FETCH LIST OF PAGES, SORTED BY BOUNCE DESCENDING ~~~~
     FYSCloud.API.queryDatabase(
         "SELECT * " +
@@ -115,7 +114,7 @@ function fetchPages() {
     }).fail(function (reason) {
         console.log(reason);
     });
-}
+})();
 
 function fetchTraffic() {
     // ** TYPE DEVICE **
