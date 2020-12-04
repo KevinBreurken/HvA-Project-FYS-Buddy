@@ -1,10 +1,3 @@
-// Temporary dummy database connection - will be removed once moved out of development
-FYSCloud.API.configure({
-    url: "https://api.fys.cloud",
-    apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
-    database: "fys_is111_1_dev_kiet",
-    environment: "dev"
-})
 const MAX_USERNAME = 50
 const MAX_EMAIL = 50
 const MAX_PASSWORD = 16
