@@ -105,22 +105,20 @@ function getCurrentUserID() {
 
 function closeSession() {
     /** Statistics - Set page visit */
-    (function setDatabasePageData() {
-        var name = window.location.pathname
-            .split("/")
-            .filter(function (c) {
-                return c.length;
-            })
-            .pop();
-        FYSCloud.API.queryDatabase(
-            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
+    var name = window.location.pathname
+        .split("/")
+        .filter(function (c) {
+            return c.length;
+        })
+        .pop();
+    FYSCloud.API.queryDatabase(
+        `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
         logoutamount = logoutamount + 1`,
-            [name]
-        ).done(function (data) {
-        }).fail(function (reason) {
-            console.log(reason);
-        });
-    })();
+        [name]
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
     FYSCloud.Session.clear();
     window.open("index.html", "_self");
 }

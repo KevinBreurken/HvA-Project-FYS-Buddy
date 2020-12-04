@@ -116,7 +116,7 @@ var statisticsTranslation = {
             en: "Pages"
         },
         bounce: {
-            nl: "Account uitgelogd op:",
+            nl: "Accounts uitgelogd op:",
             en: "Logged out on:"
         },
         views: {
