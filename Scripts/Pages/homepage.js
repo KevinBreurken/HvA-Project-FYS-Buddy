@@ -79,7 +79,7 @@ function openTabContent (currentButton) {
             </div>
             <div class="tab-content-column-4">
             <button id="button1-${i}" onclick="getOverlayData('${currentDisplayUserId}')">more info</button>
-            <button id="button2-${i}" onclick="closeElement('user-display-${i}')">X</button>
+            <button id="button2-${i}" onclick="closeElement('user-display-${currentDisplayUserId}')">X</button>
             <div id="favorite-v1-${i}" onclick="setFavorite('favorite-v1-${i}','favorite-v2-${i}')">
             <img class="favorite-icon" src="Content/Images/favorite-v1.png">
             </div>
