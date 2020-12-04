@@ -153,3 +153,17 @@ document.addEventListener("headerLoadedEvent", function (event) {
         console.log(reason);
     });
 })();
+
+function sendSessionData() {
+    const date = new Date();
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+    const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
+
+    console.log(dateTest);
+    FYSCloud.API.queryDatabase(
+        `INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) VALUES(NULL,'${dateTest}','${getDeviceType()}',' ${detectBrowser()}')`
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+}
