@@ -14,14 +14,14 @@ if (appElement !== null) {
     }
 }
 
-function redirectToHome(){
+function redirectToHome() {
     let appElement = document.getElementById("app");
     if (appElement !== null) {
         let attrElement = appElement.getAttribute("data-pageType");
         if (attrElement === "user") {
             window.open("homepage.html", "_self");
         }
-        if(attrElement === "admin"){
+        if (attrElement === "admin") {
             window.open("admin-profile.html", "_self");
         }
     }
@@ -120,3 +120,21 @@ var initialLanguage = "nl";
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
 });
+
+/** Statistics - Set page visit */
+(function setDatabasePageData() {
+    var name = window.location.pathname
+        .split("/")
+        .filter(function (c) {
+            return c.length;
+        })
+        .pop();
+    FYSCloud.API.queryDatabase(
+        `INSERT INTO adminpagedata (name, visitcount, bouncerate) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
+        visitcount = visitcount + 1`,
+        [name]
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+})();
