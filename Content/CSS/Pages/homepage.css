@@ -1,3 +1,13 @@
+/* removes the outline around a selected item */
+textarea:focus, input:focus{
+  outline: none;
+}
+
+/* removes the highlight around a selected item that is present on chrome*/
+*:focus {
+  outline: none;
+}
+
 main {
   max-width: 1000px;
 }

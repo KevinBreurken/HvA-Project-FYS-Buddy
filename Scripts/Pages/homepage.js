@@ -1,19 +1,35 @@
-//clicks on the 'All results' tab so it's open by default
-document.getElementById("default-active").click();
+window.addEventListener('load', function () {
+    //clicks on the 'All results' tab so it's open by default
+    document.getElementById("default-active").click();
+})
+
+//todo: create different query's;
+//1.All results: all results matching the users location, date and gender preference
+//2.Friends
+//3.Friend requests (ingoing)
+//4.Favorites
+//filters
+
+//todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
+//todo: send notification to the other user
+//function(s) for setting the status of the 'send friend request' button and sets database data
+
+//todo: set favorites data in the database when clicking
 
 //function to switch the tab and active tab-button
 function openTabContent (currentButton) {
-    const tabButtons = $(".tab-button");
-
     //swaps the button colors
-    for (let i = 0; i < tabButtons.length; i++) {tabButtons[i].style.backgroundColor = "";}
-    currentButton.style.backgroundColor = "#c11905";
+    $(".tab-button").css("backgroundColor", "");
+    $(currentButton).css("backgroundColor", "#c11905");
 
-    //todo: create different query's;
-    //1.All results: all results matching the users location, date and gender preference
-    //2.Friends
-    //3.Friend requests (ingoing)
-    //4.Favorites
+    //const userList = getAllUsers();
+    //promise
+
+    // for (let i = 0; i < userList.length; i++) {
+    //    tab.append(displayUser(userList[i]));
+    // }
+
+    //displayUser() - returns a string with all the elements and data for one userDisplay
 
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user"
@@ -63,11 +79,11 @@ function openTabContent (currentButton) {
             </div>
             <div class="tab-content-column-4">
             <button id="button1-${i}" onclick="getOverlayData('${currentDisplayUserId}')">more info</button>
-            <button id="button2-${i}" onclick="closeFunction('user-display-${i}')">X</button>
-            <div id="favorite-v1-${i}" onclick="swapFavoritesIcon('favorite-v1-${i}','favorite-v2-${i}')">
+            <button id="button2-${i}" onclick="closeElement('user-display-${i}')">X</button>
+            <div id="favorite-v1-${i}" onclick="setFavorite('favorite-v1-${i}','favorite-v2-${i}')">
             <img class="favorite-icon" src="Content/Images/favorite-v1.png">
             </div>
-            <div id="favorite-v2-${i}" style="display: none" onclick="swapFavoritesIcon('favorite-v2-${i}','favorite-v1-${i}')">
+            <div id="favorite-v2-${i}" style="display: none" onclick="setFavorite('favorite-v2-${i}','favorite-v1-${i}')">
             <img class="favorite-icon" src="Content/Images/favorite-v2.png">
             </div>
             </div>
@@ -101,31 +117,33 @@ function getOverlayData (currentOverlayUserId) {
             "SELECT * FROM interests WHERE userId = ?", [currentOverlayUserId]
         ).done(function(interestsData) {
             let userInterest = [];
+
             interestsData.forEach(element => userInterest.push("<li>"+element.interest+"</li>"));
+
             $("#overlay-interests-ul").html(userInterest);
         }).fail(function(reason) {
             console.log(reason);
         });
 
-        document.getElementById("overlay").style.display = "flex";
-        document.getElementById("overlay-background").style.display = "block";
+        //displays the overlay and overlay-background
+        $("#overlay").css("display", "flex");
+        $("#overlay-background").css("display", "block");
 
         //function to redirect the user to the profilepage
-        document.getElementById("profile-button").onclick = function (){redirectToProfile(currentOverlayUserId)};
+        $("#profile-button").click(function (){redirectToProfile(currentOverlayUserId)});
     }).fail(function(reason) {
         console.log(reason);
     });
 }
 
 //function to close the active user-display or overlay
-function closeFunction (currentDisplay) {
+function closeElement (currentDisplay) {
     document.getElementById(currentDisplay).style.display = "none";
     document.getElementById("overlay-background").style.display = "none";
 }
 
-//todo: set favorites data in the database when clicking
 //function that swaps the favorites icon
-function swapFavoritesIcon (currentIconId, newIconId) {
+function setFavorite (currentIconId, newIconId) {
     document.getElementById(currentIconId).style.display = "none";
     document.getElementById(newIconId).style.display = "";
 }
@@ -136,7 +154,3 @@ function redirectToProfile(currentOverlayUserId) {
         id: currentOverlayUserId
     });
 }
-
-//todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
-//todo: set database data when clicking on the button
-//todo: send notification to the other user
