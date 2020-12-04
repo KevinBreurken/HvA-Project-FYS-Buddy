@@ -108,6 +108,12 @@ function closeSession() {
     FYSCloud.Session.clear();
 }
 
+function redirectToProfileById(id) {
+    FYSCloud.URL.redirect("profile.html", {
+        id: id
+    });
+}
+
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = "nl";
