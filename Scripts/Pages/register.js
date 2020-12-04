@@ -165,11 +165,10 @@ $("#fileUpload").on("change", function () {
 })
 
 function register() {
-    console.log(dobFormat)
     FYSCloud.API.queryDatabase(
         "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?)",
         [username, email, password],
-        "Insert INTO `profile` (`firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (NULL, ?, ?, ?, ?, ?, NULL)",
+        "Insert INTO `profile` (`id`, `firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (last_insert_id(), ?, ?, ?, ?, ?, ?, 'dummy.jpg')",
         [firstname, lastname, gender, dobFormat, bio, hobby]
     ).done(function (data) {
         //location.href = "homepage.html"
