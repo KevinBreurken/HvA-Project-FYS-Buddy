@@ -1,10 +1,3 @@
-// Temporary dummy database connection - will be removed once moved out of development
-FYSCloud.API.configure({
-    url: "https://api.fys.cloud",
-    apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
-    database: "fys_is111_1_dev_kiet",
-    environment: "dev"
-})
 const MAX_USERNAME = 50
 const MAX_EMAIL = 50
 const MAX_PASSWORD = 16
@@ -174,9 +167,11 @@ $("#fileUpload").on("change", function () {
 function register() {
     console.log(dobFormat)
     FYSCloud.API.queryDatabase(
-        "INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `gender`, `dob`, `bio`, `hobby`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [username, email, password, firstname, lastname, gender, dobFormat, bio, hobby]
-).done(function (data) {
+        "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?)",
+        [username, email, password],
+        "Insert INTO `profile` (`firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (NULL, ?, ?, ?, ?, ?, NULL)",
+        [firstname, lastname, gender, dobFormat, bio, hobby]
+    ).done(function (data) {
         //location.href = "homepage.html"
     }).fail(function (reason) {
         console.log(reason)
