@@ -130,7 +130,7 @@ function getOverlayData (currentOverlayUserId) {
         $("#overlay-background").css("display", "block");
 
         //function to redirect the user to the profilepage
-        $("#profile-button").click(function (){redirectToProfile(currentOverlayUserId)});
+        $("#profile-button").click(function (){redirectToProfileById(currentOverlayUserId)});
     }).fail(function(reason) {
         console.log(reason);
     });
@@ -146,11 +146,4 @@ function closeElement (currentDisplay) {
 function setFavorite (currentIconId, newIconId) {
     document.getElementById(currentIconId).style.display = "none";
     document.getElementById(newIconId).style.display = "";
-}
-
-//function that redirects the user to the user-profile page
-function redirectToProfile(currentOverlayUserId) {
-    FYSCloud.URL.redirect("profile.html", {
-        id: currentOverlayUserId
-    });
 }
