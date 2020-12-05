@@ -19,7 +19,3 @@ function validationCheck() {
         }
     })
 }
-function loginUser(id) {
-    FYSCloud.Session.set("userId", id);
-    window.location.replace("./homepage.html");
-}
