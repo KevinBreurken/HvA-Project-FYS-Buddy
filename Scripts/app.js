@@ -185,4 +185,3 @@ function loginUser(id) {
     setCurrentUserID(id);
     sendSessionData(); //sends data to session table for statistics.
 }
-}
