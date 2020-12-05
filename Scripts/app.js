@@ -1,4 +1,4 @@
-let currentUserID = FYSCloud.Session.get("userID");
+let currentUserID = getCurrentUserID();
 console.log("currentUserID = " + currentUserID);
 if (currentUserID === undefined) {
     console.log("Not logged in");
@@ -100,7 +100,7 @@ function setCurrentUserID(id) {
 }
 
 function getCurrentUserID() {
-    return currentUserID;
+    return FYSCloud.Session.get("userID");
 }
 
 function closeSession() {
@@ -162,13 +162,14 @@ function sendSessionData() {
     FYSCloud.API.queryDatabase(
         `INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`
     ).done(function (data) {
-        window.location.replace("./homepage.html");
+         window.location.replace("./homepage.html");
     }).fail(function (reason) {
         console.log(reason);
     });
 }
 
 function loginUser(id) {
+    console.log("user is checked");
     setCurrentUserID(id);
     sendSessionData(); //sends data to session table for statistics.
 }
