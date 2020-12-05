@@ -154,8 +154,8 @@ document.addEventListener("headerLoadedEvent", function (event) {
     });
 })();
 
-$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
 function sendSessionData() {
+    $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
     const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
@@ -166,11 +166,3 @@ function sendSessionData() {
         console.log(reason);
     });
 }
-
-FYSCloud.API.queryDatabase(
-    `SELECT * FROM adminsessiondata`
-).done(function (data) {
-    console.log(data);
-}).fail(function (reason) {
-    console.log(reason);
-});

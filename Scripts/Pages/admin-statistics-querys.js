@@ -31,8 +31,6 @@ function fetchStatisticsFromDatabase() {
     }).fail(function (reason) {
         console.log(reason);
     });
-
-    fetchTraffic();
 }
 
 function fetchMatches(totalUserCount) {
@@ -87,13 +85,13 @@ function fetchMatches(totalUserCount) {
 }
 
 (function fetchPages() {
-    // ~~~~ FETCH LIST OF PAGES, SORTED BY BOUNCE DESCENDING ~~~~
+    // ~~~~ FETCH LIST OF PAGES, SORTED BY LOGOUT-AMOUNT DESCENDING ~~~~
     FYSCloud.API.queryDatabase(
         "SELECT * " +
         "FROM adminpagedata " +
         "ORDER BY logoutamount DESC;"
     ).done(function (data) {
-        // ** BOUNCE RATE **
+        // ** LOGOUT-AMOUNT **
         $('#page-bounce').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
     }).fail(function (reason) {
         console.log(reason);
@@ -112,7 +110,7 @@ function fetchMatches(totalUserCount) {
     });
 })();
 
-function fetchTraffic() {
+(function fetchTraffic() {
     // ** TYPE DEVICE **
     FYSCloud.API.queryDatabase(
         "SELECT deviceType, count(*) as 'amount' FROM adminsessiondata GROUP BY deviceType"
@@ -130,7 +128,7 @@ function fetchTraffic() {
     }).fail(function (reason) {
         console.log(reason);
     });
-}
+})();
 
 /**
  * Creates a Multidimensional Array from a JSON object.
