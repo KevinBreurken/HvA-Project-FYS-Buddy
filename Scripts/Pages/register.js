@@ -191,11 +191,12 @@ function register() {
 
         FYSCloud.API.queryDatabase(
             "INSERT INTO `profile` (`id`, `firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [data.insertId, firstname, lastname, gender, dobFormat, bio, hobby, "profile-pictures/pp-" + data.insertId + "-jpg"]
-        ).fail(function (reason) {
+            [data.insertId, firstname, lastname, gender, dobFormat, bio, hobby, "pp-" + data.insertId + ".jpg"]
+        ).done(function (data) {
+            loginUser(data.insertId)
+        }).fail(function (reason) {
             console.log(reason)
         })
-        //location.href = "homepage.html"
     }).fail(function (reason) {
         console.log(reason)
     })
