@@ -15,21 +15,15 @@ function fetchStatisticsFromDatabase() {
 
     // ~~~~ FETCH ALL SESSIONS ~~~~
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM session"
+        "SELECT * FROM adminsessiondata"
     ).done(function (data) {
-        let averageTimes = 0;
         let loginTodayAmount = 0;
         for (let i = 0; i < data.length; i++) {
             let loginDate = new Date(data[i]["loginTime"]);
-
-            let loginTime = loginDate.getTime() / 1000;
-            let logoffTime = new Date(data[i]["logoffTime"]).getTime() / 1000;
-            //TODO: creates a problem when averageTimes reaches the integer limit. Create a method of storing average time per session on the database.
-            averageTimes += ((logoffTime - loginTime));
             loginTodayAmount += isDateToday(loginDate);
         }
         // ** USERS - AVERAGE VISIT TIME **
-        $('#visit-time-average').html(secondsToTimeString((averageTimes / data.length)));
+        // $('#visit-time-average').html(secondsToTimeString((averageTimes / data.length)));
         // ** TRAFFIC - LOGGED IN TODAY **
         $('#logged-in').html(loginTodayAmount);
     }).fail(function (reason) {
@@ -119,7 +113,7 @@ function fetchMatches(totalUserCount) {
 function fetchTraffic() {
     // ** TYPE DEVICE **
     FYSCloud.API.queryDatabase(
-        "SELECT deviceType, count(*) as 'amount' FROM session GROUP BY deviceType"
+        "SELECT deviceType, count(*) as 'amount' FROM adminsessiondata GROUP BY deviceType"
     ).done(function (data) {
         generatePiechart('#device-type', jsonToArray(data, ["deviceType", "amount"]));
     }).fail(function (reason) {
@@ -128,7 +122,7 @@ function fetchTraffic() {
 
     // ** BROWSER TYPE **
     FYSCloud.API.queryDatabase(
-        "SELECT browserType, count(*) as 'amount' FROM session GROUP BY browserType"
+        "SELECT browserType, count(*) as 'amount' FROM adminsessiondata GROUP BY browserType"
     ).done(function (data) {
         generatePiechart('#browser-type', jsonToArray(data, ["browserType", "amount"]));
     }).fail(function (reason) {
