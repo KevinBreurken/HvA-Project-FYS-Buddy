@@ -18,12 +18,14 @@ function fetchStatisticsFromDatabase() {
         "SELECT * FROM adminsessiondata"
     ).done(function (data) {
         let loginTodayAmount = 0;
+        let allHours = [data.length];
         for (let i = 0; i < data.length; i++) {
-            let loginDate = new Date(data[i]["loginTime"]);
+            let loginDate = new Date(data[i]["logintime"]);
+            allHours[i] = loginDate.getHours();
             loginTodayAmount += isDateToday(loginDate);
         }
-        // ** USERS - AVERAGE VISIT TIME **
-        // $('#visit-time-average').html(secondsToTimeString((averageTimes / data.length)));
+        // ** USERS - MOST VISITED HOUR **
+        $('#visit-time-average').html(findCommon(allHours));
         // ** TRAFFIC - LOGGED IN TODAY **
         $('#logged-in').html(loginTodayAmount);
     }).fail(function (reason) {
@@ -161,8 +163,4 @@ function isDateToday(date) {
         return false;
 
     return true;
-}
-
-function secondsToTimeString(seconds) {
-    return (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
 }

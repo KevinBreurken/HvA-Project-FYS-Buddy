@@ -154,6 +154,7 @@ document.addEventListener("headerLoadedEvent", function (event) {
     });
 })();
 
+$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
 function sendSessionData() {
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));

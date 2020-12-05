@@ -76,8 +76,8 @@ var statisticsTranslation = {
             en: "Total Accounts"
         },
         visit: {
-            nl: "Gemiddelde Bezoekstijd",
-            en: "Average Visit Time"
+            nl: "Meest bezochten uur:",
+            en: "Most Visited Hour:"
         },
     },
     matching: {
