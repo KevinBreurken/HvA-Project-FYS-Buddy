@@ -162,7 +162,13 @@ function sendSessionData() {
     FYSCloud.API.queryDatabase(
         `INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`
     ).done(function (data) {
+        window.location.replace("./homepage.html");
     }).fail(function (reason) {
         console.log(reason);
     });
+}
+
+function loginUser(id) {
+    setCurrentUserID(id);
+    sendSessionData(); //sends data to session table for statistics.
 }

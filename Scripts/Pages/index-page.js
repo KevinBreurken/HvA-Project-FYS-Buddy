@@ -19,9 +19,3 @@ function validationCheck() {
         }
     })
 }
-
-function loginUser(id) {
-    setCurrentUserID(id);
-    sendSessionData(); //sends data to session table for statistics.
-    window.location.replace("./homepage.html");
-}
