@@ -114,6 +114,19 @@ function redirectToProfileById(id) {
     });
 }
 
+/** function for getting user data from the database by a promise */
+function getDataByPromise(query, queryArray) {
+    return new Promise(resolve => {
+        FYSCloud.API.queryDatabase(
+            query, queryArray
+        ).done(function(data) {
+            resolve(data);
+        }).fail(function(reason) {
+            console.log(reason);
+        });
+    });
+}
+
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = "nl";

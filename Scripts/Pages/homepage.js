@@ -24,26 +24,14 @@ async function openTabContent (currentButton) {
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
 
-    let userList = await getUserData("SELECT * FROM user");
+    let userList = await getDataByPromise("SELECT * FROM user");
     $("#tab").html("");
     userList.forEach(user => $("#tab").append(generateUserDisplay(user)))
 }
 
-/** function for getting user data from the database */
-function getUserData(query, queryArray) {
-    return new Promise(userList => {
-        FYSCloud.API.queryDatabase(
-            query, queryArray
-        ).done(function(data) {
-            userList(data);
-        }).fail(function(reason) {
-            console.log(reason);
-        });
-    });
-}
-
 /** function for generating a user display */
-function generateUserDisplay(currentUser) {
+function generateUserDisplay(currentUser)
+{
     let userId = currentUser.userId;
 
     let userDisplay = document.createElement("div");
@@ -97,8 +85,8 @@ function generateUserDisplay(currentUser) {
 
 /** function for opening the overlay with the correct user data*/
 async function openUserOverlay (overlayUserId) {
-    let userdata = await getUserData("SELECT * FROM user WHERE userId = ?", [overlayUserId]);
-    let userInterests = await getUserData("SELECT * FROM interests WHERE userId = ?", [overlayUserId]);
+    let userdata = await getDataByPromise("SELECT * FROM user WHERE userId = ?", [overlayUserId]);
+    let userInterests = await getDataByPromise("SELECT * FROM interests WHERE userId = ?", [overlayUserId]);
 
     console.log(userdata[0].url)
 
