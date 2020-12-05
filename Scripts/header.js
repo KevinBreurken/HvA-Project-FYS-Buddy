@@ -1,4 +1,11 @@
+$(function () {
+    onHeaderLoaded();
+});
+
 function onHeaderLoaded() {
+    //sets the profile page url
+    $("#profile-link").click(function (){redirectToProfileById(getCurrentUserID())});
+    
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
@@ -62,15 +69,6 @@ function overrideMenuButtons(newButtons) {
         </li>`);
     }
     updateMenuButtons();
-}
-
-$(function () {
-    onHeaderLoaded();
-});
-
-function openProfile(userID) {
-    //TODO:Open profile to correct profile.
-    window.open("profile2.html", "_self");
 }
 
 /** Notifications */

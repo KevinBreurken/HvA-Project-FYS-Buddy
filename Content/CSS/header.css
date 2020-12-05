@@ -25,6 +25,10 @@
     list-style: none;
 }
 
+.main-menu-buttons {
+    cursor: pointer;
+}
+
 .main-menu-home-icon {
     width: 15px;
     padding-right: 5px;
@@ -51,7 +55,7 @@
     height: 38px;
     align-items: center;
     border: 1px solid var(--color-corendon-lighter-blue);
-    cursor: pointer;
+    cursor: default;
     border-radius: 6px;
     margin-top: -10px;
     display: flex;
@@ -61,6 +65,7 @@
 
 .profile-display-dropdown {
     position: relative;
+    cursor: pointer;
     /* width: 100%; */
 }
 
@@ -99,7 +104,7 @@
    padding-left: 3px;
 }
 
-/** Shortens the spacing between welcome text and name */
+/* Shortens the spacing between welcome text and name */
 #profile-display-name{
     padding-left: 0px;
 }
