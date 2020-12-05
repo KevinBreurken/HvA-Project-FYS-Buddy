@@ -15,28 +15,22 @@ function fetchStatisticsFromDatabase() {
 
     // ~~~~ FETCH ALL SESSIONS ~~~~
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM session"
+        "SELECT * FROM adminsessiondata"
     ).done(function (data) {
-        let averageTimes = 0;
         let loginTodayAmount = 0;
+        let allHours = [data.length];
         for (let i = 0; i < data.length; i++) {
-            let loginDate = new Date(data[i]["loginTime"]);
-
-            let loginTime = loginDate.getTime() / 1000;
-            let logoffTime = new Date(data[i]["logoffTime"]).getTime() / 1000;
-            //TODO: creates a problem when averageTimes reaches the integer limit. Create a method of storing average time per session on the database.
-            averageTimes += ((logoffTime - loginTime));
+            let loginDate = new Date(data[i]["logintime"]);
+            allHours[i] = loginDate.getHours();
             loginTodayAmount += isDateToday(loginDate);
         }
-        // ** USERS - AVERAGE VISIT TIME **
-        $('#visit-time-average').html(secondsToTimeString((averageTimes / data.length)));
+        // ** USERS - MOST VISITED HOUR **
+        $('#visit-time-average').html(findCommon(allHours));
         // ** TRAFFIC - LOGGED IN TODAY **
         $('#logged-in').html(loginTodayAmount);
     }).fail(function (reason) {
         console.log(reason);
     });
-
-    fetchTraffic();
 }
 
 function fetchMatches(totalUserCount) {
@@ -91,14 +85,14 @@ function fetchMatches(totalUserCount) {
 }
 
 (function fetchPages() {
-    // ~~~~ FETCH LIST OF PAGES, SORTED BY BOUNCE DESCENDING ~~~~
+    // ~~~~ FETCH LIST OF PAGES, SORTED BY LOGOUT-AMOUNT DESCENDING ~~~~
     FYSCloud.API.queryDatabase(
         "SELECT * " +
         "FROM adminpagedata " +
         "ORDER BY logoutamount DESC;"
     ).done(function (data) {
-        // ** BOUNCE RATE **
-        $('#page-bounce').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
+        // ** LOGOUT-AMOUNT **
+        $('#page-logout').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
     }).fail(function (reason) {
         console.log(reason);
     });
@@ -116,10 +110,10 @@ function fetchMatches(totalUserCount) {
     });
 })();
 
-function fetchTraffic() {
+(function fetchTraffic() {
     // ** TYPE DEVICE **
     FYSCloud.API.queryDatabase(
-        "SELECT deviceType, count(*) as 'amount' FROM session GROUP BY deviceType"
+        "SELECT deviceType, count(*) as 'amount' FROM adminsessiondata GROUP BY deviceType"
     ).done(function (data) {
         generatePiechart('#device-type', jsonToArray(data, ["deviceType", "amount"]));
     }).fail(function (reason) {
@@ -128,13 +122,13 @@ function fetchTraffic() {
 
     // ** BROWSER TYPE **
     FYSCloud.API.queryDatabase(
-        "SELECT browserType, count(*) as 'amount' FROM session GROUP BY browserType"
+        "SELECT browserType, count(*) as 'amount' FROM adminsessiondata GROUP BY browserType"
     ).done(function (data) {
         generatePiechart('#browser-type', jsonToArray(data, ["browserType", "amount"]));
     }).fail(function (reason) {
         console.log(reason);
     });
-}
+})();
 
 /**
  * Creates a Multidimensional Array from a JSON object.
@@ -167,8 +161,4 @@ function isDateToday(date) {
         return false;
 
     return true;
-}
-
-function secondsToTimeString(seconds) {
-    return (new Date(seconds * 1000)).toUTCString().match(/(\d\d:\d\d:\d\d)/)[0];
 }

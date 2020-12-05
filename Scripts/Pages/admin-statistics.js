@@ -76,8 +76,8 @@ var statisticsTranslation = {
             en: "Total Accounts"
         },
         visit: {
-            nl: "Gemiddelde Bezoekstijd",
-            en: "Average Visit Time"
+            nl: "Meest bezochten uur:",
+            en: "Most Visited Hour:"
         },
     },
     matching: {
@@ -115,7 +115,7 @@ var statisticsTranslation = {
             nl: "Pagina's",
             en: "Pages"
         },
-        bounce: {
+        logout: {
             nl: "Accounts uitgelogd op:",
             en: "Logged out on:"
         },

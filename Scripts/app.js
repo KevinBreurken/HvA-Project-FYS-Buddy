@@ -166,4 +166,23 @@ document.addEventListener("headerLoadedEvent", function (event) {
         console.log(reason);
     });
 })();
-})();
+
+function sendSessionData() {
+    $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
+    const date = new Date();
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+    const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
+    FYSCloud.API.queryDatabase(
+        `INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`
+    ).done(function (data) {
+        window.location.replace("./homepage.html");
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+}
+
+function loginUser(id) {
+    setCurrentUserID(id);
+    sendSessionData(); //sends data to session table for statistics.
+}
+}
