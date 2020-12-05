@@ -92,7 +92,7 @@ function fetchMatches(totalUserCount) {
         "ORDER BY logoutamount DESC;"
     ).done(function (data) {
         // ** LOGOUT-AMOUNT **
-        $('#page-bounce').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
+        $('#page-logout').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
     }).fail(function (reason) {
         console.log(reason);
     });
