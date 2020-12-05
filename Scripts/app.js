@@ -14,14 +14,14 @@ if (appElement !== null) {
     }
 }
 
-function redirectToHome(){
+function redirectToHome() {
     let appElement = document.getElementById("app");
     if (appElement !== null) {
         let attrElement = appElement.getAttribute("data-pageType");
         if (attrElement === "user") {
             window.open("homepage.html", "_self");
         }
-        if(attrElement === "admin"){
+        if (attrElement === "admin") {
             window.open("admin-profile.html", "_self");
         }
     }
@@ -104,8 +104,23 @@ function getCurrentUserID() {
 }
 
 function closeSession() {
-    window.open("index.html", "_self");
+    /** Statistics - Set page visit */
+    var name = window.location.pathname
+        .split("/")
+        .filter(function (c) {
+            return c.length;
+        })
+        .pop();
+    FYSCloud.API.queryDatabase(
+        `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
+        logoutamount = logoutamount + 1`,
+        [name]
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
     FYSCloud.Session.clear();
+    window.open("index.html", "_self");
 }
 
 function redirectToProfileById(id) {
@@ -133,3 +148,22 @@ var initialLanguage = "nl";
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
 });
+
+/** Statistics - Set page visit */
+(function setDatabasePageData() {
+    var name = window.location.pathname
+        .split("/")
+        .filter(function (c) {
+            return c.length;
+        })
+        .pop();
+    FYSCloud.API.queryDatabase(
+        `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
+        visitcount = visitcount + 1`,
+        [name]
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+})();
+})();

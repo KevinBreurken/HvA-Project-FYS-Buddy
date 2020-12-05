@@ -1,10 +1,3 @@
-FYSCloud.API.configure({
-    url: "https://api.fys.cloud",
-    apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
-    database: "fys_is111_1_kevintest", //Change this to the database-name you want to use for testing.
-    environment: "dev"
-});
-
 fetchStatisticsFromDatabase();
 
 function fetchStatisticsFromDatabase() {
@@ -44,7 +37,6 @@ function fetchStatisticsFromDatabase() {
     });
 
     fetchTraffic();
-    fetchPages();
 }
 
 function fetchMatches(totalUserCount) {
@@ -98,15 +90,15 @@ function fetchMatches(totalUserCount) {
     });
 }
 
-function fetchPages() {
+(function fetchPages() {
     // ~~~~ FETCH LIST OF PAGES, SORTED BY BOUNCE DESCENDING ~~~~
     FYSCloud.API.queryDatabase(
         "SELECT * " +
-        "FROM pages " +
-        "ORDER BY bounce DESC;"
+        "FROM adminpagedata " +
+        "ORDER BY logoutamount DESC;"
     ).done(function (data) {
         // ** BOUNCE RATE **
-        $('#page-bounce').html(makeOL(jsonToArray(data, ["pageName", "bounce"])));
+        $('#page-bounce').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
     }).fail(function (reason) {
         console.log(reason);
     });
@@ -114,15 +106,15 @@ function fetchPages() {
     // ~~~~ FETCH LIST OF PAGES, SORTED BY VISITS DESCENDING ~~~~
     FYSCloud.API.queryDatabase(
         "SELECT * " +
-        "FROM pages " +
-        "ORDER BY visits DESC;"
+        "FROM adminpagedata " +
+        "ORDER BY visitcount DESC;"
     ).done(function (data) {
         // ** AMOUNT OF VIEWS **
-        $('#page-views').html(makeOL(jsonToArray(data, ["pageName", "visits"])));
+        $('#page-views').html(makeOL(jsonToArray(data, ["name", "visitcount"])));
     }).fail(function (reason) {
         console.log(reason);
     });
-}
+})();
 
 function fetchTraffic() {
     // ** TYPE DEVICE **
