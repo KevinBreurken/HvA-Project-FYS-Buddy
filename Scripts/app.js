@@ -12,6 +12,22 @@ if (appElement !== null) {
         if (getCurrentUserID() === undefined)
             window.open("index.html", "_self");
     }
+    if (attrElement === "admin") {
+        FYSCloud.API.queryDatabase(
+                `SELECT * from userrole WHERE userid = ? AND roleId = ?`,
+            [getCurrentUserID(), 2]// 2 == Admin ID
+        ).done(function (data) {
+            //If no entry of an admin role is found..
+            if (data.length === 0) {
+                if (getCurrentUserID() === undefined)
+                    window.open("index.html", "_self");
+                else
+                    window.open("homepage.html", "_self");
+            }
+        }).fail(function (reason) {
+            console.log(reason);
+        });
+    }
 }
 
 function redirectToHome() {
@@ -112,7 +128,7 @@ function closeSession() {
         })
         .pop();
     FYSCloud.API.queryDatabase(
-        `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
+            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
         logoutamount = logoutamount + 1`,
         [name]
     ).done(function (data) {
@@ -134,9 +150,9 @@ function getDataByPromise(query, queryArray) {
     return new Promise(resolve => {
         FYSCloud.API.queryDatabase(
             query, queryArray
-        ).done(function(data) {
+        ).done(function (data) {
             resolve(data);
-        }).fail(function(reason) {
+        }).fail(function (reason) {
             console.log(reason);
         });
     });
@@ -158,7 +174,7 @@ document.addEventListener("headerLoadedEvent", function (event) {
         })
         .pop();
     FYSCloud.API.queryDatabase(
-        `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
+            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
         visitcount = visitcount + 1`,
         [name]
     ).done(function (data) {
@@ -167,22 +183,25 @@ document.addEventListener("headerLoadedEvent", function (event) {
     });
 })();
 
-function sendSessionData() {
+async function sendSessionData() {
     $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
     const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
-    FYSCloud.API.queryDatabase(
-        `INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`
-    ).done(function (data) {
-         window.location.replace("./homepage.html");
-    }).fail(function (reason) {
-        console.log(reason);
-    });
+    await getDataByPromise(`INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) 
+        VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`);
 }
 
-function loginUser(id) {
-    console.log("user is checked");
+async function loginUser(id) {
     setCurrentUserID(id);
-    sendSessionData(); //sends data to session table for statistics.
+    await sendSessionData();
+    await determineRedirectLocation();
+}
+
+async function determineRedirectLocation() {
+    await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
+    if (data.length === 0)
+        window.open("homepage.html", "_self");
+    else
+        window.open("admin-profile.html", "_self");
 }
