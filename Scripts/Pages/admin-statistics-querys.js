@@ -36,38 +36,38 @@ async function fetchStatisticsFromDatabase() {
 }
 
 (async function fetchMatchesLists() {
-    getDataByPromise(`SELECT *
-                      FROM admininterestdata
-                      ORDER BY interestEverMatched DESC
-                      LIMIT 10;`).then((data) => {
 
-        let formattedArray = jsonToArray(data, ["interestName", "matchAmount"]);
-        // ** MATCHING - MOST MATCHED WITH EQUAL INTEREST **
-        $('#most-match-equal-interests').html(makeOL(formattedArray));
+    let interestData;
+    await getDataByPromise(`SELECT *
+                            FROM admininterestdata
+                            ORDER BY interestEverMatched DESC
+                            LIMIT 10;`).then(data => {
+        interestData = data;
+        let interestIDString = jsonIndexToArrayString(interestData, "interestId");
+        return getDataByPromise(`SELECT *
+                      FROM interest
+                      WHERE id IN ${interestIDString}`);
+    }).then(names => {
+        let combinedArray = combineJsonToArray(names,interestData,"name","interestEverMatched");
+        // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
+        $('#most-match-equal-interests').html(makeOL(combinedArray));
     });
 
-    let locationData = await getDataByPromise(`SELECT *
-                                               FROM adminlocationdata
-                                               ORDER BY destinationEverMatched DESC
-                                               LIMIT 10;`);
-
-    let notificationIDs = new Array(locationData.length);
-    for (let i = 0; i < notificationIDs.length; i++) {
-        notificationIDs[i] = locationData[i]["locationId"];
-    }
-    let arrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
-
-    let names = await getDataByPromise(`SELECT *
+    let locationData;
+    await getDataByPromise(`SELECT *
+                            FROM adminlocationdata
+                            ORDER BY destinationEverMatched DESC
+                            LIMIT 10;`).then(data => {
+        locationData = data;
+        let notificationIDString = jsonIndexToArrayString(locationData, "locationId");
+        return getDataByPromise(`SELECT *
                       FROM location
-                      WHERE id IN ${arrayString}`);
-
-    let newArray = [[2], [locationData.length]];
-    for (let i = 0; i < locationData.length; i++) {
-        newArray[0][i] = names[i]["destination"];
-        newArray[1][i] = locationData[i]["destinationEverMatched"];
-    }
-    // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
-    $('#most-match-equal-destination').html(makeOL(newArray));
+                      WHERE id IN ${notificationIDString}`);
+    }).then(names => {
+        let combinedArray = combineJsonToArray(names,locationData,"destination","destinationEverMatched");
+        // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
+        $('#most-match-equal-destination').html(makeOL(combinedArray));
+    });
 })();
 
 (function fetchPages() {
@@ -118,6 +118,23 @@ function jsonToArray(json, attributes) {
         }
     }
     return multiArray;
+}
+
+function jsonIndexToArrayString(json, attributeName) {
+    let notificationIDs = new Array(json.length);
+    for (let i = 0; i < notificationIDs.length; i++) {
+        notificationIDs[i] = json[i][attributeName];
+    }
+    return "(" + notificationIDs.toString() + ")";
+}
+
+function combineJsonToArray(arr1, arr2, atr1, atr2) {
+    let newArray = [[2], [arr1.length]];
+    for (let i = 0; i < arr1.length; i++) {
+        newArray[0][i] = arr1[i][atr1];
+        newArray[1][i] = arr2[i][atr2];
+    }
+    return newArray;
 }
 
 /**
