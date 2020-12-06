@@ -94,6 +94,7 @@ function closeNotification(userID) {
 }
 
 function addNotification(userData) {
+    //userData = de data van 1 user
     let userID = userData["userID"];
     let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
     displayString = displayString.replace("%name", userData["firstName"]);
@@ -121,29 +122,32 @@ document.addEventListener("languageChangeEvent", function (event) {
 /** Notification - Database connection */
 //Fetch user notifications.
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM notifications WHERE userID = ?",
+    "SELECT * FROM usernotification WHERE targetUser = 1",
     [getCurrentUserID()] //TODO: add the logged in user ID to fetch it's own notifications.
 ).done(function (notificationData) {
+    console.log(notificationData)  //lengte = 2
     if (notificationData.length <= 0) {
         updateNotificationCounter();
         return;
     }
 
-    let notificationIDs = [notificationData.length];
-    for (let i = 0; i < notificationData.length; i++) {
-        notificationIDs[i] = notificationData[i]["sentUserID"];
+    let notificationIDs = new Array (notificationData.length);
+    for (let i = 0; i < notificationIDs.length; i++) {
+        notificationIDs[i] = notificationData[i]["requestingUser"];
     }
-    let arrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
+
+    let targetUserArrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
 
     //Fetch all the notifications that match all the ID's in arrayString.
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE userID IN " + arrayString
+        "SELECT * FROM user WHERE id IN " + targetUserArrayString
     ).done(function (userData) {
+        console.log(userData)
         currentNotificationAmount = userData.length;
         updateNotificationCounter();
-        for (let i = 0; i < userData.length; i++) {
-            $("#notification-display-list").append(addNotification(userData[i]));
-        }
+
+        $(userData).each(object => $("#notification-display-list").append(addNotification(object)));
+
         //translate the newly added objects.
         FYSCloud.Localization.translate(false);
     }).fail(function (reason) {
