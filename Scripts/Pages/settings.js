@@ -200,8 +200,8 @@ function setLanguage(initialLanguageKey) {
         }
     };
 
-    FYSCloud.Localization.setTranslations(translations);
-    FYSCloud.Localization.switchLanguage(initialLanguageKey);
+    FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
+    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguageKey);
 
     // $languageControl = $("select#language");
     //
@@ -224,7 +224,7 @@ function setLanguage(initialLanguageKey) {
     }
 
     languageControl.addEventListener("change", function() {
-        FYSCloud.Localization.switchLanguage($(this).val());
+        FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
     });
 }
 
