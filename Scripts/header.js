@@ -8,6 +8,7 @@ function onHeaderLoaded() {
 
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
+        //changes the nav if it's displayed on a admin page
         if (isOnAdminProfile)
             overrideMenuButtons([["account", "admin-profile.html", "header.adminNavigation.account"],
                 ["overview data", "admin-panel.html", "header.adminNavigation.overview"],
@@ -17,11 +18,10 @@ function onHeaderLoaded() {
     }
 
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE id = ?",
-        [getCurrentUserID()]
+        "SELECT * FROM user WHERE id = ?", [getCurrentUserID()]
     ).done(function (data) {
         if (data.length !== undefined)
-            $('#profile-display-name').html(data[0]["firstName"]);
+            $('#profile-display-name').html(data[0]["username"]);
     }).fail(function (reason) {
         console.log(reason);
     });
@@ -84,7 +84,7 @@ function updateNotificationCounter() {
     }
 }
 
-//TODO:Remove database entry of notification.
+/** closes the notification and deletes it from the database */
 function closeNotification(userID) {
     //Remove the html element.
     $("#notification-user-" + userID).remove();
