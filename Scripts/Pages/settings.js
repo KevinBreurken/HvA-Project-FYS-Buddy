@@ -10,7 +10,7 @@ let lastname;
 
 // Get user settings:
 // TODO: Use session user id instead:
-let sessionUserId = 1;
+let sessionUserId = getCurrentUserID();
 
 // Distance
 let distanceControls;
@@ -27,7 +27,7 @@ let translations;
 // TODO: only get the user information of users who communicated to the current user stored in the session.
 // Get users:
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM users"
+    "SELECT * FROM user"
 ).done(function(data) {
     users = data;
 }).fail(function(reason) {
@@ -35,12 +35,12 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM `settings` WHERE `userId` = ?",
+    "SELECT * FROM `setting` WHERE `userId` = ?",
     [sessionUserId]
 ).done(function(setting) {
     // Check if a setting exists for a user:
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM `languages`"
+        "SELECT * FROM `language`"
     ).done(function(languages) {
         // Languages:
         // Using FYS Cloud API must use the correct database, if page appears incorrect,
@@ -504,7 +504,7 @@ function applySettingsEventlistener(languages) {
 
             // Check whether a setting already exists for provided user:
             FYSCloud.API.queryDatabase(
-                "SELECT * FROM `settings` WHERE `userId` = ?",
+                "SELECT * FROM `setting` WHERE `userId` = ?",
                 [sessionUserId]
             ).done(function(setting) {
                 if(setting.length > 0) {
@@ -518,8 +518,7 @@ function applySettingsEventlistener(languages) {
                         alert("Updating");
                         // There's already an existing setting, execute update:
                         FYSCloud.API.queryDatabase(
-                            //"INSERT INTO `settings` (`id`, `userId`, `languageId`) VALUES (NULL, '1', '1');"
-                            "UPDATE `settings` SET `languageId` = ? WHERE `settings`.`userId` = ?;",
+                            "UPDATE `setting` SET `languageId` = ? WHERE `setting`.`userId` = ?;",
                             [languageId, sessionUserId]
                         ).done(function() {
                             window.location.href = "homepage.html";
@@ -533,8 +532,8 @@ function applySettingsEventlistener(languages) {
                     // There is no setting available yet, creating new setting, execute insert:
                     FYSCloud.API.queryDatabase(
                         //"INSERT INTO `settings` (`id`, `userId`, `languageId`) VALUES (NULL, '1', '1');"
-                        "INSERT INTO `settings` (`id`, `userId`, `languageId`) VALUES (NULL, ?, ?);",
-                        [sessionUserId, languageId]
+                        "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileAvailabilityId`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);",
+                        [sessionUserId, languageId, 0, 0, 0, 0, 0]
                     ).done(function() {
                         window.location.href = "homepage.html";
                     }).fail(function (reason) {
