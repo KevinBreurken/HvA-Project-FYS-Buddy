@@ -19,25 +19,25 @@
             <nav id="settingsNavigation">
                 <ul>
                     <li>
-                        <a href="#accountSettings" data-translate="settings.subheader.account">Account</a>
+                        <a href="#accountSettings" data-translate="settings.account">Account</a>
                     </li>
                     <li>
-                        <a href="#protectionSettings" data-translate="settings.subheader.protection">Protection</a>
+                        <a href="#securitySettings" data-translate="settings.security">Security</a>
                     </li>
                     <li>
-                        <a href="#privacySettings" data-translate="settings.subheader.privacy">Privacy</a>
+                        <a href="#privacySettings" data-translate="settings.privacy">Privacy</a>
                     </li>
                     <li>
-                        <a href="#blockSettings" data-translate="settings.subheader.block">Block</a>
+                        <a href="#blockSettings" data-translate="settings.block">Block</a>
                     </li>
                     <li>
-                        <a href="#preferencesSettings" data-translate="settings.subheader.preferences">Preferences</a>
+                        <a href="#preferencesSettings" data-translate="settings.preferences">Preferences</a>
                     </li>
                     <li>
-                        <a href="#notificationsSettings" data-translate="settings.subheader.notifications">Notifications</a>
+                        <a href="#notificationsSettings" data-translate="settings.notifications">Notifications</a>
                     </li>
                     <li>
-                        <a href="#appInformation" data-translate="settings.subheader.information">Information</a>
+                        <a href="#appInformation" data-translate="settings.information">Information</a>
                     </li>
                 </ul>
             </nav>
@@ -50,17 +50,17 @@
                             <option value="" selected disabled hidden>
                             </option>
                         </select>
-                        <h2 id="accountSettings" data-translate="settings.subheader.account">Account</h2>
-                        <label data-translate="settings.subheader.account.label">Disable profile</label>
-                        <a href="#" id="disableProfile" data-translate="settings.subheader.account.anchor">Disable</a>
-                        <h2 id="protectionSettings" data-translate="settings.subheader.protection">Protection</h2>
-                        <label for="currentAccountPassword" data-translate="settings.subheader.protection.currentPassword">Current password</label>
+                        <h2 id="accountSettings" data-translate="settings.account">Account</h2>
+                        <label data-translate="settings.account.label">Disable profile</label>
+                        <a href="#" id="disableProfile" data-translate="settings.account.anchor">Disable</a>
+                        <h2 id="securitySettings" data-translate="settings.security">Security</h2>
+                        <label for="currentAccountPassword" data-translate="settings.security.currentPassword">Current password</label>
                         <input type="password" id="currentAccountPassword" name="currentAccountPassword">
                         <br />
-                        <label for="newAccountPassword" data-translate="settings.subheader.protection.newPassword">New password</label>
+                        <label for="newAccountPassword" data-translate="settings.security.newPassword">New password</label>
                         <input type="password" id="newAccountPassword" name="newAccountPassword">
                         <br />
-                        <label for="repeatAccountPassword" data-translate="settings.subheader.protection.repeatPassword">Repeat password</label>
+                        <label for="repeatAccountPassword" data-translate="settings.security.repeatPassword">Repeat password</label>
                         <input type="password" id="repeatAccountPassword" name="repeatAccountPassword"/>
                         <div id="validationMessage">
                             <h3>Password must contain the following</h3>
@@ -71,26 +71,26 @@
                                 <li id="lengthVal" class="invalid">Minimum of <b>8 characters</b></li>
                             </ul>
                         </div>
-                        <h2 id="privacySettings" data-translate="settings.subheader.privacy">Privacy</h2>
-                        <label for="profileAvailability" data-translate="settings.subheader.privacy.label">Profile visible to</label>
+                        <h2 id="privacySettings" data-translate="settings.privacy">Privacy</h2>
+                        <label for="profileAvailability" data-translate="settings.privacy.label">Profile visible to</label>
                         <select id="profileAvailability" name="profileAvailability">
                             <!--<option disabled selected hidden value=""></option>-->
                             <option value="everyone">Everyone</option>
                             <option value="matchesOnly">Matches only</option>
                             <option value="justMe">Just me</option>
                         </select>
-                        <h2 id="blockSettings" data-translate="settings.subheader.block">Block</h2>
-                        <label for="search-block" data-translate="settings.subheader.block.label">Search</label>
+                        <h2 id="blockSettings" data-translate="settings.block">Block</h2>
+                        <label for="search-block" data-translate="settings.block.label">Search</label>
                         <input type="search" id="search-block" />
-                        <button type="button" id="block-user" data-translate="settings.subheader.block.button">Block</button>
-                        <h2 id="preferencesSettings" data-translate="settings.subheader.preferences">Preferences</h2>
+                        <button type="button" id="block-user" data-translate="settings.block.button">Block</button>
+                        <h2 id="preferencesSettings" data-translate="settings.preferences">Preferences</h2>
                         <div>
                             <input type="checkbox" class="" id="showOwnGenderOnly">
-                            <label class="disable-highlight-select" for="showOwnGenderOnly" data-translate="settings.subheader.preferences.genderLabel">Only show results matching my own gender.</label>
+                            <label class="disable-highlight-select" for="showOwnGenderOnly" data-translate="settings.preferences.genderLabel">Only show results matching my own gender.</label>
                         </div>
                         <br />
                         <div id="identifyAsContainer">
-                            <label for="identifyAs" data-translate="settings.subheader.preferences.identifyLabel">Identify as</label>
+                            <label for="identifyAs" data-translate="settings.preferences.identifyLabel">Identify as</label>
                             <select id="identifyAs" name="identifyAs">
                                 <option disabled selected hidden value=""></option>
                                 <option value="male">Male</option>
@@ -99,7 +99,7 @@
                             <br />
                             <br />
                         </div>
-                        <label for="maxDistance" data-translate="settings.subheader.preferences.maxDistanceLabel">Maximum distance</label>
+                        <label for="maxDistance" data-translate="settings.preferences.maxDistanceLabel">Maximum distance</label>
                         <select id="maxDistance" name="maxDistance">
                             <!--<option disabled selected hidden value=""></option>-->
                             <option value="10">10</option>
@@ -116,21 +116,21 @@
                         </select>
                         <br />
                         <div id="distance-controls">
-                            <label for="distance" data-translate="settings.subheader.preferences.distanceRangeLabel">Radial distance</label>
+                            <label for="distance" data-translate="settings.preferences.distanceRangeLabel">Radial distance</label>
                             <input type="range" id="distance" name="distance" min="0" max="100" value="20" />
                         </div>
-                        <p><span data-translate="settings.subheader.preferences.distanceResultLabel">The distance has been set to: </span><span id="distanceResult"></span> <span id="distanceUnitResult">km</span></p>
-                        <h2 id="notificationsSettings" data-translate="settings.subheader.notifications">Notifications</h2>
+                        <p><span data-translate="settings.preferences.distanceResultLabel">The distance has been set to: </span><span id="distanceResult"></span> <span id="distanceUnitResult">km</span></p>
+                        <h2 id="notificationsSettings" data-translate="settings.notifications">Notifications</h2>
                         <div>
                             <input type="checkbox" class="" id="statusNotified">
-                            <label class="disable-highlight-select" for="statusNotified" data-translate="settings.subheader.notifications.optionOneLabel">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>
+                            <label class="disable-highlight-select" for="statusNotified" data-translate="settings.notifications.optionOneLabel">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>
                         </div>
                         <div>
                             <input type="checkbox" class="" id="updatesNotified">
-                            <label class="disable-highlight-select" for="updatesNotified" data-translate="settings.subheader.notifications.optionTwoLabel">I would like to get notified by e-mail about updates to the app</label>
+                            <label class="disable-highlight-select" for="updatesNotified" data-translate="settings.notifications.optionTwoLabel">I would like to get notified by e-mail about updates to the app</label>
                         </div>
-                        <h2 id="appInformation" data-translate="settings.subheader.information">Information</h2>
-                        <span><span data-translate="settings.subheader.information.version">Version </span> 1.0</span>
+                        <h2 id="appInformation" data-translate="settings.information">Information</h2>
+                        <span><span data-translate="settings.information.version">Version </span> 1.0</span>
                         <br />
                         <br />
                         <div class="settings-controls">
