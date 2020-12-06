@@ -199,7 +199,7 @@ async function loginUser(id) {
 }
 
 async function determineRedirectLocation() {
-    await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
+    let data = await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
     if (data.length === 0)
         window.open("homepage.html", "_self");
     else
