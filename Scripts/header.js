@@ -5,7 +5,7 @@ $(function () {
 function onHeaderLoaded() {
     //sets the profile page url
     $("#profile-link").click(function (){redirectToProfileById(getCurrentUserID())});
-    
+
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
         if (isOnAdminProfile)
@@ -17,7 +17,7 @@ function onHeaderLoaded() {
     }
 
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE userID = ?",
+        "SELECT * FROM user WHERE id = ?",
         [getCurrentUserID()]
     ).done(function (data) {
         if (data.length !== undefined)
@@ -84,25 +84,35 @@ function updateNotificationCounter() {
     }
 }
 
+//TODO:Remove database entry of notification.
 function closeNotification(userID) {
     //Remove the html element.
     $("#notification-user-" + userID).remove();
+
+    //removes the notification from the database
+    FYSCloud.API.queryDatabase(
+        "DELETE FROM usernotification WHERE targetUser = ? AND requestingUser = ?", [getCurrentUserID(), userID]
+    ).fail(reason => console.log(reason));
+
     // Decrease and update the notification counter.
     currentNotificationAmount--;
     updateNotificationCounter();
-    //TODO:Remove database entry of notification.
 }
 
 function addNotification(userData) {
+    console.log(userData)
     //userData = de data van 1 user
-    let userID = userData["userID"];
+    let userID = userData["id"];
+    let username = userData["username"];
+    console.log(username)
+
     let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
-    displayString = displayString.replace("%name", userData["firstName"]);
+    displayString = displayString.replace("%name", username);
 
     return `
     <li class="notification-display-content-item" id='notification-user-${userID}'>
         <div class="notification-text">
-        <div class="notification-text-name" name-user="${userData["firstName"]}">${displayString}</div>
+        <div class="notification-text-name" username="${username}">${displayString}</div>
         </div>
         <div class="notification-buttons">
         <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="openProfile(${userID})">
@@ -115,17 +125,17 @@ function addNotification(userData) {
 document.addEventListener("languageChangeEvent", function (event) {
     let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
     $(".notification-text-name").each(function() {
-        $(this).html(displayString.replace("%name", $(this).attr("name-user")));
+        $(this).html(displayString.replace("%name", $(this).attr("username")));
     });
 });
 
 /** Notification - Database connection */
 //Fetch user notifications.
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM usernotification WHERE targetUser = 1",
-    [getCurrentUserID()] //TODO: add the logged in user ID to fetch it's own notifications.
+    "SELECT * FROM usernotification WHERE targetUser = ?", [getCurrentUserID()]
 ).done(function (notificationData) {
-    console.log(notificationData)  //lengte = 2
+
+    // returns if there are no notifications to be displayed
     if (notificationData.length <= 0) {
         updateNotificationCounter();
         return;
@@ -146,7 +156,7 @@ FYSCloud.API.queryDatabase(
         currentNotificationAmount = userData.length;
         updateNotificationCounter();
 
-        $(userData).each(object => $("#notification-display-list").append(addNotification(object)));
+        $(userData).each(object => $("#notification-display-list").append(addNotification(userData[object])));
 
         //translate the newly added objects.
         FYSCloud.Localization.translate(false);
