@@ -1,75 +1,67 @@
-//clicks on the 'All results' tab so it's open by default
-document.getElementById("default-active").click();
+window.addEventListener('load', function () {
+    //clicks on the 'All results' tab so it's open by default
+    document.getElementById("default-active").click();
+})
 
-//function to switch the tab and active tab-button
-function openTabContent (currentButton) {
-    let tabButtons = $(".tab-button");
-    let tab = $("#tab");
+//todo: create different query's;
+//1.1 All results: all results matching the users location, date and gender preference
+//1.2 Friends
+//1.3 Friend requests (ingoing)
+//1.4 Favorites
 
+//2.1 match only gender
+//2.2 filters
+
+//todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
+//todo: send notification to the other user
+//function(s) for setting the status of the 'send friend request' button and sets database data
+
+//todo: set favorites data in the database when clicking (swap)
+
+/** function to switch the tab content and active tab-button */
+async function openTabContent (currentButton) {
     //swaps the button colors
-    for (let i = 0; i < tabButtons.length; i++) {
-        tabButtons[i].style.backgroundColor = "";
-    }
-    currentButton.style.backgroundColor = "#c11905";
+    $(".tab-button").css("backgroundColor", "");
+    $(currentButton).css("backgroundColor", "#c11905");
 
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM user"
-    ).done(function(data) {
-        tab.html("");
-        generateUserDisplays(tab, data);
-    }).fail(function(reason) {
-        console.log(reason);
-    });
+    let userList = await getDataByPromise("SELECT * FROM user");
+    $("#tab").html("");
+    userList.forEach(user => $("#tab").append(generateUserDisplay(user)))
 }
 
-//generates user-displays
-function generateUserDisplays(tab, data) {
-    let userDisplays = [];
-    for (let i = 0; i < data.length; i++) {
+/** function for generating a user display */
+function generateUserDisplay(currentUser)
+{
+    let userId = currentUser.userId;
 
-        userDisplays[i] = document.createElement("div");
-        userDisplays[i].className = "user-display";
-        userDisplays[i].setAttribute("id", "user-display-" + i);
+    let userDisplay = document.createElement("div");
+    userDisplay.className = "user-display";
+    userDisplay.setAttribute("id", "user-display-" + userId);
 
-        tab.append(userDisplays[i]);
+    let username = currentUser.username === "" ? "username" : currentUser.username;
+    let url = currentUser.url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : currentUser.url;
+    let location = currentUser.location === "" ? "location" : currentUser.location;
 
-        //getting data
-        let userData = data[i];
+    //start and end date
+    let date = new Date(currentUser.startDate);
+    const startDate = currentUser.startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    date = new Date(currentUser.endDate);
+    const endDate = currentUser.endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-        //username
-        let username = userData.username == null ? "username" : userData.username;
+    let buddy;
+    if (currentUser.travelBuddy === 1 && currentUser.activityBuddy === 1) {
+        buddy = "a buddy";
+    } else if (currentUser.travelBuddy === 1 && !(currentUser.activityBuddy === 1)) {
+        buddy = "a travel buddy";
+    } else if (!(currentUser.travelBuddy === 1) && currentUser.activityBuddy === 1) {
+        buddy = "an activity buddy";
+    } else {
+        buddy = " a buddy";
+    }
 
-        //profile pic
-        let userUrl = userData.url;
-
-        //location
-        let location = userData.location == null ? "City, Country" : userData.location;
-
-        //start date
-        let date = new Date(userData.startDate);
-        let startDate = userData.startDate == null
-            ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-        //end date
-        date = new Date(userData.endDate);
-        let endDate = userData.endDate == null
-            ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-        //type of buddy
-        let buddy;
-        if (userData.travelBuddy === 1 && userData.activityBuddy === 1) {
-            buddy = "a buddy";
-        } else if (userData.travelBuddy === 1 && !(userData.activityBuddy === 1)) {
-            buddy = "a travel buddy";
-        } else if (!(userData.travelBuddy === 1) && userData.activityBuddy === 1) {
-            buddy = "an activity buddy";
-        } else {
-            buddy = " a buddy";
-        }
-
-        userDisplays[i].innerHTML =
-            `<h1 id=user-display-h1-${i}>${username}</h1>
-            <img class="profile-picture" src="${userUrl}">
+    userDisplay.innerHTML =
+        `<h1 id=user-display-h1-${userId}>${username}</h1>
+            <img class="profile-picture" src="${url}">
             <div>
             <p>${location}</p>
             <p>from ${startDate}</p>
@@ -77,40 +69,63 @@ function generateUserDisplays(tab, data) {
             <p>${buddy}</p>
             </div>
             <div class="tab-content-column-4">
-            <button id="button1-${i}" onclick="displayOverlay('overlay-1')">more info</button>
-            <button id="button2-${i}" onclick="closeFunction('user-display-${i}')">X</button>
-            <div id="favorite-v1-${i}" onclick="swapFavoritesIcon('favorite-v1-${i}','favorite-v2-${i}')">
+            <button id="button1-${userId}" onclick="openUserOverlay('${userId}')">more info</button>
+            <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
+            <div id="favorite-v1-${userId}" onclick="setFavorite('favorite-v1-${userId}','favorite-v2-${userId}')">
             <img class="favorite-icon" src="Content/Images/favorite-v1.png">
             </div>
-            <div id="favorite-v2-${i}" style="display: none" onclick="swapFavoritesIcon('favorite-v2-${i}','favorite-v1-${i}')">
+            <div id="favorite-v2-${userId}" style="display: none" onclick="setFavorite('favorite-v2-${userId}','favorite-v1-${userId}')">
             <img class="favorite-icon" src="Content/Images/favorite-v2.png">
             </div>
             </div>
             </div>`;
-    }
+
+    return userDisplay;
 }
 
+/** function for opening the overlay with the correct user data*/
+async function openUserOverlay (overlayUserId) {
+    let userdata = await getDataByPromise("SELECT * FROM user WHERE userId = ?", [overlayUserId]);
+    let userInterests = await getDataByPromise("SELECT * FROM interests WHERE userId = ?", [overlayUserId]);
 
-//displays the current overlay and the overlay-background
-function displayOverlay (overlayId) {
-    document.getElementById(overlayId).style.display = "flex";
-    document.getElementById("overlay-background").style.display = "block";
+    console.log(userdata[0].url)
+
+    //setting the data for in the overlay
+    const userUrl = userdata[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userdata[0].url;
+    const firstName = userdata[0].firstName === "" ? "FirstName" : userdata[0].firstName;
+    const lastName = userdata[0].lastName === "" ? "LastName" : userdata[0].lastName;
+    const username = userdata[0].username === "" ? "username" : userdata[0].username;
+    const bio = userdata[0].bio === "" ? "..." : userdata[0].bio;
+
+    //putting the data in the overlay
+    $("#overlay-row-1").html(`<img src="${userUrl}">`);
+    $("#overlay-full-name").html(firstName + " " + lastName);
+    $("#overlay-username").html("a.k.a. " + username);
+    $("#overlay-interests-ul").html("");
+    userInterests.forEach(interest => $("#overlay-interests-ul").append("<li>"+ interest.interest +"</li>"));
+    $("#overlay-bio").html(bio);
+
+    //displays the overlay and overlay-background
+    displayUserOverlay()
+
+    //function to redirect the user to the profilepage
+    $("#profile-button").click(function (){redirectToProfileById(overlayUserId)});
 }
 
-//function to close the active user-display or overlay
-function closeFunction (currentDisplay) {
-    document.getElementById(currentDisplay).style.display = "none";
-    document.getElementById("overlay-background").style.display = "none";
+/** function for opening the overlay */
+function displayUserOverlay() {
+    $("#overlay").css("display", "flex");
+    $("#overlay-background").css("display", "block");
 }
 
-//function to swap the favorites icon
-function swapFavoritesIcon (currentIconId, newIconId) {
-    document.getElementById(currentIconId).style.display = "none";
-    document.getElementById(newIconId).style.display = "";
+/** function to close the active user-display or overlay */
+function closeElement (currentDisplay) {
+    $("#" + currentDisplay).css("display", "none");
+    $("#overlay-background").css("display", "none");
 }
 
-// //function that swaps the color of the 'send request' button
-// function swapColor(button) {
-//     button.style.backgroundColor = "var(--color-corendon-dark-red)";
-// }
-
+/** function that swaps the favorites icon */
+function setFavorite (currentIconId, newIconId) {
+    $("#" + currentIconId).css("display", "none");
+    $("#" + newIconId).css("display", "");
+}

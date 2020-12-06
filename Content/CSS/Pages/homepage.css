@@ -1,3 +1,13 @@
+/* removes the outline around a selected item */
+textarea:focus, input:focus{
+  outline: none;
+}
+
+/* removes the highlight around a selected item that is present on chrome*/
+*:focus {
+  outline: none;
+}
+
 main {
   max-width: 1000px;
 }
@@ -190,6 +200,7 @@ main {
 /* matches tabs buttons */
 #matches-tabs-border {
   border: var(--border-corendon-grey);
+  border-top: none;
   position: relative;
 }
 
@@ -235,7 +246,7 @@ main {
 #filter-dropdown {
   position: absolute;
   right: 0;
-  top: 41px;
+  top: 40px;
   font-size: 18px;
   display: none;
   justify-content: center;
@@ -345,7 +356,7 @@ main {
 }
 
 /* overlay */
-.overlay-container {
+#overlay {
   display: none;
   position: fixed;
   top: 50%;
@@ -368,12 +379,12 @@ main {
 
 /* overlay content rows */
 .overlay-row {
+  display: flex;
   width: 100%;
   flex: 0 50%;
 }
 
 #overlay-row-1 {
-  display: flex;
   justify-content: center;
 }
 
@@ -384,27 +395,31 @@ main {
 }
 
 #overlay-row-2 {
-  display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 }
 
-#overlay-name h2, p {
+#overlay-full-name, #overlay-username {
   text-align: center;
   margin: 0;
 }
 
 #overlay-interests {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
   overflow: hidden;
 }
 
 #overlay-interests ul {
+  max-height: 75px;
   text-align: center;
   padding: 0;
   margin-top: 5px;
 }
 
-#overlay-bio {
+#overlay-row-3 {
+  flex-direction: column;
   margin-top: 10px;
   flex: 2;
 }

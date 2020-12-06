@@ -5,6 +5,7 @@
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="default"></script>
+    <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
     <script>
         isOnAdminProfile = false;
@@ -14,6 +15,7 @@
     <link rel="stylesheet" href="Content/CSS/Pages/register.css">
 </head>
 <body>
+<header></header>
 <main>
     <h1>Welcome at Corendon. </h1>
     <h4>You can register your account here. </h4>
@@ -26,7 +28,7 @@
         </ul>
     </div>
 
-    <form class="register" action="homepage.html" method="post">
+    <form class="register">
 
         <div class="step">
             <div class="right-panel">
@@ -170,7 +172,7 @@
         <div class="btn-group">
             <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
             <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
-            <button type="submit" class="btn" id="btn-register">Register</button>
+            <button type="submit" class="btn" id="btn-register" onclick="register()">Register</button>
         </div>
     </form>
 </main>
