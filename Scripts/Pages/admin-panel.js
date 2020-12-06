@@ -1,3 +1,46 @@
+var statisticsTranslation = {
+    table: {
+        head: {
+            id: {
+                nl: "id",
+                en: "id"
+            },
+            firstname: {
+                nl: "voornaam",
+                en: "firstname"
+            },
+            lastname: {
+                nl: "achternaam",
+                en: "lastname"
+            },
+            email: {
+                nl: "e-mail",
+                en: "email"
+            },
+            edit: {
+                nl: "wijzig",
+                en: "edit"
+            },
+            delete: {
+                nl: "verwijder",
+                en: "delete"
+            }
+        },
+        body: {
+            delete: {
+                nl: "verwijder",
+                en: "delete"
+            },
+            edit: {
+                nl: "wijzig",
+                en: "edit"
+            }
+        }
+    }
+}
+
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation)
+
 function closeDetails() {
     document.getElementById('edit-user').style.display = 'none'
     document.getElementById('overlay-background').style.display = 'none'
@@ -62,11 +105,13 @@ FYSCloud.API.queryDatabase(
                 adminButton.innerHTML = "Delete"
                 // Create an onclick with parameter in the button which will delete a user
                 adminButton.setAttribute("onclick", "deleteUser(" + data[row]["id"] + ")")
+                adminButton.setAttribute("data-translate", "table.body.delete")
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             } else {
                 adminButton.innerHTML = "Edit"
                 // Create an onclick with parameter in the button which will delete a user
                 adminButton.setAttribute("onclick", "editUser(" + data[row]["id"] + ")")
+                adminButton.setAttribute("data-translate", "table.body.edit")
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             }
         }

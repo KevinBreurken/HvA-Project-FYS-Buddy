@@ -71,3 +71,7 @@
 .profile-picture {
     float: right;
 }
+
+#myTable th:first-letter, #myTable td button:first-letter {
+    text-transform: capitalize;
+}
