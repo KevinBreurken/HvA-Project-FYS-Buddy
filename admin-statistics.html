@@ -5,6 +5,7 @@
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="admin"></script>
+    <script src="Scripts/Pages/admin-statistics.js"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
     <script>
@@ -61,20 +62,12 @@
             <div class="statistics-group-content">
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-number">
-                        <div class="statistics-item-number-title" data-translate="matching.matches"></div>
-                        <div class="statistics-item-number-value" id="made-matches"></div>
+                        <div class="statistics-item-number-title" data-translate="matching.friends"></div>
+                        <div class="statistics-item-number-value" id="made-friends"></div>
                     </div>
                     <div class="statistics-item-number">
-                        <div class="statistics-item-number-title" data-translate="matching.contacts"></div>
-                        <div class="statistics-item-number-value" id="contacts-shared"></div>
-                    </div>
-                    <div class="statistics-item-number">
-                        <div class="statistics-item-number-title" data-translate="matching.matchesAvg"></div>
-                        <div class="statistics-item-number-value" id="made-match-average"></div>
-                    </div>
-                    <div class="statistics-item-number">
-                        <div class="statistics-item-number-title" data-translate="matching.contactsAvg"></div>
-                        <div class="statistics-item-number-value" id="contacts-shared-average"></div>
+                        <div class="statistics-item-number-title" data-translate="matching.friendsAvg"></div>
+                        <div class="statistics-item-number-value" id="made-friends-average"></div>
                     </div>
                 </div>
                 <div class="statistics-group-container-vertical">
@@ -109,7 +102,6 @@
 </main>
 </body>
 <script src="Vendors/ChartJS/chart2.8.js"></script>
-<script src="Scripts/Pages/admin-statistics.js"></script>
 <script src="Scripts/Pages/admin-statistics-querys.js"></script>
 <script src="Vendors/Snippets/admin-statistics-snippets.js"></script>
 </html>

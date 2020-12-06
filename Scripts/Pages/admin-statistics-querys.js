@@ -34,23 +34,16 @@ function fetchStatisticsFromDatabase() {
 }
 
 function fetchMatches(totalUserCount) {
-    // ~~~~ FETCH ALL MATCHES ~~~~
+    // ~~~~ FETCH ALL FRIENDS ~~~~
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM matches"
+        "SELECT * FROM friend"
     ).done(function (data) {
-        let totalMatchesCount = data.length;
-        let totalContactsShared = 0;
-        for (let i = 0; i < data.length; i++)
-            totalContactsShared += data[i]["contactShared"];
+        let totalFriendsCount = data.length;
 
-        // ** MATCHING - MADE MATCHES **
-        $('#made-matches').html(totalMatchesCount);
-        // ** MATCHING - AVERAGE MATCHES PER USER
-        $('#made-match-average').html((totalUserCount / totalMatchesCount).toFixed(2));
-        // ** MATCHING - CONTACT SHARED **
-        $('#contacts-shared').html(totalContactsShared);
-        // ** MATCHING - AVERAGE CONTACTS SHARED PER USER **
-        $('#contacts-shared-average').html((totalUserCount / totalContactsShared).toFixed(2));
+        // ** MATCHING - MADE FRIENDS **
+        $('#made-friends').html(totalFriendsCount);
+        // ** MATCHING - AVERAGE FRIENDS PER USER
+        $('#made-friends-average').html((totalFriendsCount / totalUserCount).toFixed(2));
     }).fail(function (reason) {
         console.log(reason);
     });
@@ -77,7 +70,7 @@ function fetchMatches(totalUserCount) {
         "DESC LIMIT 10;"
     ).done(function (data) {
         let formattedArray = jsonToArray(data, ["destinationName", "matchAmount"]);
-        // ** MATCHING - MOST MATCHED WITH EQUAL DESTINATION **
+        // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
         $('#most-match-equal-destination').html(makeOL(formattedArray));
     }).fail(function (reason) {
         console.log(reason);

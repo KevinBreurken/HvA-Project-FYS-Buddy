@@ -1,3 +1,79 @@
+var statisticsTranslation = {
+    trafic: {
+        title: {
+            nl: "Verkeer",
+            en: "Trafic"
+        },
+        visitors: {
+            nl: "Bezoekers Vandaag",
+            en: "Visitors Today"
+        },
+        login: {
+            nl: "Vandaag Ingelogd",
+            en: "Logged in Today"
+        },
+        device: {
+            nl: "Toestel Type",
+            en: "Type Device"
+        },
+        browser: {
+            nl: "Browser Type",
+            en: "Browser Type"
+        },
+    },
+    users: {
+        title: {
+            nl: "Gebruikers",
+            en: "Users"
+        },
+        accounts: {
+            nl: "Aantal Accounts",
+            en: "Total Accounts"
+        },
+        visit: {
+            nl: "Meest bezochten uur:",
+            en: "Most Visited Hour:"
+        },
+    },
+    matching: {
+        title: {
+            nl: "Matchen",
+            en: "Matching"
+        },
+        friends: {
+            nl: "Totaal Aantal Vrienden",
+            en: "Made Friends"
+        },
+        friendsAvg: {
+            nl: "Gemiddelde Aantal Vrienden Per Gebruiker",
+            en: "Average Friends Per User"
+        },
+        equalInterest: {
+            nl: "Meest Gematchde Interesses:",
+            en: "Most Matched With Equal Interest:"
+        },
+        equalDestination: {
+            nl: "Meest Gematchde Locaties:",
+            en: "Most Matched With Equal Destination:"
+        }
+    },
+    pages: {
+        title: {
+            nl: "Pagina's",
+            en: "Pages"
+        },
+        logout: {
+            nl: "Accounts uitgelogd op:",
+            en: "Logged out on:"
+        },
+        views: {
+            nl: "Aantal Keer Bekeken:",
+            en: "Amount of Views:"
+        }
+    }
+};
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation);
+
 var pieChartColors = [
     "#2ecc71",
     "#3498db",
@@ -42,88 +118,3 @@ function makeOL(array) {
     // Finally, return the constructed list:
     return list;
 }
-
-var statisticsTranslation = {
-    trafic: {
-        title: {
-            nl: "Verkeer",
-            en: "Trafic"
-        },
-        visitors: {
-            nl: "Bezoekers Vandaag",
-            en: "Visitors Today"
-        },
-        login: {
-            nl: "Vandaag Ingelogd",
-            en: "Logged in Today"
-        },
-        device: {
-            nl: "Toestel Type",
-            en: "Type Device"
-        },
-        browser: {
-            nl: "Browser Type",
-            en: "Browser Type"
-        },
-    },
-    users: {
-        title: {
-            nl: "Gebruikers",
-            en: "Users"
-        },
-        accounts: {
-            nl: "Aantal Accounts",
-            en: "Total Accounts"
-        },
-        visit: {
-            nl: "Meest bezochten uur:",
-            en: "Most Visited Hour:"
-        },
-    },
-    matching: {
-        title: {
-            nl: "Matchen",
-            en: "Matching"
-        },
-        matches: {
-            nl: "Totaal Aantal Matches",
-            en: "Made Matches"
-        },
-        contacts: {
-            nl: "Contacten Verstuurd",
-            en: "Contacts Shared"
-        },
-        matchesAvg: {
-            nl: "Gemiddelde Aantal Matches Per Gebruiker",
-            en: "Average Matches Per User"
-        },
-        contactsAvg: {
-            nl: "Gemiddelde Contacten Verstuurd Per Gebruiker",
-            en: "Average Contacts Shared Per User"
-        },
-        equalInterest: {
-            nl: "Meest Gematchde Interesses:",
-            en: "Most Matched With Equal Interest:"
-        },
-        equalDestination: {
-            nl: "Meest Gematchde Locaties:",
-            en: "Most Matched With Equal Destination:"
-        }
-    },
-    pages: {
-        title: {
-            nl: "Pagina's",
-            en: "Pages"
-        },
-        logout: {
-            nl: "Accounts uitgelogd op:",
-            en: "Logged out on:"
-        },
-        views: {
-            nl: "Aantal Keer Bekeken:",
-            en: "Amount of Views:"
-        }
-    }
-};
-
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation);
