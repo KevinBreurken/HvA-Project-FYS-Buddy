@@ -1,16 +1,23 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
-    document.getElementById("default-active").click();
+    $("#all-results").click();
+
+    
+    // todo: filter the user data
+    //toggle
+    //radiobuttons
+    //als je op deze radiobutton klikt, dan ..
 })
 
-//todo: create different query's;
+//1. todo: create different query's;
 //1.1 All results: all results matching the users location, date and gender preference
 //1.2 Friends
 //1.3 Friend requests (ingoing)
 //1.4 Favorites
 
-//2.1 match only gender
-//2.2 filters
+//todo: 2. filters; distance and buddy type
+
+//todo: 3. match only gender
 
 //todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
 //todo: send notification to the other user
@@ -24,9 +31,16 @@ async function openTabContent (currentButton) {
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
 
+    console.log(currentButton.id)
+
+    //todo: querys
+    //"SELECT * FROM user"
+    //query, queryArray
     let userList = await getDataByPromise("SELECT * FROM user");
-    $("#tab").html("");
-    userList.forEach(user => $("#tab").append(generateUserDisplay(user)))
+
+    let tab = $("#tab");
+    $(tab).html("");
+    $(userList).each(user => $(tab).append(generateUserDisplay(user)));
 }
 
 /** function for generating a user display */
@@ -48,6 +62,7 @@ function generateUserDisplay(currentUser)
     date = new Date(currentUser.endDate);
     const endDate = currentUser.endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
+    //todo: buddyId's or buddyClass | (activity-1) / (travel-1) / (both-1) of (activity) / (travel) / (both)
     let buddy;
     if (currentUser.travelBuddy === 1 && currentUser.activityBuddy === 1) {
         buddy = "a buddy";
@@ -59,6 +74,7 @@ function generateUserDisplay(currentUser)
         buddy = " a buddy";
     }
 
+    //todo: add buddyId or buddyClass
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
             <img class="profile-picture" src="${url}">
