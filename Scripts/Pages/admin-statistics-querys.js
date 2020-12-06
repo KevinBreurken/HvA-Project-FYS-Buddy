@@ -1,26 +1,29 @@
 fetchStatisticsFromDatabase();
 
-function fetchStatisticsFromDatabase() {
+async function fetchStatisticsFromDatabase() {
     // ~~~~ FETCH AMOUNT OF USERS ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT Count(*) AS totalUserCount FROM user"
-    ).done(function (data) {
-        let userCount = data[0]["totalUserCount"];
-        // ** USERS - TOTAL ACCOUNTS **
+    let userCount;
+    await getDataByPromise(`SELECT Count(*) AS totalUserCount
+                            FROM user`).then((data) => {
+        userCount = data[0]["totalUserCount"];
         $('#total-accounts').html(userCount);
-        fetchMatches(userCount);
-    }).fail(function (reason) {
-        console.log(reason);
     });
+    // ~~~~ FETCH ALL FRIENDS ~~~~
+    getDataByPromise(`SELECT *
+                            FROM friend`).then((data) => {
+        let totalFriendsCount = data.length;
 
-    // ~~~~ FETCH ALL SESSIONS ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM adminsessiondata"
-    ).done(function (data) {
+        // ** MATCHING - MADE FRIENDS **
+        $('#made-friends').html(totalFriendsCount);
+        // ** MATCHING - AVERAGE FRIENDS PER USER
+        $('#made-friends-average').html((totalFriendsCount / userCount).toFixed(2));
+    });
+    getDataByPromise(`SELECT *
+                            FROM adminsessiondata`).then((adminSessionData) => {
         let loginTodayAmount = 0;
-        let allHours = [data.length];
-        for (let i = 0; i < data.length; i++) {
-            let loginDate = new Date(data[i]["logintime"]);
+        let allHours = new Array(adminSessionData.length);
+        for (let i = 0; i < adminSessionData.length; i++) {
+            let loginDate = new Date(adminSessionData[i]["logintime"]);
             allHours[i] = loginDate.getHours();
             loginTodayAmount += isDateToday(loginDate);
         }
@@ -28,98 +31,63 @@ function fetchStatisticsFromDatabase() {
         $('#visit-time-average').html(findCommon(allHours));
         // ** TRAFFIC - LOGGED IN TODAY **
         $('#logged-in').html(loginTodayAmount);
-    }).fail(function (reason) {
-        console.log(reason);
     });
+
 }
 
-function fetchMatches(totalUserCount) {
-    // ~~~~ FETCH ALL FRIENDS ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM friend"
-    ).done(function (data) {
-        let totalFriendsCount = data.length;
+(function fetchMatchesLists() {
+    getDataByPromise(`SELECT *
+                            FROM admininterestdata
+                            ORDER BY interestEverMatched DESC
+                            LIMIT 10;`).then((data) => {
 
-        // ** MATCHING - MADE FRIENDS **
-        $('#made-friends').html(totalFriendsCount);
-        // ** MATCHING - AVERAGE FRIENDS PER USER
-        $('#made-friends-average').html((totalFriendsCount / totalUserCount).toFixed(2));
-    }).fail(function (reason) {
-        console.log(reason);
-    });
-
-    // ~~~~ FETCH LIST OF INTERESTS, SORTED BY MATCH AMOUNT ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT * " +
-        "FROM interests " +
-        "ORDER BY matchAmount " +
-        "DESC LIMIT 10;"
-    ).done(function (data) {
         let formattedArray = jsonToArray(data, ["interestName", "matchAmount"]);
         // ** MATCHING - MOST MATCHED WITH EQUAL INTEREST **
         $('#most-match-equal-interests').html(makeOL(formattedArray));
-    }).fail(function (reason) {
-        console.log(reason);
     });
 
-    // ~~~~ FETCH LIST OF DESTINATIONS, SORTED BY MATCH AMOUNT ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT * " +
-        "FROM destinations " +
-        "ORDER BY matchAmount " +
-        "DESC LIMIT 10;"
-    ).done(function (data) {
-        let formattedArray = jsonToArray(data, ["destinationName", "matchAmount"]);
+    getDataByPromise(`SELECT *
+                            FROM adminlocationdata
+                            ORDER BY destinationEverMatched DESC
+                            LIMIT 10;`).then((data) => {
+
+        let formattedArray = jsonToArray(data, ["destinationName", "destinationEverMatched"]);
         // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
         $('#most-match-equal-destination').html(makeOL(formattedArray));
-    }).fail(function (reason) {
-        console.log(reason);
-    });
-}
-
-(function fetchPages() {
-    // ~~~~ FETCH LIST OF PAGES, SORTED BY LOGOUT-AMOUNT DESCENDING ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT * " +
-        "FROM adminpagedata " +
-        "ORDER BY logoutamount DESC;"
-    ).done(function (data) {
-        // ** LOGOUT-AMOUNT **
-        $('#page-logout').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
-    }).fail(function (reason) {
-        console.log(reason);
-    });
-
-    // ~~~~ FETCH LIST OF PAGES, SORTED BY VISITS DESCENDING ~~~~
-    FYSCloud.API.queryDatabase(
-        "SELECT * " +
-        "FROM adminpagedata " +
-        "ORDER BY visitcount DESC;"
-    ).done(function (data) {
-        // ** AMOUNT OF VIEWS **
-        $('#page-views').html(makeOL(jsonToArray(data, ["name", "visitcount"])));
-    }).fail(function (reason) {
-        console.log(reason);
     });
 })();
 
-(function fetchTraffic() {
+(async function fetchPages() {
+    getDataByPromise(`SELECT *
+                            FROM adminpagedata
+                            ORDER BY logoutamount DESC`).then((data) => {
+        // ** LOGOUT-AMOUNT **
+        $('#page-logout').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
+    });
+
+    getDataByPromise(`SELECT *
+                            FROM adminpagedata
+                            ORDER BY visitcount DESC`).then((data) => {
+        // ** AMOUNT OF VIEWS **
+        $('#page-views').html(makeOL(jsonToArray(data, ["name", "visitcount"])));
+    });
+})();
+
+(async function fetchTraffic() {
     // ** TYPE DEVICE **
-    FYSCloud.API.queryDatabase(
-        "SELECT deviceType, count(*) as 'amount' FROM adminsessiondata GROUP BY deviceType"
-    ).done(function (data) {
+    getDataByPromise(`SELECT deviceType, count(*) as 'amount'
+                            FROM adminsessiondata
+                            GROUP BY deviceType`).then((data) => {
+
         generatePiechart('#device-type', jsonToArray(data, ["deviceType", "amount"]));
-    }).fail(function (reason) {
-        console.log(reason);
     });
 
     // ** BROWSER TYPE **
-    FYSCloud.API.queryDatabase(
-        "SELECT browserType, count(*) as 'amount' FROM adminsessiondata GROUP BY browserType"
-    ).done(function (data) {
+    getDataByPromise(`SELECT browserType, count(*) as 'amount'
+                            FROM adminsessiondata
+                            GROUP BY browserType`).then((data) => {
+
         generatePiechart('#browser-type', jsonToArray(data, ["browserType", "amount"]));
-    }).fail(function (reason) {
-        console.log(reason);
     });
 })();
 
