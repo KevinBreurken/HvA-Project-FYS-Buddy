@@ -10,7 +10,7 @@ async function fetchStatisticsFromDatabase() {
     });
     // ~~~~ FETCH ALL FRIENDS ~~~~
     getDataByPromise(`SELECT *
-                            FROM friend`).then((data) => {
+                      FROM friend`).then((data) => {
         let totalFriendsCount = data.length;
 
         // ** MATCHING - MADE FRIENDS **
@@ -19,7 +19,7 @@ async function fetchStatisticsFromDatabase() {
         $('#made-friends-average').html((totalFriendsCount / userCount).toFixed(2));
     });
     getDataByPromise(`SELECT *
-                            FROM adminsessiondata`).then((adminSessionData) => {
+                      FROM adminsessiondata`).then((adminSessionData) => {
         let loginTodayAmount = 0;
         let allHours = new Array(adminSessionData.length);
         for (let i = 0; i < adminSessionData.length; i++) {
@@ -35,57 +35,70 @@ async function fetchStatisticsFromDatabase() {
 
 }
 
-(function fetchMatchesLists() {
+(async function fetchMatchesLists() {
     getDataByPromise(`SELECT *
-                            FROM admininterestdata
-                            ORDER BY interestEverMatched DESC
-                            LIMIT 10;`).then((data) => {
+                      FROM admininterestdata
+                      ORDER BY interestEverMatched DESC
+                      LIMIT 10;`).then((data) => {
 
         let formattedArray = jsonToArray(data, ["interestName", "matchAmount"]);
         // ** MATCHING - MOST MATCHED WITH EQUAL INTEREST **
         $('#most-match-equal-interests').html(makeOL(formattedArray));
     });
 
-    getDataByPromise(`SELECT *
-                            FROM adminlocationdata
-                            ORDER BY destinationEverMatched DESC
-                            LIMIT 10;`).then((data) => {
+    let locationData = await getDataByPromise(`SELECT *
+                                               FROM adminlocationdata
+                                               ORDER BY destinationEverMatched DESC
+                                               LIMIT 10;`);
 
-        let formattedArray = jsonToArray(data, ["destinationName", "destinationEverMatched"]);
-        // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
-        $('#most-match-equal-destination').html(makeOL(formattedArray));
-    });
+    let notificationIDs = new Array(locationData.length);
+    for (let i = 0; i < notificationIDs.length; i++) {
+        notificationIDs[i] = locationData[i]["locationId"];
+    }
+    let arrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
+
+    let names = await getDataByPromise(`SELECT *
+                      FROM location
+                      WHERE id IN ${arrayString}`);
+
+    let newArray = [[2], [locationData.length]];
+    for (let i = 0; i < locationData.length; i++) {
+        newArray[0][i] = names[i]["destination"];
+        newArray[1][i] = locationData[i]["destinationEverMatched"];
+    }
+    // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
+    $('#most-match-equal-destination').html(makeOL(newArray));
 })();
 
-(async function fetchPages() {
+(function fetchPages() {
     getDataByPromise(`SELECT *
-                            FROM adminpagedata
-                            ORDER BY logoutamount DESC`).then((data) => {
+                      FROM adminpagedata
+                      ORDER BY logoutamount DESC`).then((data) => {
         // ** LOGOUT-AMOUNT **
         $('#page-logout').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
     });
 
     getDataByPromise(`SELECT *
-                            FROM adminpagedata
-                            ORDER BY visitcount DESC`).then((data) => {
+                      FROM adminpagedata
+                      ORDER BY visitcount DESC`).then((data) => {
         // ** AMOUNT OF VIEWS **
         $('#page-views').html(makeOL(jsonToArray(data, ["name", "visitcount"])));
     });
 })();
 
-(async function fetchTraffic() {
+(function fetchTraffic() {
     // ** TYPE DEVICE **
     getDataByPromise(`SELECT deviceType, count(*) as 'amount'
-                            FROM adminsessiondata
-                            GROUP BY deviceType`).then((data) => {
+                      FROM adminsessiondata
+                      GROUP BY deviceType`).then((data) => {
 
         generatePiechart('#device-type', jsonToArray(data, ["deviceType", "amount"]));
     });
 
     // ** BROWSER TYPE **
     getDataByPromise(`SELECT browserType, count(*) as 'amount'
-                            FROM adminsessiondata
-                            GROUP BY browserType`).then((data) => {
+                      FROM adminsessiondata
+                      GROUP BY browserType`).then((data) => {
 
         generatePiechart('#browser-type', jsonToArray(data, ["browserType", "amount"]));
     });
