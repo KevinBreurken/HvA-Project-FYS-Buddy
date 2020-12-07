@@ -11,6 +11,7 @@
     padding-left: 15px;
     justify-content: center;
 }
+
 @media only screen and (orientation: portrait) {
     header {
         margin-left: auto;
@@ -36,6 +37,9 @@
     #other{
         padding-top: 25px;
     }
+    .notification-text-name{
+        font-size: 1.6rem;
+    }
 }
 
 @media only screen and (orientation: landscape) {
@@ -58,6 +62,7 @@
 }
 
 .main-menu ul {
+    margin-bottom: 0px;
     display: flex;
 }
 
@@ -114,7 +119,7 @@
 
 .profile-display-dropdown-content ul {
     display: block;
-    padding-top: 35px;
+    padding-top: 16px;
     padding-left: 0;
 }
 
@@ -211,6 +216,7 @@
     position: absolute;
     height: auto;
     width: auto;
+
     background-color: var(--color-corendon-white);
     border: 1px solid var(--color-corendon-yellow);
     z-index: 40;
@@ -226,7 +232,6 @@
 .notification-display-dropdown-content ul {
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 10px;
     display: block;
 }
 

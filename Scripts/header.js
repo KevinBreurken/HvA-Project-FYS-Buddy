@@ -36,7 +36,11 @@ function updateMenuButtons() {
     //Get every main menu button
     $('.main-menu-buttons').each(function (i, obj) {
         if (currentMenuType == $(this).attr("type")) {
-            $(this).attr("current", "");
+            if($(this).attr("type") === "home"){
+                $("#home-nav-element").attr("current", "");
+            }else {
+                $(this).attr("current", "");
+            }
             return;
         }
     });
