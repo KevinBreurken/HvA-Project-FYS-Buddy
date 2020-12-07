@@ -161,8 +161,9 @@ function getDataByPromise(query, queryArray) {
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = "nl";
+FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
 document.addEventListener("headerLoadedEvent", function (event) {
-    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
+    FYSCloud.Localization.translate(false);
 });
 
 /** Statistics - Set page visit */
