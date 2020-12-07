@@ -560,8 +560,8 @@ function applySettingsEventlistener(languages) {
                     // There is no setting available yet, creating new setting, execute insert:
                     FYSCloud.API.queryDatabase(
                         //"INSERT INTO `settings` (`id`, `userId`, `languageId`) VALUES (NULL, '1', '1');"
-                        "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileAvailabilityId`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);",
-                        [sessionUserId, languageId, 0, 0, 0, 0, 0]
+                        "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileVisibilityId`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);",
+                        [sessionUserId, languageId, 1, 0, 0, 0, 0]
                     ).done(function() {
                         window.location.href = "homepage.html";
                     }).fail(function (reason) {
