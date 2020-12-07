@@ -98,7 +98,29 @@ main {
     display: block;
 }
 
-.img-preview img{
+.img-block {
+    float: right;
+}
+
+.img-block label {
+    text-decoration: underline;
+    margin-bottom: 2px;
+    color: blue;
+    cursor: pointer;
+}
+
+.img-block label:active {
+    color: red;
+}
+
+.img-preview {
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    margin-top: 4px;
+}
+
+.img-preview img {
     max-height: 200px;
     max-width: 200px;
 }

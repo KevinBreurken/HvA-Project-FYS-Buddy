@@ -1,4 +1,4 @@
-let currentUserID = FYSCloud.Session.get("userID");
+let currentUserID = getCurrentUserID();
 console.log("currentUserID = " + currentUserID);
 if (currentUserID === undefined) {
     console.log("Not logged in");
@@ -12,16 +12,32 @@ if (appElement !== null) {
         if (getCurrentUserID() === undefined)
             window.open("index.html", "_self");
     }
+    if (attrElement === "admin") {
+        FYSCloud.API.queryDatabase(
+                `SELECT * from userrole WHERE userid = ? AND roleId = ?`,
+            [getCurrentUserID(), 2]// 2 == Admin ID
+        ).done(function (data) {
+            //If no entry of an admin role is found..
+            if (data.length === 0) {
+                if (getCurrentUserID() === undefined)
+                    window.open("index.html", "_self");
+                else
+                    window.open("homepage.html", "_self");
+            }
+        }).fail(function (reason) {
+            console.log(reason);
+        });
+    }
 }
 
-function redirectToHome(){
+function redirectToHome() {
     let appElement = document.getElementById("app");
     if (appElement !== null) {
         let attrElement = appElement.getAttribute("data-pageType");
         if (attrElement === "user") {
             window.open("homepage.html", "_self");
         }
-        if(attrElement === "admin"){
+        if (attrElement === "admin") {
             window.open("admin-profile.html", "_self");
         }
     }
@@ -100,12 +116,46 @@ function setCurrentUserID(id) {
 }
 
 function getCurrentUserID() {
-    return currentUserID;
+    return FYSCloud.Session.get("userID");
 }
 
 function closeSession() {
-    window.open("index.html", "_self");
+    /** Statistics - Set page visit */
+    var name = window.location.pathname
+        .split("/")
+        .filter(function (c) {
+            return c.length;
+        })
+        .pop();
+    FYSCloud.API.queryDatabase(
+            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
+        logoutamount = logoutamount + 1`,
+        [name]
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
     FYSCloud.Session.clear();
+    window.open("index.html", "_self");
+}
+
+function redirectToProfileById(id) {
+    FYSCloud.URL.redirect("profile.html", {
+        id: id
+    });
+}
+
+/** function for getting user data from the database by a promise */
+function getDataByPromise(query, queryArray) {
+    return new Promise(resolve => {
+        FYSCloud.API.queryDatabase(
+            query, queryArray
+        ).done(function (data) {
+            resolve(data);
+        }).fail(function (reason) {
+            console.log(reason);
+        });
+    });
 }
 
 //TODO: Change this to the users preference.
@@ -114,3 +164,44 @@ var initialLanguage = "nl";
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
 });
+
+/** Statistics - Set page visit */
+(function setDatabasePageData() {
+    var name = window.location.pathname
+        .split("/")
+        .filter(function (c) {
+            return c.length;
+        })
+        .pop();
+    FYSCloud.API.queryDatabase(
+            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
+        visitcount = visitcount + 1`,
+        [name]
+    ).done(function (data) {
+    }).fail(function (reason) {
+        console.log(reason);
+    });
+})();
+
+async function sendSessionData() {
+    $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
+    const date = new Date();
+    const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+    const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
+    await getDataByPromise(`INSERT INTO adminsessiondata (id, logintime, devicetype, browsertype) 
+        VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`);
+}
+
+async function loginUser(id) {
+    setCurrentUserID(id);
+    await sendSessionData();
+    await determineRedirectLocation();
+}
+
+async function determineRedirectLocation() {
+    let data = await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
+    if (data.length === 0)
+        window.open("homepage.html", "_self");
+    else
+        window.open("admin-profile.html", "_self");
+}

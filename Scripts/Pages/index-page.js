@@ -10,16 +10,12 @@ function validationCheck() {
     ).done(function(data) {
         for (let i = 0; i < data.length; i++) {
             if(emailInput == data[i].email && passwordInput == data[i].password) {
-                loginUser(data[i].userId)
-                console.log(data[i].userName + ' is logged in!')
-            }else {
+                loginUser(data[i].id);
+                console.log(data[i].username + ' is logged in!')
+            } else {
                 console.log("incorrect email or password")
                 return false;
             }
         }
     })
-}
-function loginUser(id) {
-    FYSCloud.Session.set("userId", id);
-    window.location.replace("./homepage.html");
 }
