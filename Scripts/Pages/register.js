@@ -260,7 +260,7 @@ function swapStep(number) {
             firstname = document.querySelector('#firstname').value
             lastname = document.querySelector('#lastname').value
             dob = new Date(document.querySelector('#DoB').value)
-            dobFormat = dob.getFullYear() + "-" + (dob.getMonth()+1) + "-" + dob.getDate()
+            dobFormat = dob.getFullYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDate()
 
             let genders = document.getElementsByClassName('gender')
             // Loops through all the available gender options until its hits the user selected option then assigns in to gender variable
@@ -331,7 +331,8 @@ function countChars(countFrom, displayTo) {
         document.querySelector("#" + countFrom).value.length
 }
 
-// Upload files function from FYS CLoud
+// Image preview function from FYS Cloud
+let imgLoc;
 $("#fileUpload").on("change", function () {
     FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
         //$("#filePreviewResult").html(`${data.fileName} (${data.extension}) => ${data.mimeType} (Is image: ${data.isImage})`)
@@ -339,20 +340,45 @@ $("#fileUpload").on("change", function () {
         if (data.isImage) {
             $("#imagePreview").attr("src", data.url)
         } else {
-
+            $("#imagePreview").attr("src", null,)
         }
     }).fail(function (reason) {
         $("#filePreviewResult").html(reason)
     })
 })
 
+// Image upload function from FYS Cloud
+function imageUpload(photoId) {
+    FYSCloud.Utils
+        .getDataUrl($("#fileUpload"))
+        .done(function (data) {
+            FYSCloud.API.uploadFile(
+                "profile-pictures/pp-" + photoId + ".jpg",
+                data.url
+            ).fail(function (reason) {
+                console.log(reason)
+            })
+        }).fail(function (reason) {
+        console.log(reason)
+    })
+}
+
 function register() {
-    console.log(dobFormat)
     FYSCloud.API.queryDatabase(
-        "INSERT INTO `user` (`id`, `username`, `email`, `password`, `firstname`, `lastname`, `gender`, `dob`, `bio`, `hobby`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [username, email, password, firstname, lastname, gender, dobFormat, bio, hobby]
-).done(function (data) {
-        //location.href = "homepage.html"
+        "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?)",
+        [username, email, password]
+    ).done(function (data) {
+        let photoId = data.insertId
+        imageUpload(photoId)
+
+        FYSCloud.API.queryDatabase(
+            "INSERT INTO `profile` (`id`, `firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [data.insertId, firstname, lastname, gender, dobFormat, bio, hobby, "pp-" + data.insertId + ".jpg"]
+        ).done(function (data) {
+            loginUser(data.insertId)
+        }).fail(function (reason) {
+            console.log(reason)
+        })
     }).fail(function (reason) {
         console.log(reason)
     })
