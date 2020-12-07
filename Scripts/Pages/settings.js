@@ -185,11 +185,11 @@ function setLanguage(initialLanguageKey) {
                         nl: "Iedereen",
                         en: "Everyone"
                     },
-                    matchesOnly: {
+                    matchesonly: {
                         nl: "Alleen matches",
                         en: "Matches only"
                     },
-                    justMe: {
+                    justme: {
                         nl: "Alleen mij",
                         en: "Just me"
                     }
@@ -286,13 +286,11 @@ function setLanguage(initialLanguageKey) {
             languageControl.selectedIndex = i;
         }
     }
-
-    languageControl.addEventListener("change", function() {
-        FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
-    });
 }
 
-
+languageControl.addEventListener("change", function() {
+    FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
+});
 
 // Gets a set language for a given user, returns a language as a string:
 // function getLanguageByUser(languages, userId) {
@@ -350,8 +348,9 @@ function setLanguage(initialLanguageKey) {
 // Profile handling:
 function setProfileVisibilities(profileVisibilities) {
     profileVisibilityOptions = "";
+    //TODO: Because of data-translate, the options won't appear on page init for some weird reason. Further assistance required.
     profileVisibilities.forEach(option => {
-        profileVisibilityOptions += "<option value=\"" + option.name + "\">" + option.name + "</option>";
+        profileVisibilityOptions += "<option value=\"" + option.name + "\" data-translate=\"settings.privacy.select." + option.name.toLowerCase().replace(/ /g, '') + "\">" + option.name + "</option>";
     });
     profileVisibilityControl.innerHTML = profileVisibilityOptions;
 }
