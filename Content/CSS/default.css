@@ -26,6 +26,7 @@ header {
   margin-right: auto;
   min-height: 214px;
   max-width: 800px;
+  height: auto;
 }
 
 body {
