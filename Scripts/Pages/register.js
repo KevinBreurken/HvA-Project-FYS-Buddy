@@ -1,3 +1,178 @@
+var statisticsTranslation = {
+    register: {
+        title: {
+            nl: "Welkom bij Corendon. ",
+            en: "Welcome at Corendon. "
+        },
+        subtitle: {
+            nl: "Je kan een account hier registreren. ",
+            en: "You can register your account here. "
+        },
+        nav: {
+            step1: {
+                nl: "1. Login details",
+                en: "1. Login details"
+            },
+            step2: {
+                nl: "2. Gebruiker informatie",
+                en: "2. User information"
+            },
+            step3: {
+                nl: "3. interesses",
+                en: "3. Interests"
+            }
+        },
+        step1: {
+            title: {
+                nl: "Login details",
+                en: "Login details"
+            },
+            info: {
+                title: {
+                    nl: "Informatie",
+                    en: "Information"
+                },
+                paragraph: {
+                    nl: "Wil je de wereld ontdekken, maar wil je dit niet alleen doen? Corendon Matching biedt een website waarbij je andere reizigers kan vinden met wie je op reis kan. Je wordt op basis van dezelfde interesses met een andere alleenstaande reiziger gematcht. ",
+                    en: "Do you want to explore the world, but dont want to do this alone? Find your travel buddy is a website where you can find your travel buddy. You will be matched with another single traveler based on the same interests. "
+                }
+            },
+            username: {
+                nl: "Gebruikersnaam *",
+                en: "Username *"
+            },
+            email: {
+                nl: "E-mail *",
+                en: "Email *"
+            },
+            password: {
+                nl: "Wachtwoord *",
+                en: "Password *"
+            },
+            confirmPassword: {
+                nl: "Herhaal wachtwoord *",
+                en: "Confirm password *"
+            }
+        },
+        step2: {
+            title: {
+                nl: "Gebruiker informatie",
+                en: "User information"
+            },
+            firstname: {
+                nl: "Voornaam *",
+                en: "Firstname *"
+            },
+            lastname: {
+                nl: "Achternaam *",
+                en: "Lastname *"
+            },
+            gender: {
+                nl: "Geslacht *",
+                en: "Gender *",
+                male: {
+                    nl: "Man",
+                    en: "Male"
+                },
+                female: {
+                    nl: "Vrouw",
+                    en: "Female"
+                },
+                other: {
+                    nl: "Anders",
+                    en: "Other"
+                }
+            },
+            dob: {
+                nl: "Geboortedatum *",
+                en: "Date of birth *",
+                desc: {
+                    nl: "18 jaar of ouder",
+                    en: "18 years or older"
+                }
+            },
+            profilePic: {
+                nl: "Kies een profiel foto",
+                en: "Choose a profile picture"
+            }
+        },
+        step3: {
+            title: {
+                nl: "Interesses",
+                en: "Interests"
+            },
+            bio: {
+                nl: "Biografie",
+                en: "Biography",
+                chars: {
+                    nl: " karakters ingevoerd",
+                    en: " characters entered"
+                }
+            },
+            hobbies: {
+                nl: "Hobby's",
+                en: "Hobbies",
+                sport: {
+                    nl: "Sport",
+                    en: "Sport"
+                },
+                hiking: {
+                    nl: "Wandelen",
+                    en: "Hiking"
+                },
+                cooking: {
+                    nl: "Koken",
+                    en: "Cooking"
+                },
+                art: {
+                    nl: "Kunst of schilderen",
+                    en: "Art or painting"
+                },
+                museum: {
+                    nl: "Musea bezoeken",
+                    en: "Museum visiting"
+                },
+                music: {
+                    nl: "Muziek",
+                    en: "Music"
+                },
+                dancing: {
+                    nl: "Dansen",
+                    en: "Dancing"
+                },
+                theater: {
+                    nl: "Theater bezoeken",
+                    en: "Theater visiting"
+                },
+                partying: {
+                    nl: "Feesten",
+                    en: "Partying"
+                },
+                gaming: {
+                    nl: "Gamen",
+                    en: "Gaming"
+                },
+
+            }
+        },
+        buttons: {
+            next: {
+                nl: "Volgende",
+                en: "Next"
+            },
+            back: {
+                nl: "Terug",
+                en: "Back"
+            },
+            register: {
+                nl: "Registreer",
+                en: "Register"
+            }
+        }
+    }
+}
+
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation)
 // Temporary dummy database connection - will be removed once moved out of development
 FYSCloud.API.configure({
     url: "https://api.fys.cloud",
