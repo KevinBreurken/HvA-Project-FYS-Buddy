@@ -86,7 +86,7 @@ FYSCloud.API.queryDatabase(
 function setLanguages(languages) {
     languageOptions = "";
     for(let i = 0; i < languages.length; i++) {
-        languageOptions += "<option value=\"" + languages[i].languageKey + "\">" + languages[i].name + "</option>"
+        languageOptions += "<option value=\"" + languages[i].languageKey + "\" data-translate=\"settings.language.select." + languages[i].languageKey + "\">" + languages[i].name + "</option>"
     }
     languageControl.innerHTML = languageOptions;
 }
@@ -100,6 +100,20 @@ function setLanguage(initialLanguageKey) {
             header: {
                 nl: "Instellingen",
                 en: "Settings"
+            },
+            language: {
+                nl: "Taal",
+                en: "Language",
+                select: {
+                    nl: {
+                        nl: "Nederlands",
+                        en: "Dutch"
+                    },
+                    en: {
+                        nl: "Engels",
+                        en: "English"
+                    }
+                }
             },
             account: {
                 nl: "Account",
@@ -135,6 +149,20 @@ function setLanguage(initialLanguageKey) {
                 label: {
                     nl: "Profiel zichtbaar voor",
                     en: "Profile visible to"
+                },
+                select: {
+                    everyone: {
+                        nl: "Iedereen",
+                        en: "Everyone"
+                    },
+                    matchesOnly: {
+                        nl: "Alleen matches",
+                        en: "Matches only"
+                    },
+                    justMe: {
+                        nl: "Alleen mij",
+                        en: "Just me"
+                    }
                 }
             },
             block: {
@@ -171,6 +199,12 @@ function setLanguage(initialLanguageKey) {
                 distanceResultLabel: {
                     nl: "De afstand is ingesteld op: ",
                     en: "The distance has been set to: "
+                },
+                select: {
+                    unlimited: {
+                        nl: "Oneindig",
+                        en: "Unlimited"
+                    }
                 }
             },
             notifications: {
