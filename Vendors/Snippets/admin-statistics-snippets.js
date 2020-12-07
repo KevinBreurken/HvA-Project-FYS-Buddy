@@ -22,29 +22,6 @@ const getDeviceType = () => {
 
 /**
  * snippet from:
- * https://www.codegrepper.com/code-examples/delphi/javascript+detect+browser+chrome+firefox
- *
- * Detects which browser is running this function.
- * @returns {string} type name of the browser.
- */
-function detectBrowser() {
-    if ((navigator.userAgent.indexOf("Opera") || navigator.userAgent.indexOf('OPR')) !== -1) {
-        return 'Opera';
-    } else if (navigator.userAgent.indexOf("Chrome") !== -1) {
-        return 'Chrome';
-    } else if (navigator.userAgent.indexOf("Safari") !== -1) {
-        return 'Safari';
-    } else if (navigator.userAgent.indexOf("Firefox") !== -1) {
-        return 'Firefox';
-    } else if ((navigator.userAgent.indexOf("MSIE") !== -1) || (!!document.documentMode === true)) {
-        return 'IE';
-    } else {
-        return 'Unknown';
-    }
-}
-
-/**
- * snippet from:
  * https://codereview.stackexchange.com/questions/177962/find-the-most-common-number-in-an-array-of-numbers
  * Looks through an array to find the most common occurring element.
  */
