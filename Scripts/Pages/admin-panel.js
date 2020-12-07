@@ -46,14 +46,6 @@ function closeDetails() {
     document.getElementById('overlay-background').style.display = 'none'
 }
 
-// Temporary dummy database connection - will be removed once moved out of development
-FYSCloud.API.configure({
-    url: "https://api.fys.cloud",
-    apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
-    database: "fys_is111_1_dev_kiet",
-    environment: "dev"
-})
-
 function deleteUser(i) {
     FYSCloud.API.queryDatabase(
         "DELETE FROM `user` WHERE id = ?",
