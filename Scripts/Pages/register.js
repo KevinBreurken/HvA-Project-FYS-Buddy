@@ -18,7 +18,7 @@ var statisticsTranslation = {
                 en: "2. User information"
             },
             step3: {
-                nl: "3. interesses",
+                nl: "3. Interesses",
                 en: "3. Interests"
             }
         },
