@@ -3,6 +3,15 @@ window.addEventListener('load', function () {
     document.getElementById("default-active").click();
 })
 
+let locationList;
+async function getLocation(locationID){
+    if (locationList === undefined)
+        locationList = await getDataByPromise("SELECT * FROM location");
+    for (let i = 0; i < locationList.length; i++) {
+        if(locationList[i].id === locationID)
+            return locationList[i];
+    }
+}
 //todo: create different query's;
 //1.1 All results: all results matching the users location, date and gender preference
 //1.2 Friends
