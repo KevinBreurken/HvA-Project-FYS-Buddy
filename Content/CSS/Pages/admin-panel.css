@@ -51,7 +51,7 @@
     transition: 500ms;
 }
 
-#admin #edit-user .btn{
+#admin #edit-user .right {
     float: right;
 }
 
