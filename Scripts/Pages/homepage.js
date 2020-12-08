@@ -2,7 +2,6 @@ window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
 
-    
     // todo: filter the user data
     //toggle
     //radiobuttons
@@ -27,57 +26,53 @@ window.addEventListener('load', function () {
 
 /** function to switch the tab content and active tab-button */
 async function openTabContent (currentButton) {
+    let tab = $("#tab");
+
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
 
-    console.log(currentButton.id)
+    // console.log(currentButton.id)
 
     //todo: querys
-    //"SELECT * FROM user"
-    //query, queryArray
-    let userList = await getDataByPromise("SELECT * FROM user");
+    let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.* FROM fys_is111_1_dev.profile p
+    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id 
+    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId`);
 
-    let tab = $("#tab");
+    // console.log(userList)
+
     $(tab).html("");
-    $(userList).each(user => $(tab).append(generateUserDisplay(user)));
+    // $(userList).each(user => $(tab).append(generateUserDisplay(user)));
+    for (let i = 0; i < userList.length; i++) {
+        $(tab).append(generateUserDisplay(userList[i]));
+    }
 }
 
 /** function for generating a user display */
-function generateUserDisplay(currentUser)
-{
-    let userId = currentUser.userId;
+function generateUserDisplay(currentUser) {
+    console.log(currentUser)
+    let userId = currentUser["userId"];
 
     let userDisplay = document.createElement("div");
     userDisplay.className = "user-display";
     userDisplay.setAttribute("id", "user-display-" + userId);
 
-    let username = currentUser.username === "" ? "username" : currentUser.username;
-    let url = currentUser.url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : currentUser.url;
-    let location = currentUser.location === "" ? "location" : currentUser.location;
+    let username = currentUser["username"] === "" ? "username" : currentUser["username"];
+    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
+    let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
 
     //start and end date
-    let date = new Date(currentUser.startDate);
-    const startDate = currentUser.startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    date = new Date(currentUser.endDate);
-    const endDate = currentUser.endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let date = new Date(currentUser["startdate"]);
+    const startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    date = new Date(currentUser["enddate"]);
+    const endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-    //todo: buddyId's or buddyClass | (activity-1) / (travel-1) / (both-1) of (activity) / (travel) / (both)
-    let buddy;
-    if (currentUser.travelBuddy === 1 && currentUser.activityBuddy === 1) {
-        buddy = "a buddy";
-    } else if (currentUser.travelBuddy === 1 && !(currentUser.activityBuddy === 1)) {
-        buddy = "a travel buddy";
-    } else if (!(currentUser.travelBuddy === 1) && currentUser.activityBuddy === 1) {
-        buddy = "an activity buddy";
-    } else {
-        buddy = " a buddy";
-    }
+    let buddy = currentUser["buddyType"] === "" ? "type of buddy" : currentUser["buddyType"];
 
     //todo: add buddyId or buddyClass
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img class="profile-picture" src="${url}">
+            <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div>
             <p>${location}</p>
             <p>from ${startDate}</p>
