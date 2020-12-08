@@ -488,3 +488,25 @@ main {
   pointer-events: none;
   z-index: 60;
 }
+
+.filter-title{
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-option-distance{
+  min-width: 150px;
+}
+.filter-option-buddy{
+  min-width: 150px;
+}
+.filter-option-distance[current]{
+  font-weight: bold;
+}
+
+.filter-option-buddy[current]{
+  font-weight: bold;
+}
