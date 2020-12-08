@@ -168,8 +168,11 @@ function editUser(i) {
             document.getElementById('user-info-' + j).value = data[0][Object.keys(data[0])[j]]
         }
 
+        // Put the date of birth from the user in the dob input
+        $('#user-info-8').val(parseDbDateToInputDate(data[0]['dob']))
+
         // Set the onclick attribute with the index of submitForm being the i selected user
-        document.getElementById("submit-form").setAttribute("onclick", "submitForm(" + i + ")")
+        $("#submit-form").attr("onclick", "submitForm(" + i + ")")
 
         // Show the edit user overlay
         editUserOverlay.style.display = 'block'
