@@ -211,7 +211,7 @@ $('#DoB').attr('min', maximumAgeDate)
 let dateMin = new Date(dateYear - MIN_AGE, dateMonth, dateDate)
 let dateMax = new Date(dateYear - MAX_AGE, dateMonth, dateDate)
 
-let currentStep =1
+let currentStep = 0
 let step = $('.step')
 
 step[currentStep].style.display = 'block'
@@ -264,7 +264,6 @@ function swapStep(number) {
                     break
                 }
             }
-            console.log(firstname)
 
             // Check if nothing is left empty and if it's within the given parameter
             if (firstname !== "" && firstname.length <= MAX_FIRSTNAME &&
@@ -323,8 +322,8 @@ function swapStep(number) {
 
 // Function for the biography input. Writes the amount of used characters in text
 function countChars(countFrom, displayTo) {
-    $("#" + displayTo).html =
-        $("#" + countFrom).val().length
+    document.querySelector("#" + displayTo).innerHTML =
+        document.querySelector("#" + countFrom).value.length
 }
 
 // Image preview function from FYS Cloud
