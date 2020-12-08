@@ -12,6 +12,7 @@
     justify-content: center;
 }
 
+/** Portrait */
 @media only screen and (orientation: portrait) {
     header {
         margin-left: auto;
@@ -36,14 +37,9 @@
     }
     #other{
         padding-top: 10px;
+        padding-bottom: 10px;
     }
-    .notification-text-name{
-        font-size: 1.6rem;
-    }
-    .profile-display-button {
-        /*margin-top: -13px;*/
-    }
-
+    /** Profile */
     .profile-display-text{
         margin-top: 4px;
         font-size: 25px;
@@ -59,17 +55,29 @@
     #profile-display-logout-text{
         font-size: 22px;
     }
+    /** Notification */
+    .notification-display-icon {
+        width: 35px;
+        height: 35px;
+    }
+    .notification-text-name{
+        font-size: 1.4rem;
+    }
+    .notification-display-counter {
+        width: 28px;
+    }
 }
 
+/** Landscape */
 @media only screen and (orientation: landscape) {
     .main-menu-home-icon {
         width: 15px;
         padding-right: 5px;
     }
+    /** Profile */
     .profile-display-button {
         margin-top: -5px;
     }
-
     .profile-display-text{
         font-size: 14px;
     }
@@ -81,6 +89,36 @@
         max-width: 16px;
         max-height: 16px;
     }
+    /** Notification */
+    .notification-display-icon {
+        width: 25px;
+        height: 25px;
+    }
+    /* Notification Counter*/
+    .notification-display-counter {
+        width: 20px;
+    }
+}
+
+/* Notification Counter 28px*/
+.notification-display-counter {
+    position: absolute;
+    transform: translate(90%, -150%);
+    text-align: center;
+}
+
+#notification-display-counter-text {
+    color: var(--color-corendon-white);
+    text-decoration: solid;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.notification-display-icon {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .profile-display-text {
@@ -230,13 +268,6 @@
     outline: 0;
 }
 
-.notification-display-icon {
-    width: 25px;
-    height: 25px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .notification-display-dropdown {
     position: relative;
 }
@@ -312,21 +343,4 @@
     width: 15px;
     height: 15px;
     float: right;
-}
-
-/* Notification Counter */
-.notification-display-counter {
-    position: absolute;
-    width: 20px;
-    transform: translate(90%, -150%);
-    text-align: center;
-}
-
-#notification-display-counter-text {
-    color: var(--color-corendon-white);
-    text-decoration: solid;
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
