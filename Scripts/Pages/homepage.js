@@ -23,6 +23,8 @@ async function openTabContent (currentButton) {
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
+    //reset the filters
+    resetFilters();
 
     let userList = await getDataByPromise("SELECT * FROM user");
     $("#tab").html("");
@@ -130,36 +132,41 @@ function setFavorite (currentIconId, newIconId) {
     $("#" + newIconId).css("display", "");
 }
 
-
 /** Filters */
-
 var currentDistanceFilterAmount;
 function setTravelFilter(element) {
-    let distanceAmount = 0;
-
-    if (element.getAttribute("current") != null) {
-        $(".filter-option-distance").removeAttr("current");
-    } else {
-        $(".filter-option-distance").removeAttr("current");
-        $(element).attr("current", "");
-        distanceAmount = $(element).data("distance");
-    }
-
-    //todo: apply filter
+    let distanceAmount = $(element).data("distance");
+    if(currentDistanceFilterAmount === distanceAmount)
+        return;
+    $(".filter-option-distance").removeAttr("current");
+    $(element).attr("current", "");
     currentDistanceFilterAmount = distanceAmount;
+
+    //todo: apply filter.
 }
 
 var currentBuddyFilterID;
 function setBuddyFilter(element) {
-    let buddyIndex = 0;
-    if (element.getAttribute("current") != null) {
-        $(".filter-option-buddy").removeAttr("current");
-    } else {
-        $(".filter-option-buddy").removeAttr("current");
-        $(element).attr("current", "");
-        buddyIndex = $(element).data("buddy");
-    }
-
-    //todo: apply filter
+    let buddyIndex = $(element).data("buddy");
+    if(currentBuddyFilterID === buddyIndex)
+        return;
+    $(".filter-option-buddy").removeAttr("current");
+    $(element).attr("current", "");
     currentBuddyFilterID = buddyIndex;
+
+    //todo: apply filter.
+}
+
+function resetFilters(){
+    //remove all current attributes from options
+    $(".filter-option-buddy").removeAttr("current");
+    $(".filter-option-distance").removeAttr("current");
+    //set the default buddy option.
+    let buddyDefault = $("#filter-option-buddy-default");
+    currentBuddyFilterID = buddyDefault.data("buddy");
+    buddyDefault.attr("current","");
+    //set the defualt distance option.
+    let distanceDefault = $("#filter-option-distance-default");
+    currentDistanceFilterAmount = buddyDefault.data("distance");
+    distanceDefault.attr("current","");
 }

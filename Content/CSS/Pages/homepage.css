@@ -489,6 +489,17 @@ main {
   z-index: 60;
 }
 
+.filter-title{
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-option-distance{
+  min-width: 150px;
+}
 .filter-option-buddy{
   min-width: 150px;
 }
