@@ -204,7 +204,7 @@ const dateDate = new Date().getDate()
 // Date for input max and min attributes
 let minimumAgeDate = dateYear - MIN_AGE + '-' + (dateMonth + 1) + '-' + dateDate
 let maximumAgeDate = dateYear - MAX_AGE + '-' + (dateMonth + 1) + '-' + dateDate
-$('#DoB').attr('max', minimumAgeDate);
+$('#DoB').attr('max', minimumAgeDate)
 $('#DoB').attr('min', maximumAgeDate)
 
 // Date for validation statement
@@ -284,7 +284,6 @@ function swapStep(number) {
         }
 
         // Step 3 interest - No validation needed
-        // TODO Add database functionality
         if (currentStep === 2) {
             bio = $('#bio').val()
             // TODO Get value from all selected boxes
@@ -343,6 +342,7 @@ $("#fileUpload").on("change", function () {
 })
 
 // Image upload function from FYS Cloud
+// TODO Fix file extension somehow
 function imageUpload(photoId) {
     FYSCloud.Utils
         .getDataUrl($("#fileUpload"))
