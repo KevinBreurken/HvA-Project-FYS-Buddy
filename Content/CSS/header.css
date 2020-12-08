@@ -35,10 +35,29 @@
         flex-direction: column;
     }
     #other{
-        padding-top: 25px;
+        padding-top: 10px;
     }
     .notification-text-name{
         font-size: 1.6rem;
+    }
+    .profile-display-button {
+        /*margin-top: -13px;*/
+    }
+
+    .profile-display-text{
+        margin-top: 4px;
+        font-size: 25px;
+    }
+    .profile-display-icon-profile{
+        max-width: 25px;
+        max-height: 25px;
+    }
+    .profile-display-icon-arrow{
+        max-width: 25px;
+        max-height: 25px;
+    }
+    #profile-display-logout-text{
+        font-size: 22px;
     }
 }
 
@@ -47,7 +66,33 @@
         width: 15px;
         padding-right: 5px;
     }
+    .profile-display-button {
+        margin-top: -5px;
+    }
+
+    .profile-display-text{
+        font-size: 14px;
+    }
+    .profile-display-icon-profile{
+        max-width: 16px;
+        max-height: 16px;
+    }
+    .profile-display-icon-arrow{
+        max-width: 16px;
+        max-height: 16px;
+    }
 }
+
+.profile-display-text {
+    z-index: 20;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: var(--color-corendon-light-blue);
+    font-family: var(--font-family);
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
 .main-menu li + li {
     margin-left: 25px;
 }
@@ -93,7 +138,6 @@
     border: 1px solid var(--color-corendon-lighter-blue);
     cursor: default;
     border-radius: 6px;
-    margin-top: -10px;
     display: flex;
     justify-content: space-between;
     background-color: white;
@@ -166,27 +210,12 @@
 
 .profile-display-icon-profile {
     padding-left: 5px;
-    max-width: 16px;
-    max-height: 16px;
     z-index: 20;
 }
 
 .profile-display-icon-arrow {
     padding-right: 8px;
-    max-width: 16px;
-    max-height: 16px;
     z-index: 20;
-}
-
-.profile-display-text {
-    z-index: 20;
-    padding-left: 5px;
-    padding-right: 5px;
-    color: var(--color-corendon-light-blue);
-    font-family: var(--font-family);
-    font-weight: bold;
-    font-size: 14px;
-    text-transform: uppercase;
 }
 
 /* Notifications */
