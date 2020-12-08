@@ -35,30 +35,23 @@ async function openTabContent (currentButton) {
     //todo: default filters:
         //start and end date - done
         //location, distance
-        //!admin
+        //!admin - done
 
     //gets the current user's data
     const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate FROM fys_is111_1_dev.user u
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
     WHERE u.id = ?`, getCurrentUserID());
 
-    // console.log(CURRENT_USER);
-
     //gets the data of the relevant users for the current user
-    let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.* FROM fys_is111_1_dev.profile p
+    let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.*, r.* FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
-    WHERE t.startdate < ?
+    INNER JOIN fys_is111_1_dev.userrole r ON t.userId = r.userId
+    WHERE r.roleId = 1
+    AND t.startdate < ?
     AND t.enddate > ?
-    AND t.userId != ?`
+    AND p.userId != ?`
         , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID()]);
-
-    // console.log(userList)
-    console.log(CURRENT_USER[0]["startdate"])
-    console.log(CURRENT_USER[0]["enddate"])
-
-    console.log(userList[0]["startdate"])
-    console.log(userList[0]["enddate"])
 
     $(tab).html("");
     // $(userList).each(user => $(tab).append(generateUserDisplay(user)));
