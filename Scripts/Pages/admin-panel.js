@@ -67,11 +67,19 @@ var statisticsTranslation = {
 
 FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation)
 
+/**
+ * Close the user details card
+ */
 function closeDetails() {
     document.getElementById('edit-user').style.display = 'none'
     document.getElementById('overlay-background').style.display = 'none'
 }
 
+/**
+ * Delete the selected user
+ *
+ * @param i user index
+ */
 function deleteUser(i) {
     FYSCloud.API.queryDatabase(
         "DELETE FROM `user` WHERE id = ?",
@@ -121,12 +129,14 @@ FYSCloud.API.queryDatabase(
 
             if (column === 0) {
                 adminButton.innerHTML = "Delete"
+
                 // Create an onclick with parameter in the button which will delete a user
                 adminButton.setAttribute("onclick", "deleteUser(" + data[row]["id"] + ")")
                 adminButton.setAttribute("data-translate", "table.body.delete")
                 document.getElementById("td-" + row + "-" + column).appendChild(adminButton)
             } else {
                 adminButton.innerHTML = "Edit"
+
                 // Create an onclick with parameter in the button which will delete a user
                 adminButton.setAttribute("onclick", "editUser(" + data[row]["id"] + ")")
                 adminButton.setAttribute("data-translate", "table.body.edit")
@@ -140,6 +150,11 @@ FYSCloud.API.queryDatabase(
 
 let editUserOverlay = document.getElementById("edit-user")
 
+/**
+ * Gather all the data from the selected user and display them in a card
+ *
+ * @param i user index
+ */
 function editUser(i) {
     FYSCloud.API.queryDatabase(
         "SELECT u.*, p.* FROM fys_is111_1_dev.user u INNER JOIN fys_is111_1_dev.profile p ON p.userId = u.id WHERE `userId` = ?",
@@ -164,7 +179,13 @@ function editUser(i) {
     })
 }
 
+/**
+ * Function for submitting values from input fields to database tables
+ *
+ * @param i user index
+ */
 function submitForm(i) {
+    //Get All the values from user-info fields
     //let id = $('#user-info-0').val()
     let email = $('#user-info-1').val()
     let password = $('#user-info-2').val()
@@ -180,6 +201,7 @@ function submitForm(i) {
     let buddyType = $('#user-info-12 ').val()
     let pictureUrl = $('#user-info-13 ').val()
 
+    // Update the user and profile tables with the values from user-info fields
     FYSCloud.API.queryDatabase(
         "UPDATE user SET id = ?, email = ?, password = ?, username = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
         [i, email, password, username, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
