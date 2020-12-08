@@ -32,14 +32,10 @@ async function openTabContent (currentButton) {
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
 
-    // console.log(currentButton.id)
-
     //todo: querys
     let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.* FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id 
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId`);
-
-    // console.log(userList)
 
     $(tab).html("");
     // $(userList).each(user => $(tab).append(generateUserDisplay(user)));
@@ -50,7 +46,7 @@ async function openTabContent (currentButton) {
 
 /** function for generating a user display */
 function generateUserDisplay(currentUser) {
-    console.log(currentUser)
+
     let userId = currentUser["userId"];
 
     let userDisplay = document.createElement("div");
@@ -96,7 +92,6 @@ function generateUserDisplay(currentUser) {
 
 /** function for opening the overlay with the correct user data*/
 async function openUserOverlay (overlayUserId) {
-    // console.log(overlayUserId)
 
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
@@ -104,13 +99,9 @@ async function openUserOverlay (overlayUserId) {
 
     let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
-    console.log(overlayUserData)
-    console.log(overlayUserData[0]["username"])
-
     //setting the data from the user and profile tables for in the overlay
     let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + overlayUserData[0]["pictureUrl"]
     let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
-    let username;
 
     //putting the data from the user and profile tables in the overlay
     $("#overlay-row-1").html(`<img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
