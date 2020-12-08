@@ -22,35 +22,40 @@
 <header></header>
 <main class="main" id="main">
 <h1>Profile settings</h1>
-<form action="profile.html" method="post">
+    action="profile.html"
+    <form method="post">
     <div class="row">
         <div class="column">
-            <h2 class="photo"></h2>
-            <img src="Content/Images/profile-picture-3.jpg" alt="profilePicture" width="180"
-                 height=150">
+            <h2 class="photo">Profile picture</h2>
+            <div class="img-block">
+            <label for="fileUpload"></label>
+            <input type="file" id="fileUpload" name="profile_picture" accept="image/*">
+            <div class="img-preview">
+                <img id="imagePreview" style="width: 200px; height: 200px;">
+            </div>
+            </div>
             <br>
-            <input id="image" type="file" accept="image/*" value="Upload new picture">
             <h2>Name</h2>
-            <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" placeholder="username" maxlength="50" required>
+            <label for="Username">Username:</label><br>
+            <input type="text" id="Username" name="Username" placeholder="username" maxlength="50" required>
             <br>
-            <label for="firstName">First name:</label><br>
-            <input type="text" id="firstName" name="firstName" placeholder="first name" maxlength="50" required>
+            <label for="Firstname">First name:</label><br>
+            <input type="text" id="FirstName" name="FirstName" placeholder="first name" maxlength="50" required>
             <br>
-            <label for="lastName">Last name:</label><br>
-            <input type="text" id="lastName" name="lastName" placeholder="last name" maxlength="50" required>
+            <label for="Lastname">Last name:</label><br>
+            <input type="text" id="LastName" name="LastName" placeholder="last name" maxlength="50" required>
 
             <h2>Gender</h2>
-            <input type="radio" id="male" name="gender">
-            <label for="male">Male</label><br>
-            <input type="radio" id="female" name="gender">
-            <label for="female">Female</label><br>
-            <input type="radio" id="other" name="gender">
-            <label for="other">Other</label><br>
+            <input type="radio" id="Male" name="gender">
+            <label for="Male">Male</label><br>
+            <input type="radio" id="Female" name="gender">
+            <label for="Female">Female</label><br>
+            <input type="radio" id="Other" name="gender">
+            <label for="Other">Other</label><br>
             <br>
             <h2>Age</h2>
-            <label for="dateOfBirth">Date of birth</label><br>
-                <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+            <label for="DateOfBirth">Date of birth</label><br>
+                <input type="date" id="DateOfBirth" name="DateOfBirth" required>
             <br>
             <p>Age:</p>
         </div>
@@ -79,47 +84,48 @@
             <label for="interest10">Going out</label><br>
             <br>
             <h2>Biography</h2>
-            <label for="biography"></label>
-            <textarea rows="10" cols="30%" class="biography" id="biography" name="biography" placeholder="Max 500 characters"
+            <label for="Biography"></label>
+            <textarea rows="10" cols="30%" class="biography" id="Biography" name="Biography" placeholder="Max 500 characters"
                       maxlength="500"></textarea>
             <div id="charactersRemaining">500 characters</div>
             <br>
         </div>
         <div class="column">
             <h2>Contactinformation</h2>
-            <label for="email">E-mail: </label><br>
-            <input type="email" id="email" name="email" placeholder="name@hotmail.com" required><br>
-            <label for="telephone">Tel: </label><br>
-            <input type="tel" id="telephone" name="telephone" placeholder="0612345678" size="10" required><br>
+            <label for="Email">E-mail: </label><br>
+            <input type="email" id="Email" name="Email" placeholder="name@hotmail.com" required><br>
+            <label for="Telephone">Tel: </label><br>
+            <input type="tel" id="Telephone" name="Telephone" placeholder="0612345678" size="10" required><br>
             <br>
             <h2>Trip information</h2>
             <div class="destination">
-                <label for="destination">Destination: </label><br>
-                <input type="text" id="destination" name="destination" placeholder="Rome" maxlength="50" required>
+                <label for="Destination">Destination: </label><br>
+                <input type="text" id="Destination" name="Destination" placeholder="Rome" maxlength="50" required>
                 <br>
             </div>
             <div class="data">
-                <label for="data">From: </label><br>
-                <input type="date" id="data" name="data" required>
+                <label for="Data">From: </label><br>
+                <input type="date" id="Data" name="Data" required>
                 <br>
-                <label for="data2">Till: </label><br>
-                <input type="date" id="data2" name="data2" required>
+                <label for="Data2">Till: </label><br>
+                <input type="date" id="Data2" name="Data2" required>
                 <br>
             </div>
             <div class="lookingFor">
                 <p>I am looking for:</p>
-                <input type="radio" id="choice1" name="choice1">
-                <label for="choice1" f-data-tooltip="Somebody you want to explore the country with">A travel buddy</label><br>
-                <input type="radio" id="choice2" name="choice2">
-                <label for="choice2" data-tooltip="Somebody you want to do activities with like swimming">An activity buddy</label><br>
+                <input type="radio" id="Choice1" name="choice1">
+                <label for="Choice1" f-data-tooltip="Somebody you want to explore the country with">A travel buddy</label><br>
+                <input type="radio" id="Choice2" name="choice2">
+                <label for="Choice2" data-tooltip="Somebody you want to do activities with like swimming">An activity buddy</label><br>
             </div>
             <div class="button">
-                <button class="saveChangesBtn" type="submit">Save changes</button>
+                <button class="saveChangesBtn" type="submit" onclick="profile()">Save changes</button>
             </div>
         </div>
 </div>
 </form>
 </main>
 </body>
-<script src="Scripts/Pages/profile.js"></script>
 </html>
+<!--<script src="Scripts/Pages/profile.js"></script>-->
+<script src="Scripts/Pages/profile-edit.js"></script>
