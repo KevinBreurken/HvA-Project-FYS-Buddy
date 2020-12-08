@@ -48,7 +48,19 @@ var statisticsTranslation = {
     edit: {
         head: {
             nl: "Extra gebuikers informatie",
-            en: "Extra user information"
+            en: "Extra user information",
+            subhead1: {
+                nl: "Gebruiker informatie",
+                en: "User information"
+            },
+            subhead2: {
+                nl: "Profiel informatie",
+                en: "Profile information"
+            }
+        },
+        button: {
+            nl: "Bijwerken",
+            en: "Update"
         }
     }
 }
@@ -62,7 +74,7 @@ function closeDetails() {
 
 function deleteUser(i) {
     FYSCloud.API.queryDatabase(
-        "DELETE FROM `user` WHERE id = ?",
+        "DELETE FROM 'user' WHERE id = ?",
         [i]
     ).done(function (data) {
         // TODO come up with a better way to reload the shown data on the page
@@ -128,12 +140,14 @@ FYSCloud.API.queryDatabase(
 
 let editUserOverlay = document.getElementById("edit-user")
 
+//"SELECT p.*, u.* FROM fys_is111_1_dev.profile p INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId WHERE `userId` = ?",
 function editUser(i) {
     FYSCloud.API.queryDatabase(
-        "SELECT p.*, u.* FROM fys_is111_1_dev.profile p INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId WHERE `userId` = ? ",
+        "SELECT u.*, p.* FROM fys_is111_1_dev.user u INNER JOIN fys_is111_1_dev.profile p ON p.userId = u.id WHERE `userId` = ?",
         [i]
     ).done(function (data) {
-        console.log(data[0])
+        console.log(data[0]['pictureUrl'])
+        $("#profile-photo").attr("src", "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + data[0]['pictureUrl'])
 
         // For each column in the user table create an attribute and set a value
         for (let j = 0; j < Object.keys(data[0]).length; j++) {
@@ -152,16 +166,24 @@ function editUser(i) {
 }
 
 function submitForm(i) {
-
-    //let id = document.querySelector('#user-info-0').value
-    let id = document.querySelector('#user-info-0').value
-    let email = document.querySelector('#user-info-1').value
-    let password = document.querySelector('#user-info-2').value
-    let username = document.querySelector('#user-info-3 ').value
+    //let id = $('#user-info-0').val()
+    let email = $('#user-info-1').val()
+    let password = $('#user-info-2').val()
+    let username = $('#user-info-3 ').val()
+    //let userId = $('#user-info-4 ').val()
+    let firstname = $('#user-info-5 ').val()
+    let lastname = $('#user-info-6 ').val()
+    let gender = $('#user-info-7 ').val()
+    let dob = $('#user-info-8 ').val()
+    let locationId = $('#user-info-9 ').val()
+    let phone = $('#user-info-10 ').val()
+    let biography = $('#user-info-11 ').val()
+    let buddyType = $('#user-info-12 ').val()
+    let pictureUrl = $('#user-info-13 ').val()
 
     FYSCloud.API.queryDatabase(
-        "UPDATE `user` SET `id` = ?, `email` = ?, `password` = ?, `username` = ? WHERE `id` = ?",
-        [i, email, password, username, i]
+        "UPDATE user SET id = ?, email = ?, password = ?, username = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
+        [i, email, password, username, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
     ).done(function (data) {
         console.log(data)
         //location.reload()
