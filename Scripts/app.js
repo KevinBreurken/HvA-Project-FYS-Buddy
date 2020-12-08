@@ -129,7 +129,7 @@ function redirectToProfileById(id) {
     });
 }
 
-/** function for getting user data from the database by a promise */
+/** default function for getting user data from the database by a promise */
 function getDataByPromise(query, queryArray) {
     return new Promise(resolve => {
         FYSCloud.API.queryDatabase(
@@ -138,6 +138,7 @@ function getDataByPromise(query, queryArray) {
             resolve(data);
         }).fail(function(reason) {
             console.log(reason);
+            resolve(reason);
         });
     });
 }

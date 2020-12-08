@@ -16,7 +16,7 @@ window.addEventListener('load', function () {
 
 //todo: 2. filters; distance and buddy type
 
-//todo: 3. match only gender
+//todo: 3. match only own gender (setting)
 
 //todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
 //todo: send notification to the other user
@@ -32,10 +32,33 @@ async function openTabContent (currentButton) {
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
 
-    //todo: querys
+    //todo: default filters:
+        //start and end date - done
+        //location, distance
+        //!admin
+
+    //gets the current user's data
+    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate FROM fys_is111_1_dev.user u
+    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+    WHERE u.id = ?`, getCurrentUserID());
+
+    // console.log(CURRENT_USER);
+
+    //gets the data of the relevant users for the current user
     let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.* FROM fys_is111_1_dev.profile p
-    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id 
-    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId`);
+    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
+    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+    WHERE t.startdate < ?
+    AND t.enddate > ?
+    AND t.userId != ?`
+        , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID()]);
+
+    // console.log(userList)
+    console.log(CURRENT_USER[0]["startdate"])
+    console.log(CURRENT_USER[0]["enddate"])
+
+    console.log(userList[0]["startdate"])
+    console.log(userList[0]["enddate"])
 
     $(tab).html("");
     // $(userList).each(user => $(tab).append(generateUserDisplay(user)));
@@ -58,9 +81,10 @@ function generateUserDisplay(currentUser) {
     let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
 
     //start and end date
+    //todo: fix the displaying of dates
     let date = new Date(currentUser["startdate"]);
     const startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    date = new Date(currentUser["enddate"]);
+    let date2 = new Date(currentUser["enddate"]);
     const endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
     let buddy = currentUser["buddyType"] === "" ? "type of buddy" : currentUser["buddyType"];
