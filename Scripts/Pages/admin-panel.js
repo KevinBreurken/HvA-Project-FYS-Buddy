@@ -160,7 +160,6 @@ function editUser(i) {
         "SELECT u.*, p.* FROM fys_is111_1_dev.user u INNER JOIN fys_is111_1_dev.profile p ON p.userId = u.id WHERE `userId` = ?",
         [i]
     ).done(function (data) {
-        console.log(data[0]['pictureUrl'])
         $("#profile-photo").attr("src", "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + data[0]['pictureUrl'])
 
         // For each column in the user table create an attribute and set a value
@@ -205,9 +204,9 @@ function submitForm(i) {
     FYSCloud.API.queryDatabase(
         "UPDATE user SET id = ?, email = ?, password = ?, username = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
         [i, email, password, username, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
-    ).done(function (data) {
+    ).done(
         location.reload()
-    }).fail(function (reason) {
+    ).fail(function (reason) {
         console.log(reason)
     })
 }
