@@ -204,23 +204,23 @@ const dateDate = new Date().getDate()
 // Date for input max and min attributes
 let minimumAgeDate = dateYear - MIN_AGE + '-' + (dateMonth + 1) + '-' + dateDate
 let maximumAgeDate = dateYear - MAX_AGE + '-' + (dateMonth + 1) + '-' + dateDate
-document.querySelector('#DoB').setAttribute('max', minimumAgeDate)
-document.querySelector('#DoB').setAttribute('min', maximumAgeDate)
+$('#DoB').attr('max', minimumAgeDate);
+$('#DoB').attr('min', maximumAgeDate)
 
 // Date for validation statement
 let dateMin = new Date(dateYear - MIN_AGE, dateMonth, dateDate)
 let dateMax = new Date(dateYear - MAX_AGE, dateMonth, dateDate)
 
 let currentStep = 0
-let step = document.getElementsByClassName('step')
+let step = $('.step')
 
 step[currentStep].style.display = 'block'
 
 function swapStep(number) {
     // Set all the buttons
-    let nextBtn = document.querySelector('#btn-next')
-    let backBtn = document.querySelector('#btn-back')
-    let registerBtn = document.querySelector('#btn-register')
+    let nextBtn = $('#btn-next')
+    let backBtn = $('#btn-back')
+    let registerBtn = $('#btn-register')
 
     // If the user pressed the next button check for each step if input is correct
     if (number === 1) {
@@ -228,10 +228,10 @@ function swapStep(number) {
         // TODO If something doesn't have correct input change the input to show it's invalid to the user
         // Step 1 Login Details
         if (currentStep === 0) {
-            username = document.querySelector('#username').value
-            email = document.querySelector('#email').value
-            password = document.querySelector('#password').value
-            passwordRepeat = document.querySelector('#repeat-password').value
+            username = $('#username').val()
+            email = $('#email').val()
+            password = $('#password').val()
+            passwordRepeat = $('#repeat-password').val()
 
             // Check if nothing is left empty and if it's within the given parameter
             if (username !== "" && username.length <= MAX_USERNAME &&
@@ -244,19 +244,19 @@ function swapStep(number) {
                 currentStep += number
             }
 
-            backBtn.style.display = 'none'
-            nextBtn.style.display = 'inline'
-            registerBtn.style.display = 'none'
+            backBtn.css('display', 'none')
+            nextBtn.css('display', 'inline')
+            registerBtn.css('display', 'none')
         }
 
         // Step 2 User information
         if (currentStep === 1) {
-            firstname = document.querySelector('#firstname').value
-            lastname = document.querySelector('#lastname').value
-            dob = new Date(document.querySelector('#DoB').value)
+            firstname = $('#firstname').val()
+            lastname = $('#lastname').val()
+            dob = new Date($('#DoB').val())
             dobFormat = dob.getFullYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDate()
 
-            let genders = document.getElementsByClassName('gender')
+            let genders = $('.gender')
             // Loops through all the available gender options until its hits the user selected option then assigns in to gender variable
             for (let i = 0; i < genders.length; i++) {
                 if (genders[i].checked) {
@@ -271,27 +271,28 @@ function swapStep(number) {
                 dob !== "" && dob <= dateMin && dob >= dateMax &&
                 (gender === "male" || gender === "female" || gender === "other")) {
 
+
                 // Hides the current step and will display the next step
                 step[currentStep].style.display = 'none'
                 step[currentStep + number].style.display = 'block'
                 currentStep += number
             }
 
-            backBtn.style.display = 'inline'
-            nextBtn.style.display = 'inline'
-            registerBtn.style.display = 'none'
+            backBtn.css('display', 'inline')
+            nextBtn.css('display', 'inline')
+            registerBtn.css('display', 'none')
         }
 
         // Step 3 interest - No validation needed
         // TODO Add database functionality
         if (currentStep === 2) {
-            bio = document.querySelector('#bio').value
+            bio = $('#bio').val()
             // TODO Get value from all selected boxes
             hobby = "test"
 
-            backBtn.style.display = 'inline'
-            nextBtn.style.display = 'none'
-            registerBtn.style.display = 'inline'
+            backBtn.css('display', 'inline')
+            nextBtn.css('display', 'none')
+            registerBtn.css('display', 'inline')
         }
     } else { // If the user pressed back don't check for valid input and show previous step
         step[currentStep].style.display = 'none'
@@ -300,21 +301,21 @@ function swapStep(number) {
         currentStep = currentStep - -number
 
         if (currentStep === 0) {
-            backBtn.style.display = 'none'
-            nextBtn.style.display = 'inline'
-            registerBtn.style.display = 'none'
+            backBtn.css('display', 'none')
+            nextBtn.css('display', 'inline')
+            registerBtn.css('display', 'none')
         }
 
         if (currentStep === 1) {
-            backBtn.style.display = 'inline'
-            nextBtn.style.display = 'inline'
-            registerBtn.style.display = 'none'
+            backBtn.css('display', 'inline')
+            nextBtn.css('display', 'inline')
+            registerBtn.css('display', 'none')
         }
 
         if (currentStep === 2) {
-            backBtn.style.display = 'inline'
-            nextBtn.style.display = 'none'
-            registerBtn.style.display = 'inline'
+            backBtn.css('display', 'inline')
+            nextBtn.css('display', 'none')
+            registerBtn.css('display', 'inline')
         }
     }
 }
@@ -366,8 +367,8 @@ function register() {
         imageUpload(photoId)
 
         FYSCloud.API.queryDatabase(
-            "INSERT INTO `profile` (`id`, `firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [data.insertId, firstname, lastname, gender, dobFormat, bio, hobby, "pp-" + data.insertId + ".jpg"]
+            "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
+            [data.insertId, data.insertId, firstname, lastname, gender, dobFormat, bio, "pp-" + data.insertId + ".jpg"]
         ).done(function (data) {
             loginUser(data.insertId)
         }).fail(function (reason) {
