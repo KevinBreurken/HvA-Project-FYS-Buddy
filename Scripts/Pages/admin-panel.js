@@ -2,39 +2,53 @@ var statisticsTranslation = {
     table: {
         head: {
             id: {
-                nl: "id",
-                en: "id"
-            },
-            firstname: {
-                nl: "voornaam",
-                en: "firstname"
-            },
-            lastname: {
-                nl: "achternaam",
-                en: "lastname"
+                nl: "Id",
+                en: "Id"
             },
             email: {
-                nl: "e-mail",
-                en: "email"
+                nl: "E-mail",
+                en: "Email"
+            },
+            password: {
+                nl: "Wachtwoord",
+                en: "Password"
+            },
+            username: {
+                nl: "Gebruikersnaam",
+                en: "Username"
+            },
+            firstname: {
+                nl: "Voornaam",
+                en: "Firstname"
+            },
+            lastname: {
+                nl: "Achternaam",
+                en: "Lastname"
             },
             edit: {
-                nl: "wijzig",
-                en: "edit"
+                nl: "Wijzig",
+                en: "Edit"
             },
             delete: {
-                nl: "verwijder",
-                en: "delete"
+                nl: "Verwijder",
+                en: "Delete"
             }
         },
         body: {
             delete: {
-                nl: "verwijder",
-                en: "delete"
+                nl: "Verwijder",
+                en: "Delete"
             },
             edit: {
-                nl: "wijzig",
-                en: "edit"
+                nl: "Wijzig",
+                en: "Edit"
             }
+        }
+    },
+    edit: {
+        head: {
+            nl: "Extra gebuikers informatie",
+            en: "Extra user information"
         }
     }
 }
@@ -113,11 +127,13 @@ FYSCloud.API.queryDatabase(
 })
 
 let editUserOverlay = document.getElementById("edit-user")
+
 function editUser(i) {
-        FYSCloud.API.queryDatabase(
-        "SELECT * FROM `user` WHERE id = ?",
+    FYSCloud.API.queryDatabase(
+        "SELECT p.*, u.* FROM fys_is111_1_dev.profile p INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId WHERE `userId` = ? ",
         [i]
     ).done(function (data) {
+        console.log(data[0])
 
         // For each column in the user table create an attribute and set a value
         for (let j = 0; j < Object.keys(data[0]).length; j++) {
@@ -138,17 +154,17 @@ function editUser(i) {
 function submitForm(i) {
 
     //let id = document.querySelector('#user-info-0').value
-    let firstname = document.querySelector('#user-info-1').value
-    let lastname = document.querySelector('#user-info-2').value
-    let email = document.querySelector('#user-info-3').value
-    let age = document.querySelector('#user-info-4').value
+    let id = document.querySelector('#user-info-0').value
+    let email = document.querySelector('#user-info-1').value
+    let password = document.querySelector('#user-info-2').value
+    let username = document.querySelector('#user-info-3 ').value
 
-    console.log(lastname)
     FYSCloud.API.queryDatabase(
-        "UPDATE `user` SET `firstname` = ?, `lastname` = ?, `email` = ?, `age` = ? WHERE `id` = ?",
-        [firstname, lastname, email, age, i]
+        "UPDATE `user` SET `id` = ?, `email` = ?, `password` = ?, `username` = ? WHERE `id` = ?",
+        [i, email, password, username, i]
     ).done(function (data) {
-        location.reload()
+        console.log(data)
+        //location.reload()
     }).fail(function (reason) {
         console.log(reason)
     })

@@ -19,12 +19,12 @@
     <table id="myTable">
         <thead>
         <tr>
-            <th data-translate="table.head.id">Id</th>
-            <th data-translate="table.head.firstname">Firstname</th>
-            <th data-translate="table.head.lastname">Lastname</th>
-            <th data-translate="table.head.email">Email</th>
-            <th data-translate="table.head.edit">Edit</th>
-            <th data-translate="table.head.delete">Delete</th>
+            <th data-translate="table.head.id"></th>
+            <th data-translate="table.head.email"></th>
+            <th data-translate="table.head.password"></th>
+            <th data-translate="table.head.username"></th>
+            <th data-translate="table.head.edit"></th>
+            <th data-translate="table.head.delete"></th>
         </tr>
         </thead>
         <tbody id="tableBody">
@@ -34,39 +34,84 @@
 
     <div id="edit-user">
         <button class="btn" onclick="closeDetails()">Close</button>
-        <h2>Extra user information</h2>
+        <h2 data-translate="edit.head">Extra user information</h2>
 
         <div class="user-card">
-            <img src="Content/Images/profile-picture-2.jpg" alt="profile photo" width="200px" height="200px"
+            <img src="https://dev-is111-1.fys.cloud/uploads/profile-pictures/pp-71.png" width="200px" height="200px"
                  class="profile-picture"/>
 
+            <!--User ID-->
             <p class="user-info">
                 <label for="user-info-0" id="user-attribute-0"></label>
                 <input type="number" id="user-info-0" value="" readonly disabled>
             </p>
-
+            <!--User Email-->
             <p class="user-info">
                 <label for="user-info-1" id="user-attribute-1"></label>
                 <input type="text" id="user-info-1" value="">
             </p>
-
+            <!--User Password-->
             <p class="user-info">
                 <label for="user-info-2" id="user-attribute-2"></label>
                 <input type="text" id="user-info-2" value="">
             </p>
-
+            <!--User Username-->
             <p class="user-info">
                 <label for="user-info-3" id="user-attribute-3"></label>
                 <input type="text" id="user-info-3" value="">
             </p>
+        </div>
 
+        <div class="profile-card">
+            <!--Profile user id-->
             <p class="user-info">
                 <label for="user-info-4" id="user-attribute-4"></label>
-                <input type="number" id="user-info-4" value="">
+                <input type="text" id="user-info-4">
             </p>
-
-            <p id="submit-form">Update</p>
+            <!--Profile Firstname-->
+            <p class="user-info">
+                <label for="user-info-5" id="user-attribute-5"></label>
+                <input type="text" id="user-info-5">
+            </p>
+            <!--Profile Lastname-->
+            <p class="user-info">
+                <label for="user-info-6" id="user-attribute-6"></label>
+                <input type="text" id="user-info-6">
+            </p>
+            <!--Profile Gender-->
+            <p class="user-info">
+                <label for="user-info-7" id="user-attribute-7"></label>
+                <input type="radio" id="user-info-7">
+            </p>
+            <!--Profile DoB-->
+            <p class="user-info">
+                <label for="user-info-8" id="user-attribute-8"></label>
+                <input type="date" id="user-info-8">
+            </p>
+            <!--Profile locationId-->
+            <p class="user-info">
+                <label for="user-info-9" id="user-attribute-9"></label>
+                <input type="text" id="user-info-9">
+            </p>
+            <!--Profile Phone-->
+            <p class="user-info">
+                <label for="user-info-10" id="user-attribute-10"></label>
+                <input type="text" id="user-info-10">
+            </p>
+            <!--Profile Biography-->
+            <p class="user-info">
+                <label for="user-info-11" id="user-attribute-11"></label>
+                <input type="text" id="user-info-11">
+            </p>
+            <!--Profile pictureUrl-->
+            <p class="user-info">
+                <label for="user-info-12" id="user-attribute-12"></label>
+                <input type="text" id="user-info-12">
+            </p>
         </div>
+
+        <p id="submit-form">Update</p>
+
     </div>
     <div id="overlay-background"></div>
 </main>
