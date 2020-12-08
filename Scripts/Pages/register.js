@@ -105,8 +105,8 @@ var statisticsTranslation = {
                 nl: "Biografie",
                 en: "Biography",
                 chars: {
-                    nl: " karakters ingevoerd",
-                    en: " characters entered"
+                    nl: " /500 karakters ingevoerd",
+                    en: " /500 characters entered"
                 }
             },
             hobbies: {
