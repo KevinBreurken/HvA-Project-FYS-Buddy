@@ -67,16 +67,16 @@
                 <div class="filter-option">
                     <p>Travel distance</p>
                     <div class="filter-option-buttons">
-                        <button>< 5km</button>
-                        <button>< 10km</button>
-                        <button>< 20km</button>
+                        <button class="filter-option-distance" data-distance="50" onclick="setTravelFilter(this)">< 50km</button>
+                        <button class="filter-option-distance" data-distance="500" onclick="setTravelFilter(this)">< 500km</button>
+                        <button class="filter-option-distance" data-distance="1000" onclick="setTravelFilter(this)">< 1000km</button>
                     </div>
                 </div>
                 <div class="filter-option">
                     <p>Type of buddy</p>
                     <div class="filter-option-buttons">
-                        <button>Only travel buddies</button>
-                        <button>Only activity buddies</button>
+                        <button class="filter-option-buddy" data-buddy="1" onclick="setBuddyFilter(this)">Only travel buddies</button>
+                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)">Only activity buddies</button>
                     </div>
                 </div>
             </div>

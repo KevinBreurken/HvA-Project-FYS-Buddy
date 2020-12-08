@@ -129,3 +129,37 @@ function setFavorite (currentIconId, newIconId) {
     $("#" + currentIconId).css("display", "none");
     $("#" + newIconId).css("display", "");
 }
+
+
+/** Filters */
+
+var currentDistanceFilterAmount;
+function setTravelFilter(element) {
+    let distanceAmount = 0;
+
+    if (element.getAttribute("current") != null) {
+        $(".filter-option-distance").removeAttr("current");
+    } else {
+        $(".filter-option-distance").removeAttr("current");
+        $(element).attr("current", "");
+        distanceAmount = $(element).data("distance");
+    }
+
+    //todo: apply filter
+    currentDistanceFilterAmount = distanceAmount;
+}
+
+var currentBuddyFilterID;
+function setBuddyFilter(element) {
+    let buddyIndex = 0;
+    if (element.getAttribute("current") != null) {
+        $(".filter-option-buddy").removeAttr("current");
+    } else {
+        $(".filter-option-buddy").removeAttr("current");
+        $(element).attr("current", "");
+        buddyIndex = $(element).data("buddy");
+    }
+
+    //todo: apply filter
+    currentBuddyFilterID = buddyIndex;
+}
