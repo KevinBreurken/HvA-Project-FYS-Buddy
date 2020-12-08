@@ -96,25 +96,33 @@ function generateUserDisplay(currentUser) {
 
 /** function for opening the overlay with the correct user data*/
 async function openUserOverlay (overlayUserId) {
-    let userdata = await getDataByPromise("SELECT * FROM user WHERE userId = ?", [overlayUserId]);
-    let userInterests = await getDataByPromise("SELECT * FROM interests WHERE userId = ?", [overlayUserId]);
+    // console.log(overlayUserId)
 
-    console.log(userdata[0].url)
+    let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
+    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
+    WHERE u.id = ?`, overlayUserId);
 
-    //setting the data for in the overlay
-    const userUrl = userdata[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userdata[0].url;
-    const firstName = userdata[0].firstName === "" ? "FirstName" : userdata[0].firstName;
-    const lastName = userdata[0].lastName === "" ? "LastName" : userdata[0].lastName;
-    const username = userdata[0].username === "" ? "username" : userdata[0].username;
-    const bio = userdata[0].bio === "" ? "..." : userdata[0].bio;
+    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
-    //putting the data in the overlay
-    $("#overlay-row-1").html(`<img src="${userUrl}">`);
-    $("#overlay-full-name").html(firstName + " " + lastName);
-    $("#overlay-username").html("a.k.a. " + username);
+    console.log(overlayUserData)
+    console.log(overlayUserData[0]["username"])
+
+    //setting the data from the user and profile tables for in the overlay
+    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + overlayUserData[0]["pictureUrl"]
+    let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
+    let username;
+
+    //putting the data from the user and profile tables in the overlay
+    $("#overlay-row-1").html(`<img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
+    $("#overlay-full-name").html(`${fullName}`);
+    $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
+    $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
+
+    //putting the interests into the overlay
     $("#overlay-interests-ul").html("");
-    userInterests.forEach(interest => $("#overlay-interests-ul").append("<li>"+ interest.interest +"</li>"));
-    $("#overlay-bio").html(bio);
+    $(overlayUserInterestsIds).each(interest => {
+        $("#overlay-interests-ul").append(`<li>` + overlayUserInterestsIds[interest]["interestId"] + `</li>`);
+    });
 
     //displays the overlay and overlay-background
     displayUserOverlay()
