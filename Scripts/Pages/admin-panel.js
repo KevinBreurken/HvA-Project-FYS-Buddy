@@ -74,7 +74,7 @@ function closeDetails() {
 
 function deleteUser(i) {
     FYSCloud.API.queryDatabase(
-        "DELETE FROM 'user' WHERE id = ?",
+        "DELETE FROM `user` WHERE id = ?",
         [i]
     ).done(function (data) {
         // TODO come up with a better way to reload the shown data on the page
@@ -140,7 +140,6 @@ FYSCloud.API.queryDatabase(
 
 let editUserOverlay = document.getElementById("edit-user")
 
-//"SELECT p.*, u.* FROM fys_is111_1_dev.profile p INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId WHERE `userId` = ?",
 function editUser(i) {
     FYSCloud.API.queryDatabase(
         "SELECT u.*, p.* FROM fys_is111_1_dev.user u INNER JOIN fys_is111_1_dev.profile p ON p.userId = u.id WHERE `userId` = ?",
@@ -185,8 +184,7 @@ function submitForm(i) {
         "UPDATE user SET id = ?, email = ?, password = ?, username = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
         [i, email, password, username, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
     ).done(function (data) {
-        console.log(data)
-        //location.reload()
+        location.reload()
     }).fail(function (reason) {
         console.log(reason)
     })
