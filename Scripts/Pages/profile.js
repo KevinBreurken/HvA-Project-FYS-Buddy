@@ -5,6 +5,7 @@ function changeButton() {
 function changeButton2() {
     document.getElementById('block').value = "Blocked";
 }
+
 function AgeCheck() {
     const MIN_AGE = 18;
     const MAX_AGE = 100;
@@ -49,26 +50,13 @@ function countCharacters() {
 //count.addEventListener('keyup', countCharacters, false);
 //let userId5 = getCurrentUserID();
 
-// FYSCloud.API.queryDatabase(
-//     "SELECT `interestid` FROM userinterest WHERE userId = ?", [7]
-// ).done(function (data) {
-//     console.log(data);
-//     let userData = data[0];
-//     let myArray = new Array();
-//         if (userData.interestid === 6) {
-//             myArray.push("Sports");
-//         }
-//         console.log(myArray);
-// }).fail(function () {
-//     alert("paniek");
-// });
-
 let userId = getCurrentUserID();
     FYSCloud.API.queryDatabase(
         "SELECT * FROM profile where id = ?", [userId]
     ).done(function (data) {
         console.log(data);
         generateProfileDisplay(data);
+        generateBuddy(data);
     }).fail(function () {
         alert("paniek");
     });
@@ -92,15 +80,6 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM buddy where id = ?", [userId]
-).done(function (data) {
-    console.log(data);
-    generateBuddy(data);
-}).fail(function () {
-    alert("paniek");
-});
-
-FYSCloud.API.queryDatabase(
     "SELECT `destination` FROM location where id = ?", [userId]
 ).done(function (data) {
     console.log(data);
@@ -109,37 +88,36 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM userinterest where userId = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    generateInterests(data);
+}).fail(function () {
+    alert("paniek");
+});
+
 function generateProfileDisplay(data) {
     let userData = data[0];
-    //let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userData.pictureUrl;
+    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userData.pictureUrl;
     let firstname = userData.firstname == null ? "" : userData.firstname;
     let lastname = userData.lastname == null ? "" : userData.lastname;
     let gender = userData.gender == null ? "" : userData.gender;
     let date = new Date(userData.dob);
     let dob = userData.dob == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let ageBerekening = new Date().getFullYear() - date.getFullYear();
-    console.log(ageBerekening);
     let age = userData.dob == null ? "" : ageBerekening;
-    let interests = userData.interests == null ? "" : userData.interests;
     let biography = userData.biography == null ? "" : userData.biography;
     let tel = userData.phone == null ? "" : userData.phone;
 
-    //$("#img").html(pictureUrl);
+    $("#img").attr("src",  "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + url);
     $("#firstname").html("<b>First name: </b>" + firstname);
     $("#lastname").html("<b>Last name: </b>" + lastname);
     $("#gender").html(gender);
     $("#age").html("<b>Age: </b>" + age);
     $("#dob").html("<b>Date of birth: </b>" + dob);
-    $("#badge1").html(interests);
     $("#biography").html(biography);
     $("#tel").html("<b>Tel: </b>" + tel);
-
-    // TODO: test the user's gender and interests with data from database.
-    // let gendertest = userData.gender;
-    // if(gendertest.val("Female")) {
-    //     let test = $("#female").attr("checked", true);
-    //     console.log(test);
-    // }
 }
 function generateTravelInfo(data) {
     let userData = data[0];
@@ -165,13 +143,13 @@ function generateUserinfo(data) {
 function generateBuddy(data) {
     let userData = data[0];
     let buddy;
-    if (userData.type === "both") {
+    if (userData.buddyType === 1) {
         buddy = "a buddy";
         $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
-    } else if (userData.type === "activity") {
+    } else if (userData.type === 2) {
         buddy = "an activity buddy"
         $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
-    } else if (userData.type === "travel") {
+    } else if (userData.type === 3) {
         buddy = "a travel buddy"
         $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
     }
@@ -183,59 +161,22 @@ function generateDestination(data) {
     $("#destination").html("<b>Destination: </b>" + destination);
 }
 
-// function generateInterests(data) {
-//
-// }
-    var profileTranslation = {
-        profile: {
-            username: {
-                nl: "<b>Gebruikersnaam: </b>",
-                en: "<b>Username:</b> "
-            },
-            firstname: {
-                nl: "<b>Voornaam: </b>",
-                en: "<b>First name: </b>"
-            },
-            lastname: {
-                nl: "<b>Achternaam: </b>",
-                en: "<b>Last name: </b>"
-            },
-            gender: {
-                nl: "<b>Geslacht</b>",
-                en: "<b>Gender</b>"
-            },
-            age: {
-                nl: "<b>Leeftijd: </b>",
-                en: "<b>Age: </b>"
-            },
-            dob: {
-                nl: "<b>Geboortedatum: </b>",
-                en: "<b>Date of Birth: </b>"
-            },
-            destination: {
-                nl: "<b>Bestemming: </b>",
-                en: "<b>Destination: </b>"
-            },
-            from: {
-                nl: "<b>Van: </b>",
-                en: "<b>From: </b>"
-            },
-            untill: {
-                nl: "<b>Tot</b>",
-                en: "<b>Untill: </b>"
-            },
-            lookingfor: {
-                nl: "<b>Opzoek naar: </b>",
-                en: "<b>I am looking for: </b>"
-            }
-
-        }
-
-    };
-
-$(function () {
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
-});
+function generateInterests(data) {
+    for (let i = 0; i < data.length; i++) {
+        $("#interests").append("<div style='color: var(--color-corendon-white);\n" +
+            "    background-color: var(--color-corendon-red);\n" +
+            "    display: inline-block;\n" +
+            "    padding: .25em .4em;\n" +
+            "    font-size: 75%;\n" +
+            "    font-weight: 700;\n" +
+            "    line-height: 1;\n" +
+            "    text-align: center;\n" +
+            "    white-space: nowrap;\n" +
+            "    vertical-align: baseline;\n" +
+            "    border-radius: .25rem;\n" +
+            "    margin: 2px;'>" + data[i].interestId + "<div>");
+    }
+}
 
 let imgLoc;
 $("#fileUpload").on("change", function () {
@@ -250,6 +191,68 @@ $("#fileUpload").on("change", function () {
     })
 })
 
+$.getJSON("https://api.ipify.org?format=json", function(data) {
+    $("#rightbox").html(data.ip);
+})
+
+let current = new Date();
+let currentdate = current.getFullYear() +"-" + (current.getMonth() + 1) + "-" + current.getDate();
+let currenttime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+let datetime = currentdate + " " + currenttime;
+
+$("#leftbox").html(datetime);
+
+var profileTranslation = {
+    profile: {
+        username: {
+            nl: "<b>Gebruikersnaam: </b>",
+            en: "<b>Username:</b> "
+        },
+        firstname: {
+            nl: "<b>Voornaam: </b>",
+            en: "<b>First name: </b>"
+        },
+        lastname: {
+            nl: "<b>Achternaam: </b>",
+            en: "<b>Last name: </b>"
+        },
+        gender: {
+            nl: "<b>Geslacht</b>",
+            en: "<b>Gender</b>"
+        },
+        age: {
+            nl: "<b>Leeftijd: </b>",
+            en: "<b>Age: </b>"
+        },
+        dob: {
+            nl: "<b>Geboortedatum: </b>",
+            en: "<b>Date of Birth: </b>"
+        },
+        destination: {
+            nl: "<b>Bestemming: </b>",
+            en: "<b>Destination: </b>"
+        },
+        from: {
+            nl: "<b>Van: </b>",
+            en: "<b>From: </b>"
+        },
+        untill: {
+            nl: "<b>Tot</b>",
+            en: "<b>Untill: </b>"
+        },
+        lookingfor: {
+            nl: "<b>Opzoek naar: </b>",
+            en: "<b>I am looking for: </b>"
+        }
+
+    }
+
+};
+
+$(function () {
+    FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
+});
+
 // TODO: make translation language dynamic.
 // document.addEventListener("languageChangeEvent", function (event) {
 //     console.log(event.detail.id);
@@ -257,6 +260,7 @@ $("#fileUpload").on("change", function () {
 //     newString = newString.replace("");
 // });
 
+// TODO: get the id from url for profile display.
 // //get the url
 // var pageUrl = window.location.href;
 //
@@ -277,18 +281,3 @@ $("#fileUpload").on("change", function () {
 // }).fail(function(reason) {
 //     console.log(reason);
 // });
-
-$.getJSON("https://api.ipify.org?format=json", function(data) {
-    $("#rightbox").html(data.ip);
-})
-
-let current = new Date();
-let currentdate = current.getFullYear() +"-" + (current.getMonth() + 1) + "-" + current.getDate();
-let currenttime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-let datetime = currentdate + " " + currenttime;
-
-$("#leftbox").html(datetime);
-
-let interest = `<p>Sports</p>`
-$("#badge10").append(interest);
-

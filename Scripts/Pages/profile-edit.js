@@ -9,16 +9,18 @@ let destination = document.querySelector("#Destination").value;
 let startdate = document.querySelector("#Data").value;
 let enddate = document.querySelector("#Data2").value;
 
-// function profile() {
-//     FYSCloud.API.queryDatabase(
-//         "INSERT INTO `user` (`id`, `username`, `firstname`, `lastname`, `date_of_birth`, `biography`) VALUES (?, ?, ?, ?, ?, ?)",
-//         [3, username, firstname, lastname, dob, biography]
-//     ).done(function (data) {
-//         console.log(data);
-//     }).fail(function () {
-//         alert("paniek");
-//     });
-// }
+function applyChanges() {
+    document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
+        FYSCloud.API.queryDatabase(
+            "UPDATE `profile` SET `firstname` = ?, `lastname` = ? WHERE `id` = 316;",
+            [firstname, lastname]
+        ).done(function (data) {
+            console.log(data);
+        }).fail(function (reason) {
+            console.log(reason)
+        })
+    });
+}
 
 // let imgLoc;
 // $("#fileUpload").on("change", function () {
@@ -33,36 +35,6 @@ let enddate = document.querySelector("#Data2").value;
 //     })
 // })
 
-function profile() {
-    FYSCloud.API.queryDatabase(
-        "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?)",
-        [username, email, password]
-    ).done(function (data) {
-        let photoId = data.insertId
-        imageUpload(photoId)
-        FYSCloud.API.queryDatabase(
-            "INSERT INTO `profile` (`id`, `firstname`, `lastname`, `gender`, `dob`, `phone`, `biography`, `pictureUrl`) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            [data.insertId, firstname, lastname, gender, dob, tel, biography, "pp-" + data.insertId + ".jpg"]
-        ).done(function (data) {
-            loginUser(data.insertId)
-        }).fail(function (reason) {
-            console.log(reason)
-        })
-    }).fail(function (reason) {
-        console.log(reason)
-    })
-}
-
-// FYSCloud.API.queryDatabase(
-//     "UPDATE `` SET `` WHERE `` `userId` = ?;",
-//     [currentUser]
-// ).done(function() {
-//     console.log(data);
-// }).fail(function (reason) {
-//     console.log(reason);
-// });
-
-let userId = getCurrentUserID();
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [userId]
 ).done(function (data) {
@@ -92,6 +64,54 @@ FYSCloud.API.queryDatabase(
     $("#DateOfBirth").val(userData.dob);
     $("#Biography").val(userData.biography);
     $("#Telephone").val(userData.phone);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM location where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    $("#Destination").val(userData.destination);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM buddy where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    let buddy;
+    if (userData.type === "both") {
+        buddy = "a buddy";
+        document.getElementById("Choice1").checked = true;
+        document.getElementById("Choice2").checked = true;
+    } else if (userData.type === "activity") {
+        buddy = "an activity buddy"
+        document.getElementById("Choice2").checked = true;
+    } else if (userData.type === "travel") {
+        buddy = "a travel buddy"
+        document.getElementById("Choice1").checked = true;
+    }
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM travel where id = ?", [1]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+
+    userData.startdate = new Date();
+    let start = userData.startdate.toLocaleDateString('en-CA');
+    $("#Data").val(start);
+
+    userData.enddate = new Date();
+    let end = userData.enddate.toLocaleDateString('en-CA');
+    $("#Data2").val(end);
 }).fail(function () {
     alert("paniek");
 });
