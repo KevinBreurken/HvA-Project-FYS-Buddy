@@ -204,8 +204,8 @@ const dateDate = new Date().getDate()
 // Date for input max and min attributes
 let minimumAgeDate = dateYear - MIN_AGE + '-' + (dateMonth + 1) + '-' + dateDate
 let maximumAgeDate = dateYear - MAX_AGE + '-' + (dateMonth + 1) + '-' + dateDate
-$('#DoB').attr('max', minimumAgeDate)
-$('#DoB').attr('min', maximumAgeDate)
+$('#DoB').attr('max', parseDateToInputDate(minimumAgeDate))
+$('#DoB').attr('min', parseDateToInputDate(maximumAgeDate))
 
 // Date for validation statement
 let dateMin = new Date(dateYear - MIN_AGE, dateMonth, dateDate)
