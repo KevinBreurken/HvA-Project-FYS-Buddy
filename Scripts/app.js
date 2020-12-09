@@ -154,7 +154,7 @@ function getDataByPromise(query, queryArray) {
             resolve(data);
         }).fail(function (reason) {
             console.log(reason);
-            resolve(reason);
+            Promise.reject(reason);
         });
     });
 }
