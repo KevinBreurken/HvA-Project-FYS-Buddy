@@ -153,14 +153,15 @@ var overlayTranslations = {
 };
 FYSCloud.Localization.CustomTranslations.addTranslationJSON(overlayTranslations);
 
-/** function for opening the overlay with the correct user data*/
+/**
+ * function for opening the overlay with the correct user data
+ * @param overlayUserId id of the user that is fetched and displayed from the database.
+ */
 async function openUserOverlay(overlayUserId) {
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id
                                                   FROM fys_is111_1_dev.profile p
                                                            INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
                                                   WHERE u.id = ?`, overlayUserId);
-
-    console.log(overlayUserData)
 
     let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
@@ -181,28 +182,24 @@ async function openUserOverlay(overlayUserId) {
     });
 
     //displays the overlay and overlay-background
-    displayUserOverlay()
+    displayUserOverlay();
 
     //determine what kind of request button we want to show the user,
-    // (0 = send request,1 = request sent,2 = accept request)
     let matchingFriend = await getDataByPromise(`SELECT *
                                                  FROM friendrequest
                                                  WHERE (targetUser = ? AND requestingUser = ?)
                                                     OR (targetUser = ? AND requestingUser = ?)
     `, [getCurrentUserID(), overlayUserId, overlayUserId, getCurrentUserID()]);
 
-
+    //Reset button style elements.
     let requestButton = $("#send-request-button");
     requestButton.attr("disabled", false);
     requestButton.unbind();
     requestButton.css('opacity', '1');
-    requestButton.hover(function () {
-            $(this).css("background-color", "var(--color-corendon-dark-red)");
-        }, function () {
-            $(this).css("background-color", "");
-        }
-    );
-    console.log(overlayUserId);
+    requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
+        }, function () { $(this).css("background-color", "");} );
+
+
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
@@ -212,16 +209,13 @@ async function openUserOverlay(overlayUserId) {
         }
     } else {
         requestButton.attr("data-translate", "overlay.button.send");
-        requestButton.click(function () {
-            sendRequest(getCurrentUserID(),overlayUserId)
-        });
+        requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
 
     FYSCloud.Localization.translate(false);
     $("#profile-button").click(function () {
         redirectToProfileById(overlayUserId)
     });
-    //function to redirect the user to the profilepage
 }
 
 function disableRequestButton() {
@@ -243,6 +237,7 @@ function acceptRequest(sentUser,userIdToAccept) {
                       INSERT INTO friend (user1, user2)
                       VALUES (${sentUser},${userIdToAccept});
     `);
+    //todo: remove element from display tab.
     closeElement();
 }
 
