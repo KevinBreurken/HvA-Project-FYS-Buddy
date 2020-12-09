@@ -207,9 +207,9 @@ function submitForm(i) {
     FYSCloud.API.queryDatabase(
         "UPDATE user SET id = ?, email = ?, password = ?, username = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
         [i, email, password, username, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
-    ).done(
+    ).done(function (data) {
         location.reload()
-    ).fail(function (reason) {
+    }).fail(function (reason) {
         console.log(reason)
     })
 }
