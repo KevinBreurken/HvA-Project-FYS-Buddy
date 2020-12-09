@@ -18,7 +18,7 @@ async function getLocation(locationID){
     }
 }
 //todo: create different query's;
-//1.1 All results todo: gender preference 
+//1.1 All results todo: gender preference, blocked, display settings
 //1.2 Friends
 //1.3 Friend requests (ingoing)
 //1.4 Favorites
@@ -55,15 +55,16 @@ async function openTabContent (currentButton) {
     let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.*, r.*,l.*,s.userId,s.radialDistance FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
-    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id 
+    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
     INNER JOIN fys_is111_1_dev.userrole r ON t.userId = r.userId
-    INNER JOIN fys_is111_1_dev.setting s ON u.id = s.userId
+    LEFT JOIN fys_is111_1_dev.setting s ON u.id = s.userId
     WHERE r.roleId = 1
     AND t.startdate < ?
     AND t.enddate > ?
     AND p.userId != ?
-    AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < s.radialDistance`
+    AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`
         , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
+
 
     $(tab).html("");
     //appends a user-display with the correct data to the tab for every user that needs to be displayed
