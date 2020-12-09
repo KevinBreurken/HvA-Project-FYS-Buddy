@@ -169,7 +169,7 @@ function editUser(i) {
         }
 
         // Put the date of birth from the user in the dob input
-        $('#user-info-8').val(parseDbDateToInputDate(data[0]['dob']))
+        $('#user-info-8').val(parseDateToInputDate(data[0]['dob']))
 
         // Set the onclick attribute with the index of submitForm being the i selected user
         $("#submit-form").attr("onclick", "submitForm(" + i + ")")
