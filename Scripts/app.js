@@ -145,7 +145,7 @@ function redirectToProfileById(id) {
     });
 }
 
-/** function for getting user data from the database by a promise */
+/** default function for getting user data from the database by a promise */
 function getDataByPromise(query, queryArray) {
     return new Promise(resolve => {
         FYSCloud.API.queryDatabase(
@@ -154,8 +154,21 @@ function getDataByPromise(query, queryArray) {
             resolve(data);
         }).fail(function (reason) {
             console.log(reason);
+            Promise.reject(reason);
         });
     });
+}
+
+/**
+ *
+ * @param date The date format from javascript
+ * @returns A date value for <input type="date">
+ */
+function parseDateToInputDate(date) {
+    let parsedDate = new Date(date);
+    let day = ("0" + parsedDate.getDate()).slice(-2)
+    let month = ("0" + (parsedDate.getMonth() + 1)).slice(-2)
+    return parsedDate.getFullYear() + "-" + (month) + "-" + (day)
 }
 
 //TODO: Change this to the users preference.

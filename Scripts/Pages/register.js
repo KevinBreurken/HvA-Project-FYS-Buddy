@@ -105,8 +105,8 @@ var statisticsTranslation = {
                 nl: "Biografie",
                 en: "Biography",
                 chars: {
-                    nl: " karakters ingevoerd",
-                    en: " characters entered"
+                    nl: " /500 karakters ingevoerd",
+                    en: " /500 characters entered"
                 }
             },
             hobbies: {
@@ -192,7 +192,9 @@ let dob
 let dobFormat
 
 let bio
-let hobby
+let hobby = []
+
+let setId;
 
 // Get the current year month and date and put it inside of maximum and minimum attributes of DoB input
 const MIN_AGE = 18
@@ -204,8 +206,8 @@ const dateDate = new Date().getDate()
 // Date for input max and min attributes
 let minimumAgeDate = dateYear - MIN_AGE + '-' + (dateMonth + 1) + '-' + dateDate
 let maximumAgeDate = dateYear - MAX_AGE + '-' + (dateMonth + 1) + '-' + dateDate
-$('#DoB').attr('max', minimumAgeDate);
-$('#DoB').attr('min', maximumAgeDate)
+$('#DoB').attr('max', parseDateToInputDate(minimumAgeDate))
+$('#DoB').attr('min', parseDateToInputDate(maximumAgeDate))
 
 // Date for validation statement
 let dateMin = new Date(dateYear - MIN_AGE, dateMonth, dateDate)
@@ -284,11 +286,18 @@ function swapStep(number) {
         }
 
         // Step 3 interest - No validation needed
-        // TODO Add database functionality
         if (currentStep === 2) {
             bio = $('#bio').val()
-            // TODO Get value from all selected boxes
-            hobby = "test"
+
+            let hobbies = $('.hobby')
+            // Loops through all the checked hobbies and add them to the array
+            let counter = 0
+            for (let i = 0; i < hobbies.length; i++) {
+                if (hobbies[i].checked) {
+                    hobby[counter] = hobbies[i].value
+                    counter++
+                }
+            }
 
             backBtn.css('display', 'inline')
             nextBtn.css('display', 'none')
@@ -343,6 +352,7 @@ $("#fileUpload").on("change", function () {
 })
 
 // Image upload function from FYS Cloud
+// TODO Fix file extension somehow
 function imageUpload(photoId) {
     FYSCloud.Utils
         .getDataUrl($("#fileUpload"))
@@ -360,20 +370,28 @@ function imageUpload(photoId) {
 
 function register() {
     FYSCloud.API.queryDatabase(
-        "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?)",
+        "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?);",
         [username, email, password]
     ).done(function (data) {
-        let photoId = data.insertId
-        imageUpload(photoId)
+        setId = data.insertId
+        imageUpload(setId)
 
         FYSCloud.API.queryDatabase(
-            "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL)",
-            [data.insertId, data.insertId, firstname, lastname, gender, dobFormat, bio, "pp-" + data.insertId + ".jpg"]
+            "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
+            [setId, setId, firstname, lastname, gender, dobFormat, bio, "pp-" + setId + ".jpg", setId, setId]
         ).done(function (data) {
-            loginUser(data.insertId)
+            for (let i = 0; i < hobby.length; i++) {
+                FYSCloud.API.queryDatabase(
+                    "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                    [setId, hobby[i]]
+                ).fail(function (reason) {
+                    console.log(reason)
+                })
+            }
         }).fail(function (reason) {
             console.log(reason)
         })
+        loginUser(setId)
     }).fail(function (reason) {
         console.log(reason)
     })
