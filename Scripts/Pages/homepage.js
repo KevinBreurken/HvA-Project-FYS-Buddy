@@ -146,7 +146,6 @@ var overlayTranslations = {
 };
 FYSCloud.Localization.CustomTranslations.addTranslationJSON(overlayTranslations);
 
-let currentOpenOverlayId;
 /** function for opening the overlay with the correct user data*/
 async function openUserOverlay (overlayUserId) {
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
@@ -178,7 +177,6 @@ async function openUserOverlay (overlayUserId) {
 
     //determine what kind of request button we want to show the user,
     // (0 = send request,1 = request sent,2 = accept request)
-    currentOpenOverlayId = overlayUserId;
     let matchingFriend = await getDataByPromise(`SELECT *
                       FROM friendrequest
                       WHERE (targetUser = ? AND requestingUser = ?) OR (targetUser = ? AND requestingUser = ?) 
@@ -202,7 +200,7 @@ async function openUserOverlay (overlayUserId) {
         }
     } else {
         requestButton.attr("data-translate","overlay.button.send");
-        requestButton.click(function (){sendRequest()});
+        requestButton.click(function (){sendRequest(overlayUserId)});
     }
 
     FYSCloud.Localization.translate(false);
@@ -224,6 +222,13 @@ function acceptRequest(userIdToAccept){
 }
 
 function sendRequest(userIdToSend){
+    let currentUsedID = getCurrentUserID();
+    getDataByPromise(`INSERT INTO friendrequest (requestingUser, targetUser)
+                      VALUES (${currentUsedID},${userIdToSend});
+                      INSERT INTO usernotification (requestingUser, targetUser)
+                      VALUES (${currentUsedID},${userIdToSend});`).then((data) => {
+        console.log(data);
+    });
     disableRequestButton();
 }
 /** function for opening the overlay */
