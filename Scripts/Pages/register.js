@@ -190,6 +190,7 @@ let lastname
 let gender
 let dob
 let dobFormat
+let image
 
 let bio
 let hobby = []
@@ -336,9 +337,10 @@ function countChars(countFrom, displayTo) {
 }
 
 // Image preview function from FYS Cloud
-let imgLoc;
 $("#fileUpload").on("change", function () {
-    FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
+    FYSCloud.Utils.getDataUrl(
+        $(this)
+    ).done(function (data) {
         //$("#filePreviewResult").html(`${data.fileName} (${data.extension}) => ${data.mimeType} (Is image: ${data.isImage})`)
 
         if (data.isImage) {
@@ -353,17 +355,23 @@ $("#fileUpload").on("change", function () {
 
 // Image upload function from FYS Cloud
 // TODO Fix file extension somehow
+let url
+let picExtension
+
 function imageUpload(photoId) {
-    FYSCloud.Utils
-        .getDataUrl($("#fileUpload"))
-        .done(function (data) {
-            FYSCloud.API.uploadFile(
-                "profile-pictures/pp-" + photoId + ".jpg",
-                data.url
-            ).fail(function (reason) {
-                console.log(reason)
-            })
-        }).fail(function (reason) {
+    FYSCloud.Utils.getDataUrl(
+        $("#fileUpload")
+    ).done(function (data) {
+        picExtension = data.extension
+        url = "pp-" + photoId + "." + picExtension
+
+        FYSCloud.API.uploadFile(
+            "profile-pictures/pp-" + photoId + "." + picExtension,
+            data.url
+        ).fail(function (reason) {
+            console.log(reason)
+        })
+    }).fail(function (reason) {
         console.log(reason)
     })
 }
@@ -378,7 +386,7 @@ function register() {
 
         FYSCloud.API.queryDatabase(
             "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
-            [setId, setId, firstname, lastname, gender, dobFormat, bio, "pp-" + setId + ".jpg", setId, setId]
+            [setId, setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
         ).done(function (data) {
             for (let i = 0; i < hobby.length; i++) {
                 FYSCloud.API.queryDatabase(
@@ -391,7 +399,7 @@ function register() {
         }).fail(function (reason) {
             console.log(reason)
         })
-        loginUser(setId)
+        //loginUser(setId)
     }).fail(function (reason) {
         console.log(reason)
     })
