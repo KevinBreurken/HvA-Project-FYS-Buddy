@@ -40,12 +40,13 @@ function sendTravelData() {
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
-    console.log(startDate);
+    startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
+    endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
     
-    if(startDate != "" && endDate != "" && citySelect != "") {
+    if(startDateFormat != "" && endDateFormat != "" && citySelect != "") {
         FYSCloud.API.queryDatabase(
-            "UPDATE `travel` SET `destination` = ? WHERE `travel`.`userId` = ?;",
-            [citySelect, getCurrentUserID()]
+            "UPDATE `travel` SET `destination` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
+            [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]
             ).done(function() {
                 alert("updated the destination in travel table succesfull");
             }).fail(function (reason) {
