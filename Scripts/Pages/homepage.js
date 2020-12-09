@@ -133,6 +133,10 @@ var overlayTranslations = {
                 nl: "Verstuur Vriendenverzoek",
                 en: "Send Friend Request"
             },
+            sent: {
+                nl: "Vriendenverzoek Verstuurd",
+                en: "Friend Request Sent"
+            },
             accept: {
                 nl: "Accepteer Vriendenverzoek",
                 en: "Accept Friend Request"
@@ -179,27 +183,49 @@ async function openUserOverlay (overlayUserId) {
                       FROM friendrequest
                       WHERE (targetUser = ? AND requestingUser = ?) OR (targetUser = ? AND requestingUser = ?) 
                       `,[getCurrentUserID(),overlayUserId,overlayUserId,getCurrentUserID()]);
-    console.log(matchingFriend[0]["requestingUser"] + getCurrentUserID());
+
 
     let requestButton = $("#send-request-button");
-    requestButton.attr("data-translate","overlay.button.send");
-    $("#send-request-button").unbind();
+    requestButton.attr("disabled",false);
+    requestButton.unbind();
+    requestButton.css('opacity', '1');
+    requestButton.hover( function() { $(this).css("background-color","var(--color-corendon-dark-red)");
+        }, function() { $(this).css("background-color","");}
+    );
 
-    if(matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())){
-        $("#send-request-button").attr("data-translate","overlay.button.accept");
-        console.log("A");
-        $("#send-request-button").click(function (){alert("Illegaal")});
-    } else if(matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())){
-        $("#send-request-button").html("Im targeted");
-        console.log("B");
+    if(matchingFriend[0] != null) {
+        if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
+            disableRequestButton();
+        } else if (matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())) { //We got a request
+            requestButton.attr("data-translate", "overlay.button.accept");
+            requestButton.click(acceptRequest());
+        }
     } else {
-
+        requestButton.attr("data-translate","overlay.button.send");
+        requestButton.click(function (){sendRequest()});
     }
+
     FYSCloud.Localization.translate(false);
     $("#profile-button").click(function (){redirectToProfileById(overlayUserId)});
     //function to redirect the user to the profilepage
 }
 
+function disableRequestButton(){
+    let requestButton = $("#send-request-button");
+    requestButton.hover();
+    requestButton.css('opacity', '0.6');
+    requestButton.attr("disabled", true);
+    requestButton.attr("data-translate", "overlay.button.sent");
+    FYSCloud.Localization.translate(false);
+}
+
+function acceptRequest(userIdToAccept){
+
+}
+
+function sendRequest(userIdToSend){
+    disableRequestButton();
+}
 /** function for opening the overlay */
 function displayUserOverlay() {
     $("#overlay").css("display", "flex");

@@ -453,7 +453,7 @@ main {
   transition: 400ms background-color;
 }
 
-.header-buttons:hover {
+#profile-button:hover {
   background-color: var(--color-corendon-dark-red);
 }
 
