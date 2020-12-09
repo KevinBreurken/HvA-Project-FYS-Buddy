@@ -1,19 +1,19 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
-    document.getElementById("default-active").click();
+    document.getElementById("all-results").click();
     //on page load fire this function that will populate a select list using data from the database
     populateCityList();
 })
 
-let locationList;
-async function getLocation(locationID){
-    if (locationList === undefined)
-        locationList = await getDataByPromise("SELECT * FROM location");
-    for (let i = 0; i < locationList.length; i++) {
-        if(locationList[i].id === locationID)
-            return locationList[i];
-    }
-}
+// let locationList;
+// async function getLocation(locationID){
+//     if (locationList === undefined)
+//         locationList = await getDataByPromise("SELECT * FROM location");
+//     for (let i = 0; i < locationList.length; i++) {
+//         if(locationList[i].id === locationID)
+//             return locationList[i];
+//     }
+// }
 //todo: create different query's;
 //1.1 All results todo: gender preference, blocked, display settings
 //1.2 Friends
@@ -22,16 +22,9 @@ async function getLocation(locationID){
 
 //todo: 2. filters; distance and buddy type
 
-//todo: 3. match only own gender (setting)
-
 //todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
 //todo: send notification to the other user
 //function(s) for setting the status of the 'send friend request' button and sets database data
-
-//todo: set favorites data in the database when clicking (swap)
-
-/** function to switch the tab content and active tab-button */
-
 
 async function populateCityList() {
     //query the database for all location data using a promise
@@ -65,9 +58,9 @@ function sendTravelData() {
     }else{
         alert("no date selected");
     }
-
 }
 
+/** function to switch the tab content and active tab-button */
 async function openTabContent (currentButton) {
     let tab = $("#tab");
 
