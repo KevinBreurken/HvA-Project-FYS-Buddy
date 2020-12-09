@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="default"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
+    <script src="Scripts/Pages/recovery.js"></script>
     <script>
         isOnAdminProfile = false;
         currentMenuType = 'home';
@@ -29,7 +29,7 @@
                 </div>
                 <div class="button-options">
                     <a href="index.html"><input type="button" name="" value="Canel" class="back-btn"></a>
-                    <button type="submit" class="back-btn" id="sendbtn">Send</button>
+                    <button type="submit" class="back-btn" id="sendbtn" onclick="emailValidation()">Send</button>
                 </div>
         </div>
     </div>

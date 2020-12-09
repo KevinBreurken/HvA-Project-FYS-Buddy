@@ -1,23 +1,23 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
-
+    //on page load fire this function that will populate a select list using data from the database
+    populateCityList();
     // todo: filter the user data
     //toggle
     //radiobuttons
     //als je op deze radiobutton klikt, dan ..
-
 })
 
-let locationList;
-async function getLocation(locationID){
-    if (locationList === undefined)
-        locationList = await getDataByPromise("SELECT * FROM location");
-    for (let i = 0; i < locationList.length; i++) {
-        if(locationList[i].id === locationID)
-            return locationList[i];
-    }
-}
+// let locationList;
+// async function getLocation(locationID){
+//     if (locationList === undefined)
+//         locationList = await getDataByPromise("SELECT * FROM location");
+//     for (let i = 0; i < locationList.length; i++) {
+//         if(locationList[i].id === locationID)
+//             return locationList[i];
+//     }
+// }
 //todo: create different query's;
 //1.1 All results todo: gender preference, blocked, display settings
 //1.2 Friends
@@ -26,13 +26,43 @@ async function getLocation(locationID){
 
 //todo: 2. filters; distance and buddy type
 
-//todo: 3. match only own gender (setting)
-
 //todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
 //todo: send notification to the other user
 //function(s) for setting the status of the 'send friend request' button and sets database data
 
-//todo: set favorites data in the database when clicking (swap)
+async function populateCityList() {
+    //query the database for all location data using a promise
+    let cityList = await getDataByPromise("SELECT * FROM location");
+
+    //for each loop that populates the cityList select options with data from the database
+    $(cityList).each(city => {
+    $("#cityList").append(`<option value=${cityList[city]["id"]}>` + cityList[city]["destination"] + `</option>`);
+    });
+}
+
+function sendTravelData() {
+    //get current selected value from select element in form
+    var citySelect = document.getElementById("cityList").value;
+    
+    var startDate = new Date($('#sDate').val());
+    var endDate = new Date($('#eDate').val());
+
+    startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
+    endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
+    
+    if(startDateFormat != "" && endDateFormat != "" && citySelect != "") {
+        FYSCloud.API.queryDatabase(
+            "UPDATE `travel` SET `destination` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
+            [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]
+            ).done(function() {
+                alert("updated the destination in travel table succesfull");
+            }).fail(function (reason) {
+                console.log(reason);
+            });
+    }else{
+        alert("no date selected");
+    }
+}
 
 /** function to switch the tab content and active tab-button */
 async function openTabContent (currentButton) {
