@@ -18,7 +18,7 @@ async function getLocation(locationID){
     }
 }
 //todo: create different query's;
-//1.1 All results: all results matching the users location, date and gender preference
+//1.1 All results todo: gender preference 
 //1.2 Friends
 //1.3 Friend requests (ingoing)
 //1.4 Favorites
@@ -40,22 +40,18 @@ async function openTabContent (currentButton) {
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
-    //reset the filters
-    resetFilters();
 
-    //todo: default filters:
-        //start and end date - done
-        //location, distance
-        //!admin - done
+    //resets the filters
+    resetFilters();
 
     //gets the current user's data
     const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate,l.* FROM fys_is111_1_dev.user u
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
     INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
     WHERE u.id = ?`, getCurrentUserID());
+
     //gets the data of the relevant users for the current user
-    //calculating distance snippet from stackoverflow answer.
-    //https://stackoverflow.com/a/48263512
+    //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
     let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.*, r.*,l.*,s.userId,s.radialDistance FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
@@ -66,17 +62,11 @@ async function openTabContent (currentButton) {
     AND t.startdate < ?
     AND t.enddate > ?
     AND p.userId != ?
-    AND (6371 * acos( 
-                cos( radians(l.latitude) ) 
-              * cos( radians( ${CURRENT_USER[0]["latitude"]} ) ) 
-              * cos( radians( ${CURRENT_USER[0]["longitude"]} ) - radians(l.longitude) ) 
-              + sin( radians(l.latitude) ) 
-              * sin( radians( ${CURRENT_USER[0]["latitude"]} ) )
-                ) ) < s.radialDistance
-    `
-        , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID()]);
+    AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < s.radialDistance`
+        , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
+
     $(tab).html("");
-    // $(userList).each(user => $(tab).append(generateUserDisplay(user)));
+    //appends a user-display with the correct data to the tab for every user that needs to be displayed
     for (let i = 0; i < userList.length; i++) {
         $(tab).append(generateUserDisplay(userList[i]));
     }
