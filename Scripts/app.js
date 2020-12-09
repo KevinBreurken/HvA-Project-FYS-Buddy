@@ -159,6 +159,18 @@ function getDataByPromise(query, queryArray) {
     });
 }
 
+/**
+ *
+ * @param date The date format from javascript
+ * @returns A date value for <input type="date">
+ */
+function parseDateToInputDate(date) {
+    let parsedDate = new Date(date);
+    let day = ("0" + parsedDate.getDate()).slice(-2)
+    let month = ("0" + (parsedDate.getMonth() + 1)).slice(-2)
+    return parsedDate.getFullYear() + "-" + (month) + "-" + (day)
+}
+
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = "nl";

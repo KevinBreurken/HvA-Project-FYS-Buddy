@@ -25,7 +25,7 @@
     transform: translate(-50%, -50%);
     background: #fff;
     opacity: 1;
-    z-index: 2;
+    z-index: 20;
     display: none;
     height: auto;
     width: 600px;
@@ -51,7 +51,7 @@
     transition: 500ms;
 }
 
-#admin #edit-user .btn{
+#admin #edit-user .right {
     float: right;
 }
 
