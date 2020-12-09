@@ -53,11 +53,45 @@ function profile() {
     })
 }
 
+// FYSCloud.API.queryDatabase(
+//     "UPDATE `` SET `` WHERE `` `userId` = ?;",
+//     [currentUser]
+// ).done(function() {
+//     console.log(data);
+// }).fail(function (reason) {
+//     console.log(reason);
+// });
+
+let userId = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "UPDATE `` SET `` WHERE `` `userId` = ?;",
-    [currentUser]
-).done(function() {
+    "SELECT * FROM user where id = ?", [userId]
+).done(function (data) {
     console.log(data);
-}).fail(function (reason) {
-    console.log(reason);
+    let userData = data[0];
+     $("#Email").val(userData.email);
+     $("#Username").val(userData.username);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM profile where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    let gendertest = userData.gender;
+    if(gendertest === "male") {
+        document.getElementById("Male").checked = true;
+    } else if (gendertest === "female") {
+        document.getElementById("Female").checked = true;
+    } else {
+        document.getElementById("Other").checked = true;
+    }
+    $("#FirstName").val(userData.firstname);
+    $("#LastName").val(userData.lastname);
+    $("#DateOfBirth").val(userData.dob);
+    $("#Biography").val(userData.biography);
+    $("#Telephone").val(userData.phone);
+}).fail(function () {
+    alert("paniek");
 });
