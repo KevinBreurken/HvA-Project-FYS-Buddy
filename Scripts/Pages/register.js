@@ -367,14 +367,18 @@ function imageUpload(photoId) {
 
         FYSCloud.API.uploadFile(
             "profile-pictures/pp-" + photoId + "." + picExtension,
-            data.url
+            data.url,
+            bFalse = true
         ).fail(function (reason) {
             console.log(reason)
         })
+
     }).fail(function (reason) {
         console.log(reason)
     })
 }
+
+let bFalse = false
 
 function register() {
     FYSCloud.API.queryDatabase(
@@ -382,7 +386,14 @@ function register() {
         [username, email, password]
     ).done(function (data) {
         setId = data.insertId
-        imageUpload(setId)
+
+        if (!bFalse) {
+            imageUpload(setId) // 1
+            if (bFalse) {
+                console.log("2 " + setId)
+                console.log("3 " + url)
+            }
+        }
 
         FYSCloud.API.queryDatabase(
             "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
