@@ -126,9 +126,25 @@ function generateUserDisplay(currentUser) {
     return userDisplay;
 }
 
+var overlayTranslations = {
+    overlay: {
+        button: {
+            send: {
+                nl: "Verstuur Vriendenverzoek",
+                en: "Send Friend Request"
+            },
+            accept: {
+                nl: "Accepteer Vriendenverzoek",
+                en: "Accept Friend Request"
+            },
+        }
+    }
+};
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(overlayTranslations);
+
+let currentOpenOverlayId;
 /** function for opening the overlay with the correct user data*/
 async function openUserOverlay (overlayUserId) {
-
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     WHERE u.id = ?`, overlayUserId);
@@ -156,8 +172,32 @@ async function openUserOverlay (overlayUserId) {
     //displays the overlay and overlay-background
     displayUserOverlay()
 
-    //function to redirect the user to the profilepage
+    //determine what kind of request button we want to show the user,
+    // (0 = send request,1 = request sent,2 = accept request)
+    currentOpenOverlayId = overlayUserId;
+    let matchingFriend = await getDataByPromise(`SELECT *
+                      FROM friendrequest
+                      WHERE (targetUser = ? AND requestingUser = ?) OR (targetUser = ? AND requestingUser = ?) 
+                      `,[getCurrentUserID(),overlayUserId,overlayUserId,getCurrentUserID()]);
+    console.log(matchingFriend[0]["requestingUser"] + getCurrentUserID());
+
+    let requestButton = $("#send-request-button");
+    requestButton.attr("data-translate","overlay.button.send");
+    $("#send-request-button").unbind();
+
+    if(matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())){
+        $("#send-request-button").attr("data-translate","overlay.button.accept");
+        console.log("A");
+        $("#send-request-button").click(function (){alert("Illegaal")});
+    } else if(matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())){
+        $("#send-request-button").html("Im targeted");
+        console.log("B");
+    } else {
+
+    }
+    FYSCloud.Localization.translate(false);
     $("#profile-button").click(function (){redirectToProfileById(overlayUserId)});
+    //function to redirect the user to the profilepage
 }
 
 /** function for opening the overlay */
