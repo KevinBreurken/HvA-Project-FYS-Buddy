@@ -73,9 +73,8 @@ let userId = getCurrentUserID();
         alert("paniek");
     });
 
-let userId3 = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM user where id = ?", [userId3]
+    "SELECT * FROM user where id = ?", [userId]
 ).done(function (data) {
     console.log(data);
     generateUserinfo(data);
@@ -83,9 +82,8 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
-let userId2 = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM travel where id = ?", [userId2]
+    "SELECT * FROM travel where id = ?", [userId]
 ).done(function (data) {
     console.log(data);
     generateTravelInfo(data);
@@ -93,9 +91,8 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
-let userId4 = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM buddy where id = ?", [userId4]
+    "SELECT * FROM buddy where id = ?", [userId]
 ).done(function (data) {
     console.log(data);
     generateBuddy(data);
@@ -103,9 +100,8 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
-let userId5 = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "SELECT `destination` FROM location where id = ?", [userId5]
+    "SELECT `destination` FROM location where id = ?", [userId]
 ).done(function (data) {
     console.log(data);
     generateDestination(data);
