@@ -40,6 +40,8 @@ function sendTravelData() {
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
+    console.log(startDate);
+    
     if(startDate != "" && endDate != "" && citySelect != "") {
         FYSCloud.API.queryDatabase(
             "UPDATE `travel` SET `destination` = ? WHERE `travel`.`userId` = ?;",
