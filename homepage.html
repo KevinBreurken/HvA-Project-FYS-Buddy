@@ -5,6 +5,7 @@
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="user"></script>
+    <script src="Vendors/Snippets/distance-snippets.js"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
     <script>
@@ -18,9 +19,6 @@
 <body>
 <header></header>
 <main>
-    <!--todo: key frames/transitions-->
-    <!--todo: make page fully responsive-->
-
     <button onclick="openOverlay()">Klik mij</button>
     <div id="on-boarding"></div>
 
@@ -57,7 +55,7 @@
         <!--tab title buttons-->
         <div id="button-menu-container">
             <div id="tab-buttons-border">
-                <button class="tab-button" onclick="openTabContent(this)" id="default-active">All results</button>
+                <button class="tab-button" onclick="openTabContent(this)" id="all-results">All results</button>
                 <button class="tab-button" onclick="openTabContent(this)">Friends</button>
                 <button class="tab-button" onclick="openTabContent(this)">Friend requests</button>
                 <button class="tab-button" onclick="openTabContent(this)">Favorites</button>
@@ -88,12 +86,11 @@
         <div id="tab"></div>
 
     </div>
-
+    <!--todo: fix overlay css-->
         <!--overlay-->
         <div id="overlay">
             <div class="overlay-content">
-                <div class="overlay-row" id="overlay-row-1">
-                </div>
+                <div class="overlay-row" id="overlay-row-1"></div>
                 <div class="overlay-row" id="overlay-row-2">
                     <div>
                         <h2 id="overlay-full-name"></h2>

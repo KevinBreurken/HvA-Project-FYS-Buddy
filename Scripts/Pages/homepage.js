@@ -1,6 +1,11 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
-    document.getElementById("default-active").click();
+    $("#all-results").click();
+
+    // todo: filter the user data
+    //toggle
+    //radiobuttons
+    //als je op deze radiobutton klikt, dan ..
 })
 
 let locationList;
@@ -13,13 +18,14 @@ async function getLocation(locationID){
     }
 }
 //todo: create different query's;
-//1.1 All results: all results matching the users location, date and gender preference
+//1.1 All results todo: gender preference, blocked, display settings
 //1.2 Friends
 //1.3 Friend requests (ingoing)
 //1.4 Favorites
 
-//2.1 match only gender
-//2.2 filters
+//todo: 2. filters; distance and buddy type
+
+//todo: 3. match only own gender (setting)
 
 //todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
 //todo: send notification to the other user
@@ -29,50 +35,76 @@ async function getLocation(locationID){
 
 /** function to switch the tab content and active tab-button */
 async function openTabContent (currentButton) {
+    let tab = $("#tab");
+
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
-    //reset the filters
+
+    //resets the filters
     resetFilters();
 
-    let userList = await getDataByPromise("SELECT * FROM user");
-    $("#tab").html("");
-    userList.forEach(user => $("#tab").append(generateUserDisplay(user)))
+    //gets the current user's data
+    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate,l.* FROM fys_is111_1_dev.user u
+    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
+    WHERE u.id = ?`, getCurrentUserID());
+
+    //gets the data of the relevant users for the current user
+    //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
+    let userList = await getDataByPromise(`SELECT 
+       p.userId, p.pictureUrl, 
+       u.username,
+       r.roleId, 
+       s.radialDistance,
+       t.startdate, t.enddate,
+       l.*
+    FROM fys_is111_1_dev.profile p
+    INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
+    INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
+    LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
+    INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
+    INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
+    WHERE r.roleId = 1
+    AND t.startdate < ?
+    AND t.enddate > ?
+    AND p.userId != ?
+    AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`
+        , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
+
+    $(tab).html("");
+    //appends a user-display with the correct data to the tab for every user that needs to be displayed
+    for (let i = 0; i < userList.length; i++) {
+        $(tab).append(generateUserDisplay(userList[i]));
+    }
 }
 
 /** function for generating a user display */
-function generateUserDisplay(currentUser)
-{
-    let userId = currentUser.userId;
+function generateUserDisplay(currentUser) {
+
+    let userId = currentUser["userId"];
 
     let userDisplay = document.createElement("div");
     userDisplay.className = "user-display";
     userDisplay.setAttribute("id", "user-display-" + userId);
 
-    let username = currentUser.username === "" ? "username" : currentUser.username;
-    let url = currentUser.url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : currentUser.url;
-    let location = currentUser.location === "" ? "location" : currentUser.location;
+    let username = currentUser["username"] === "" ? "username" : currentUser["username"];
+    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
+    let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
 
     //start and end date
-    let date = new Date(currentUser.startDate);
-    const startDate = currentUser.startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    date = new Date(currentUser.endDate);
-    const endDate = currentUser.endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    //todo: fix the displaying of dates
+    let date = new Date(currentUser["startdate"]);
+    const startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let date2 = new Date(currentUser["enddate"]);
+    const endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-    let buddy;
-    if (currentUser.travelBuddy === 1 && currentUser.activityBuddy === 1) {
-        buddy = "a buddy";
-    } else if (currentUser.travelBuddy === 1 && !(currentUser.activityBuddy === 1)) {
-        buddy = "a travel buddy";
-    } else if (!(currentUser.travelBuddy === 1) && currentUser.activityBuddy === 1) {
-        buddy = "an activity buddy";
-    } else {
-        buddy = " a buddy";
-    }
+    let buddy = currentUser["buddyType"] === "" ? "type of buddy" : currentUser["buddyType"];
 
+    //todo: add buddyId or buddyClass
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img class="profile-picture" src="${url}">
+            <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div>
             <p>${location}</p>
             <p>from ${startDate}</p>
@@ -96,25 +128,30 @@ function generateUserDisplay(currentUser)
 
 /** function for opening the overlay with the correct user data*/
 async function openUserOverlay (overlayUserId) {
-    let userdata = await getDataByPromise("SELECT * FROM user WHERE userId = ?", [overlayUserId]);
-    let userInterests = await getDataByPromise("SELECT * FROM interests WHERE userId = ?", [overlayUserId]);
 
-    console.log(userdata[0].url)
+    let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
+    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
+    WHERE u.id = ?`, overlayUserId);
 
-    //setting the data for in the overlay
-    const userUrl = userdata[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userdata[0].url;
-    const firstName = userdata[0].firstName === "" ? "FirstName" : userdata[0].firstName;
-    const lastName = userdata[0].lastName === "" ? "LastName" : userdata[0].lastName;
-    const username = userdata[0].username === "" ? "username" : userdata[0].username;
-    const bio = userdata[0].bio === "" ? "..." : userdata[0].bio;
+    console.log(overlayUserData)
 
-    //putting the data in the overlay
-    $("#overlay-row-1").html(`<img src="${userUrl}">`);
-    $("#overlay-full-name").html(firstName + " " + lastName);
-    $("#overlay-username").html("a.k.a. " + username);
+    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
+
+    //setting the data from the user and profile tables for in the overlay
+    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + overlayUserData[0]["pictureUrl"]
+    let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
+
+    //putting the data from the user and profile tables in the overlay
+    $("#overlay-row-1").html(`<img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
+    $("#overlay-full-name").html(`${fullName}`);
+    $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
+    $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
+
+    //putting the interests into the overlay
     $("#overlay-interests-ul").html("");
-    userInterests.forEach(interest => $("#overlay-interests-ul").append("<li>"+ interest.interest +"</li>"));
-    $("#overlay-bio").html(bio);
+    $(overlayUserInterestsIds).each(interest => {
+        $("#overlay-interests-ul").append(`<li>` + overlayUserInterestsIds[interest]["interestId"] + `</li>`);
+    });
 
     //displays the overlay and overlay-background
     displayUserOverlay()
