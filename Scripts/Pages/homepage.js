@@ -49,21 +49,32 @@ async function openTabContent (currentButton) {
         //!admin - done
 
     //gets the current user's data
-    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate FROM fys_is111_1_dev.user u
+    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate,l.* FROM fys_is111_1_dev.user u
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
     WHERE u.id = ?`, getCurrentUserID());
-
     //gets the data of the relevant users for the current user
-    let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.*, r.* FROM fys_is111_1_dev.profile p
+    //calculating distance snippet from stackoverflow answer.
+    //https://stackoverflow.com/a/48263512
+    let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.*, r.*,l.*,s.userId,s.radialDistance FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id 
     INNER JOIN fys_is111_1_dev.userrole r ON t.userId = r.userId
+    INNER JOIN fys_is111_1_dev.setting s ON u.id = s.userId
     WHERE r.roleId = 1
     AND t.startdate < ?
     AND t.enddate > ?
-    AND p.userId != ?`
+    AND p.userId != ?
+    AND (6371 * acos( 
+                cos( radians(l.latitude) ) 
+              * cos( radians( ${CURRENT_USER[0]["latitude"]} ) ) 
+              * cos( radians( ${CURRENT_USER[0]["longitude"]} ) - radians(l.longitude) ) 
+              + sin( radians(l.latitude) ) 
+              * sin( radians( ${CURRENT_USER[0]["latitude"]} ) )
+                ) ) < s.radialDistance
+    `
         , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID()]);
-
     $(tab).html("");
     // $(userList).each(user => $(tab).append(generateUserDisplay(user)));
     for (let i = 0; i < userList.length; i++) {
