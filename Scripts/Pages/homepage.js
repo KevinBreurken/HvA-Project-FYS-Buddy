@@ -9,14 +9,16 @@ window.addEventListener('load', function () {
 })
 
 let locationList;
-async function getLocation(locationID){
+
+async function getLocation(locationID) {
     if (locationList === undefined)
         locationList = await getDataByPromise("SELECT * FROM location");
     for (let i = 0; i < locationList.length; i++) {
-        if(locationList[i].id === locationID)
+        if (locationList[i].id === locationID)
             return locationList[i];
     }
 }
+
 //todo: create different query's;
 //1.1 All results todo: gender preference, blocked, display settings
 //1.2 Friends
@@ -34,7 +36,7 @@ async function getLocation(locationID){
 //todo: set favorites data in the database when clicking (swap)
 
 /** function to switch the tab content and active tab-button */
-async function openTabContent (currentButton) {
+async function openTabContent(currentButton) {
     let tab = $("#tab");
 
     //swaps the button colors
@@ -45,31 +47,36 @@ async function openTabContent (currentButton) {
     resetFilters();
 
     //gets the current user's data
-    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate,l.* FROM fys_is111_1_dev.user u
-    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
-    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
-    WHERE u.id = ?`, getCurrentUserID());
+    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate, l.*
+                                                 FROM fys_is111_1_dev.user u
+                                                          INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+                                                          INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
+                                                 WHERE u.id = ?`, getCurrentUserID());
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
-    let userList = await getDataByPromise(`SELECT 
-       p.userId, p.pictureUrl, 
-       u.username,
-       r.roleId, 
-       s.radialDistance,
-       t.startdate, t.enddate,
-       l.*
-    FROM fys_is111_1_dev.profile p
-    INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
-    INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
-    LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
-    INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
-    INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
-    WHERE r.roleId = 1
-    AND t.startdate < ?
-    AND t.enddate > ?
-    AND p.userId != ?
-    AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`
+    let userList = await getDataByPromise(`SELECT p.userId,
+                                                  p.pictureUrl,
+                                                  u.username,
+                                                  r.roleId,
+                                                  s.radialDistance,
+                                                  t.startdate,
+                                                  t.enddate,
+                                                  l.*
+                                           FROM fys_is111_1_dev.profile p
+                                                    INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
+                                                    INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
+                                                    LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
+                                                    INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
+                                                    INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
+                                           WHERE r.roleId = 1
+                                             AND t.startdate < ?
+                                             AND t.enddate > ?
+                                             AND p.userId != ?
+                                             AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) *
+                                                              cos(radians(?) - radians(l.longitude)) +
+                                                              sin(radians(l.latitude)) * sin(radians(?)))) <
+                                                 IFNULL(s.radialDistance, 999999)`
         , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
 
     $(tab).html("");
@@ -147,10 +154,11 @@ var overlayTranslations = {
 FYSCloud.Localization.CustomTranslations.addTranslationJSON(overlayTranslations);
 
 /** function for opening the overlay with the correct user data*/
-async function openUserOverlay (overlayUserId) {
-    let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
-    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
-    WHERE u.id = ?`, overlayUserId);
+async function openUserOverlay(overlayUserId) {
+    let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id
+                                                  FROM fys_is111_1_dev.profile p
+                                                           INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
+                                                  WHERE u.id = ?`, overlayUserId);
 
     console.log(overlayUserData)
 
@@ -178,37 +186,45 @@ async function openUserOverlay (overlayUserId) {
     //determine what kind of request button we want to show the user,
     // (0 = send request,1 = request sent,2 = accept request)
     let matchingFriend = await getDataByPromise(`SELECT *
-                      FROM friendrequest
-                      WHERE (targetUser = ? AND requestingUser = ?) OR (targetUser = ? AND requestingUser = ?) 
-                      `,[getCurrentUserID(),overlayUserId,overlayUserId,getCurrentUserID()]);
+                                                 FROM friendrequest
+                                                 WHERE (targetUser = ? AND requestingUser = ?)
+                                                    OR (targetUser = ? AND requestingUser = ?)
+    `, [getCurrentUserID(), overlayUserId, overlayUserId, getCurrentUserID()]);
 
 
     let requestButton = $("#send-request-button");
-    requestButton.attr("disabled",false);
+    requestButton.attr("disabled", false);
     requestButton.unbind();
     requestButton.css('opacity', '1');
-    requestButton.hover( function() { $(this).css("background-color","var(--color-corendon-dark-red)");
-        }, function() { $(this).css("background-color","");}
+    requestButton.hover(function () {
+            $(this).css("background-color", "var(--color-corendon-dark-red)");
+        }, function () {
+            $(this).css("background-color", "");
+        }
     );
-
-    if(matchingFriend[0] != null) {
+    console.log(overlayUserId);
+    if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
         } else if (matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())) { //We got a request
             requestButton.attr("data-translate", "overlay.button.accept");
-            requestButton.click(acceptRequest());
+            requestButton.click(function (){acceptRequest(overlayUserId)});
         }
     } else {
-        requestButton.attr("data-translate","overlay.button.send");
-        requestButton.click(function (){sendRequest(overlayUserId)});
+        requestButton.attr("data-translate", "overlay.button.send");
+        requestButton.click(function () {
+            sendRequest(getCurrentUserID(),overlayUserId)
+        });
     }
 
     FYSCloud.Localization.translate(false);
-    $("#profile-button").click(function (){redirectToProfileById(overlayUserId)});
+    $("#profile-button").click(function () {
+        redirectToProfileById(overlayUserId)
+    });
     //function to redirect the user to the profilepage
 }
 
-function disableRequestButton(){
+function disableRequestButton() {
     let requestButton = $("#send-request-button");
     requestButton.hover();
     requestButton.css('opacity', '0.6');
@@ -217,20 +233,29 @@ function disableRequestButton(){
     FYSCloud.Localization.translate(false);
 }
 
-function acceptRequest(userIdToAccept){
-
+function acceptRequest(sentUser,userIdToAccept) {
+    getDataByPromise(`DELETE FROM friendrequest
+                      WHERE (targetUser = ${sentUser} AND requestingUser = ${userIdToAccept})
+                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${sentUser});
+                      DELETE FROM usernotification
+                      WHERE (targetUser = ${sentUser} AND requestingUser = ${userIdToAccept})
+                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${sentUser});
+                      INSERT INTO friend (user1, user2)
+                      VALUES (${sentUser},${userIdToAccept});
+    `);
+    closeElement();
 }
 
-function sendRequest(userIdToSend){
-    let currentUsedID = getCurrentUserID();
+function sendRequest(sentUser,userIdToSend) {
     getDataByPromise(`INSERT INTO friendrequest (requestingUser, targetUser)
-                      VALUES (${currentUsedID},${userIdToSend});
+                      VALUES (${sentUser},${userIdToSend});
                       INSERT INTO usernotification (requestingUser, targetUser)
-                      VALUES (${currentUsedID},${userIdToSend});`).then((data) => {
+                      VALUES (${sentUser},${userIdToSend});`).then((data) => {
         console.log(data);
     });
     disableRequestButton();
 }
+
 /** function for opening the overlay */
 function displayUserOverlay() {
     $("#overlay").css("display", "flex");
@@ -238,22 +263,23 @@ function displayUserOverlay() {
 }
 
 /** function to close the active user-display or overlay */
-function closeElement (currentDisplay) {
+function closeElement(currentDisplay) {
     $("#" + currentDisplay).css("display", "none");
     $("#overlay-background").css("display", "none");
 }
 
 /** function that swaps the favorites icon */
-function setFavorite (currentIconId, newIconId) {
+function setFavorite(currentIconId, newIconId) {
     $("#" + currentIconId).css("display", "none");
     $("#" + newIconId).css("display", "");
 }
 
 /** Filters */
 var currentDistanceFilterAmount;
+
 function setTravelFilter(element) {
     let distanceAmount = $(element).data("distance");
-    if(currentDistanceFilterAmount === distanceAmount)
+    if (currentDistanceFilterAmount === distanceAmount)
         return;
     $(".filter-option-distance").removeAttr("current");
     $(element).attr("current", "");
@@ -263,9 +289,10 @@ function setTravelFilter(element) {
 }
 
 var currentBuddyFilterID;
+
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
-    if(currentBuddyFilterID === buddyIndex)
+    if (currentBuddyFilterID === buddyIndex)
         return;
     $(".filter-option-buddy").removeAttr("current");
     $(element).attr("current", "");
@@ -274,16 +301,16 @@ function setBuddyFilter(element) {
     //todo: apply filter.
 }
 
-function resetFilters(){
+function resetFilters() {
     //remove all current attributes from options
     $(".filter-option-buddy").removeAttr("current");
     $(".filter-option-distance").removeAttr("current");
     //set the default buddy option.
     let buddyDefault = $("#filter-option-buddy-default");
     currentBuddyFilterID = buddyDefault.data("buddy");
-    buddyDefault.attr("current","");
+    buddyDefault.attr("current", "");
     //set the defualt distance option.
     let distanceDefault = $("#filter-option-distance-default");
     currentDistanceFilterAmount = buddyDefault.data("distance");
-    distanceDefault.attr("current","");
+    distanceDefault.attr("current", "");
 }
