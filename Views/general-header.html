@@ -7,14 +7,19 @@
     <nav class="main-menu">
         <!--todo: dynamische header achtergrond en main-menu. (js)-->
         <ul class="main-menu-items">
-            <li class="nav-button"><a class="main-menu-buttons" href="homepage.html" type="home" data-translate="header.navigation.home">
+            <li class="nav-button">
+                <a class="main-menu-buttons" href="homepage.html" type="home">
                 <img class="main-menu-home-icon"
                      src="Content/Images/home-icon.png">
-                Home</a></li>
+                <a id="home-nav-element" data-translate="header.navigation.home">Home</a>
+            </a>
+            </li>
             <li class="nav-button"><a class="main-menu-buttons" type="profile" data-translate="header.navigation.profile" id="profile-link">Profile</a></li>
             <li class="nav-button"><a class="main-menu-buttons" href="settings.html" type="settings" data-translate="header.navigation.settings">Settings</a></li>
             <li class="nav-button"><a class="main-menu-buttons" href="support.html" type="help" data-translate="header.navigation.help">Help</a></li>
-            <li id ="notification-display">
+        </ul>
+        <li id="other">
+            <div id ="notification-display">
                 <div class="notification-display-dropdown">
                     <button class="notification-display-button">
                         <img class="notification-display-icon" src="Content/Images/notification-yellow.svg">
@@ -25,33 +30,29 @@
                         </div>
                     </button>
                     <div class="notification-display-dropdown-content">
-                        <ul id="notification-display-list">
-
-                        </ul>
+                        <ul id="notification-display-list"></ul>
                     </div>
                 </div>
-            </li>
-            <li>
-                <div class="profile-display-dropdown">
-                    <button class="profile-display-button">
-                        <img class="profile-display-icon-profile" src="Content/Images/user-icon.svg">
-                        <div class="profile-display-text" data-translate="header.userDisplay.welcomeText"></div>
-                        <div class="profile-display-text" id="profile-display-name"></div>
-                        <img class="profile-display-icon-arrow" src="Content/Images/down-arrow.svg">
-                    </button>
-                    <div class="profile-display-dropdown-content">
-                        <ul>
-                            <li class="profile-display-dropdown-item">
-                                <a onclick="closeSession()" class="profile-display-dropdown-item">
-                                    <img class="profile-display-icon-profile"
-                                         src="Content/Images/icon-sign-out.svg">
-                                    <div id="profile-display-logout-text" data-translate="header.userDisplay.signOut">Sign Out</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+            </div>
+            <div class="profile-display-dropdown">
+                <button class="profile-display-button">
+                    <img class="profile-display-icon-profile" src="Content/Images/user-icon.svg">
+                    <div class="profile-display-text" data-translate="header.userDisplay.welcomeText"></div>
+                    <div class="profile-display-text" id="profile-display-name"></div>
+                    <img class="profile-display-icon-arrow" src="Content/Images/down-arrow.svg">
+                </button>
+                <div class="profile-display-dropdown-content">
+                    <ul id="test">
+                        <li class="profile-display-dropdown-item">
+                            <a onclick="closeSession()" class="profile-display-dropdown-item">
+                                <img class="profile-display-icon-profile"
+                                     src="Content/Images/icon-sign-out.svg">
+                                <div id="profile-display-logout-text" data-translate="header.userDisplay.signOut">Sign Out</div>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-            </li>
-        </ul>
+            </div>
+        </li>
     </nav>
 </div>

@@ -1,8 +1,12 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
-    document.getElementById("all-results").click();
+    $("#all-results").click();
     //on page load fire this function that will populate a select list using data from the database
     populateCityList();
+    // todo: filter the user data
+    //toggle
+    //radiobuttons
+    //als je op deze radiobutton klikt, dan ..
 })
 
 // let locationList;
@@ -72,10 +76,16 @@ async function openTabContent (currentButton) {
     resetFilters();
 
     //gets the current user's data
-    const CURRENT_USER = await getDataByPromise(`SELECT u.id, t.userId, t.destination, t.startdate, t.enddate,l.* FROM fys_is111_1_dev.user u
+    const CURRENT_USER = await getDataByPromise(`SELECT 
+       u.id, 
+       t.userId, t.destination, t.startdate, t.enddate,
+       l.*
+    FROM fys_is111_1_dev.user u
     INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
     INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
     WHERE u.id = ?`, getCurrentUserID());
+
+    // console.log(CURRENT_USER)
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
@@ -85,24 +95,29 @@ async function openTabContent (currentButton) {
        r.roleId, 
        s.radialDistance,
        t.startdate, t.enddate,
-       l.*
+       l.*,
+       f.favouriteUser
     FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
     INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
     LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
     INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
     INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
+    LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ? AND f.favouriteUser = p.userId
     WHERE r.roleId = 1
     AND t.startdate < ?
     AND t.enddate > ?
     AND p.userId != ?
     AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`
-        , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
+        , [getCurrentUserID(), CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
+
+    console.log(userList)
 
     $(tab).html("");
     //appends a user-display with the correct data to the tab for every user that needs to be displayed
     for (let i = 0; i < userList.length; i++) {
         $(tab).append(generateUserDisplay(userList[i]));
+
     }
 }
 
@@ -118,7 +133,9 @@ function generateUserDisplay(currentUser) {
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
     let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
     let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
-
+    let buddy = currentUser["buddyType"] === "" ? "type of buddy" : currentUser["buddyType"];
+    let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
+    
     //start and end date
     //todo: fix the displaying of dates
     let date = new Date(currentUser["startdate"]);
@@ -126,7 +143,6 @@ function generateUserDisplay(currentUser) {
     let date2 = new Date(currentUser["enddate"]);
     const endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
-    let buddy = currentUser["buddyType"] === "" ? "type of buddy" : currentUser["buddyType"];
 
     //todo: add buddyId or buddyClass
     userDisplay.innerHTML =
@@ -141,11 +157,8 @@ function generateUserDisplay(currentUser) {
             <div class="tab-content-column-4">
             <button id="button1-${userId}" onclick="openUserOverlay('${userId}')">more info</button>
             <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
-            <div id="favorite-v1-${userId}" onclick="setFavorite('favorite-v1-${userId}','favorite-v2-${userId}')">
-            <img class="favorite-icon" src="Content/Images/favorite-v1.png">
-            </div>
-            <div id="favorite-v2-${userId}" style="display: none" onclick="setFavorite('favorite-v2-${userId}','favorite-v1-${userId}')">
-            <img class="favorite-icon" src="Content/Images/favorite-v2.png">
+            <div id="favorite-v1-${userId}" onclick="setFavourite('${userId}', 'favorite-v1-${userId}',)">
+            <img src="Content/Images/favorite-v${favouriteVersion}.png" class="favorite-icon">
             </div>
             </div>
             </div>`;
@@ -160,7 +173,6 @@ async function openUserOverlay (overlayUserId) {
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     WHERE u.id = ?`, overlayUserId);
 
-    console.log(overlayUserData)
 
     let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
@@ -173,7 +185,6 @@ async function openUserOverlay (overlayUserId) {
     $("#overlay-full-name").html(`${fullName}`);
     $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
     $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
-
     //putting the interests into the overlay
     $("#overlay-interests-ul").html("");
     $(overlayUserInterestsIds).each(interest => {
@@ -182,8 +193,7 @@ async function openUserOverlay (overlayUserId) {
 
     //displays the overlay and overlay-background
     displayUserOverlay()
-
-    //function to redirect the user to the profilepage
+    //function to redirect the user to the correct profilepage
     $("#profile-button").click(function (){redirectToProfileById(overlayUserId)});
 }
 
@@ -199,10 +209,31 @@ function closeElement (currentDisplay) {
     $("#overlay-background").css("display", "none");
 }
 
-/** function that swaps the favorites icon */
-function setFavorite (currentIconId, newIconId) {
-    $("#" + currentIconId).css("display", "none");
-    $("#" + newIconId).css("display", "");
+/** favourites function */
+async function setFavourite (userId) {
+
+    let favorite = await getDataByPromise(`SELECT * FROM favourite
+    WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]);
+
+    if (favorite["length"] === 0) {
+        FYSCloud.API.queryDatabase(
+            `INSERT INTO favourite (requestingUser, favouriteUser) VALUES (?, ?)`, [getCurrentUserID(), userId]
+        ).done(function () {
+            $(`#favorite-v1-${userId}`).html(`<img src="Content/Images/favorite-v2.png" class="favorite-icon">`)
+            console.log("added")
+        }).fail(function (reason) {
+            console.log(reason)
+        });
+    } else if (favorite["length"] === 1) {
+        FYSCloud.API.queryDatabase(
+            `DELETE FROM favourite WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]
+        ).done(function () {
+            $(`#favorite-v1-${userId}`).html(`<img src="Content/Images/favorite-v1.png" class="favorite-icon">`)
+            console.log("deleted")
+        }).fail(function (reason) {
+            console.log(reason)
+        })
+    }
 }
 
 /** Filters */
