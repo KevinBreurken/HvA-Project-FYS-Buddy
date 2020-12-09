@@ -52,19 +52,25 @@ async function openTabContent (currentButton) {
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
-    let userList = await getDataByPromise(`SELECT p.*, u.username, u.id, t.*, r.*,l.*,s.userId,s.radialDistance FROM fys_is111_1_dev.profile p
-    INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
-    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
-    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
-    INNER JOIN fys_is111_1_dev.userrole r ON t.userId = r.userId
-    LEFT JOIN fys_is111_1_dev.setting s ON u.id = s.userId
+    let userList = await getDataByPromise(`SELECT 
+       p.userId, p.pictureUrl, 
+       u.username,
+       r.roleId, 
+       s.radialDistance,
+       t.startdate, t.enddate,
+       l.*
+    FROM fys_is111_1_dev.profile p
+    INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
+    INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
+    LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
+    INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
+    INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
     WHERE r.roleId = 1
     AND t.startdate < ?
     AND t.enddate > ?
     AND p.userId != ?
     AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`
         , [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
-
 
     $(tab).html("");
     //appends a user-display with the correct data to the tab for every user that needs to be displayed
@@ -126,6 +132,8 @@ async function openUserOverlay (overlayUserId) {
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id FROM fys_is111_1_dev.profile p
     INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
     WHERE u.id = ?`, overlayUserId);
+
+    console.log(overlayUserData)
 
     let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
