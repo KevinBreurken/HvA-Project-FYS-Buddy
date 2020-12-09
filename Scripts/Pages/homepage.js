@@ -1,7 +1,10 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     document.getElementById("default-active").click();
+    populateCityList();
 })
+
+
 
 //todo: create different query's;
 //1.1 All results: all results matching the users location, date and gender preference
@@ -19,6 +22,15 @@ window.addEventListener('load', function () {
 //todo: set favorites data in the database when clicking (swap)
 
 /** function to switch the tab content and active tab-button */
+
+
+async function populateCityList() {
+let cityList = await getDataByPromise("SELECT * FROM location");
+$(cityList).each(city => {
+    $("#cityList").append(`<option>` + cityList[city]["destination"] + `</option>`);
+});
+}
+
 async function openTabContent (currentButton) {
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
