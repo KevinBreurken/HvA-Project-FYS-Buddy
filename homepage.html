@@ -31,13 +31,13 @@
         <div class="content-wrapper">
             <form action="" method="get" id="travel-form">
                 <label for="date-for">from</label>
-                <input type="date" name="" id="date-for" class="date-picker">
+                <input type="Date" name="" id="date-for" class="date-picker" id="sDate">
                 <label for="date-till" id="date-till-label">till</label>
-                <input type="date" name="" id="date-till" class="date-picker">
+                <input type="Date" name="" id="date-till" class="date-picker" id="eDate">
                 <label for="cityList" id="my-list-label">Cities</label>
                 <select id="cityList">
                 </select>
-                <input type="submit" value="Update">
+                <input type="button" value="Update" id="travelSubmitButton" onclick="sendTravelData()">
             </form>
         </div>
     </div>

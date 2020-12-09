@@ -1,10 +1,9 @@
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     document.getElementById("default-active").click();
+    //on page load fire this function that will populate a select list using data from the database
     populateCityList();
 })
-
-
 
 //todo: create different query's;
 //1.1 All results: all results matching the users location, date and gender preference
@@ -25,10 +24,35 @@ window.addEventListener('load', function () {
 
 
 async function populateCityList() {
-let cityList = await getDataByPromise("SELECT * FROM location");
-$(cityList).each(city => {
-    $("#cityList").append(`<option>` + cityList[city]["destination"] + `</option>`);
-});
+    //query the database for all location data using a promise
+    let cityList = await getDataByPromise("SELECT * FROM location");
+
+    //for each loop that populates the cityList select options with data from the database
+    $(cityList).each(city => {
+    $("#cityList").append(`<option value=${cityList[city]["id"]}>` + cityList[city]["destination"] + `</option>`);
+    });
+}
+
+function sendTravelData() {
+    //get current selected value from select element in form
+    var citySelect = document.getElementById("cityList").value;
+    
+    var startDate = new Date($('#sDate').val());
+    var endDate = new Date($('#eDate').val());
+
+    if(startDate != "" && endDate != "" && citySelect != "") {
+        FYSCloud.API.queryDatabase(
+            "UPDATE `travel` SET `destination` = ? WHERE `travel`.`userId` = ?;",
+            [citySelect, getCurrentUserID()]
+            ).done(function() {
+                alert("updated the destination in travel table succesfull");
+            }).fail(function (reason) {
+                console.log(reason);
+            });
+    }else{
+        alert("no date selected");
+    }
+
 }
 
 async function openTabContent (currentButton) {
