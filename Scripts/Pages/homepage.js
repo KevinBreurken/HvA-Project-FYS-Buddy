@@ -272,7 +272,7 @@ async function openUserOverlay(overlayUserId) {
             disableRequestButton();
         } else if (matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())) { //We got a request
             requestButton.attr("data-translate", "overlay.button.accept");
-            requestButton.click(function (){acceptRequest(overlayUserId)});
+            requestButton.click(function (){acceptRequest(getCurrentUserID(),overlayUserId)});
         }
     } else {
         requestButton.attr("data-translate", "overlay.button.send");
@@ -294,18 +294,41 @@ function disableRequestButton() {
     FYSCloud.Localization.translate(false);
 }
 
-function acceptRequest(sentUser,userIdToAccept) {
+function acceptRequest(acceptedUser,userIdToAccept) {
     getDataByPromise(`DELETE FROM friendrequest
-                      WHERE (targetUser = ${sentUser} AND requestingUser = ${userIdToAccept})
-                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${sentUser});
+                      WHERE (targetUser = ${acceptedUser} AND requestingUser = ${userIdToAccept})
+                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${acceptedUser});
                       DELETE FROM usernotification
-                      WHERE (targetUser = ${sentUser} AND requestingUser = ${userIdToAccept})
-                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${sentUser});
+                      WHERE (targetUser = ${acceptedUser} AND requestingUser = ${userIdToAccept})
+                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${acceptedUser});
                       INSERT INTO friend (user1, user2)
-                      VALUES (${sentUser},${userIdToAccept});
-    `);
+                      VALUES (${acceptedUser},${userIdToAccept});
+    `).then((data) => sendFriendMatchData(userIdToAccept));
     //todo: remove element from display tab.
     closeUserOverlay();
+}
+
+async function sendFriendMatchData(userIdToAccept){
+    //Get current user travel destination
+    const CURRENT_USER = await getDataByPromise(`SELECT *
+    FROM travel WHERE id = ?`, getCurrentUserID());
+    //Send the location that we currently have to the database.
+    await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
+                            VALUES (?, 1)
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER["destination"]);
+    //Check which interests are equal
+    //TODO: Add interests to results query.
+    const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
+    const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
+    $(userInterests).each(uInterest => {
+        $(otherUserInterest).each(oInterest => {
+            if(userInterests[uInterest]["interestId"] === otherUserInterest[oInterest]["interestId"])
+                //Send statistic data for interests.
+                getDataByPromise(`INSERT INTO admininterestdata (interestId, interestEverMatched)
+                                  VALUES (?, 1)
+                                  ON DUPLICATE KEY UPDATE interestEverMatched = interestEverMatched + 1`, userInterests[uInterest]["interestId"]);
+        });
+    });
 }
 
 function sendRequest(sentUser,userIdToSend) {
