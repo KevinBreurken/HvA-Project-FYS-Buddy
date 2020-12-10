@@ -108,7 +108,6 @@ async function openTabContent(currentButton) {
     let queryArray = [];
     switch (currentButton.id.toString()) {
         case "all-results":
-            // console.log(1);
             queryExtension = ` AND t.startdate < ?
             AND t.enddate > ?
             AND p.userId != ?
@@ -116,15 +115,12 @@ async function openTabContent(currentButton) {
             queryArray = [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]];
             break;
         case "friends":
-            // console.log(2);
             queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
             break;
         case "friend-requests":
-            // console.log(3);
             queryExtension = ` AND z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]}`;
             break;
         case "favourites":
-            // console.log(4);
             queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
             break;
     }
@@ -152,13 +148,16 @@ async function openTabContent(currentButton) {
         , queryArray);
 
     // console.log(userList)
-    // console.log(queryArray)
 
     $(tab).html("");
-    //appends a user-display with the correct data to the tab for every user that needs to be displayed
-    for (let i = 0; i < userList.length; i++) {
-        $(tab).append(generateUserDisplay(userList[i]));
-
+    if (userList.length !== 0) {
+        //appends a user-display with the correct data to the tab for every user that needs to be displayed
+        for (let i = 0; i < userList.length; i++) {
+            $(tab).append(generateUserDisplay(userList[i]))
+        }
+    } else {
+        //displays a help message whenever there are no matches available to the user
+        $(tab).append(`<p>There are no matches available for you. Try changing your settings or come back later.</p>`)
     }
 }
 
