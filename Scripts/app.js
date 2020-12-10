@@ -152,15 +152,10 @@ function redirectToProfileById(id) {
 
 /** default function for getting user data from the database by a promise */
 function getDataByPromise(query, queryArray) {
-    return new Promise(resolve => {
-        FYSCloud.API.queryDatabase(
-            query, queryArray
-        ).done(function (data) {
-            resolve(data);
-        }).fail(function (reason) {
-            console.log(reason);
-            Promise.reject(reason);
-        });
+    return new Promise((resolve, reject) => {
+        FYSCloud.API.queryDatabase(query, queryArray)
+            .done(data => resolve(data))
+            .fail(reason => reject(reason));
     });
 }
 
