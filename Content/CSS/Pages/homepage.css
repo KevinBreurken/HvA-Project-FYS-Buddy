@@ -3,10 +3,6 @@ textarea:focus, input:focus{
   outline: none;
 }
 
-/* removes the highlight around a selected item that is present on chrome*/
-* {
-  box-sizing: border-box;
-}
 *:focus {
   outline: none;
 }
@@ -23,6 +19,8 @@ main {
   padding: 20px;
 }
 .content-wrapper input, select{
+/* removes the highlight around a selected item that is present on chrome*/
+  box-sizing: border-box;
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -287,6 +285,7 @@ input[type=button]:hover {
 }
 
 .overlay-header button {
+  width: auto;
   color: var(--color-corendon-white);
   border: none;
   background-color: var(--color-corendon-red);
@@ -439,11 +438,11 @@ input[type=button]:hover {
   }
 
   .close-button {
-    margin: 0 0 80% auto;
+    margin: 0 0 60% auto;
   }
 
   .overlay-header {
-    width: 100px;
+    width: auto;
     flex-direction: column;
   }
 
