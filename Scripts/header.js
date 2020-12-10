@@ -119,7 +119,7 @@ function addNotification(userData) {
         <div class="notification-text-name" username="${username}">${displayString}</div>
         </div>
         <div class="notification-buttons">
-        <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="openProfile(${userID})">
+        <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="redirectToProfileById(${userID})">
         <img class="notification-close-icon" src="Content/Images/close.svg" onclick="closeNotification(${userID})">
         </div>
         </li>
