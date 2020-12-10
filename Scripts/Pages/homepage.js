@@ -109,6 +109,28 @@ async function openTabContent(currentButton) {
     INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
+    let queryExtension = ``;
+    switch (currentButton.id.toString()) {
+        case "all-results":
+            console.log(1);
+            queryExtension = `AND t.startdate < ?
+            AND t.enddate > ?
+            AND p.userId != ?
+            AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)
+            `;
+            break;
+        case "friends":
+            console.log(2);
+            break;
+        case "friend-requests":
+            console.log(3);
+            break;
+        case "favourites":
+            console.log(4);
+            queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
+            break;
+    }
+
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
@@ -128,10 +150,7 @@ async function openTabContent(currentButton) {
     INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
     LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ? AND f.favouriteUser = p.userId
     WHERE r.roleId = 1
-    AND t.startdate < ?
-    AND t.enddate > ?
-    AND p.userId != ?
-    AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`
+        `+ queryExtension +``
         , [getCurrentUserID(), CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
 
     console.log(userList)
