@@ -53,6 +53,7 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
 
     function setLanguage(language) {
         currentLanguage = language;
+        FYSCloud.Session.set("language", currentLanguage);
         FYSCloud.Localization.switchLanguage(currentLanguage);
         //Fire an language event.
         document.dispatchEvent(new CustomEvent("languageChangeEvent", {
@@ -103,8 +104,10 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
 
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
-var initialLanguage = "nl";
+var initialLanguage = FYSCloud.Session.get("language", "nl");
 FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
+
+
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.translate(false);
 });
@@ -191,6 +194,9 @@ function parseDateToInputDate(date) {
 
 /** Sends page related statistics to the database */
 (function setDatabasePageData() {
+    //we don't want to send page data as an admin.
+    if (currentPageType === "admin")
+        return;
     var name = window.location.pathname.split("/").filter(function (c) {
         return c.length;
     }).pop();
