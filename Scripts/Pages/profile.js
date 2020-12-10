@@ -99,7 +99,7 @@ FYSCloud.API.queryDatabase(
 
 function generateProfileDisplay(data) {
     let userData = data[0];
-    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userData.pictureUrl;
+    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + userData.pictureUrl;
     let firstname = userData.firstname == null ? "" : userData.firstname;
     let lastname = userData.lastname == null ? "" : userData.lastname;
     let gender = userData.gender == null ? "" : userData.gender;
@@ -110,7 +110,7 @@ function generateProfileDisplay(data) {
     let biography = userData.biography == null ? "" : userData.biography;
     let tel = userData.phone == null ? "" : userData.phone;
 
-    $("#img").attr("src",  "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + url);
+    $("#img").attr("src",  url);
     $("#firstname").html("<b>First name: </b>" + firstname);
     $("#lastname").html("<b>Last name: </b>" + lastname);
     $("#gender").html(gender);
@@ -123,10 +123,10 @@ function generateTravelInfo(data) {
     let userData = data[0];
 
     date = new Date(userData.startdate);
-    let start_date = userData.startdate == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let start_date = userData.startdate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
     date = new Date(userData.enddate);
-    let end_date = userData.enddate == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let end_date = userData.enddate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     $("#from").html("<b>From: </b>" + start_date);
     $("#untill").html("<b>Untill: </b>" + end_date);
 }
@@ -146,10 +146,10 @@ function generateBuddy(data) {
     if (userData.buddyType === 1) {
         buddy = "a buddy";
         $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
-    } else if (userData.type === 2) {
+    } else if (userData.buddyType === 2) {
         buddy = "an activity buddy"
         $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
-    } else if (userData.type === 3) {
+    } else if (userData.buddyType === 3) {
         buddy = "a travel buddy"
         $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
     }
