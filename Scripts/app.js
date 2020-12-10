@@ -62,6 +62,7 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,
         getLanguage: getLanguage,
+        loadJSONTranslationFile: loadJSONTranslationFile,
         getStringFromTranslations: getStringFromTranslations
     };
 
@@ -108,10 +109,17 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
             currentTranslations = jsonObject;
         else
             $.extend(currentTranslations, jsonObject);
+
+        console.log(currentTranslations);
         FYSCloud.Localization.setTranslations(currentTranslations);
         FYSCloud.Localization.translate(false);
     }
 
+    function loadJSONTranslationFile(fileURL){
+        $.getJSON(fileURL, function(json) {
+            addTranslationJSON(json);
+        });
+    }
     return exports;
 })(jQuery);
 
