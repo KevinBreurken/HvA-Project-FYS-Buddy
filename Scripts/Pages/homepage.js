@@ -106,6 +106,7 @@ async function openTabContent(currentButton) {
 
     let queryExtension = ``;
     let queryArray = [];
+    let noMatchesMessage = `<p>There are no matches available for you. Try changing your settings or come back later.</p>`
     switch (currentButton.id.toString()) {
         case "all-results":
             queryExtension = ` AND t.startdate < ?
@@ -116,12 +117,15 @@ async function openTabContent(currentButton) {
             break;
         case "friends":
             queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
+            noMatchesMessage = `<p>You currently don't have any friends. Try sending some friend requests to other users.</p>`;
             break;
         case "friend-requests":
             queryExtension = ` AND z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]}`;
+            noMatchesMessage = `<p>You currently don't have any friend requests. Come back later.</p>`;
             break;
         case "favourites":
             queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
+            noMatchesMessage = `<p>You currently haven't set any users as a favourite. You can do this by clicking on a heart on a user-display </p>`;
             break;
     }
 
@@ -157,7 +161,7 @@ async function openTabContent(currentButton) {
         }
     } else {
         //displays a help message whenever there are no matches available to the user
-        $(tab).append(`<p>There are no matches available for you. Try changing your settings or come back later.</p>`)
+        $(tab).append(noMatchesMessage)
     }
 }
 
