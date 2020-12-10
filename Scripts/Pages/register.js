@@ -353,32 +353,8 @@ $("#fileUpload").on("change", function () {
     })
 })
 
-// Image upload function from FYS Cloud
-// TODO Fix file extension somehow
 let url
 let picExtension
-
-function imageUpload(photoId) {
-    FYSCloud.Utils.getDataUrl(
-        $("#fileUpload")
-    ).done(function (data) {
-        picExtension = data.extension
-        url = "pp-" + photoId + "." + picExtension
-
-        FYSCloud.API.uploadFile(
-            "profile-pictures/pp-" + photoId + "." + picExtension,
-            data.url,
-            bFalse = true
-        ).fail(function (reason) {
-            console.log(reason)
-        })
-
-    }).fail(function (reason) {
-        console.log(reason)
-    })
-}
-
-let bFalse = false
 
 function register() {
     FYSCloud.API.queryDatabase(
@@ -387,30 +363,50 @@ function register() {
     ).done(function (data) {
         setId = data.insertId
 
-        if (!bFalse) {
-            imageUpload(setId) // 1
-            if (bFalse) {
-                console.log("2 " + setId)
-                console.log("3 " + url)
-            }
-        }
-
-        FYSCloud.API.queryDatabase(
-            "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
-            [setId, setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
+        FYSCloud.Utils.getDataUrl(
+            $("#fileUpload")
         ).done(function (data) {
-            for (let i = 0; i < hobby.length; i++) {
+                picExtension = data.extension
+                url = "pp-" + setId + "." + picExtension
+
+                FYSCloud.API.uploadFile(
+                    "profile-pictures/pp-" + setId + "." + picExtension,
+                    data.url,
+                )
+
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
-                    [setId, hobby[i]]
-                ).fail(function (reason) {
+                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
+                    [setId, setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
+                ).done(function (data) {
+                    for (let i = 0; i < hobby.length; i++) {
+                        FYSCloud.API.queryDatabase(
+                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                            [setId, hobby[i]]
+                        ).fail(function (reason) {
+                            console.log(reason)
+                        })
+                    }
+                }).fail(function (reason) {
                     console.log(reason)
                 })
             }
-        }).fail(function (reason) {
-            console.log(reason)
-        })
-        //loginUser(setId)
+        ).fail(function (reason) {
+                FYSCloud.API.queryDatabase(
+                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
+                    [setId, setId, firstname, lastname, gender, dobFormat, bio, setId, setId]
+                ).done(function (data) {
+                    for (let i = 0; i < hobby.length; i++) {
+                        FYSCloud.API.queryDatabase(
+                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                            [setId, hobby[i]]
+                        ).fail(function (reason) {
+                            console.log(reason)
+                        })
+                    }
+                })
+            }
+        )
+        loginUser(setId)
     }).fail(function (reason) {
         console.log(reason)
     })
