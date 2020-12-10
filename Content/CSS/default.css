@@ -21,8 +21,22 @@
   font-family: var(--font-family);
 }
 
+@media only screen and (orientation: portrait) {
+  main {
+    width: 90%;
+  }
+}
+@media only screen and (orientation: landscape) {
+  main {
+    width: 70%;
+  }
+}
 header {
+  margin-left: auto;
+  margin-right: auto;
   min-height: 214px;
+  max-width: 800px;
+  height: auto;
 }
 
 body {
@@ -34,7 +48,6 @@ main {
   margin-left: auto;
   margin-right: auto;
   max-width: 800px;
-  width: 70%;
 }
 
 /* tooltips */

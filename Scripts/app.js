@@ -9,17 +9,22 @@ if (appElement !== null) {
     let attrElement = appElement.getAttribute("data-pageType");
     if (attrElement === "user" || attrElement === "admin") {
         //Check if user is logged in.
-        if (getCurrentUserID() === undefined)
+        if (currentUserID === undefined)
             window.open("index.html", "_self");
+    }
+    if (attrElement === "default") {
+        //Check if user is logged in.
+        if (currentUserID !== undefined)
+            window.open("homepage.html", "_self");
     }
     if (attrElement === "admin") {
         FYSCloud.API.queryDatabase(
                 `SELECT * from userrole WHERE userid = ? AND roleId = ?`,
-            [getCurrentUserID(), 2]// 2 == Admin ID
+            [currentUserID, 2]// 2 == Admin ID
         ).done(function (data) {
             //If no entry of an admin role is found..
             if (data.length === 0) {
-                if (getCurrentUserID() === undefined)
+                if (currentUserID === undefined)
                     window.open("index.html", "_self");
                 else
                     window.open("homepage.html", "_self");
@@ -147,15 +152,10 @@ function redirectToProfileById(id) {
 
 /** default function for getting user data from the database by a promise */
 function getDataByPromise(query, queryArray) {
-    return new Promise(resolve => {
-        FYSCloud.API.queryDatabase(
-            query, queryArray
-        ).done(function (data) {
-            resolve(data);
-        }).fail(function (reason) {
-            console.log(reason);
-            Promise.reject(reason);
-        });
+    return new Promise((resolve, reject) => {
+        FYSCloud.API.queryDatabase(query, queryArray)
+            .done(data => resolve(data))
+            .fail(reason => reject(reason));
     });
 }
 

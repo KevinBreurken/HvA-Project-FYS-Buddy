@@ -51,10 +51,14 @@
     .content-container {
         display: block;
     }
+    .part2 {
+        padding-left: 0em;
+    }
 }
 
 /* login form csss: */
 #form-title {
+    margin-bottom: 0;
     color: #404040;
 }
 
@@ -134,3 +138,36 @@
     width: 1px;
     overflow: hidden;
 }
+
+/* validation css */
+#validationMessage {
+    display: none;
+  }
+  
+  .validation-list {
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      padding: 10px;
+  }
+  
+  .valid {
+    color: var(--color-corendon-dark-green);
+  }
+  
+  .valid:before {
+    position: relative;
+    left: -30px;
+    content: "✔";
+  }
+
+  /* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+  }
+  
+  .invalid:before {
+    position: relative;
+    left: -30px;
+    content: "✖";
+  }
