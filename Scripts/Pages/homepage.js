@@ -83,8 +83,15 @@ function sendTravelData() {
     }
 }
 
+let lastButtonId;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
+
+    //check if a new tab is opened.
+    if(lastButtonId === currentButton.id)
+        return
+    lastButtonId = currentButton.id;
+
     let tab = $("#tab");
 
     //swaps the button colors
