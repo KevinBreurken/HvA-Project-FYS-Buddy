@@ -24,11 +24,6 @@ window.addEventListener('load', function () {
 
     //on page load fire this function that will populate a select list using data from the database
     populateCityList();
-
-    // todo: filter the user data
-    //toggle
-    //radiobuttons
-    //als je op deze radiobutton klikt, dan ..
 })
 
 // let locationList;
@@ -110,27 +105,29 @@ async function openTabContent(currentButton) {
     WHERE u.id = ?`, getCurrentUserID());
 
     let queryExtension = ``;
+    let queryArray = [];
     switch (currentButton.id.toString()) {
         case "all-results":
-            console.log(1);
-            queryExtension = `AND t.startdate < ?
+            // console.log(1);
+            queryExtension = ` AND t.startdate < ?
             AND t.enddate > ?
             AND p.userId != ?
-            AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)
-            `;
+            AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`;
+            queryArray = [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]];
             break;
         case "friends":
-            console.log(2);
+            // console.log(2);
+            queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
             break;
         case "friend-requests":
-            console.log(3);
+            // console.log(3);
+            queryExtension = ` AND z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]}`;
             break;
         case "favourites":
-            console.log(4);
+            // console.log(4);
             queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
             break;
     }
-
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
@@ -148,12 +145,14 @@ async function openTabContent(currentButton) {
     LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
     INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
     INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
-    LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ? AND f.favouriteUser = p.userId
-    WHERE r.roleId = 1
-        `+ queryExtension +``
-        , [getCurrentUserID(), CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]]);
+    LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
+    LEFT JOIN fys_is111_1_dev.friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
+    LEFT JOIN fys_is111_1_dev.friendrequest z ON (z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]})
+    WHERE (r.roleId = 1 OR r.roleId = 2)`+ queryExtension
+        , queryArray);
 
-    console.log(userList)
+    // console.log(userList)
+    // console.log(queryArray)
 
     $(tab).html("");
     //appends a user-display with the correct data to the tab for every user that needs to be displayed
@@ -304,7 +303,7 @@ function sendRequest(sentUser,userIdToSend) {
                       VALUES (${sentUser},${userIdToSend});
                       INSERT INTO usernotification (requestingUser, targetUser)
                       VALUES (${sentUser},${userIdToSend});`).then((data) => {
-        console.log(data);
+        // console.log(data);
     });
     disableRequestButton();
 }
