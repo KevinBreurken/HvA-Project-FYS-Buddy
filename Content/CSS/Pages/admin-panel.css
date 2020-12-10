@@ -75,3 +75,7 @@
 #myTable th:first-letter, #myTable td button:first-letter {
     text-transform: capitalize;
 }
+
+button.btn {
+    visibility: visible;
+}
