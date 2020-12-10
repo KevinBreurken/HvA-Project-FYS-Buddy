@@ -341,7 +341,9 @@ input[type=button]:hover {
   font-weight: bold;
 }
 
-
+#profile-button{
+  width: 100%;
+}
 /* overlay background */
 #overlay-background {
   display: none;
@@ -351,7 +353,6 @@ input[type=button]:hover {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, .5);
-  pointer-events: none;
   z-index: 60;
 }
 
@@ -372,6 +373,7 @@ input[type=button]:hover {
   }
   .header-buttons{
     font-size: 30px;
+    padding: 13px;
   }
   #close-button-mobile {
     font-size: 80px;

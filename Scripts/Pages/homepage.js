@@ -191,6 +191,10 @@ FYSCloud.Localization.CustomTranslations.addTranslationJSON(overlayTranslations)
  * @param overlayUserId id of the user that is fetched and displayed from the database.
  */
 async function openUserOverlay(overlayUserId) {
+    //disable scrolling
+    document.body.style.overflow = 'hidden';
+    document.querySelector('html').scrollTop = window.scrollY;
+    //get user profile.
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id
                                                   FROM fys_is111_1_dev.profile p
                                                            INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
@@ -270,7 +274,7 @@ function acceptRequest(sentUser,userIdToAccept) {
                       VALUES (${sentUser},${userIdToAccept});
     `);
     //todo: remove element from display tab.
-    closeElement();
+    closeUserOverlay();
 }
 
 function sendRequest(sentUser,userIdToSend) {
@@ -289,6 +293,10 @@ function displayUserOverlay() {
     $("#overlay-background").css("display", "block");
 }
 
+function closeUserOverlay(){
+    document.body.style.overflow = null;
+    closeElement("overlay");
+}
 /** function to close the active user-display or overlay */
 function closeElement(currentDisplay) {
     $("#" + currentDisplay).css("display", "none");
