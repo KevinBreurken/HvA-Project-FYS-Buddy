@@ -148,7 +148,7 @@ async function openTabContent(currentButton) {
     LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
     LEFT JOIN fys_is111_1_dev.friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
     LEFT JOIN fys_is111_1_dev.friendrequest z ON (z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]})
-    WHERE (r.roleId = 1 OR r.roleId = 2)`+ queryExtension
+    WHERE r.roleId = 1`+ queryExtension
         , queryArray);
 
     // console.log(userList)
