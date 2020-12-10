@@ -104,11 +104,11 @@ function closeNotification(userID) {
 }
 
 function addNotification(userData) {
-    console.log(userData)
+    // console.log(userData)
     //userData = de data van 1 user
     let userID = userData["id"];
     let username = userData["username"];
-    console.log(username)
+    // console.log(username)
 
     let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
     displayString = displayString.replace("%name", username);
@@ -119,7 +119,7 @@ function addNotification(userData) {
         <div class="notification-text-name" username="${username}">${displayString}</div>
         </div>
         <div class="notification-buttons">
-        <img class="notification-profile-icon" src="Content/Images/open-profile.svg" onclick="openProfile(${userID})">
+        <img class="notification-profile-icon" src="Content/Images/user-notification.png" onclick="redirectToProfileById(${userID})">
         <img class="notification-close-icon" src="Content/Images/close.svg" onclick="closeNotification(${userID})">
         </div>
         </li>
@@ -156,7 +156,7 @@ FYSCloud.API.queryDatabase(
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE id IN " + targetUserArrayString
     ).done(function (userData) {
-        console.log(userData)
+        // console.log(userData)
         currentNotificationAmount = userData.length;
         updateNotificationCounter();
 

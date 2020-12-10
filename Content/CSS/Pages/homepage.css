@@ -3,10 +3,6 @@ textarea:focus, input:focus{
   outline: none;
 }
 
-/* removes the highlight around a selected item that is present on chrome*/
-* {
-  box-sizing: border-box;
-}
 *:focus {
   outline: none;
 }
@@ -23,6 +19,8 @@ main {
   padding: 20px;
 }
 .content-wrapper input, select{
+/* removes the highlight around a selected item that is present on chrome*/
+  box-sizing: border-box;
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -207,7 +205,7 @@ input[type=button]:hover {
   align-items: center;
 }
 
-.favorite-icon {
+.favourite-icon {
   width: 25px;
   height: 25px;
   margin: 10px 5px 15px 5px;
@@ -220,10 +218,6 @@ input[type=button]:hover {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%;
-  max-width: 600px;
-  height: fit-content;
-  max-height: 500px;
   overflow: hidden;
   z-index: 80;
   background-color: var(--color-corendon-white);
@@ -246,12 +240,6 @@ input[type=button]:hover {
   justify-content: center;
 }
 
-.overlay-content img {
-  width: 90%;
-  max-width: 200px;
-  border-radius: 2%;
-}
-
 #overlay-row-2 {
   flex-direction: column;
   justify-content: space-evenly;
@@ -265,7 +253,6 @@ input[type=button]:hover {
 #overlay-interests {
   display: flex;
   flex-direction: column;
-  max-width: 200px;
   overflow: hidden;
 }
 
@@ -292,14 +279,13 @@ input[type=button]:hover {
 /* overlay header */
 .overlay-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  width: 100px;
   border-left: var(--color-corendon-dark-red);
   background-color: var(--color-corendon-red);
 }
 
 .overlay-header button {
+  width: auto;
   color: var(--color-corendon-white);
   border: none;
   background-color: var(--color-corendon-red);
@@ -307,7 +293,6 @@ input[type=button]:hover {
 
 .close-button {
   font-size: 18px;
-  margin: 0 0 80% auto;
   padding: 5px 10px 0 0;
   border-top-right-radius: 6px;
   width: min-content;
@@ -325,26 +310,13 @@ input[type=button]:hover {
   transition: 400ms background-color;
 }
 
-.header-buttons:hover {
+#profile-button:hover {
   background-color: var(--color-corendon-dark-red);
 }
 
 .header-buttons a {
   color: inherit;
   text-decoration: none;
-}
-
-/* overlay background */
-#overlay-background {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, .5);
-  pointer-events: none;
-  z-index: 60;
 }
 
 .filter-title{
@@ -367,4 +339,121 @@ input[type=button]:hover {
 
 .filter-option-buddy[current]{
   font-weight: bold;
+}
+
+#profile-button{
+  width: 100%;
+}
+/* overlay background */
+#overlay-background {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+  z-index: 60;
+}
+
+/** Overlay */
+@media only screen and (orientation: portrait) {
+  #overlay {
+    flex-direction: column;
+    width: 65%;
+    height: auto;
+  }
+
+  .close-button {
+    display: none;
+  }
+
+  .overlay-content {
+    margin-top: 20px;
+  }
+  .header-buttons{
+    font-size: 30px;
+    padding: 13px;
+  }
+  #close-button-mobile {
+    font-size: 80px;
+    font-weight: bold;
+    background-color: var(--color-corendon-white);
+    border: none;
+    width: min-content;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+  }
+
+  .overlay-header {
+    width: 100%;
+    flex-direction: row-reverse;
+    justify-content: space-evenly;
+  }
+
+  .overlay-content {
+    flex-direction: column;
+  }
+
+  .overlay-content img {
+    width: 90%;
+    max-width: 500px;
+  }
+
+  #overlay p {
+    font-size: 30px;
+  }
+
+  #overlay h1 {
+    font-size: 30px;
+  }
+
+  #overlay h2 {
+    font-size: 30px;
+  }
+
+  #overlay h3 {
+    font-size: 30px;
+  }
+
+
+  #overlay li {
+    font-size: 25px;
+  }
+
+  #overlay-interests ul {
+    height: auto;
+  }
+}
+
+@media only screen and (orientation: landscape) {
+  #close-button-mobile {
+    display: none;
+  }
+
+  #overlay {
+    flex-direction: row;
+    max-width: 600px;
+    height: fit-content;
+    max-height: 500px;
+  }
+
+  .close-button {
+    margin: 0 0 60% auto;
+  }
+
+  .overlay-header {
+    width: auto;
+    flex-direction: column;
+  }
+
+  .overlay-content img {
+    width: 90%;
+    max-width: 200px;
+    border-radius: 2%;
+  }
+  #overlay-interests {
+    max-width: 200px;
+  }
 }
