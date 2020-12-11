@@ -1,4 +1,4 @@
-var statisticsTranslation = {
+var registerTranslations = {
     register: {
         title: {
             nl: "Welkom bij Corendon. ",
@@ -172,7 +172,7 @@ var statisticsTranslation = {
     }
 }
 
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation)
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(registerTranslations)
 
 const MAX_USERNAME = 50
 const MAX_EMAIL = 50
