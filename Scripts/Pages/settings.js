@@ -485,7 +485,7 @@ function blockEventListener(profiles) {
                     || lastname.toUpperCase().indexOf(providedInput) > -1) {
                     result += "<div class=\"user-card\">" +
                         "<div class=\"user-card-image\">" +
-                        "<img src=\"" + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                        "<img onerror=\"this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'\" src=\"" + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
                         "</div>" +
                         "<div class=\"user-card-content\">" +
                         "<div class=\"card-info\">" + firstname + middlename + lastname + "<br />Eventual information...</div>" +
