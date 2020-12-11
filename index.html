@@ -6,8 +6,8 @@
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="default"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-    <link rel="stylesheet" href="Content/CSS/Pages/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/index.css">
 </head>
 <body>
     <div class="container">
@@ -18,7 +18,7 @@
                         <img class="banner-image" src="Content/Images/banner_heavy.png" alt="">
                     </div>
                     <div class="description">
-                        <p>
+                        <p data-translate="index.description">
                         Do you want to explore the world, but dont want to do this alone?
                         Find your travel buddy is a website where you can find your travel buddy.
                         You will be matched with another single traveler based on the same interests.
@@ -33,21 +33,21 @@
 <!--                </div>-->
 <!--                <p>Already have an account?</p>-->
                 <div class="form-wrapper">
-                    <h1 id="form-title">Login</h1>
+                    <h1 id="form-title" data-translate="index.login">Login</h1>
                     <form class="login-form" method="post" name="login-form">
                         <i class="fas fa-user"></i>
                         <label for="e-mail">E-mail</label>
                         <input class="user-input" type="email" id="e-mail" name="e-mail" placeholder="e-mail@placeholder.nl" required>
                         <div id="validationMessage">
-                            <h3>E-mail must contain the following</h3>
+                            <h3 data-translate="index.validationcontain">E-mail must contain the following</h3>
                             <ul class="validation-list">
                                 <li id="monkeytailVal" class="invalid" vl><b>@</b></li>
                             </ul>
                         </div>
-                        <label for="password">Password</label>
+                        <label for="password" data-translate="index.password">Password</label>
                         <input class="user-input" type="password" id="password" name="" placeholder="Password" required>
                         <div class="option-1">
-                            <a href="./recovery.html">Forgot your password?</a>
+                            <a href="./recovery.html" data-translate="index.forgotpass">Forgot your password?</a>
                         </div>
                         <input class="btn" type="button" id="signIn" value="Sign in" onclick="validationCheck()">
                         <div class="option-2">
@@ -56,7 +56,7 @@
                             </p>
                         </div>
                         <div class="language-selection">
-                            <button class="lanugage-buttons" id="dutch-language" onclick="FYSCloud.Localization.CustomTranslations.setLanguage('nl')">
+                            <button class="language-buttons" id="dutch-language" onclick="FYSCloud.Localization.CustomTranslations.setLanguage('nl')">
                                 <img src="Content/Images/language-netherlands.png">
                             </button>
                             <button class="language-buttons" id="english-language" onclick="FYSCloud.Localization.CustomTranslations.setLanguage('en')">
