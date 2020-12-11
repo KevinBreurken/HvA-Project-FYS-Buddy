@@ -61,7 +61,7 @@ main {
 
 #btn-back,
 .step,
-.register button {
+#btn-register {
     display: none;
 }
 
