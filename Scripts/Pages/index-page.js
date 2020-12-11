@@ -24,6 +24,7 @@ var indexTranslations = {
 
 };
 FYSCloud.Localization.CustomTranslations.addTranslationJSON(indexTranslations);
+
 let emlInput = document.querySelector("#e-mail");
 let regx = /[@]/g;
 
