@@ -6,7 +6,7 @@ Anything related to the progress of the development for the FYS cloud app can be
 For any questions, please refer to the git maintainers for this project.
 
 # EER:
-The EER can be found in the poject's directory.
+The EER can be found in the project's directory.
 
 # Login:
 
@@ -14,10 +14,7 @@ To login as an admin, you can use this account: \
 e-mail:     admin@buddy.com \
 password:   fys
 
-To login as an example user, you can create a new account on the register page. or you can use this account: \
-e-mail:     mark@haas.com \
-password:   mijnwachtwoord123
-
+To login as an example user, you can create a new account on the register page.
 
 # Documentation:
 
