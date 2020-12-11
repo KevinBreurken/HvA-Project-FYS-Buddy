@@ -13,7 +13,12 @@ let translations;
 let languageId;
 
 // Security
-const passwordControl = document.getElementById("newAccountPassword");
+const pwdCurrent = document.getElementById("currentAccountPassword");
+const pwdInput = document.getElementById("newAccountPassword");
+const pwdRepeat = document.getElementById("repeatAccountPassword");
+let newPwdMatchesOld;
+let pwdFilledIn = pwdInput.value !== "" && pwdInput.value !== null && typeof pwdInput !== "undefined";
+let pwdRepeatMatch = pwdInput.value === pwdRepeat.value;
 
 // Profile
 const profileVisibilityControl = document.getElementById("profileVisibility");
@@ -29,12 +34,23 @@ let profileVisibilityId;
 // Block
 
 // Gender
+let sameGenderControl = document.getElementById("showOwnGenderOnly");
+let sameGender;
+const genderControl = document.getElementById("identifyAs");
+let initialGender;
+let displayGenderId;
 
 // Distance
-let distanceControls;
-let distanceRange;
-let distanceMax;
-let distanceResult;
+// Get distance control elements:
+const distanceControls = document.getElementById("distance-controls");
+// Get maximum distance:
+const distanceMax = document.getElementById("maxDistance");
+let initialMaxDistance;
+// Get provided distance:
+const distanceRange = document.getElementById("distance");
+// Get element to print result in:
+const distanceResult = document.getElementById("distanceResult");
+let initialDistanceResult;
 
 // Notification
 
@@ -68,10 +84,8 @@ FYSCloud.API.queryDatabase(
                 }
             });
         }
-        // Set the language of the page the configured language:
-        setLanguage(initialLanguageKey);
 
-
+        // Profile visibility:
         FYSCloud.API.queryDatabase(
             "SELECT * FROM `profilevisbility`;"
         ).done(function(profileVisibilities) {
@@ -81,22 +95,65 @@ FYSCloud.API.queryDatabase(
             // Get initial profile visibility value by looking into user settings (if it exists):
             if(settings.length > 0) {
                 // Get the stored profile visibility value for a user:
-                profileVisibilities.forEach(q => {
-                    if(settings[0].profileVisibilityId === q.id) {
-                        initialProfileVisibility = q.name;
+                profileVisibilities.forEach(profileVisibility => {
+                    if(settings[0].profileVisibilityId === profileVisibility.id) {
+                        initialProfileVisibility = profileVisibility.name;
                     }
                 });
             }
 
-            setProfileVisibility(initialProfileVisibility);
-            applySettingsEventlistener(settings, languages, profileVisibilities);
+
+            // Gender:
+            FYSCloud.API.queryDatabase(
+                "SELECT * FROM `gender`;"
+            ).done(function(genders) {
+                // Set gender id to a default value of the first record found within genders table:
+                displayGenderId = genders[0].id;
+
+                if(settings.length > 0) {
+                    // Check the checkbox for displaying own gender according to configuration:
+                    if(settings[0].sameGender) {
+                        sameGenderControl.click()
+                    }
+
+                    // Get the stored gender value for a user:
+                    genders.forEach(gender => {
+                        if(settings[0].displayGenderId === gender.id) {
+                            initialGender = gender.name;
+                        }
+                    });
+                    displayGenderId = settings[0].displayGenderId;
+                }
+
+                // Distance:
+                if(settings.length > 0) {
+                    initialMaxDistance = settings[0].maxDistance;
+                    initialDistanceResult = settings[0].radialDistance;
+                }
+
+                setProfileVisibility(initialProfileVisibility);
+                setGender(initialGender);
+                setMaxDistance(initialMaxDistance);
+                setDistanceResult(initialDistanceResult);
+                applySettingsEventlistener(settings, languages, profileVisibilities, genders);
+                // Set the language of the page the configured language:
+                setLanguage(initialLanguageKey);
+            });
         });
     }).fail(function(reason) {
         console.log(reason);
     });
+}).fail(function(reason) {
+    console.log(reason);
+});
 
-    // Set the language of the page the configured language:
-    setLanguage(initialLanguageKey);
+// Get password from current user:
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM `user` WHERE `user`.`id` = ?",
+    [sessionUserId]
+).done(function(users) {
+    // TODO: Use encryption/decryption for password comparison
+    currentPwdEventListener(users[0].password);
 }).fail(function(reason) {
     console.log(reason);
 });
@@ -106,6 +163,7 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM `profile`"
 ).done(function(profiles) {
+    genderEventlistener(profiles)
     blockEventListener(profiles);
 }).fail(function(reason) {
     console.log(reason);
@@ -267,6 +325,7 @@ function setLanguage(initialLanguageKey) {
     FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
     FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguageKey);
 
+
     // $languageControl = $("select#language");
     //
     // $languageControl.val(initialLanguage);
@@ -292,58 +351,88 @@ languageControl.addEventListener("change", function() {
     FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
 });
 
-// Gets a set language for a given user, returns a language as a string:
-// function getLanguageByUser(languages, userId) {
-//     if(typeof languages === "undefined") {
-//         FYSCloud.API.queryDatabase(
-//             "SELECT * FROM languages"
-//         ).done(function(languages) {
-//             for (let i = 0; i < languages.length; i++) {
-//                 if(languages[i].id === getLanguageIdByUser(userId)) {
-//                     return languages[i].languageKey;
-//                 }
-//             }
-//         }).fail(function(reason) {
-//             console.log(reason);
-//         });
-//     }
-//     else {
-//         for (let i = 0; i < languages.length; i++) {
-//             if(languages[i].id === getLanguageIdByUser(userId)) {
-//                 return languages[i].languageKey;
-//             }
-//         }
-//     }
-// }
-//
-// console.log(getLanguageIdByUser(1));
-// let myPromise = new Promise(function(myResolve, myReject) {
-//     FYSCloud.API.queryDatabase(
-//         "SELECT * FROM `fys_is111_1_barry`.`settings` WHERE `userId` = ?",
-//         [userId]
-//     ).done(function(setting) {
-//         console.log("returning languageId: " + setting[0].languageId);
-//         return setting[0].languageId;
-//     }).fail(function(reason) {
-//         console.log(reason);
-//         return 0;
-//     });
-// });
-//
-// // Gets a set language for a given user, returns a languageId:
-// function getLanguageIdByUser(userId) {
-//     userId = typeof userId === "undefined" ? 0 : userId;
-//     FYSCloud.API.queryDatabase(
-//         "SELECT * FROM `fys_is111_1_barry`.`settings` WHERE `userId` = ?",
-//         [userId]
-//     ).done(function(setting) {
-//         console.log("returning languageId: " + setting[0].languageId);
-//         return setting[0].languageId;
-//     }).fail(function(reason) {
-//         console.log(reason);
-//         return 0;
-//     });
-// }
+// Password handling:
+function currentPwdEventListener(password) {
+    pwdCurrent.addEventListener("input", function() {
+        newPwdMatchesOld = this.value === password;
+    });
+}
+
+// Password validation:
+pwdInput.addEventListener("input", function() {
+    let validationContainer = document.querySelector("#validationMessage");
+    let letterVal = document.querySelector("#letterVal");
+    let capitalVal = document.querySelector("#capitalVal");
+    let numberVal = document.querySelector("#numberVal");
+    let lengthVal = document.querySelector("#lengthVal");
+    if(this.value === "") {
+        validationContainer.style.display = "none";
+    }
+    else {
+        validationContainer.style.display = "block";
+    }
+
+    // Validate lowercase letters
+    let lowerCaseLettersReg = /[a-z]/g;
+    if(this.value.match(lowerCaseLettersReg)) {
+        letterVal.classList.remove("invalid");
+        letterVal.classList.add("valid");
+    } else {
+        letterVal.classList.remove("valid");
+        letterVal.classList.add("invalid");
+        validation = false;
+    }
+
+    // Validate capital letters
+    let upperCaseLettersReg = /[A-Z]/g;
+    if(this.value.match(upperCaseLettersReg)) {
+        capitalVal.classList.remove("invalid");
+        capitalVal.classList.add("valid");
+    } else {
+        capitalVal.classList.remove("valid");
+        capitalVal.classList.add("invalid");
+        validation = false;
+    }
+
+    // Validate numbers
+    let numbersReg = /[0-9]/g;
+    if(this.value.match(numbersReg)) {
+        numberVal.classList.remove("invalid");
+        numberVal.classList.add("valid");
+    } else {
+        numberVal.classList.remove("valid");
+        numberVal.classList.add("invalid");
+        validation = false;
+    }
+
+    // Validate length
+    const lengthValRequired = 8;
+    if(this.value.length >= lengthValRequired) {
+        lengthVal.classList.remove("invalid");
+        lengthVal.classList.add("valid");
+    } else {
+        lengthVal.classList.remove("valid");
+        lengthVal.classList.add("invalid");
+        validation = false;
+    }
+
+    // If everything has been entered correctly or field was left empty, validation succeeded:
+    if(this.value.match(lowerCaseLettersReg) && this.value.match(upperCaseLettersReg) && this.value.match(numbersReg) && this.value.length >= lengthValRequired || this.value === "") {
+        validation = true;
+    }
+
+    // When password in the "repeat password" field does not match the attempted new password, a new password can't be
+    // stored and feedback should be passed:
+    pwdRepeatMatch = this.value === pwdRepeat.value;
+
+    // Change boolean state whether a password has been filled in or not:
+    pwdFilledIn = pwdInput.value !== "" && typeof pwdInput !== "undefined";
+});
+
+// Password confirmation:
+pwdRepeat.addEventListener("input", function() {
+    pwdRepeatMatch = this.value === pwdInput.value;
+});
 
 // Profile handling:
 function setProfileVisibilities(profileVisibilities) {
@@ -355,6 +444,7 @@ function setProfileVisibilities(profileVisibilities) {
     profileVisibilityControl.innerHTML = profileVisibilityOptions;
 }
 
+// Sets the profile visibility select element to the appropriate given profile visibility
 function setProfileVisibility(initialProfileVisibility) {
     initialProfileVisibility = typeof initialProfileVisibility === "undefined" ? "Everyone" : initialProfileVisibility;
 
@@ -405,25 +495,6 @@ function blockEventListener(profiles) {
                 }
             }
 
-            // // temp:
-            // const profiles = ["Barry Stavenuiter", "Dylan van den Berg", "Hanna Toenbreker", "Kiet van Wijk", "Kevin Breurken", "Irene Doodeman", "Chris Verra"];
-            // // Loop through collection of profiles and compare it to provided input for matching results:
-            // let providedInput = this.value.toUpperCase();
-            // for(let i = 0; i < profiles.length; i++) {
-            //     if(profiles[i].toUpperCase().indexOf(providedInput) > -1) {
-            //         result += "<div class=\"user-card\">" +
-            //             "<div class=\"user-card-image\"></div>" +
-            //             "<div class=\"user-card-content\">" +
-            //             "<div class=\"card-info\">" + profiles[i] + "<br />Eventual information...</div>" +
-            //             "<div class=\"card-control\">" +
-            //             "<button>Block</button>" +
-            //             "</div>" +
-            //             "</div>" +
-            //             "</div>";
-            //     }
-            // }
-
-
             // If no container element exists, create one:
             if(resultContainer === null) {
                 // resultContainer = <div class="search-block-result"></div>
@@ -442,16 +513,50 @@ function blockEventListener(profiles) {
     });
 }
 
-// Distance handling:
-// Get distance control elements:
-distanceControls = document.querySelector("#distance-controls");
-// Get maximum distance:
-distanceMax = document.querySelector("#maxDistance");
-// Get provided distance:
-distanceRange = document.querySelector("#distance");
-// Get element to print result in:
-distanceResult = document.querySelector("#distanceResult");
+// Gender handling:
+function setGender(initialGender) {
+    initialGender = typeof initialGender === "undefined" ? "male" : initialGender;
 
+    for (let i = 0; i < genderControl.length; i++) {
+        let currentOption = genderControl.options[i];
+        if(currentOption.value === initialGender) {
+            genderControl.selectedIndex = i;
+        }
+    }
+}
+
+function genderEventlistener(profiles) {
+    document.getElementById("showOwnGenderOnly").addEventListener("change", function() {
+        // Check whether own gender should only be shown:
+        if(this.checked) {
+            // Get profile for current user stored in the session:
+            profiles.forEach(profile => {
+                if(profile.userId === Number(sessionUserId)) {
+                    currentProfile = profile;
+                }
+            })
+
+            // // null checking
+            // firstname = currentProfile.firstname == null ? "" : currentProfile.firstname + " ";
+            // middlename = currentProfile.middlename == null ? "" : currentProfile.middlename + " ";
+            // lastname = currentProfile.lastname == null ? "" : currentProfile.lastname + " ";
+            // // logging
+            // console.log("User " + firstname + middlename + lastname + "is of gender \'" + currentProfile.gender + "\'");
+
+            if(currentProfile.gender.toLowerCase() === "other") {
+                document.querySelector("#identifyAsContainer").style.display = "block";
+            }
+        }
+        else {
+            let display = getComputedStyle(document.querySelector("#identifyAsContainer")).display;
+            if(display !== "none") {
+                document.querySelector("#identifyAsContainer").style.display = "none";
+            }
+        }
+    });
+}
+
+// Distance handling:
 if(distanceMax.value === "unlimited") {
     distanceControls.style.display = "none";
     distanceResult.innerHTML = "&infin;";
@@ -482,97 +587,33 @@ distanceMax.addEventListener("change", function() {
     }
 });
 
-// Password validation:
-let pwdInput = document.querySelector("#newAccountPassword");
-pwdInput.addEventListener("input", function() {
-    let validationContainer = document.querySelector("#validationMessage");
-    let letterVal = document.querySelector("#letterVal");
-    let capitalVal = document.querySelector("#capitalVal");
-    let numberVal = document.querySelector("#numberVal");
-    let lengthVal = document.querySelector("#lengthVal");
-    if(this.value === "") {
-        validationContainer.style.display = "none";
-    }
-    else {
-        validationContainer.style.display = "block";
-    }
+function setMaxDistance(initialMaxDistance) {
+    const defaultMaxDistance = 100;
+    initialMaxDistance = typeof initialMaxDistance === "undefined" ? defaultMaxDistance : initialMaxDistance;
 
-    // Validate lowercase letters
-    let lowerCaseLettersReg = /[a-z]/g;
-    if(this.value.match(lowerCaseLettersReg)) {
-        letterVal.classList.remove("invalid");
-        letterVal.classList.add("valid");
-    } else {
-        letterVal.classList.remove("valid");
-        letterVal.classList.add("invalid");
-        validation = false;
-    }
-
-    // Validate capital letters
-    let upperCaseLettersReg = /[A-Z]/g;
-    if(this.value.match(upperCaseLettersReg)) {
-        capitalVal.classList.remove("invalid");
-        capitalVal.classList.add("valid");
-    } else {
-        capitalVal.classList.remove("valid");
-        capitalVal.classList.add("invalid");
-        validation = false;
-    }
-
-    // Validate numbers
-    let numbersReg = /[0-9]/g;
-    if(this.value.match(numbersReg)) {
-        numberVal.classList.remove("invalid");
-        numberVal.classList.add("valid");
-    } else {
-        numberVal.classList.remove("valid");
-        numberVal.classList.add("invalid");
-    }
-
-    // Validate length
-    const lengthValRequired = 8;
-    if(this.value.length >= lengthValRequired) {
-        lengthVal.classList.remove("invalid");
-        lengthVal.classList.add("valid");
-    } else {
-        lengthVal.classList.remove("valid");
-        lengthVal.classList.add("invalid");
-    }
-
-    // If everything has been entered correctly or field was left empty
-    if(this.value.match(lowerCaseLettersReg) && this.value.match(upperCaseLettersReg) && this.value.match(numbersReg) && this.value.length >= lengthValRequired || this.value === "") {
-        validation = true;
-    }
-});
-
-// Check whether own gender should only be shown:
-document.querySelector("#showOwnGenderOnly").addEventListener("change", function() {
-    if(this.checked) {
-        //TODO: Get information from back-end related to what logged in person's gender identify as.
-
-        // temp:
-        currentProfile = profiles[0];
-        // null checking
-        firstname = currentProfile.firstname == null ? "" : currentProfile.firstname + " ";
-        middlename = currentProfile.middlename == null ? "" : currentProfile.middlename + " ";
-        lastname = currentProfile.lastname == null ? "" : currentProfile.lastname + " ";
-        // logging
-        console.log("User " + firstname + middlename + lastname + "is of gender \'" + currentProfile.gender + "\'");
-
-        if(currentProfile.gender.toLowerCase() === "other") {
-            document.querySelector("#identifyAsContainer").style.display = "block";
+    // Set max distance select element accordingly
+    for (let i = 0; i < distanceMax.length; i++) {
+        let currentOption = distanceMax.options[i];
+        if(Number(currentOption.value) === initialMaxDistance) {
+            distanceMax.selectedIndex = i;
         }
     }
-    else {
-        let display = getComputedStyle(document.querySelector("#identifyAsContainer")).display;
-        if(display !== "none") {
-            document.querySelector("#identifyAsContainer").style.display = "none";
-        }
-    }
-});
+
+    // Set max distance range element accordingly:
+    // (Using .dispatchEvent so that everything that is related to change event on the select will be executed, changing
+    // the range element as well.)
+    distanceMax.dispatchEvent(new Event('change'));
+}
+
+function setDistanceResult(initialDistanceResult) {
+    let defaultDistanceResult = 20;
+    initialDistanceResult = typeof initialDistanceResult === "undefined" ? defaultDistanceResult : initialDistanceResult;
+    distanceRange.value = initialDistanceResult;
+    distanceResult.innerHTML = initialDistanceResult;
+}
 
 // TODO: Remove alerts
-function applySettingsEventlistener(settings, languages, profileVisibilities) {
+function applySettingsEventlistener(settings, languages, profileVisibilities, genders) {
     document.getElementById("apply").addEventListener("click", function (event) {
         event.preventDefault();
 
@@ -581,116 +622,108 @@ function applySettingsEventlistener(settings, languages, profileVisibilities) {
             // TODO: Store all information related to changes made to settings (language is done).
 
             // Get appropriate language identifier dependant on the selection of the language:
-            let languageName = "";
             languages.forEach(language => {
                if(language.languageKey === languageControl.value) {
                    languageId = language.id;
-                   languageName = language.name;
                }
             });
 
             // Get appropriate profile availability identifier dependant on the selection of the profile availability:
-            let profileAvailabilityName = "";
             profileVisibilities.forEach(option => {
                if(option.name === profileVisibilityControl.value) {
                    profileVisibilityId = option.id;
-                   profileAvailabilityName = option.name;
                }
             });
 
+            // Get appropriate configuration for showing own gender:
+            sameGender = sameGenderControl.checked;
+
+            // Get appropriate gender identifier dependant on the selection of the gender:
+            genders.forEach(gender => {
+                if(gender.name === genderControl.value) {
+                    displayGenderId = gender.id;
+                }
+            });
+
+            let maxDis = distanceMax.value;
+            let radDis = distanceResult.innerText;
+
             // Check whether a setting already exists for provided user:
             if(settings.length > 0) {
-                // Check whether setting contains the same language id already, preventing unnecessary execution of a sql-statement:
-                if(settings[0].languageId === languageId) {
-                    alert("Language has already been set to " + languageName);
+                // A setting for the user already exists, so an UPDATE should be executed:
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `setting` SET `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ? WHERE `setting`.`userId` = ?",
+                    [languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis, sessionUserId]
+                ).done(function() {
+                    // Password checking and update when necessary:
 
-                    if(settings[0].profileVisibilityId === profileVisibilityId) {
-                        alert("Profile availability has already been set to " + profileAvailabilityName);
-                        window.location.href = "homepage.html";
-                    }
-                    else {
-                        alert("Updating privacy setting");
-                        FYSCloud.API.queryDatabase(
-                            "UPDATE `setting` SET `profileVisibilityId` = ? WHERE `setting`.`userId` = ?;",
-                            [profileVisibilityId, sessionUserId]
-                        ).done(function() {
-                            window.location.href = "homepage.html";
-                        });
-                    }
-                }
-                else {
-                    alert("Updating language setting");
-                    // There's already an existing setting, execute update:
-                    FYSCloud.API.queryDatabase(
-                        "UPDATE `setting` SET `languageId` = ? WHERE `setting`.`userId` = ?;",
-                        [languageId, sessionUserId]
-                    ).done(function() {
-                        if(settings[0].profileVisibilityId === profileVisibilityId) {
-                            alert("Profile availability has already been set to " + profileAvailabilityName);
-                            window.location.href = "homepage.html";
+                    // Check if an attempt to change the password has been made:
+                    if(pwdFilledIn) {
+                        // Check if current password is entered correctly:
+                        if(newPwdMatchesOld) {
+                            // Check if the password to be changed has been properly confirmed:
+                            if (pwdRepeatMatch) {
+                                FYSCloud.API.queryDatabase(
+                                    "UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;",
+                                    [pwdInput.value, sessionUserId]
+                                ).done(function () {
+                                    window.location.href = "homepage.html";
+                                }).fail(function (reason) {
+                                    console.log(reason);
+                                });
+                            } else {
+                                alert("Repeated password does not match.")
+                            }
                         }
                         else {
-                            alert("Updating privacy setting");
-                            FYSCloud.API.queryDatabase(
-                                "UPDATE `setting` SET `profileVisibilityId` = ? WHERE `setting`.`userId` = ?;",
-                                [profileVisibilityId, sessionUserId]
-                            ).done(function() {
-                                window.location.href = "homepage.html";
-                            });
+                            alert("Current password is incorrect")
                         }
-                    }).fail(function (reason) {
-                        console.log(reason);
-                    });
-                }
+                    }
+                    else {
+                        window.location.href = "homepage.html";
+                    }
+                });
             }
             else {
-                alert("Inserting");
-                // There is no setting available yet, creating new setting, execute insert:
+                // There is no setting available yet, creating new setting, execute INSERT:
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileVisibilityId`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?);",
-                    [sessionUserId, languageId, profileVisibilityId, 0, 0, 0, 0]
+                    "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    [sessionUserId, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis]
                 ).done(function() {
-                    window.location.href = "homepage.html";
+                    // Password checking and update when necessary:
+
+                    // Check if an attempt to change the password has been made:
+                    if(pwdFilledIn) {
+                        // Check if current password is entered correctly:
+                        if(newPwdMatchesOld) {
+                            // Check if the password to be changed has been properly confirmed:
+                            if (pwdRepeatMatch) {
+                                FYSCloud.API.queryDatabase(
+                                    "UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;",
+                                    [pwdInput.value, sessionUserId]
+                                ).done(function () {
+                                    window.location.href = "homepage.html";
+                                }).fail(function (reason) {
+                                    console.log(reason);
+                                });
+                            } else {
+                                alert("Repeated password does not match.")
+                            }
+                        }
+                        else {
+                            alert("Current password is incorrect")
+                        }
+                    }
+                    else {
+                        window.location.href = "homepage.html";
+                    }
                 }).fail(function (reason) {
                     console.log(reason);
                 });
             }
-            // End of settings check
-
-            // if(passwordControl.value !== "" && passwordControl.value !== null && typeof passwordControl.value) {
-            //     FYSCloud.API.queryDatabase(
-            //         "UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;",
-            //         [passwordControl.value, sessionUserId]
-            //     ).done(function() {
-            //         alert("Updated the password");
-            //         window.location.href = "homepage.html";
-            //     }).fail(function (reason) {
-            //         console.log(reason);
-            //     });
-            // }
         } else {
             alert("Some fields are entered incorrectly!");
             event.preventDefault();
         }
     });
 }
-
-// On cancellation:
-/*document.querySelector("#cancel").addEventListener("click", function() {
-    window.location.href = "index.html";
-})*/
-
-/* Some sample code to pull a HTML file
-var request = new XMLHttpRequest();
-
-request.open('GET', '/somepage', true);
-
-request.onload = function() {
-    if (request.status >= 200 && request.status < 400) {
-        var resp = request.responseText;
-
-        document.querySelector('#div').innerHTML = resp;
-    }
-};
-
-request.send();*/
