@@ -17,6 +17,7 @@ function onHeaderLoaded() {
         updateMenuButtons();
     }
 
+    if(getCurrentUserID() !== undefined)
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE id = ?", [getCurrentUserID()]
     ).done(function (data) {
@@ -135,6 +136,7 @@ document.addEventListener("languageChangeEvent", function (event) {
 
 /** Notification - Database connection */
 //Fetch user notifications.
+if(getCurrentUserID() !== undefined)
 FYSCloud.API.queryDatabase(
     "SELECT * FROM usernotification WHERE targetUser = ?", [getCurrentUserID()]
 ).done(function (notificationData) {
