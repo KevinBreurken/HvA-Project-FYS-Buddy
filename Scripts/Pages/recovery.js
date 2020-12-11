@@ -1,3 +1,26 @@
+var recoveryTranslations = {
+    recovery: {
+        password: {
+            nl: `Wachtwoord herstellen`,
+            en: `Recover password`
+        },
+        login: {
+            nl: "Login",
+            en: "Login"
+        },
+        validationcontain: {
+            nl: "Je email moet het volgende bevatten",
+            en: "E-mail must contain the following"
+        },
+        forgotpass: {
+            nl: "Forgot your password?",
+            en: "Wachtwoord vergeten?"
+        },
+    },
+
+};
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(recoveryTranslations);
+
 function emailValidation() {
     var emailInput = document.getElementById("recovery-email").value;
     FYSCloud.API.queryDatabase(
