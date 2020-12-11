@@ -246,7 +246,7 @@ async function openTabContent(currentButton) {
     WHERE r.roleId = 1`+ queryExtension
         , queryArray);
 
-    console.log(userList)
+    // console.log(userList)
 
     $(tab).html("");
     if (userList.length !== 0) {

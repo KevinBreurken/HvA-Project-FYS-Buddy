@@ -19,7 +19,7 @@ function onHeaderLoaded() {
 
     if(getCurrentUserID() !== undefined)
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE id = ?", [getCurrentUserID()]
+        "SELECT * FROM fys_is111_1_dev.user WHERE id = ?", [getCurrentUserID()]
     ).done(function (data) {
         if (data.length !== undefined)
             $('#profile-display-name').html(data[0]["username"]);

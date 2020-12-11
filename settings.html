@@ -18,18 +18,18 @@
         <div class="settings-nav-container">
             <nav id="settingsNavigation">
                 <ul>
-                    <li>
-                        <a href="#accountSettings" data-translate="settings.account">Account</a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="#accountSettings" data-translate="settings.account">Account</a>-->
+<!--                    </li>-->
                     <li>
                         <a href="#securitySettings" data-translate="settings.security">Security</a>
                     </li>
                     <li>
                         <a href="#privacySettings" data-translate="settings.privacy">Privacy</a>
                     </li>
-                    <li>
-                        <a href="#blockSettings" data-translate="settings.block">Block</a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="#blockSettings" data-translate="settings.block">Block</a>-->
+<!--                    </li>-->
                     <li>
                         <a href="#preferencesSettings" data-translate="settings.preferences">Preferences</a>
                     </li>
@@ -50,9 +50,9 @@
                             <option value="" selected disabled hidden>
                             </option>
                         </select>
-                        <h2 id="accountSettings" data-translate="settings.account">Account</h2>
-                        <label data-translate="settings.account.label">Disable profile</label>
-                        <a href="#" id="disableProfile" data-translate="settings.account.anchor">Disable</a>
+<!--                        <h2 id="accountSettings" data-translate="settings.account">Account</h2>-->
+<!--                        <label data-translate="settings.account.label">Disable profile</label>-->
+<!--                        <a href="#" id="disableProfile" data-translate="settings.account.anchor">Disable</a>-->
                         <h2 id="securitySettings" data-translate="settings.security">Security</h2>
                         <label for="currentAccountPassword" data-translate="settings.security.currentPassword">Current password</label>
                         <input type="password" id="currentAccountPassword" name="currentAccountPassword">
@@ -72,17 +72,13 @@
                             </ul>
                         </div>
                         <h2 id="privacySettings" data-translate="settings.privacy">Privacy</h2>
-                        <label for="profileAvailability" data-translate="settings.privacy.label">Profile visible to</label>
-                        <select id="profileAvailability" name="profileAvailability">
-                            <!--<option disabled selected hidden value=""></option>-->
-                            <option value="everyone" data-translate="settings.privacy.select.everyone">Everyone</option>
-                            <option value="matchesOnly" data-translate="settings.privacy.select.matchesOnly">Matches only</option>
-                            <option value="justMe" data-translate="settings.privacy.select.justMe">Just me</option>
+                        <label for="profileVisibility" data-translate="settings.privacy.label">Profile visible to</label>
+                        <select id="profileVisibility" name="profileVisibility">
                         </select>
-                        <h2 id="blockSettings" data-translate="settings.block">Block</h2>
-                        <label for="search-block" data-translate="settings.block.label">Search</label>
-                        <input type="search" id="search-block" />
-                        <button type="button" id="block-user" data-translate="settings.block.button">Block</button>
+<!--                        <h2 id="blockSettings" data-translate="settings.block">Block</h2>-->
+<!--                        <label for="search-block" data-translate="settings.block.label">Search</label>-->
+<!--                        <input type="search" id="search-block" />-->
+<!--                        <button type="button" id="block-user" data-translate="settings.block.button">Block</button>-->
                         <h2 id="preferencesSettings" data-translate="settings.preferences">Preferences</h2>
                         <div>
                             <input type="checkbox" class="" id="showOwnGenderOnly">
@@ -120,15 +116,15 @@
                             <input type="range" id="distance" name="distance" min="0" max="100" value="20" />
                         </div>
                         <p><span data-translate="settings.preferences.distanceResultLabel">The distance has been set to: </span><span id="distanceResult"></span> <span id="distanceUnitResult">km</span></p>
-                        <h2 id="notificationsSettings" data-translate="settings.notifications">Notifications</h2>
-                        <div>
-                            <input type="checkbox" class="" id="statusNotified">
-                            <label class="disable-highlight-select" for="statusNotified" data-translate="settings.notifications.optionOneLabel">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>
-                        </div>
-                        <div>
-                            <input type="checkbox" class="" id="updatesNotified">
-                            <label class="disable-highlight-select" for="updatesNotified" data-translate="settings.notifications.optionTwoLabel">I would like to get notified by e-mail about updates to the app</label>
-                        </div>
+<!--                        <h2 id="notificationsSettings" data-translate="settings.notifications">Notifications</h2>-->
+<!--                        <div>-->
+<!--                            <input type="checkbox" class="" id="statusNotified">-->
+<!--                            <label class="disable-highlight-select" for="statusNotified" data-translate="settings.notifications.optionOneLabel">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <input type="checkbox" class="" id="updatesNotified">-->
+<!--                            <label class="disable-highlight-select" for="updatesNotified" data-translate="settings.notifications.optionTwoLabel">I would like to get notified by e-mail about updates to the app</label>-->
+<!--                        </div>-->
                         <h2 id="appInformation" data-translate="settings.information">Information</h2>
                         <span><span data-translate="settings.information.version">Version </span> 1.0</span>
                         <br />
