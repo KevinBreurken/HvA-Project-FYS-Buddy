@@ -2,94 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FYS Admin Panel</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
-            integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+    <script src="Scripts/config.js"></script>
+    <script src="Scripts/app.js" id="app" data-pageType="admin"></script>
+    <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
     <script>
         isOnAdminProfile = true;
         currentMenuType = 'overview data';
     </script>
-    <link rel="stylesheet" href="Content/admin-panel.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/admin-panel.css">
 </head>
 <body>
+<header></header>
 <main id="admin">
-    <table>
-        <tr class="row-header">
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Address</th>
-            <th scope="col">Actions</th>
+    <table id="myTable">
+        <thead>
+        <tr>
+            <th data-translate="table.head.id"></th>
+            <th data-translate="table.head.email"></th>
+            <th data-translate="table.head.password"></th>
+            <th data-translate="table.head.username"></th>
+            <th data-translate="table.head.delete"></th>
+            <th data-translate="table.head.edit"></th>
         </tr>
+        </thead>
+        <tbody id="tableBody">
 
-        <tr class="row-data" id="row-data-1">
-            <td class="pointer" onclick="showDetails(1)">John</td>
-            <td>John@gmail.com</td>
-            <td>New York</td>
-            <td>
-                <a href="#" class="fake-btn" onclick="deleteRow(1)">Delete</a>
-                <a href="#" class="fake-btn">Edit</a>
-            </td>
-        </tr>
-
-        <tr class="row-data" id="row-data-2">
-            <td class="pointer">Peter</td>
-            <td>Peter@gmail.com</td>
-            <td>Las Vegas</td>
-            <td>
-                <a href="#" class="fake-btn" onclick="deleteRow(2)">Delete</a>
-                <a href="#" class="fake-btn">Edit</a>
-            </td>
-        </tr>
-
-        <tr class="row-data" id="row-data-3">
-            <td class="pointer">Marie</td>
-            <td>Marie@gmail.com</td>
-            <td>Boston</td>
-            <td>
-                <a href="#" class="fake-btn" onclick="deleteRow(3)">Delete</a>
-                <a href="#" class="fake-btn">Edit</a>
-            </td>
-        </tr>
+        </tbody>
     </table>
 
-    <div id="overlay">
-        <p class="fake-btn" onclick="closeDetails()">Close</p>
-        <h2>Extra user information</h2>
-        <img src="Image/profile-picture-2.jpg" alt="profile photo"
-             width="200px" height="200px"
-             style="display: inline"/>
+    <div id="edit-user">
+        <button class="btn right" onclick="closeDetails()">Close</button>
+        <h2 data-translate="edit.head"></h2>
 
-        <div class="user-info">
-            <p>Name: John Smith</p>
-            <p>Email: John@gmail.com</p>
-            <p>Address: New York</p>
-            <p>Last login: 14:34</p>
-            <p>Number of matches: 34</p>
+        <div class="user-card">
+            <img id="profile-photo" width="200px" height="200px" class="profile-picture"/>
+
+            <h3 data-translate="edit.head.subhead1"></h3>
+            <!--User ID-->
+            <p class="user-info">
+                <label for="user-info-0" id="user-attribute-0"></label>
+                <input type="number" id="user-info-0" value="" readonly disabled>
+            </p>
+            <!--User Email-->
+            <p class="user-info">
+                <label for="user-info-1" id="user-attribute-1"></label>
+                <input type="text" id="user-info-1" value="">
+            </p>
+            <!--User Password-->
+            <p class="user-info">
+                <label for="user-info-2" id="user-attribute-2"></label>
+                <input type="text" id="user-info-2" value="">
+            </p>
+            <!--User Username-->
+            <p class="user-info">
+                <label for="user-info-3" id="user-attribute-3"></label>
+                <input type="text" id="user-info-3" value="">
+            </p>
         </div>
+
+        <div class="profile-card">
+            <h3 data-translate="edit.head.subhead2"></h3>
+            <!--Profile user id-->
+            <p class="user-info">
+                <label for="user-info-4" id="user-attribute-4"></label>
+                <input type="number" id="user-info-4" disabled readonly>
+            </p>
+            <!--Profile DoB-->
+            <p class="user-info">
+                <label for="user-info-5" id="user-attribute-5"></label>
+                <input type="text" id="user-info-5">
+            </p>
+            <!--Profile Lastname-->
+            <p class="user-info">
+                <label for="user-info-6" id="user-attribute-6"></label>
+                <input type="text" id="user-info-6">
+            </p>
+            <!--Profile Phone-->
+            <p class="user-info">
+                <label for="user-info-7" id="user-attribute-7"></label>
+                <input type="text" id="user-info-7">
+            </p>
+            <!--Profile DoB-->
+            <p class="user-info">
+                <!--Datum correct invoegen-->
+                <label for="user-info-8" id="user-attribute-8"></label>
+                <input type="date" id="user-info-8">
+            </p>
+            <!--Profile LocationId-->
+            <p class="user-info">
+                <label for="user-info-9" id="user-attribute-9"></label>
+                <input type="number" id="user-info-9">
+            </p>
+            <!--Profile Phone-->
+            <p class="user-info">
+                <label for="user-info-10" id="user-attribute-10"></label>
+                <input type="text" id="user-info-10">
+            </p>
+            <!--Profile Biography-->
+            <p class="user-info">
+                <label for="user-info-11" id="user-attribute-11"></label>
+                <input type="text" id="user-info-11">
+            </p>
+            <!--Profile Buddy type-->
+            <p class="user-info">
+                <label for="user-info-12" id="user-attribute-12"></label>
+                <input type="number" id="user-info-12">
+            </p>
+            <!--Profile PictureUrl-->
+            <p class="user-info">
+                <label for="user-info-13" id="user-attribute-13"></label>
+                <input type="text" id="user-info-13">
+            </p>
+        </div>
+
+        <p id="submit-form" class="btn" data-translate="edit.button">Update</p>
+
     </div>
     <div id="overlay-background"></div>
 </main>
 </body>
 </html>
-<script>
-    function showDetails() {
-        let overlay = document.getElementById('overlay')
-        let overlayBackground = document.getElementById('overlay-background')
-        overlay.style.display = 'block'
-        overlayBackground.style.display = 'block'
-    }
-
-    function closeDetails() {
-        let overlay = document.getElementById('overlay')
-        let overlayBackground = document.getElementById('overlay-background')
-        overlay.style.display = 'none'
-        overlayBackground.style.display = 'none'
-    }
-
-    function deleteRow(number) {
-        let overlay = document.getElementById('row-data-' + number)
-        overlay.remove()
-    }
-
-</script>
+<script src="Scripts/Pages/admin-panel.js"></script>

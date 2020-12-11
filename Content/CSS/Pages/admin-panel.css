@@ -1,0 +1,81 @@
+* {
+    padding: 0;
+    font-family: var(--font-family);
+}
+
+#admin table {
+    margin: 24px auto 24px auto;
+    text-align: center;
+}
+
+#admin table, #admin th, #admin tr, #admin td {
+    border: var(--border-corendon-grey);
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+#admin .pointer {
+    cursor: pointer;
+}
+
+#admin #edit-user {
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    opacity: 1;
+    z-index: 20;
+    display: none;
+    height: auto;
+    width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    border: var(--border-corendon-grey);
+}
+
+#admin .btn {
+    padding: 8px 12px;
+    border-radius: 3px;
+    background: var(--color-corendon-green);
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    transition: 500ms;
+    cursor: pointer;
+    border: none;
+}
+
+#admin .btn:hover {
+    background: var(--color-corendon-dark-green);
+    transition: 500ms;
+}
+
+#admin #edit-user .right {
+    float: right;
+}
+
+/* background overlay */
+#overlay-background {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.profile-picture {
+    float: right;
+}
+
+#myTable th:first-letter, #myTable td button:first-letter {
+    text-transform: capitalize;
+}
+
+button.btn {
+    visibility: visible;
+}
