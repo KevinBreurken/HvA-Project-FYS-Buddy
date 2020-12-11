@@ -67,6 +67,14 @@ var profileTranslation = {
         bio:{
             nl: "Biografie",
             en: "Biography"
+        },
+        block:{
+            nl: "Blokkeer",
+            en: "Block"
+        },
+        match:{
+            nl: "Stuur vriendschapsverzoek",
+            en: "Send request"
         }
     }
 };
@@ -125,7 +133,8 @@ function countCharacters() {
 //count = document.getElementById('biography');
 //count.addEventListener('keyup', countCharacters, false);
 //let userId5 = getCurrentUserID();
-// TODO: get the id from url for profile display.
+
+
 //get the url
 var pageUrl = window.location.href;
 
@@ -288,17 +297,10 @@ let datetime = currentdate + " " + currenttime;
 
 $("#leftbox").html(datetime);
 
-// TODO: make translation language dynamic.
-// document.addEventListener("languageChangeEvent", function (event) {
-//     console.log(event.detail.id);
-//     let newString = FYSCloud.Localization.Buddy.addTranslationJSON("profile.username");
-//     newString = newString.replace("");
-// });
-
 if (currentUserId !== profileId) {
     $("#profileButtons").append(
-    `<input type="button" onclick="changeButton()" id="match" class="match" value="Send request">
-        <input type="button" onclick="changeButton2()" id="block" class="block" value="Block">`);
+    `<button type="button" onclick="changeButton()" id="match" class="match" data-translate="profile.match">Send Request</button>
+        <button type="button" onclick="changeButton2()" id="block" class="block" data-translate="profile.block">Block</button>`);
 } else if (currentUserId === profileId) {
-    $("#button").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
+    $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
 }
