@@ -357,6 +357,18 @@ let url
 let picExtension
 
 function register() {
+    bio = $('#bio').val()
+
+    let hobbies = $('.hobby')
+    // Loops through all the checked hobbies and add them to the array
+    let counter = 0
+    for (let i = 0; i < hobbies.length; i++) {
+        if (hobbies[i].checked) {
+            hobby[counter] = hobbies[i].value
+            counter++
+        }
+    }
+
     FYSCloud.API.queryDatabase(
         "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?);",
         [username, email, password]
@@ -375,7 +387,7 @@ function register() {
                 )
 
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
+                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (?, ?, '1', '1', '1', '1', '1', '11', '500')",
                     [setId, setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
                 ).done(function (data) {
                     for (let i = 0; i < hobby.length; i++) {
@@ -392,7 +404,7 @@ function register() {
             }
         ).fail(function (reason) {
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
+                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, NULL, NULL);INSERT INTO setting (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (?, ?, '1', '1', '1', '1', '1', '11', '500')",
                     [setId, setId, firstname, lastname, gender, dobFormat, bio, setId, setId]
                 ).done(function (data) {
                     for (let i = 0; i < hobby.length; i++) {
