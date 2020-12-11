@@ -5,6 +5,9 @@ Anything related to the progress of the development for the FYS cloud app can be
 
 For any questions, please refer to the git maintainers for this project.
 
+# EER:
+The EER can be found in the poject's directory.
+
 # Login:
 
 To login as an admin, you can use this account: \
