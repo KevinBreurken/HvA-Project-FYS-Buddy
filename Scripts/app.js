@@ -1,57 +1,45 @@
+$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>'); //Required for session data.
+
 let currentUserID = getCurrentUserID();
+let currentPageType;
 console.log("currentUserID = " + currentUserID);
-if (currentUserID === undefined) {
+if (currentUserID === undefined)
     console.log("Not logged in");
-}
+
 /** Redirect when not logged in */
 let appElement = document.getElementById("app");
 if (appElement !== null) {
-    let attrElement = appElement.getAttribute("data-pageType");
-    if (attrElement === "user" || attrElement === "admin") {
-        //Check if user is logged in.
-        if (getCurrentUserID() === undefined)
-            window.open("index.html", "_self");
-    }
-    if (attrElement === "admin") {
-        FYSCloud.API.queryDatabase(
-                `SELECT * from userrole WHERE userid = ? AND roleId = ?`,
-            [getCurrentUserID(), 2]// 2 == Admin ID
-        ).done(function (data) {
-            //If no entry of an admin role is found..
-            if (data.length === 0) {
-                if (getCurrentUserID() === undefined)
-                    window.open("index.html", "_self");
-                else
-                    window.open("homepage.html", "_self");
-            }
-        }).fail(function (reason) {
-            console.log(reason);
-        });
-    }
-}
+    currentPageType = appElement.getAttribute("data-pageType");
+    switch (currentPageType) {
+        case "default":
+            if (currentUserID !== undefined) //User is logged in, send to homepage
+                window.open("homepage.html", "_self");
+            break;
+        case "user":
+            if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
+                window.open("index.html", "_self");
+            break;
+        case "admin":
+            if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
+                window.open("index.html", "_self");
 
-function redirectToHome() {
-    let appElement = document.getElementById("app");
-    if (appElement !== null) {
-        let attrElement = appElement.getAttribute("data-pageType");
-        if (attrElement === "user") {
-            window.open("homepage.html", "_self");
-        }
-        if (attrElement === "admin") {
-            window.open("admin-profile.html", "_self");
-        }
+            getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`,
+                [currentUserID, 2]).then((data) => {
+                if (data.length === 0) {
+                    const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
+                    window.open(redirectURL, "_self");
+                }
+            });
+            break;
     }
 }
 
 let headElement = $('head');
-//add the general stylesheet to the page's header.
-// headElement.append('<link rel="stylesheet" type="text/css" href="Content/CSS/default.css">');
-//add the favicon to the page's header.
+//add general page elements to the head tag.
 headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
-//add the config file
 headElement.append(`<title>Corendon Travel Buddy</title>`);
 
-/** Localisation */
+/** Localisation wrapper*/
 FYSCloud.Localization.CustomTranslations = (function ($) {
     const exports = {
         addTranslationJSON: addTranslationJSON,
@@ -60,13 +48,14 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
         getStringFromTranslations: getStringFromTranslations
     };
 
-    var currentLanguage;
-    var currentTranslations;
+    let currentLanguage;
+    let currentTranslations;
 
     function setLanguage(language) {
         currentLanguage = language;
+        FYSCloud.Session.set("language", currentLanguage);
         FYSCloud.Localization.switchLanguage(currentLanguage);
-        //Fire an event.
+        //Fire an language event.
         document.dispatchEvent(new CustomEvent("languageChangeEvent", {
             detail: {id: currentLanguage}
         }));
@@ -98,6 +87,9 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
         return result[languageID];
     }
 
+    /**
+     * Combines multiple translation objects into one.
+     */
     function addTranslationJSON(jsonObject) {
         if (currentTranslations === undefined)
             currentTranslations = jsonObject;
@@ -110,15 +102,50 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
     return exports;
 })(jQuery);
 
-/** Sessions */
+//TODO: Change this to the users preference.
+/** Change language when the Header is Loaded */
+var initialLanguage = FYSCloud.Session.get("language", "nl");
+FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
+
+
+document.addEventListener("headerLoadedEvent", function (event) {
+    FYSCloud.Localization.translate(false);
+});
+
+/**
+ * Changes the userID set in the users local storage.
+ */
 function setCurrentUserID(id) {
     FYSCloud.Session.set("userID", `${id}`);
 }
 
+/**
+ * Returns the value of the current user set in the local storage.
+ */
 function getCurrentUserID() {
     return FYSCloud.Session.get("userID");
 }
 
+/**
+ * Sends the user back to it's most appropriate page (called by clicking banner image)
+ */
+function redirectToHome() {
+    switch (currentPageType) {
+        case "default":
+            window.open("index.html", "_self");
+            break;
+        case "user":
+            window.open("homepage.html", "_self");
+            break;
+        case "admin":
+            window.open("admin-profile.html", "_self");
+            break;
+    }
+}
+
+/**
+ * Closes an session and sends the user back to the index page.
+ */
 function closeSession() {
     /** Statistics - Set page visit */
     var name = window.location.pathname
@@ -127,64 +154,72 @@ function closeSession() {
             return c.length;
         })
         .pop();
-    FYSCloud.API.queryDatabase(
-            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
+    getDataByPromise(`INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 0,1) ON DUPLICATE KEY UPDATE
         logoutamount = logoutamount + 1`,
-        [name]
-    ).done(function (data) {
-    }).fail(function (reason) {
-        console.log(reason);
-    });
+        [name]);
     FYSCloud.Session.clear();
     window.open("index.html", "_self");
 }
 
+/**
+ * Sends the user to the profile page with the given usedID.
+ * @param id id op the profile being opened.
+ */
 function redirectToProfileById(id) {
     FYSCloud.URL.redirect("profile.html", {
         id: id
     });
 }
 
-/** function for getting user data from the database by a promise */
+/** default function for getting user data from the database by a promise */
 function getDataByPromise(query, queryArray) {
-    return new Promise(resolve => {
-        FYSCloud.API.queryDatabase(
-            query, queryArray
-        ).done(function (data) {
-            resolve(data);
-        }).fail(function (reason) {
-            console.log(reason);
-        });
+    return new Promise((resolve, reject) => {
+        FYSCloud.API.queryDatabase(query, queryArray)
+            .done(data => resolve(data))
+            .fail(reason => reject(reason));
     });
 }
 
-//TODO: Change this to the users preference.
-/** Change language when the Header is Loaded */
-var initialLanguage = "nl";
-document.addEventListener("headerLoadedEvent", function (event) {
-    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
-});
+/**
+ *
+ * @param date The date format from javascript
+ * @returns A date value for <input type="date">
+ */
+function parseDateToInputDate(date) {
+    let parsedDate = new Date(date);
+    let day = ("0" + parsedDate.getDate()).slice(-2)
+    let month = ("0" + (parsedDate.getMonth() + 1)).slice(-2)
+    return parsedDate.getFullYear() + "-" + (month) + "-" + (day)
+}
 
-/** Statistics - Set page visit */
+/** Sends page related statistics to the database */
 (function setDatabasePageData() {
-    var name = window.location.pathname
-        .split("/")
-        .filter(function (c) {
-            return c.length;
-        })
-        .pop();
-    FYSCloud.API.queryDatabase(
-            `INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
+    //we don't want to send page data as an admin.
+    if (currentPageType === "admin")
+        return;
+    var name = window.location.pathname.split("/").filter(function (c) {
+        return c.length;
+    }).pop();
+
+    getDataByPromise(`INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
         visitcount = visitcount + 1`,
-        [name]
-    ).done(function (data) {
-    }).fail(function (reason) {
-        console.log(reason);
-    });
+        [name]);
 })();
 
+/**
+ * Stores the users session and performs login related tasks.
+ * @param id userID of the user.
+ */
+async function loginUser(id) {
+    setCurrentUserID(id);
+    await sendSessionData();
+    await redirectUserByUserRole();
+}
+
+/**
+ * Sends session data to the FYS database.
+ */
 async function sendSessionData() {
-    $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>');
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
     const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
@@ -192,13 +227,10 @@ async function sendSessionData() {
         VALUES(NULL,'${dateTest}','${getDeviceType()}','${detectBrowser()}')`);
 }
 
-async function loginUser(id) {
-    setCurrentUserID(id);
-    await sendSessionData();
-    await determineRedirectLocation();
-}
-
-async function determineRedirectLocation() {
+/**
+ * sends an user to the homepage or admin-profile by its user role.
+ */
+async function redirectUserByUserRole() {
     let data = await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
     if (data.length === 0)
         window.open("homepage.html", "_self");

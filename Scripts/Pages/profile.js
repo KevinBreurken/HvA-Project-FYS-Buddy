@@ -1,3 +1,85 @@
+var profileTranslation = {
+    profile: {
+        username: {
+            nl: "Gebruikersnaam: ",
+            en: "Username: "
+        },
+        firstname: {
+            nl: "Voornaam: ",
+            en: "First name: "
+        },
+        lastname: {
+            nl: "Achternaam: ",
+            en: "Last name: "
+        },
+        gender: {
+            nl: "Geslacht",
+            en: "Gender"
+        },
+        age: {
+            nl: "leeftijd: ",
+            en: "Age: "
+        },
+        ageTitle: {
+            nl: "Leeftijd",
+            en: "Age"
+        },
+        dob: {
+            nl: "Geboortedatum: ",
+            en: "Date of Birth: "
+        },
+        destination: {
+            nl: "Bestemming: ",
+            en: "Destination: "
+        },
+        from: {
+            nl: "Van: ",
+            en: "From: "
+        },
+        untill: {
+            nl: "Tot: ",
+            en: "Untill: "
+        },
+        lookingfor: {
+            nl: "Opzoek naar: ",
+            en: "I am looking for: "
+        },
+        phone: {
+            nl: "Tel: ",
+            en: "Phone: "
+        },
+        contact: {
+            nl: "Contact Informatie",
+            en: "Contact Information"
+        },
+        trip: {
+            nl: "Trip Informatie",
+            en: "Trip Information"
+        },
+        editbutton:{
+            nl: "Profiel Aanpassen",
+            en: "Edit Profile"
+        },
+        interest:{
+            nl: "Interesses",
+            en: "Interests"
+        },
+        bio:{
+            nl: "Biografie",
+            en: "Biography"
+        },
+        block:{
+            nl: "Blokkeer",
+            en: "Block"
+        },
+        match:{
+            nl: "Stuur vriendschapsverzoek",
+            en: "Send request"
+        }
+    }
+};
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
+
 function changeButton() {
     document.getElementById('match').value = "Requested";
 }
@@ -5,6 +87,7 @@ function changeButton() {
 function changeButton2() {
     document.getElementById('block').value = "Blocked";
 }
+
 function AgeCheck() {
     const MIN_AGE = 18;
     const MAX_AGE = 100;
@@ -38,136 +121,181 @@ function AgeCheck() {
 }
 
 let count;
+
 function countCharacters() {
     var textEntered, countRemaining, counter;
     textEntered = document.getElementById('biography').value;
-    counter = (500- (textEntered.length));
+    counter = (500 - (textEntered.length));
     countRemaining = document.getElementById('charactersRemaining');
     countRemaining.textContent = counter;
 }
-count = document.getElementById('biography');
-count.addEventListener('keyup', countCharacters, false);
 
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM user"
-    ).done(function (data) {
-        console.log(data);
-        generateProfileDisplay(data);
-    }).fail(function () {
-        alert("paniek");
-    });
+//count = document.getElementById('biography');
+//count.addEventListener('keyup', countCharacters, false);
+//let userId5 = getCurrentUserID();
+
+
+//get the url
+var pageUrl = window.location.href;
+
+//split at the userId
+var array1 = pageUrl.split("id=");
+console.log(array1[1]);
+
+let profileId = array1[1];
+if (array1 === null) {
+    profileId = getCurrentUserID();
+}
+let currentUserId = getCurrentUserID();
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM profile where id = ?", [profileId]
+).done(function (data) {
+    console.log(data);
+    generateProfileDisplay(data);
+    generateBuddy(data);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM user where id = ?", [profileId]
+).done(function (data) {
+    console.log(data);
+    generateUserinfo(data);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM travel where id = ?", [profileId]
+).done(function (data) {
+    console.log(data);
+    generateTravelInfo(data);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT `destination` FROM location where id = ?", [profileId]
+).done(function (data) {
+    console.log(data);
+    generateDestination(data);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM userinterest where userId = ?", [profileId]
+).done(function (data) {
+    console.log(data);
+    generateInterests(data);
+}).fail(function () {
+    alert("paniek");
+});
 
 function generateProfileDisplay(data) {
     let userData = data[0];
-
-    let username = userData.username == null ? "" : userData.username;
+    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + userData.pictureUrl;
     let firstname = userData.firstname == null ? "" : userData.firstname;
     let lastname = userData.lastname == null ? "" : userData.lastname;
     let gender = userData.gender == null ? "" : userData.gender;
-
-    let date = new Date(userData.date_of_birth);
-    let dob = userData.date_of_birth == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
+    let date = new Date(userData.dob);
+    let dob = userData.dob == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let ageBerekening = new Date().getFullYear() - date.getFullYear();
-    console.log(ageBerekening);
-    let age = userData.date_of_birth == null ? "" : ageBerekening;
-
-    let interests = userData.interests == null ? "" : userData.interests;
-
+    let age = userData.dob == null ? "" : ageBerekening;
     let biography = userData.biography == null ? "" : userData.biography;
+    let tel = userData.phone == null ? "" : userData.phone;
 
-    let email = userData.email == null ? "" : userData.email;
-
-    let tel = userData.tel == null ? "" : userData.tel;
-
-    let destination = userData.destination == null ? "" : userData.destination;
-
-    date = new Date(userData.start_date);
-    let start_date = userData.start_date == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-    date = new Date(userData.end_date);
-    let end_date = userData.end_date == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-
-    let buddy = userData.lookingfor == null ? "" : userData.lookingfor;
-
-    $("#username").html("<b>Username: </b>" + username);
-    $("#usernameTitle").html(username);
-    $("#firstname").html("<b>First name: </b>" + firstname);
-    $("#lastname").html("<b>Last name: </b>" + lastname);
+    $("#img").attr("src", url);
+    $("#firstname").html("<b data-translate='profile.firstname'>First name: </b>" + firstname);
+    $("#lastname").html("<b data-translate='profile.lastname'>Last name: </b>" + lastname);
     $("#gender").html(gender);
-    $("#age").html("<b>Age: </b>" + age);
-    $("#dob").html("<b>Date of birth: </b>" + dob);
-    $("#badge1").html(interests);
-
+    $("#age").html("<b data-translate='profile.age'>Age: </b>" + age);
+    $("#dob").html("<b data-translate='profile.dob'>Date of birth: </b>" + dob);
     $("#biography").html(biography);
-    $("#email").html("<b>E-mail: </b>" + email);
-    $("#tel").html("<b>Tel: </b>" + tel);
-    $("#destination").html("<b>Destination: </b>" + destination);
-    $("#from").html("<b>From: </b>" + start_date);
-    $("#untill").html("<b>Untill: </b>" + end_date);
-    $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
-
-    // TODO: test the user's gender and interests with data from database.
-    //let gendertest = userData.gender;
-    // if(gendertest.val("Female")) {
-    //     let test = $("#female").attr("checked", true);
-    //     console.log(test);
-    //}
+    $("#tel").html("<b data-translate='profile.phone'>Tel: </b>" + tel);
 }
-    var profileTranslation = {
-        profile: {
-            username: {
-                nl: "<b>Gebruikersnaam: </b>",
-                en: "<b>Username:</b> "
-            },
-            firstname: {
-                nl: "<b>Voornaam: </b>",
-                en: "<b>First name: </b>"
-            },
-            lastname: {
-                nl: "<b>Achternaam: </b>",
-                en: "<b>Last name: </b>"
-            },
-            gender: {
-                nl: "<b>Geslacht</b>",
-                en: "<b>Gender</b>"
-            },
-            age: {
-                nl: "<b>Leeftijd: </b>",
-                en: "<b>Age: </b>"
-            },
-            dob: {
-                nl: "<b>Geboortedatum: </b>",
-                en: "<b>Date of Birth: </b>"
-            },
-            destination: {
-                nl: "<b>Bestemming: </b>",
-                en: "<b>Destination: </b>"
-            },
-            from: {
-                nl: "<b>Van: </b>",
-                en: "<b>From: </b>"
-            },
-            untill: {
-                nl: "<b>Tot</b>",
-                en: "<b>Untill: </b>"
-            },
-            lookingfor: {
-                nl: "<b>Opzoek naar: </b>",
-                en: "<b>I am looking for: </b>"
-            }
 
+function generateTravelInfo(data) {
+    let userData = data[0];
+
+    date = new Date(userData.startdate);
+    let start_date = userData.startdate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+
+    date = new Date(userData.enddate);
+    let end_date = userData.enddate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    $("#from").html("<b data-translate='profile.from'>From: </b>" + start_date);
+    $("#untill").html("<b data-translate='profile.untill'>Untill: </b>" + end_date);
+}
+
+function generateUserinfo(data) {
+    let userData = data[0];
+    let username = userData.username == null ? "" : userData.username;
+    let email = userData.email == null ? "" : userData.email;
+    $("#username").html("<b data-translate='profile.username'>Username: </b>" + username);
+    $("#usernameTitle").html(username);
+    $("#email").html("<b>E-mail: </b>" + email);
+}
+
+function generateBuddy(data) {
+    let userData = data[0];
+    let buddy;
+    if (userData.buddyType === 1) {
+        buddy = "a buddy";
+        $("#lookingFor").html("<b data-translate='profile.lookingfor'>I am looking for: </b>" + buddy);
+    } else if (userData.buddyType === 2) {
+        buddy = "an activity buddy"
+        $("#lookingFor").html("<b data-translate='profile.lookingfor'>I am looking for: </b>" + buddy);
+    } else if (userData.buddyType === 3) {
+        buddy = "a travel buddy"
+        $("#lookingFor").html("<b data-translate='profile.lookingfor'>I am looking for: </b>" + buddy);
+    }
+}
+
+function generateDestination(data) {
+    let userData = data[0];
+    let destination = userData.destination == null ? "" : userData.destination;
+    $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
+}
+
+function generateInterests(data) {
+    for (let i = 0; i < data.length; i++) {
+        $("#interests").append("<div style='color: var(--color-corendon-white);\n" +
+            "    background-color: var(--color-corendon-red);\n" +
+            "    display: inline-block;\n" +
+            "    padding: .25em .4em;\n" +
+            "    font-size: 75%;\n" +
+            "    font-weight: 700;\n" +
+            "    line-height: 1;\n" +
+            "    text-align: center;\n" +
+            "    white-space: nowrap;\n" +
+            "    vertical-align: baseline;\n" +
+            "    border-radius: .25rem;\n" +
+            "    margin: 2px;'>" + data[i].interestId + "<div>");
+    }
+}
+
+let imgLoc;
+$("#fileUpload").on("change", function () {
+    FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
+        if (data.isImage) {
+            $("#imagePreview").attr("src", data.url)
+        } else {
+            $("#imagePreview").attr("src", null,)
         }
+    }).fail(function (reason) {
+        $("#filePreviewResult").html(reason)
+    })
+})
 
-    };
-
-$(function () {
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
-});
-
-// TODO: make translation language dynamic.
-// document.addEventListener("languageChangeEvent", function (event) {
-//     console.log(event.detail.id);
-//     let newString = FYSCloud.Localization.Buddy.addTranslationJSON("profile.username");
-//     newString = newString.replace("");
-// });
+if (currentUserId !== profileId) {
+    $("#profileButtons").append(
+    `<button type="button" onclick="changeButton()" id="match" class="match" data-translate="profile.match">Send Request</button>
+        <button type="button" onclick="changeButton2()" id="block" class="block" data-translate="profile.block">Block</button>`);
+} else if (currentUserId === profileId) {
+    $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
+    // $("#saveChangesBtn").addEventListener("click", function (){
+    //     window.location.href = "profile-edit.html" + "?id=" + currentUserId;
+    //})
+}

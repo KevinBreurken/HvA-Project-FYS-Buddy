@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="default"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js"></script>
+    <script src="Scripts/Pages/recovery.js"></script>
     <script>
         isOnAdminProfile = false;
         currentMenuType = 'home';
@@ -22,14 +22,14 @@
 <header></header>
     <div class="container">
         <div class="content-wrapper">
-            <h1 id="form-title">Recover password</h1>
+            <h1 id="form-title" data-translate="recovery.password">Recover password</h1>
                 <div class="inputs">
                     <label for="email">Email:</label>
                     <input type="email" name="email" placeholder="email@hotmail.nl" id="recovery-email">
                 </div>
                 <div class="button-options">
-                    <a href="index.html"><input type="button" name="" value="Canel" class="back-btn"></a>
-                    <button type="submit" class="back-btn" id="sendbtn">Send</button>
+                    <a href="index.html"><input type="button" name="" value="Cancel" class="back-btn"></a>
+                    <button type="submit" class="back-btn" id="sendbtn" onclick="emailValidation()">Send</button>
                 </div>
         </div>
     </div>

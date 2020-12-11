@@ -325,7 +325,6 @@ function setLanguage(initialLanguageKey) {
     FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
     FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguageKey);
 
-
     // $languageControl = $("select#language");
     //
     // $languageControl.val(initialLanguage);

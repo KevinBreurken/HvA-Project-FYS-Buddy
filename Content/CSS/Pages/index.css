@@ -10,6 +10,7 @@
     padding: 10px;
     margin: 10px;
 }
+
 .content-container .description {
     max-width: fit-content;
 }
@@ -36,11 +37,13 @@
     cursor: pointer;
     margin: 10px 0;
 }
+
 .btn:hover {
     background-color: var(--color-corendon-white);
     color: var(--color-corendon-red);
     border: 2px solid var(--color-corendon-red);
 }
+
 .banner-image {
     width: 100%;
     max-width: 50em;
@@ -51,10 +54,15 @@
     .content-container {
         display: block;
     }
+
+    .part2 {
+        padding-left: 0em;
+    }
 }
 
 /* login form csss: */
 #form-title {
+    margin-bottom: 0;
     color: #404040;
 }
 
@@ -116,7 +124,7 @@
     cursor: pointer;
 }
 
-.form-wrapper .btn:hover{
+.form-wrapper .btn:hover {
     background-color: var(--color-corendon-white);
     color: var(--color-corendon-red);
     border: 2px solid var(--color-corendon-red);
@@ -133,4 +141,47 @@
     height: 1px;
     width: 1px;
     overflow: hidden;
+}
+
+/* validation css */
+#validationMessage {
+    display: none;
+}
+
+.validation-list {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    padding: 10px;
+}
+
+.valid {
+    color: var(--color-corendon-dark-green);
+}
+
+.valid:before {
+    position: relative;
+    left: -30px;
+    content: "✔";
+}
+
+/* Add a red text color and an "x" when the requirements are wrong */
+.invalid {
+    color: red;
+}
+
+.invalid:before {
+    position: relative;
+    left: -30px;
+    content: "✖";
+}
+
+.language-buttons {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
 }

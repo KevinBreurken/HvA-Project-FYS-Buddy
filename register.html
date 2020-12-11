@@ -17,14 +17,14 @@
 <body>
 <header></header>
 <main>
-    <h1>Welcome at Corendon. </h1>
-    <h4>You can register your account here. </h4>
+    <h1 data-translate="register.title"></h1>
+    <h4 data-translate="register.subtitle"></h4>
 
     <div id="nav">
         <ul>
-            <li class="active nav-step">1. Login Details</li>
-            <li class="active nav-step">2. User Information</li>
-            <li class="active nav-step">3. Interests</li>
+            <li class="active nav-step" data-translate="register.nav.step1"></li>
+            <li class="active nav-step" data-translate="register.nav.step2"></li>
+            <li class="active nav-step" data-translate="register.nav.step3"></li>
         </ul>
     </div>
 
@@ -32,147 +32,138 @@
 
         <div class="step">
             <div class="right-panel">
-                <h2>Info</h2>
-                <!--<p>
-                    Wil je de wereld ontdekken, maar wil je dit niet alleen doen? Corendon Matching biedt een website
-                    waarbij je andere reizigers kan vinden met wie je op reis kan. Je wordt op basis van dezelfde
-                    interesses met een andere alleenstaande reiziger gematcht.
-                </p>-->
-                <p>
-                    Do you want to explore the world, but dont want to do this alone? Find your travel buddy is a
-                    website where you can find your travel buddy. You will be matched with another single traveler based
-                    on the same interests.
-                </p>
+                <h2 data-translate="register.step1.info.title"></h2>
+                <p data-translate="register.step1.info.paragraph"></p>
             </div>
 
             <div>
-                <h2>Login details</h2>
+                <h2 data-translate="register.step1.title"></h2>
                 <div class="form-group">
-                    <label for="username">Username *</label>
+                    <label for="username" data-translate="register.step1.username"></label>
                     <input type="text" id="username" name="username" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email *</label>
+                    <label for="email" data-translate="register.step1.email"></label>
                     <input type="email" id="email" name="email" maxlength="50" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Password *</label>
+                    <label for="password" data-translate="register.step1.password"></label>
                     <input type="password" id="password" name="password" maxlength="16" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="repeat-password">Confirm password *</label>
+                    <label for="repeat-password" data-translate="register.step1.confirmPassword"></label>
                     <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required>
                 </div>
             </div>
         </div>
 
         <div class="step">
-            <h2>User information</h2>
+            <h2 data-translate="register.step2.title"></h2>
 
-            <div style="float: right">
-                <div>
-                    <p>Choose a profile picture</p>
-                    <input type="file" id="fileUpload" name="profile_picture" accept="image/*">
-                </div>
-                <div class="img-preview">
+            <div class="img-block">
+                <label for="fileUpload" data-translate="register.step2.profilePic"></label>
+                <input type="file" id="fileUpload" name="profile_picture" accept="image/*" hidden>
+
+                <div class="img-preview" style="width: 200px; height: 200px;border: 1px solid black; ">
                     <img id="imagePreview"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="firstname">First name *</label>
+                <label for="firstname" data-translate="register.step2.firstname"></label>
                 <input type="text" id="firstname" name="first_name" maxlength="25" required>
             </div>
 
             <div class="form-group">
-                <label for="lastname">Last name *</label>
+                <label for="lastname" data-translate="register.step2.lastname">Last name *</label>
                 <input type="text" id="lastname" name="last_name" maxlength="25" required>
             </div>
 
             <div class="form-group">
-                <p>Gender *</p>
+                <p data-translate="register.step2.gender"></p>
 
                 <input type="radio" class="inline-form gender" id="male" name="gender" value="male" required>
-                <label for="male">Man </label><br>
+                <label for="male" data-translate="register.step2.gender.male"></label><br>
 
                 <input type="radio" class="inline-form gender" id="female" name="gender" value="female" required>
-                <label for="female">Female </label><br>
+                <label for="female" data-translate="register.step2.gender.female"></label><br>
 
                 <input type="radio" class="inline-form gender" id="other-gender" name="gender" value="other" required>
-                <label for="other-gender">Other </label>
+                <label for="other-gender" data-translate="register.step2.gender.other"></label>
             </div>
 
             <div class="form-group">
-                <label for="DoB">Date of birth *<span class="minAge">18 years or older</span></label>
+                <label for="DoB" data-translate="register.step2.dob"></label>
+                <span class="minAge" data-translate="register.step2.dob.desc"></span>
                 <input type="Date" id="DoB" name="DoB" required>
             </div>
         </div>
 
         <div class="step">
-            <h2>Interests</h2>
+            <h2 data-translate="register.step3.title"></h2>
             <div class="form-group">
-                <label for="bio">Bio </label>
+                <h3 data-translate="register.step3.bio"></h3>
                 <textarea id="bio" cols="40" rows="5" maxlength="500" name="bio"
                           onkeyup="countChars('bio','charCountBio');"
                           onkeydown="countChars('bio','charCountBio');"
                           onmouseout="countChars('bio','charCountBio');"></textarea>
-                <span id="charCountBio">0</span>/500 characters entered.
+                <p><span id="charCountBio">0 </span><span data-translate="register.step3.bio.chars"></span></p>
             </div>
 
             <div class="form-group">
-                <h3>Hobby's</h3>
+                <h3 data-translate="register.step3.hobbies"></h3>
                 <ul>
                     <li>
-                        <input type="checkbox" class="inline-form" id="sport" name="sport" value="sport">
-                        <label for="sport">Sport </label>
+                        <input type="checkbox" class="inline-form hobby" id="sport" name="sport" value="1">
+                        <label for="sport" data-translate="register.step3.hobbies.sport"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="hiking" name="hiking" value="hiking">
-                        <label for="hiking">Hiking </label>
+                        <input type="checkbox" class="inline-form hobby" id="hiking" name="hiking" value="2">
+                        <label for="hiking" data-translate="register.step3.hobbies.hiking"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="cooking" name="cooking" value="cooking">
-                        <label for="cooking">Cooking </label>
+                        <input type="checkbox" class="inline-form hobby" id="cooking" name="cooking" value="3">
+                        <label for="cooking" data-translate="register.step3.hobbies.cooking"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="art" name="art" value="art and painting">
-                        <label for="art">Art or painting </label>
+                        <input type="checkbox" class="inline-form hobby" id="art" name="art" value="4">
+                        <label for="art" data-translate="register.step3.hobbies.art"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="museum" name="museum" value="museum">
-                        <label for="museum">Museum visiting </label>
+                        <input type="checkbox" class="inline-form hobby" id="museum" name="museum" value="5">
+                        <label for="museum" data-translate="register.step3.hobbies.museum"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="music" name="music" value="music">
-                        <label for="music">Music </label>
+                        <input type="checkbox" class="inline-form hobby" id="music" name="music" value="6">
+                        <label for="music" data-translate="register.step3.hobbies.music"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="dancing" name="dancing" value="dancing">
-                        <label for="dancing">Dancing </label>
+                        <input type="checkbox" class="inline-form hobby" id="dancing" name="dancing" value="7">
+                        <label for="dancing" data-translate="register.step3.hobbies.dancing"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="theater" name="theater" value="theater">
-                        <label for="theater">Theater visiting</label>
+                        <input type="checkbox" class="inline-form hobby" id="theater" name="theater" value="8">
+                        <label for="theater" data-translate="register.step3.hobbies.theater"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="partying" name="partying" value="partying">
-                        <label for="partying">Partying </label>
+                        <input type="checkbox" class="inline-form hobby" id="partying" name="partying" value="9">
+                        <label for="partying" data-translate="register.step3.hobbies.partying"></label>
                     </li>
                     <li>
-                        <input type="checkbox" class="inline-form" id="gaming" name="gaming" value="gaming">
-                        <label for="gaming">Gaming </label>
+                        <input type="checkbox" class="inline-form hobby" id="gaming" name="gaming" value="10">
+                        <label for="gaming" data-translate="register.step3.hobbies.gaming"></label>
                     </li>
                 </ul>
             </div>
         </div>
 
         <div class="btn-group">
-            <p class="btn" id="btn-back" onclick="swapStep(-1)">Back</p>
-            <p class="btn" id="btn-next" onclick="swapStep(1)">Next</p>
-            <button type="submit" class="btn" id="btn-register" onclick="register()">Register</button>
+            <p class="btn" id="btn-back" onclick="swapStep(-1)" data-translate="register.buttons.back"></p>
+            <p class="btn" id="btn-next" onclick="swapStep(1)" data-translate="register.buttons.next"></p>
+            <p class="btn" id="btn-register" onclick="register()" data-translate="register.buttons.register"></p>
         </div>
     </form>
 </main>

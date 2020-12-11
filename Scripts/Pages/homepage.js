@@ -1,81 +1,309 @@
+var translations = {
+    specification: {
+        nl: "Reis specificaties ",
+        en: "Travel specifications ",
+        from: {
+            nl: "Van ",
+            en: "From"
+        },
+        till: {
+            nl: "Tot ",
+            en: "Till "
+        },
+        cities: {
+            nl: "Steden ",
+            en: "Cities "
+        },
+        button: {
+            nl: "Bijwerken ",
+            en: "Update "
+        }
+    },
+    tab: {
+        button: {
+          allResults: {
+              nl: "Alle resultaten",
+              en: "All results"
+          },
+          friends: {
+                nl: "Vrienden",
+                en: "Friends"
+            },
+          friendRequests: {
+              nl: "Vriendenverzoeken",
+              en: "Friend requests"
+          },
+          favourites: {
+              nl: "Favorieten",
+              en: "Favourites"
+          }
+        },
+        empty: {
+            allResults: {
+                nl: "Er zijn op dit moment geen matches beschikbaar voor jou. Probeer je settings aan te passen of kom later terug.",
+                en: "There are no matches available for you. Try changing your settings or come back later."
+            },
+            friends: {
+                nl: "Je hebt nog geen vrienden. Stuur wat vriendenverzoeken naar andere gebruikers.",
+                en: "You currently don't have any friends. Try sending some friend requests to other users."
+            },
+            friendRequests: {
+                nl: "Op dit moment heb jij geen vriendenverzoeken ontvangen. Kom later terug.",
+                en: "You currently don't have any friend requests. Come back later."
+            },
+            favourites: {
+                nl: "Op dit moment heb jij nog geen gebruikers als favoriet ingesteld. Dit kan door op het hartje te klikken op een user-display.",
+                en: "You currently haven't set any users as a favourite. You can do this by clicking on a heart on a user-display."
+            }
+        }
+    },
+    userDisplay: {
+        moreInfo: {
+            en: "more info",
+            nl: "meer info"
+        },
+        from: {
+            en: "from @date",
+            nl: "vanaf @date"
+        },
+        until: {
+            en: "until @date",
+            nl: "tot @date"
+        },
+        buddy: {
+          default: {
+              en: "buddy",
+              nl: "buddy"
+          },
+          activity: {
+              en: "activity buddy",
+              nl: "activiteitenbuddy"
+          },
+          travel: {
+              en: "travel buddy",
+              nl: "reisbuddy"
+          }
+        }
+    },
+    overlay: {
+        profileButton: {
+            nl: "profiel",
+            en: "profile"
+        },
+        interests: {
+            nl: "interesses",
+            en: "interests"
+        },
+        bio: {
+            nl: "biografie",
+            en: "Biography"
+        },
+        button: {
+            send: {
+                nl: "Verstuur Vriendenverzoek",
+                en: "Send Friend Request"
+            },
+            sent: {
+                nl: "Vriendenverzoek Verstuurd",
+                en: "Friend Request Sent"
+            },
+            accept: {
+                nl: "Accepteer Vriendenverzoek",
+                en: "Accept Friend Request"
+            },
+        }
+    },
+};
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
+
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
-    document.getElementById("default-active").click();
+    $("#all-results").click();
+
+    //on page load fire this function that will populate a select list using data from the database
+    populateCityList();
 })
 
-//todo: create different query's;
-//1.1 All results: all results matching the users location, date and gender preference
-//1.2 Friends
-//1.3 Friend requests (ingoing)
-//1.4 Favorites
+// let locationList;
+// async function getLocation(locationID){
+//     if (locationList === undefined)
+//         locationList = await getDataByPromise("SELECT * FROM location");
+//     for (let i = 0; i < locationList.length; i++) {
+//         if(locationList[i].id === locationID)
+//             return locationList[i];
+//     }
+// }
 
-//2.1 match only gender
-//2.2 filters
+//1.1 All results todo: gender preference, blocked, display settings en evt. interests
+//todo: filters; distance and buddy type
 
-//todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
-//todo: send notification to the other user
-//function(s) for setting the status of the 'send friend request' button and sets database data
+async function populateCityList() {
+    //query the database for all location data using a promise
+    let cityList = await getDataByPromise("SELECT * FROM location");
 
-//todo: set favorites data in the database when clicking (swap)
+    //for each loop that populates the cityList select options with data from the database
+    $(cityList).each(city => {
+    $("#cityList").append(`<option value=${cityList[city]["id"]}>` + cityList[city]["destination"] + `</option>`);
+    });
+}
 
+function sendTravelData() {
+    //get current selected value from select element in form
+    var citySelect = document.getElementById("cityList").value;
+    
+    var startDate = new Date($('#sDate').val());
+    var endDate = new Date($('#eDate').val());
+
+    startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
+    endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
+    
+    if(startDateFormat != "" && endDateFormat != "" && citySelect != "") {
+        FYSCloud.API.queryDatabase(
+            "UPDATE `travel` SET `destination` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
+            [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]
+            ).done(function() {
+                alert("updated the destination in travel table succesfull");
+            }).fail(function (reason) {
+                console.log(reason);
+            });
+    }else{
+        alert("no date selected");
+    }
+}
+
+let lastButtonId;
 /** function to switch the tab content and active tab-button */
-async function openTabContent (currentButton) {
+async function openTabContent(currentButton) {
+
+    //check if a new tab is opened.
+    if(lastButtonId === currentButton.id)
+        return
+    lastButtonId = currentButton.id;
+
+    let tab = $("#tab");
+
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
     $(currentButton).css("backgroundColor", "#c11905");
 
-    let userList = await getDataByPromise("SELECT * FROM user");
-    $("#tab").html("");
-    userList.forEach(user => $("#tab").append(generateUserDisplay(user)))
+    //resets the filters
+    resetFilters();
+
+    //gets the current user's data
+    const CURRENT_USER = await getDataByPromise(`SELECT 
+       u.id, 
+       t.userId, t.destination, t.startdate, t.enddate,
+       l.*
+    FROM fys_is111_1_dev.user u
+    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
+    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
+    WHERE u.id = ?`, getCurrentUserID());
+
+    let queryExtension = ``;
+    let queryArray = [];
+    let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.allResults"></p>`;
+    switch (currentButton.id.toString()) {
+        case "all-results":
+            queryExtension = ` AND t.startdate < ?
+            AND t.enddate > ?
+            AND p.userId != ?
+            AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`;
+            queryArray = [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]];
+            break;
+        case "friends":
+            queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
+            noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friends"></p>`;
+            break;
+        case "friend-requests":
+            queryExtension = ` AND rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]}`;
+            noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friendRequests"></p>`;
+            break;
+        case "favourites":
+            queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
+            noMatchesMessage = `<p class="no-matches-message"data-translate="tab.empty.favourites"></p>`;
+            break;
+    }
+
+    //gets the data of the relevant users for the current user
+    //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
+    let userList = await getDataByPromise(`SELECT 
+       p.userId, p.pictureUrl, p.buddyType, 
+       u.username,
+       r.roleId, 
+       s.radialDistance,
+       t.startdate, t.enddate,
+       l.*,
+       f.favouriteUser
+    FROM fys_is111_1_dev.profile p
+    INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
+    INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
+    LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
+    INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
+    INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
+    LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
+    LEFT JOIN fys_is111_1_dev.friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
+    LEFT JOIN fys_is111_1_dev.friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]})
+    WHERE r.roleId = 1`+ queryExtension
+        , queryArray);
+
+    // console.log(userList)
+
+    $(tab).html("");
+    if (userList.length !== 0) {
+        //appends a user-display with the correct data to the tab for every user that needs to be displayed
+        for (let i = 0; i < userList.length; i++) {
+            $(tab).append(generateUserDisplay(userList[i]))
+        }
+    } else {
+        //displays a help message whenever there are no matches available to the user
+        $(tab).append(noMatchesMessage)
+    }
+
+    FYSCloud.Localization.translate(false);
 }
 
 /** function for generating a user display */
-function generateUserDisplay(currentUser)
-{
-    let userId = currentUser.userId;
+function generateUserDisplay(currentUser) {
+
+    let userId = currentUser["userId"];
 
     let userDisplay = document.createElement("div");
     userDisplay.className = "user-display";
     userDisplay.setAttribute("id", "user-display-" + userId);
 
-    let username = currentUser.username === "" ? "username" : currentUser.username;
-    let url = currentUser.url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : currentUser.url;
-    let location = currentUser.location === "" ? "location" : currentUser.location;
+    let username = currentUser["username"] === "" ? "username" : currentUser["username"];
+    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
+    let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
+    let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
+    //buddy
+    let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
+    if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
+    if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
+    
     //start and end date
-    let date = new Date(currentUser.startDate);
-    const startDate = currentUser.startDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    date = new Date(currentUser.endDate);
-    const endDate = currentUser.endDate === "" ? " " : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    //todo: fix the displaying of dates
+    let date = new Date(currentUser["startdate"]);
+    let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let startDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.from").replace("@date", startDate);
 
-    let buddy;
-    if (currentUser.travelBuddy === 1 && currentUser.activityBuddy === 1) {
-        buddy = "a buddy";
-    } else if (currentUser.travelBuddy === 1 && !(currentUser.activityBuddy === 1)) {
-        buddy = "a travel buddy";
-    } else if (!(currentUser.travelBuddy === 1) && currentUser.activityBuddy === 1) {
-        buddy = "an activity buddy";
-    } else {
-        buddy = " a buddy";
-    }
+    let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let endDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.until").replace("@date", endDate);
 
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img class="profile-picture" src="${url}">
-            <div>
+            <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
+            <div class="user-display-column-3">
             <p>${location}</p>
-            <p>from ${startDate}</p>
-            <p>until ${endDate}</p>
-            <p>${buddy}</p>
+            <p>${startDateString}</p>
+            <p>${endDateString}</p>
+            <p class="buddy">${buddy}</p>
             </div>
-            <div class="tab-content-column-4">
-            <button id="button1-${userId}" onclick="openUserOverlay('${userId}')">more info</button>
+            <div class="user-display-column-4">
+            <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
             <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
-            <div id="favorite-v1-${userId}" onclick="setFavorite('favorite-v1-${userId}','favorite-v2-${userId}')">
-            <img class="favorite-icon" src="Content/Images/favorite-v1.png">
-            </div>
-            <div id="favorite-v2-${userId}" style="display: none" onclick="setFavorite('favorite-v2-${userId}','favorite-v1-${userId}')">
-            <img class="favorite-icon" src="Content/Images/favorite-v2.png">
+            <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}',)">
+            <img src="Content/Images/favourite-v${favouriteVersion}.png" class="favourite-icon">
             </div>
             </div>
             </div>`;
@@ -83,33 +311,129 @@ function generateUserDisplay(currentUser)
     return userDisplay;
 }
 
-/** function for opening the overlay with the correct user data*/
-async function openUserOverlay (overlayUserId) {
-    let userdata = await getDataByPromise("SELECT * FROM user WHERE userId = ?", [overlayUserId]);
-    let userInterests = await getDataByPromise("SELECT * FROM interests WHERE userId = ?", [overlayUserId]);
+/**
+ * function for opening the overlay with the correct user data
+ * @param overlayUserId id of the user that is fetched and displayed from the database.
+ */
+async function openUserOverlay(overlayUserId) {
+    //disable scrolling
+    document.body.style.overflow = 'hidden';
+    document.querySelector('html').scrollTop = window.scrollY;
 
-    console.log(userdata[0].url)
+    //get user profile.
+    let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id
+                                                  FROM fys_is111_1_dev.profile p
+                                                  INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
+                                                  WHERE u.id = ?`, overlayUserId);
 
-    //setting the data for in the overlay
-    const userUrl = userdata[0].url === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userdata[0].url;
-    const firstName = userdata[0].firstName === "" ? "FirstName" : userdata[0].firstName;
-    const lastName = userdata[0].lastName === "" ? "LastName" : userdata[0].lastName;
-    const username = userdata[0].username === "" ? "username" : userdata[0].username;
-    const bio = userdata[0].bio === "" ? "..." : userdata[0].bio;
+    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
-    //putting the data in the overlay
-    $("#overlay-row-1").html(`<img src="${userUrl}">`);
-    $("#overlay-full-name").html(firstName + " " + lastName);
-    $("#overlay-username").html("a.k.a. " + username);
+    //setting the data from the user and profile tables for in the overlay
+    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + overlayUserData[0]["pictureUrl"]
+    let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
+
+    //putting the data from the user and profile tables in the overlay
+    $("#overlay-row-1").html(`<img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
+    $("#overlay-full-name").html(`${fullName}`);
+    $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
+    $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
+    //putting the interests into the overlay
     $("#overlay-interests-ul").html("");
-    userInterests.forEach(interest => $("#overlay-interests-ul").append("<li>"+ interest.interest +"</li>"));
-    $("#overlay-bio").html(bio);
+    $(overlayUserInterestsIds).each(interest => {
+        $("#overlay-interests-ul").append(`<li>` + overlayUserInterestsIds[interest]["interestId"] + `</li>`);
+    });
 
     //displays the overlay and overlay-background
-    displayUserOverlay()
+    displayUserOverlay();
 
-    //function to redirect the user to the profilepage
-    $("#profile-button").click(function (){redirectToProfileById(overlayUserId)});
+    //determine what kind of request button we want to show the user,
+    let matchingFriend = await getDataByPromise(`SELECT *
+                                                 FROM friendrequest
+                                                 WHERE (targetUser = ? AND requestingUser = ?)
+                                                    OR (targetUser = ? AND requestingUser = ?)
+    `, [getCurrentUserID(), overlayUserId, overlayUserId, getCurrentUserID()]);
+
+    //Reset button style elements.
+    let requestButton = $("#send-request-button");
+    requestButton.attr("disabled", false);
+    requestButton.unbind();
+    requestButton.css('opacity', '1');
+    requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
+        }, function () { $(this).css("background-color", "");} );
+
+
+    if (matchingFriend[0] != null) {
+        if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
+            disableRequestButton();
+        } else if (matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())) { //We got a request
+            requestButton.attr("data-translate", "overlay.button.accept");
+            requestButton.click(function (){acceptRequest(getCurrentUserID(),overlayUserId)});
+        }
+    } else {
+        requestButton.attr("data-translate", "overlay.button.send");
+        requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
+    }
+
+    FYSCloud.Localization.translate(false);
+    $("#profile-button").click(function () {
+        redirectToProfileById(overlayUserId)
+    });
+}
+
+function disableRequestButton() {
+    let requestButton = $("#send-request-button");
+    requestButton.hover();
+    requestButton.css('opacity', '0.6');
+    requestButton.attr("disabled", true);
+    requestButton.attr("data-translate", "overlay.button.sent");
+    FYSCloud.Localization.translate(false);
+}
+
+function acceptRequest(acceptedUser,userIdToAccept) {
+    getDataByPromise(`DELETE FROM friendrequest
+                      WHERE (targetUser = ${acceptedUser} AND requestingUser = ${userIdToAccept})
+                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${acceptedUser});
+                      DELETE FROM usernotification
+                      WHERE (targetUser = ${acceptedUser} AND requestingUser = ${userIdToAccept})
+                         OR (targetUser = ${userIdToAccept} AND requestingUser = ${acceptedUser});
+                      INSERT INTO friend (user1, user2)
+                      VALUES (${acceptedUser},${userIdToAccept});
+    `).then((data) => sendFriendMatchData(userIdToAccept));
+    //todo: remove element from display tab.
+    closeUserOverlay();
+}
+
+async function sendFriendMatchData(userIdToAccept){
+    //Get current user travel destination
+    const CURRENT_USER = await getDataByPromise(`SELECT *
+    FROM travel WHERE id = ?`, getCurrentUserID());
+    //Send the location that we currently have to the database.
+    await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
+                            VALUES (?, 1)
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER["destination"]);
+    //Check which interests are equal
+    //TODO: Add interests to results query.
+    const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
+    const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
+    $(userInterests).each(uInterest => {
+        $(otherUserInterest).each(oInterest => {
+            if(userInterests[uInterest]["interestId"] === otherUserInterest[oInterest]["interestId"])
+                //Send statistic data for interests.
+                getDataByPromise(`INSERT INTO admininterestdata (interestId, interestEverMatched)
+                                  VALUES (?, 1)
+                                  ON DUPLICATE KEY UPDATE interestEverMatched = interestEverMatched + 1`, userInterests[uInterest]["interestId"]);
+        });
+    });
+}
+
+function sendRequest(sentUser,userIdToSend) {
+    getDataByPromise(`INSERT INTO friendrequest (requestingUser, targetUser)
+                      VALUES (${sentUser},${userIdToSend});
+                      INSERT INTO usernotification (requestingUser, targetUser)
+                      VALUES (${sentUser},${userIdToSend});`).then((data) => {
+        // console.log(data);
+    });
+    disableRequestButton();
 }
 
 /** function for opening the overlay */
@@ -118,14 +442,80 @@ function displayUserOverlay() {
     $("#overlay-background").css("display", "block");
 }
 
+function closeUserOverlay(){
+    document.body.style.overflow = null;
+    closeElement("overlay");
+}
 /** function to close the active user-display or overlay */
-function closeElement (currentDisplay) {
+function closeElement(currentDisplay) {
     $("#" + currentDisplay).css("display", "none");
     $("#overlay-background").css("display", "none");
 }
 
-/** function that swaps the favorites icon */
-function setFavorite (currentIconId, newIconId) {
-    $("#" + currentIconId).css("display", "none");
-    $("#" + newIconId).css("display", "");
+/** favourites function */
+async function setFavourite (userId) {
+
+    let favourite = await getDataByPromise(`SELECT * FROM favourite
+    WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]);
+
+    if (favourite["length"] === 0) {
+        FYSCloud.API.queryDatabase(
+            `INSERT INTO favourite (requestingUser, favouriteUser) VALUES (?, ?)`, [getCurrentUserID(), userId]
+        ).done(function () {
+            $(`#favourite-v1-${userId}`).html(`<img src="Content/Images/favourite-v2.png" class="favourite-icon">`)
+            console.log("added")
+        }).fail(function (reason) {
+            console.log(reason)
+        });
+    } else if (favourite["length"] === 1) {
+        FYSCloud.API.queryDatabase(
+            `DELETE FROM favourite WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]
+        ).done(function () {
+            $(`#favourite-v1-${userId}`).html(`<img src="Content/Images/favourite-v1.png" class="favourite-icon">`)
+            console.log("deleted")
+        }).fail(function (reason) {
+            console.log(reason)
+        })
+    }
+}
+
+/** Filters */
+var currentDistanceFilterAmount;
+
+function setTravelFilter(element) {
+    let distanceAmount = $(element).data("distance");
+    if (currentDistanceFilterAmount === distanceAmount)
+        return;
+    $(".filter-option-distance").removeAttr("current");
+    $(element).attr("current", "");
+    currentDistanceFilterAmount = distanceAmount;
+
+    //todo: apply filter.
+}
+
+var currentBuddyFilterID;
+
+function setBuddyFilter(element) {
+    let buddyIndex = $(element).data("buddy");
+    if (currentBuddyFilterID === buddyIndex)
+        return;
+    $(".filter-option-buddy").removeAttr("current");
+    $(element).attr("current", "");
+    currentBuddyFilterID = buddyIndex;
+
+    //todo: apply filter.
+}
+
+function resetFilters() {
+    //remove all current attributes from options
+    $(".filter-option-buddy").removeAttr("current");
+    $(".filter-option-distance").removeAttr("current");
+    //set the default buddy option.
+    let buddyDefault = $("#filter-option-buddy-default");
+    currentBuddyFilterID = buddyDefault.data("buddy");
+    buddyDefault.attr("current", "");
+    //set the defualt distance option.
+    let distanceDefault = $("#filter-option-distance-default");
+    currentDistanceFilterAmount = buddyDefault.data("distance");
+    distanceDefault.attr("current", "");
 }
