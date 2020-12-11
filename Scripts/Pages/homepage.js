@@ -192,11 +192,11 @@ async function openTabContent(currentButton) {
     //gets the current user's data
     const CURRENT_USER = await getDataByPromise(`SELECT 
        u.id, 
-       t.userId, t.destination, t.startdate, t.enddate,
+       t.userId, t.locationId, t.startdate, t.enddate,
        l.*
     FROM fys_is111_1_dev.user u
-    INNER JOIN fys_is111_1_dev.travel t ON u.id = t.userId
-    INNER JOIN fys_is111_1_dev.location l ON t.destination = l.id
+    INNER JOIN travel t ON u.id = t.userId
+    INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
     let queryExtension = ``;
@@ -234,16 +234,16 @@ async function openTabContent(currentButton) {
        t.startdate, t.enddate,
        l.*,
        f.favouriteUser
-    FROM fys_is111_1_dev.profile p
-    INNER JOIN fys_is111_1_dev.user u ON u.id = p.userId
-    INNER JOIN fys_is111_1_dev.userrole r ON r.userId = p.userId
-    LEFT JOIN fys_is111_1_dev.setting s ON s.userId = p.userId
-    INNER JOIN fys_is111_1_dev.travel t ON t.userId = p.userId
-    INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
-    LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
-    LEFT JOIN fys_is111_1_dev.friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
-    LEFT JOIN fys_is111_1_dev.friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]})
-    WHERE r.roleId = 1`+ queryExtension
+    FROM profile p
+    INNER JOIN user u ON u.id = p.userId
+    INNER JOIN userrole r ON r.userId = p.userId
+    LEFT JOIN setting s ON s.userId = p.userId
+    INNER JOIN travel t ON t.userId = p.userId
+    INNER JOIN location l ON l.id = t.locationId
+    LEFT JOIN favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
+    LEFT JOIN friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
+    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]})
+    WHERE r.roleId != 2`+ queryExtension
         , queryArray);
 
     // console.log(userList)
@@ -273,7 +273,7 @@ function generateUserDisplay(currentUser) {
 
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
     let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
-    let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
+    let location = currentUser["locationId"] === "" ? "location" : currentUser["locationId"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
     //buddy
