@@ -7,6 +7,7 @@ let activity = document.getElementById("Choice2");
 
 let gender
 let buddy
+let userId = getCurrentUserID();
 
 document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
     event.preventDefault();

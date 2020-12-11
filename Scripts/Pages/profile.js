@@ -67,6 +67,14 @@ var profileTranslation = {
         bio:{
             nl: "Biografie",
             en: "Biography"
+        },
+        block:{
+            nl: "Blokkeer",
+            en: "Block"
+        },
+        match:{
+            nl: "Stuur vriendschapsverzoek",
+            en: "Send request"
         }
     }
 };
@@ -126,9 +134,19 @@ function countCharacters() {
 //count.addEventListener('keyup', countCharacters, false);
 //let userId5 = getCurrentUserID();
 
-let userId = getCurrentUserID();
+
+//get the url
+var pageUrl = window.location.href;
+
+//split at the userId
+var array1 = pageUrl.split("id=");
+console.log(array1[1]);
+
+let profileId = array1[1];
+let currentUserId = getCurrentUserID();
+
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM profile where id = ?", [userId]
+    "SELECT * FROM profile where id = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateProfileDisplay(data);
@@ -138,7 +156,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM user where id = ?", [userId]
+    "SELECT * FROM user where id = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateUserinfo(data);
@@ -147,7 +165,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM travel where id = ?", [userId]
+    "SELECT * FROM travel where id = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateTravelInfo(data);
@@ -156,7 +174,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT `destination` FROM location where id = ?", [userId]
+    "SELECT `destination` FROM location where id = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateDestination(data);
@@ -165,7 +183,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM userinterest where userId = ?", [userId]
+    "SELECT * FROM userinterest where userId = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateInterests(data);
@@ -279,31 +297,10 @@ let datetime = currentdate + " " + currenttime;
 
 $("#leftbox").html(datetime);
 
-// TODO: make translation language dynamic.
-// document.addEventListener("languageChangeEvent", function (event) {
-//     console.log(event.detail.id);
-//     let newString = FYSCloud.Localization.Buddy.addTranslationJSON("profile.username");
-//     newString = newString.replace("");
-// });
-
-// TODO: get the id from url for profile display.
-// //get the url
-// var pageUrl = window.location.href;
-//
-// //split at the userId
-// var array1 = pageUrl.split("id=");
-//
-// console.log("this is the first part of the array " + array1[0]);
-// console.log("this is the second part of the array " + array1[1]);
-//
-// //if there's more after the id=1 do:
-// // var arra2 = array1[1].split("1");
-// // //arra 2 = id
-//
-// FYSCloud.API.queryDatabase(
-//     "SELECT * FROM user WHERE userId = ?", [array1[1]]
-// ).done(function(data) {
-//
-// }).fail(function(reason) {
-//     console.log(reason);
-// });
+if (currentUserId !== profileId) {
+    $("#profileButtons").append(
+    `<button type="button" onclick="changeButton()" id="match" class="match" data-translate="profile.match">Send Request</button>
+        <button type="button" onclick="changeButton2()" id="block" class="block" data-translate="profile.block">Block</button>`);
+} else if (currentUserId === profileId) {
+    $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
+}
