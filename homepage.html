@@ -23,19 +23,19 @@
 <!--    <div id="on-boarding"></div>-->
 
         <div class="show-options">
-                <h2>Travel specifications</h2>
+                <h2 data-translate="specification"></h2>
         </div>
     <div id="travel-container">
         <div class="content-wrapper">
             <form action="" method="get" id="travel-form">
-                <label for="date-for">from</label>
+                <label for="date-for" data-translate="specification.from"></label>
                 <input type="Date" name="" id="sDate" class="date-picker">
-                <label for="date-till" id="date-till-label">till</label>
+                <label for="date-till" id="date-till-label" data-translate="specification.till"></label>
                 <input type="Date" name="" id="eDate" class="date-picker">
-                <label for="cityList" id="my-list-label">Cities</label>
+                <label for="cityList" id="my-list-label" data-translate="specification.cities"></label>
                 <select id="cityList">
                 </select>
-                <input type="button" value="Update" id="travelSubmitButton" onclick="sendTravelData()">
+                <button type="button" id="travelSubmitButton" onclick="sendTravelData()" data-translate="specification.button"></button>
             </form>
         </div>
     </div>

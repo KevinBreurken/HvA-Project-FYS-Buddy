@@ -1,4 +1,24 @@
 var translations = {
+    specification: {
+        nl: "Reis specificaties ",
+        en: "Travel specifications ",
+        from: {
+            nl: "Van ",
+            en: "From"
+        },
+        till: {
+            nl: "Tot ",
+            en: "Till "
+        },
+        cities: {
+            nl: "Steden ",
+            en: "Cities "
+        },
+        button: {
+            nl: "Bijwerken ",
+            en: "Update "
+        }
+    },
     tab: {
         button: {
           allResults: {
@@ -72,7 +92,7 @@ var translations = {
         },
         interests: {
             nl: "interesses",
-            en: "intrests"
+            en: "interests"
         },
         bio: {
             nl: "biografie",
