@@ -1,5 +1,103 @@
-var overlayTranslations = {
+var translations = {
+    specification: {
+        nl: "Reis specificaties ",
+        en: "Travel specifications ",
+        from: {
+            nl: "Van ",
+            en: "From"
+        },
+        till: {
+            nl: "Tot ",
+            en: "Till "
+        },
+        cities: {
+            nl: "Steden ",
+            en: "Cities "
+        },
+        button: {
+            nl: "Bijwerken ",
+            en: "Update "
+        }
+    },
+    tab: {
+        button: {
+          allResults: {
+              nl: "Alle resultaten",
+              en: "All results"
+          },
+          friends: {
+                nl: "Vrienden",
+                en: "Friends"
+            },
+          friendRequests: {
+              nl: "Vriendenverzoeken",
+              en: "Friend requests"
+          },
+          favourites: {
+              nl: "Favorieten",
+              en: "Favourites"
+          }
+        },
+        empty: {
+            allResults: {
+                nl: "Er zijn op dit moment geen matches beschikbaar voor jou. Probeer je settings aan te passen of kom later terug.",
+                en: "There are no matches available for you. Try changing your settings or come back later."
+            },
+            friends: {
+                nl: "Je hebt nog geen vrienden. Stuur wat vriendenverzoeken naar andere gebruikers.",
+                en: "You currently don't have any friends. Try sending some friend requests to other users."
+            },
+            friendRequests: {
+                nl: "Op dit moment heb jij geen vriendenverzoeken ontvangen. Kom later terug.",
+                en: "You currently don't have any friend requests. Come back later."
+            },
+            favourites: {
+                nl: "Op dit moment heb jij nog geen gebruikers als favoriet ingesteld. Dit kan door op het hartje te klikken op een user-display.",
+                en: "You currently haven't set any users as a favourite. You can do this by clicking on a heart on a user-display."
+            }
+        }
+    },
+    userDisplay: {
+        moreInfo: {
+            en: "more info",
+            nl: "meer info"
+        },
+        from: {
+            en: "from @date",
+            nl: "vanaf @date"
+        },
+        until: {
+            en: "until @date",
+            nl: "tot @date"
+        },
+        buddy: {
+          default: {
+              en: "buddy",
+              nl: "buddy"
+          },
+          activity: {
+              en: "activity buddy",
+              nl: "activiteitenbuddy"
+          },
+          travel: {
+              en: "travel buddy",
+              nl: "reisbuddy"
+          }
+        }
+    },
     overlay: {
+        profileButton: {
+            nl: "profiel",
+            en: "profile"
+        },
+        interests: {
+            nl: "interesses",
+            en: "interests"
+        },
+        bio: {
+            nl: "biografie",
+            en: "Biography"
+        },
         button: {
             send: {
                 nl: "Verstuur Vriendenverzoek",
@@ -14,9 +112,9 @@ var overlayTranslations = {
                 en: "Accept Friend Request"
             },
         }
-    }
+    },
 };
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(overlayTranslations);
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
 
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
@@ -35,19 +133,9 @@ window.addEventListener('load', function () {
 //             return locationList[i];
 //     }
 // }
-//todo: create different query's;
-//1.1 All results todo: gender preference, blocked, display settings
-//1.2 Friends
-//1.3 Friend requests (ingoing)
-//1.4 Favourites
 
-//todo: evt. interests
-
+//1.1 All results todo: gender preference, blocked, display settings en evt. interests
 //todo: filters; distance and buddy type
-
-//todo: set button color depending on if there is an outgoing friend request, the user if friends with the user or no action
-//todo: send notification to the other user
-//function(s) for setting the status of the 'send friend request' button and sets database data
 
 async function populateCityList() {
     //query the database for all location data using a promise
@@ -113,7 +201,7 @@ async function openTabContent(currentButton) {
 
     let queryExtension = ``;
     let queryArray = [];
-    let noMatchesMessage = `<p>There are no matches available for you. Try changing your settings or come back later.</p>`
+    let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.allResults"></p>`;
     switch (currentButton.id.toString()) {
         case "all-results":
             queryExtension = ` AND t.startdate < ?
@@ -124,22 +212,22 @@ async function openTabContent(currentButton) {
             break;
         case "friends":
             queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
-            noMatchesMessage = `<p>You currently don't have any friends. Try sending some friend requests to other users.</p>`;
+            noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friends"></p>`;
             break;
         case "friend-requests":
-            queryExtension = ` AND z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]}`;
-            noMatchesMessage = `<p>You currently don't have any friend requests. Come back later.</p>`;
+            queryExtension = ` AND rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]}`;
+            noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friendRequests"></p>`;
             break;
         case "favourites":
             queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
-            noMatchesMessage = `<p>You currently haven't set any users as a favourite. You can do this by clicking on a heart on a user-display </p>`;
+            noMatchesMessage = `<p class="no-matches-message"data-translate="tab.empty.favourites"></p>`;
             break;
     }
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
     let userList = await getDataByPromise(`SELECT 
-       p.userId, p.pictureUrl, 
+       p.userId, p.pictureUrl, p.buddyType, 
        u.username,
        r.roleId, 
        s.radialDistance,
@@ -154,11 +242,11 @@ async function openTabContent(currentButton) {
     INNER JOIN fys_is111_1_dev.location l ON l.id = t.destination
     LEFT JOIN fys_is111_1_dev.favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
     LEFT JOIN fys_is111_1_dev.friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
-    LEFT JOIN fys_is111_1_dev.friendrequest z ON (z.requestingUser = p.userId AND z.targetUser = ${CURRENT_USER[0]["userId"]})
+    LEFT JOIN fys_is111_1_dev.friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]})
     WHERE r.roleId = 1`+ queryExtension
         , queryArray);
 
-    // console.log(userList)
+    console.log(userList)
 
     $(tab).html("");
     if (userList.length !== 0) {
@@ -170,6 +258,8 @@ async function openTabContent(currentButton) {
         //displays a help message whenever there are no matches available to the user
         $(tab).append(noMatchesMessage)
     }
+
+    FYSCloud.Localization.translate(false);
 }
 
 /** function for generating a user display */
@@ -184,29 +274,33 @@ function generateUserDisplay(currentUser) {
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
     let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
     let location = currentUser["destination"] === "" ? "location" : currentUser["destination"];
-    let buddy = currentUser["buddyType"] === "" ? "type of buddy" : currentUser["buddyType"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
+
+    //buddy
+    let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
+    if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
+    if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
     
     //start and end date
     //todo: fix the displaying of dates
     let date = new Date(currentUser["startdate"]);
-    const startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    let date2 = new Date(currentUser["enddate"]);
-    const endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let startDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.from").replace("@date", startDate);
 
+    let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let endDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.until").replace("@date", endDate);
 
-    //todo: add buddyId or buddyClass
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
             <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
-            <div>
+            <div class="user-display-column-3">
             <p>${location}</p>
-            <p>from ${startDate}</p>
-            <p>until ${endDate}</p>
-            <p>${buddy}</p>
+            <p>${startDateString}</p>
+            <p>${endDateString}</p>
+            <p class="buddy">${buddy}</p>
             </div>
-            <div class="tab-content-column-4">
-            <button id="button1-${userId}" onclick="openUserOverlay('${userId}')">more info</button>
+            <div class="user-display-column-4">
+            <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
             <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
             <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}',)">
             <img src="Content/Images/favourite-v${favouriteVersion}.png" class="favourite-icon">
@@ -225,10 +319,11 @@ async function openUserOverlay(overlayUserId) {
     //disable scrolling
     document.body.style.overflow = 'hidden';
     document.querySelector('html').scrollTop = window.scrollY;
+
     //get user profile.
     let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id
                                                   FROM fys_is111_1_dev.profile p
-                                                           INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
+                                                  INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
                                                   WHERE u.id = ?`, overlayUserId);
 
     let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);

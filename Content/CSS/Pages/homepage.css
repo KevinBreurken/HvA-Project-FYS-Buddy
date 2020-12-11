@@ -18,6 +18,18 @@ main {
   border: var(--border-corendon-grey);
   padding: 20px;
 }
+
+#travelSubmitButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  margin-top: 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 200px;
+}
+
 .content-wrapper input, select{
 /* removes the highlight around a selected item that is present on chrome*/
   box-sizing: border-box;
@@ -82,7 +94,7 @@ input[type=button]:hover {
 }
 
 #tab-buttons-border {
-  width: 90%;
+  width: 100%;
   background-color: var(--color-corendon-red);
 }
 
@@ -149,6 +161,12 @@ input[type=button]:hover {
   margin-right: auto;
 }
 
+/* no matches messages */
+.no-matches-message {
+  text-align: center;
+  width: 80%;
+}
+
 /* user displays */
 .user-display {
   display: flex;
@@ -182,6 +200,7 @@ input[type=button]:hover {
 
 .user-display p {
   margin: 0 5px 5px 5px;
+  max-width: 180px;
 }
 
 .user-display button {
@@ -200,7 +219,7 @@ input[type=button]:hover {
   background-color: var(--color-corendon-red);
 }
 
-.tab-content-column-4 {
+.user-display-column-4 {
   display: flex;
   align-items: center;
 }
