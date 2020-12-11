@@ -143,6 +143,9 @@ var array1 = pageUrl.split("id=");
 console.log(array1[1]);
 
 let profileId = array1[1];
+if (array1 === null) {
+    profileId = getCurrentUserID();
+}
 let currentUserId = getCurrentUserID();
 
 FYSCloud.API.queryDatabase(
@@ -292,4 +295,7 @@ if (currentUserId !== profileId) {
         <button type="button" onclick="changeButton2()" id="block" class="block" data-translate="profile.block">Block</button>`);
 } else if (currentUserId === profileId) {
     $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
+    // $("#saveChangesBtn").addEventListener("click", function (){
+    //     window.location.href = "profile-edit.html" + "?id=" + currentUserId;
+    //})
 }
