@@ -1,3 +1,77 @@
+var profileTranslation = {
+    profile: {
+        username: {
+            nl: "Gebruikersnaam: ",
+            en: "Username: "
+        },
+        firstname: {
+            nl: "Voornaam: ",
+            en: "First name: "
+        },
+        lastname: {
+            nl: "Achternaam: ",
+            en: "Last name: "
+        },
+        gender: {
+            nl: "Geslacht",
+            en: "Gender"
+        },
+        age: {
+            nl: "leeftijd: ",
+            en: "Age: "
+        },
+        ageTitle: {
+            nl: "Leeftijd",
+            en: "Age"
+        },
+        dob: {
+            nl: "Geboortedatum: ",
+            en: "Date of Birth: "
+        },
+        destination: {
+            nl: "Bestemming: ",
+            en: "Destination: "
+        },
+        from: {
+            nl: "Van: ",
+            en: "From: "
+        },
+        untill: {
+            nl: "Tot: ",
+            en: "Untill: "
+        },
+        lookingfor: {
+            nl: "Opzoek naar: ",
+            en: "I am looking for: "
+        },
+        phone: {
+            nl: "Tel: ",
+            en: "Phone: "
+        },
+        contact: {
+            nl: "Contact Informatie",
+            en: "Contact Information"
+        },
+        trip: {
+            nl: "Trip Informatie",
+            en: "Trip Information"
+        },
+        editbutton:{
+            nl: "Profiel Aanpassen",
+            en: "Edit Profile"
+        },
+        interest:{
+            nl: "Interesses",
+            en: "Interests"
+        },
+        bio:{
+            nl: "Biografie",
+            en: "Biography"
+        }
+    }
+};
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
+
 function changeButton() {
     document.getElementById('match').value = "Requested";
 }
@@ -39,27 +113,29 @@ function AgeCheck() {
 }
 
 let count;
+
 function countCharacters() {
     var textEntered, countRemaining, counter;
     textEntered = document.getElementById('biography').value;
-    counter = (500- (textEntered.length));
+    counter = (500 - (textEntered.length));
     countRemaining = document.getElementById('charactersRemaining');
     countRemaining.textContent = counter;
 }
+
 //count = document.getElementById('biography');
 //count.addEventListener('keyup', countCharacters, false);
 //let userId5 = getCurrentUserID();
 
 let userId = getCurrentUserID();
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM profile where id = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        generateProfileDisplay(data);
-        generateBuddy(data);
-    }).fail(function () {
-        alert("paniek");
-    });
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM profile where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    generateProfileDisplay(data);
+    generateBuddy(data);
+}).fail(function () {
+    alert("paniek");
+});
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [userId]
@@ -110,15 +186,16 @@ function generateProfileDisplay(data) {
     let biography = userData.biography == null ? "" : userData.biography;
     let tel = userData.phone == null ? "" : userData.phone;
 
-    $("#img").attr("src",  url);
-    $("#firstname").html("<b>First name: </b>" + firstname);
-    $("#lastname").html("<b>Last name: </b>" + lastname);
+    $("#img").attr("src", url);
+    $("#firstname").html("<b data-translate='profile.firstname'>First name: </b>" + firstname);
+    $("#lastname").html("<b data-translate='profile.lastname'>Last name: </b>" + lastname);
     $("#gender").html(gender);
-    $("#age").html("<b>Age: </b>" + age);
-    $("#dob").html("<b>Date of birth: </b>" + dob);
+    $("#age").html("<b data-translate='profile.age'>Age: </b>" + age);
+    $("#dob").html("<b data-translate='profile.dob'>Date of birth: </b>" + dob);
     $("#biography").html(biography);
-    $("#tel").html("<b>Tel: </b>" + tel);
+    $("#tel").html("<b data-translate='profile.phone'>Tel: </b>" + tel);
 }
+
 function generateTravelInfo(data) {
     let userData = data[0];
 
@@ -127,15 +204,15 @@ function generateTravelInfo(data) {
 
     date = new Date(userData.enddate);
     let end_date = userData.enddate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-    $("#from").html("<b>From: </b>" + start_date);
-    $("#untill").html("<b>Untill: </b>" + end_date);
+    $("#from").html("<b data-translate='profile.from'>From: </b>" + start_date);
+    $("#untill").html("<b data-translate='profile.untill'>Untill: </b>" + end_date);
 }
 
 function generateUserinfo(data) {
     let userData = data[0];
     let username = userData.username == null ? "" : userData.username;
     let email = userData.email == null ? "" : userData.email;
-    $("#username").html("<b>Username: </b>" + username);
+    $("#username").html("<b data-translate='profile.username'>Username: </b>" + username);
     $("#usernameTitle").html(username);
     $("#email").html("<b>E-mail: </b>" + email);
 }
@@ -145,20 +222,20 @@ function generateBuddy(data) {
     let buddy;
     if (userData.buddyType === 1) {
         buddy = "a buddy";
-        $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
+        $("#lookingFor").html("<b data-translate='profile.lookingfor'>I am looking for: </b>" + buddy);
     } else if (userData.buddyType === 2) {
         buddy = "an activity buddy"
-        $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
+        $("#lookingFor").html("<b data-translate='profile.lookingfor'>I am looking for: </b>" + buddy);
     } else if (userData.buddyType === 3) {
         buddy = "a travel buddy"
-        $("#lookingFor").html("<b>I am looking for: </b>" + buddy);
+        $("#lookingFor").html("<b data-translate='profile.lookingfor'>I am looking for: </b>" + buddy);
     }
 }
 
 function generateDestination(data) {
     let userData = data[0];
     let destination = userData.destination == null ? "" : userData.destination;
-    $("#destination").html("<b>Destination: </b>" + destination);
+    $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
 }
 
 function generateInterests(data) {
@@ -191,67 +268,16 @@ $("#fileUpload").on("change", function () {
     })
 })
 
-$.getJSON("https://api.ipify.org?format=json", function(data) {
+$.getJSON("https://api.ipify.org?format=json", function (data) {
     $("#rightbox").html(data.ip);
 })
 
 let current = new Date();
-let currentdate = current.getFullYear() +"-" + (current.getMonth() + 1) + "-" + current.getDate();
+let currentdate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate();
 let currenttime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
 let datetime = currentdate + " " + currenttime;
 
 $("#leftbox").html(datetime);
-
-var profileTranslation = {
-    profile: {
-        username: {
-            nl: "<b>Gebruikersnaam: </b>",
-            en: "<b>Username:</b> "
-        },
-        firstname: {
-            nl: "<b>Voornaam: </b>",
-            en: "<b>First name: </b>"
-        },
-        lastname: {
-            nl: "<b>Achternaam: </b>",
-            en: "<b>Last name: </b>"
-        },
-        gender: {
-            nl: "<b>Geslacht</b>",
-            en: "<b>Gender</b>"
-        },
-        age: {
-            nl: "<b>Leeftijd: </b>",
-            en: "<b>Age: </b>"
-        },
-        dob: {
-            nl: "<b>Geboortedatum: </b>",
-            en: "<b>Date of Birth: </b>"
-        },
-        destination: {
-            nl: "<b>Bestemming: </b>",
-            en: "<b>Destination: </b>"
-        },
-        from: {
-            nl: "<b>Van: </b>",
-            en: "<b>From: </b>"
-        },
-        untill: {
-            nl: "<b>Tot</b>",
-            en: "<b>Untill: </b>"
-        },
-        lookingfor: {
-            nl: "<b>Opzoek naar: </b>",
-            en: "<b>I am looking for: </b>"
-        }
-
-    }
-
-};
-
-$(function () {
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(profileTranslation);
-});
 
 // TODO: make translation language dynamic.
 // document.addEventListener("languageChangeEvent", function (event) {
