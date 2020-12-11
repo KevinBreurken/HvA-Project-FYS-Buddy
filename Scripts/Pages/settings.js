@@ -164,7 +164,7 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM `profile`"
 ).done(function(profiles) {
     genderEventlistener(profiles)
-    blockEventListener(profiles);
+    // blockEventListener(profiles);
 }).fail(function(reason) {
     console.log(reason);
 });
@@ -461,59 +461,59 @@ function setProfileVisibility(initialProfileVisibility) {
     }
 }
 
-// Block handling:
-function blockEventListener(profiles) {
-    document.querySelector("input#search-block").addEventListener("input", function() {
-        const resultContainer = this.parentNode.querySelector("#searchBlockResult");
-        let result = "";
-        // Check if given input is empty:
-        if(this.value === "") {
-            // remove any existing result container if available:
-            resultContainer.remove();
-        }
-        else {
-            let providedInput = this.value.toUpperCase();
-
-            for(let i = 0; i < profiles.length; i++) {
-                // null checking
-                firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
-                middlename = profiles[i].middlename == null ? "" : profiles[i].middlename + " ";
-                lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
-
-                if(firstname.toUpperCase().indexOf(providedInput) > -1
-                    || middlename.toUpperCase().indexOf(providedInput) > -1
-                    || lastname.toUpperCase().indexOf(providedInput) > -1) {
-                    result += "<div class=\"user-card\">" +
-                        "<div class=\"user-card-image\">" +
-                        "<img onerror=\"this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'\" src=\"" + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
-                        "</div>" +
-                        "<div class=\"user-card-content\">" +
-                        "<div class=\"card-info\">" + firstname + middlename + lastname + "<br />Eventual information...</div>" +
-                        "<div class=\"card-control\">" +
-                        "<button>Block</button>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>";
-                }
-            }
-
-            // If no container element exists, create one:
-            if(resultContainer === null) {
-                // resultContainer = <div class="search-block-result"></div>
-                const resultContainer = document.createElement("div");
-                resultContainer.setAttribute("id", "searchBlockResult");
-                const eleToAppendAfter = document.querySelector("button#block-user");
-                // Display whatever is entered (sample):
-                resultContainer.innerHTML = result;
-                eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
-            }
-            else {
-                // Element already exists, change its contents:
-                resultContainer.innerHTML =  result;
-            }
-        }
-    });
-}
+// // Block handling:
+// function blockEventListener(profiles) {
+//     document.querySelector("input#search-block").addEventListener("input", function() {
+//         const resultContainer = this.parentNode.querySelector("#searchBlockResult");
+//         let result = "";
+//         // Check if given input is empty:
+//         if(this.value === "") {
+//             // remove any existing result container if available:
+//             resultContainer.remove();
+//         }
+//         else {
+//             let providedInput = this.value.toUpperCase();
+//
+//             for(let i = 0; i < profiles.length; i++) {
+//                 // null checking
+//                 firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
+//                 middlename = profiles[i].middlename == null ? "" : profiles[i].middlename + " ";
+//                 lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
+//
+//                 if(firstname.toUpperCase().indexOf(providedInput) > -1
+//                     || middlename.toUpperCase().indexOf(providedInput) > -1
+//                     || lastname.toUpperCase().indexOf(providedInput) > -1) {
+//                     result += "<div class=\"user-card\">" +
+//                         "<div class=\"user-card-image\">" +
+//                         "<img onerror=\"this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'\" src=\"" + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+//                         "</div>" +
+//                         "<div class=\"user-card-content\">" +
+//                         "<div class=\"card-info\">" + firstname + middlename + lastname + "<br />Eventual information...</div>" +
+//                         "<div class=\"card-control\">" +
+//                         "<button>Block</button>" +
+//                         "</div>" +
+//                         "</div>" +
+//                         "</div>";
+//                 }
+//             }
+//
+//             // If no container element exists, create one:
+//             if(resultContainer === null) {
+//                 // resultContainer = <div class="search-block-result"></div>
+//                 const resultContainer = document.createElement("div");
+//                 resultContainer.setAttribute("id", "searchBlockResult");
+//                 const eleToAppendAfter = document.querySelector("button#block-user");
+//                 // Display whatever is entered (sample):
+//                 resultContainer.innerHTML = result;
+//                 eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
+//             }
+//             else {
+//                 // Element already exists, change its contents:
+//                 resultContainer.innerHTML =  result;
+//             }
+//         }
+//     });
+// }
 
 // Gender handling:
 function setGender(initialGender) {
