@@ -121,7 +121,7 @@ window.addEventListener('load', function () {
     $("#all-results").click();
 
     //on page load fire this function that will populate a select list using data from the database
-    populateCityList();
+    populateTravelForm();
 })
 
 // let locationList;
@@ -137,15 +137,22 @@ window.addEventListener('load', function () {
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
 //todo: filters; distance and buddy type
 
-async function populateCityList() {
+async function populateTravelForm() {
     //query the database for all location data using a promise
     let cityList = await getDataByPromise("SELECT * FROM location");
+    let startDate = await getDataByPromise("SELECT `startdate`, `enddate` FROM travel WHERE userId = ?", [getCurrentUserID()]);
+
+    getStartdate = startDate[0]["startdate"].split("T")[0];
+    getEnddate = startDate[0]["enddate"].split("T")[0];
+
+    document.getElementById("sDate").value = getStartdate;
+    document.getElementById("eDate").value = getEnddate;
 
     //for each loop that populates the cityList select options with data from the database
     $(cityList).each(city => {
     $("#cityList").append(`<option value=${cityList[city]["id"]}>` + cityList[city]["destination"] + `</option>`);
     });
-}
+};
 
 function sendTravelData() {
     //get current selected value from select element in form
@@ -159,7 +166,7 @@ function sendTravelData() {
     
     if(startDateFormat != "" && endDateFormat != "" && citySelect != "") {
         FYSCloud.API.queryDatabase(
-            "UPDATE `travel` SET `destination` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
+            "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
             [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]
             ).done(function() {
                 alert("updated the destination in travel table succesfull");
