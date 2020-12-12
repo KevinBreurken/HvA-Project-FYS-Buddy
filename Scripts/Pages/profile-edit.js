@@ -7,6 +7,7 @@ let activity = document.getElementById("Choice2");
 
 let gender
 let buddy
+let userId = getCurrentUserID();
 
 document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
     event.preventDefault();
@@ -51,7 +52,7 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [firstname, lastname, gender, dobFormat, biography, tel, buddy, userId]
     ).done(function (data) {
         console.log(data);
-        window.location.href = "profile.html";
+        window.location.href = "profile.html" + "?id=" + currentUserId;
     }).fail(function (reason) {
         console.log(reason)
     });
@@ -64,7 +65,8 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [email, username, userId]
     ).done(function (data) {
         console.log(data);
-        window.location.href = "profile.html";
+        // window.location.href = "profile.html" + "?id=" + currentUserId;
+        redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
     });
@@ -76,7 +78,8 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [destination, userId]
     ).done(function (data) {
         console.log(data);
-        window.location.href = "profile.html";
+        // window.location.href = "profile.html" + "?id=" + currentUserId;
+        redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
     });
@@ -91,7 +94,8 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [startFormat, endFormat, userId]
     ).done(function (data) {
         console.log(data);
-        window.location.href = "profile.html";
+        // window.location.href = "profile.html" + "?id=" + currentUserId;
+        redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
     });

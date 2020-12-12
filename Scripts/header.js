@@ -17,6 +17,7 @@ function onHeaderLoaded() {
         updateMenuButtons();
     }
 
+    if(getCurrentUserID() !== undefined)
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE id = ?", [getCurrentUserID()]
     ).done(function (data) {
@@ -110,13 +111,13 @@ function addNotification(userData) {
     let username = userData["username"];
     // console.log(username)
 
-    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
+    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText").replace("%name", username);
     displayString = displayString.replace("%name", username);
 
     return `
     <li class="notification-display-content-item" id='notification-user-${userID}'>
         <div class="notification-text">
-        <div class="notification-text-name" username="${username}">${displayString}</div>
+        <div class="notificatione-text-nam" username="${username}">${displayString}</div>
         </div>
         <div class="notification-buttons">
         <img class="notification-profile-icon" src="Content/Images/user-notification.png" onclick="redirectToProfileById(${userID})">
@@ -135,6 +136,7 @@ document.addEventListener("languageChangeEvent", function (event) {
 
 /** Notification - Database connection */
 //Fetch user notifications.
+if(getCurrentUserID() !== undefined)
 FYSCloud.API.queryDatabase(
     "SELECT * FROM usernotification WHERE targetUser = ?", [getCurrentUserID()]
 ).done(function (notificationData) {
