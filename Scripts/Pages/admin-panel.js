@@ -1,4 +1,4 @@
-var statisticsTranslation = {
+var adminPanel = {
     table: {
         head: {
             id: {
@@ -65,7 +65,7 @@ var statisticsTranslation = {
     }
 }
 
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation)
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(adminPanel)
 
 /**
  * Close the user details card
