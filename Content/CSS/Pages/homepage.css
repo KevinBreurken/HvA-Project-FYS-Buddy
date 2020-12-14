@@ -3,6 +3,7 @@ textarea:focus, input:focus{
   outline: none;
 }
 
+/* removes the highlight around a selected item that is present on chrome*/
 *:focus {
   outline: none;
 }
@@ -11,11 +12,37 @@ main {
   max-width: 1000px;
 }
 
-/* travel specifications */
+/* homepage img */
+#homepage-img-div {
+  display: flex;
+  justify-content: center;
+}
 
+#homepage-img-div img {
+  width: 60%;
+  margin-right: 20px;
+}
+
+#img-text-wrapper {
+  border: #efefef solid 1px;
+  width: 25%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+#img-text-wrapper:hover {
+  background-color: #efefef;
+}
+
+#img-text {
+  margin: 10px;
+}
+
+/* travel specifications */
 #travel-container {
-  margin: 0 auto 40px auto;
-  border: var(--border-corendon-grey);
+  margin: 40px auto 40px auto;
+  /*border: var(--border-corendon-grey);*/
   padding: 12px;
   width: 60%;
 }
@@ -57,6 +84,7 @@ main {
 
 #currentTravelData div p {
   margin-right: 5px;
+  margin-top: 5px;
 }
 
 .content-wrapper form {
@@ -80,7 +108,6 @@ main {
 }
 
 .content-wrapper input, select{
-/* removes the highlight around a selected item that is present on chrome*/
   box-sizing: border-box;
   width: 100%;
   padding: 12px;
