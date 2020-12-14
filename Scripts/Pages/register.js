@@ -1,4 +1,4 @@
-var statisticsTranslation = {
+var registerTranslations = {
     register: {
         title: {
             nl: "Welkom bij Corendon. ",
@@ -172,7 +172,7 @@ var statisticsTranslation = {
     }
 }
 
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(statisticsTranslation)
+FYSCloud.Localization.CustomTranslations.addTranslationJSON(registerTranslations)
 
 const MAX_USERNAME = 50
 const MAX_EMAIL = 50
@@ -190,6 +190,7 @@ let lastname
 let gender
 let dob
 let dobFormat
+let image
 
 let bio
 let hobby = []
@@ -336,9 +337,10 @@ function countChars(countFrom, displayTo) {
 }
 
 // Image preview function from FYS Cloud
-let imgLoc;
 $("#fileUpload").on("change", function () {
-    FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
+    FYSCloud.Utils.getDataUrl(
+        $(this)
+    ).done(function (data) {
         //$("#filePreviewResult").html(`${data.fileName} (${data.extension}) => ${data.mimeType} (Is image: ${data.isImage})`)
 
         if (data.isImage) {
@@ -351,46 +353,71 @@ $("#fileUpload").on("change", function () {
     })
 })
 
-// Image upload function from FYS Cloud
-// TODO Fix file extension somehow
-function imageUpload(photoId) {
-    FYSCloud.Utils
-        .getDataUrl($("#fileUpload"))
-        .done(function (data) {
-            FYSCloud.API.uploadFile(
-                "profile-pictures/pp-" + photoId + ".jpg",
-                data.url
-            ).fail(function (reason) {
-                console.log(reason)
-            })
-        }).fail(function (reason) {
-        console.log(reason)
-    })
-}
+let url
+let picExtension
 
 function register() {
+    bio = $('#bio').val()
+
+    let hobbies = $('.hobby')
+    // Loops through all the checked hobbies and add them to the array
+    let counter = 0
+    for (let i = 0; i < hobbies.length; i++) {
+        if (hobbies[i].checked) {
+            hobby[counter] = hobbies[i].value
+            counter++
+        }
+    }
+
     FYSCloud.API.queryDatabase(
         "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?);",
         [username, email, password]
     ).done(function (data) {
         setId = data.insertId
-        imageUpload(setId)
 
-        FYSCloud.API.queryDatabase(
-            "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (id, userId, languageId, profileVisibilityId, displayGenderId, notifcationId, maxDistance, radialDistance) VALUES (?, ?, '1', '1', '1', '1', '11', '500')",
-            [setId, setId, firstname, lastname, gender, dobFormat, bio, "pp-" + setId + ".jpg", setId, setId]
+        FYSCloud.Utils.getDataUrl(
+            $("#fileUpload")
         ).done(function (data) {
-            for (let i = 0; i < hobby.length; i++) {
+                picExtension = data.extension
+                url = "pp-" + setId + "." + picExtension
+
+                FYSCloud.API.uploadFile(
+                    "profile-pictures/pp-" + setId + "." + picExtension,
+                    data.url,
+                )
+
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
-                    [setId, hobby[i]]
-                ).fail(function (reason) {
+                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (?, ?, '1', '1', '1', '1', '1', '11', '500')",
+                    [setId, setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
+                ).done(function (data) {
+                    for (let i = 0; i < hobby.length; i++) {
+                        FYSCloud.API.queryDatabase(
+                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                            [setId, hobby[i]]
+                        ).fail(function (reason) {
+                            console.log(reason)
+                        })
+                    }
+                }).fail(function (reason) {
                     console.log(reason)
                 })
             }
-        }).fail(function (reason) {
-            console.log(reason)
-        })
+        ).fail(function (reason) {
+                FYSCloud.API.queryDatabase(
+                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, NULL, NULL);INSERT INTO setting (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (?, ?, '1', '1', '1', '1', '1', '11', '500')",
+                    [setId, setId, firstname, lastname, gender, dobFormat, bio, setId, setId]
+                ).done(function (data) {
+                    for (let i = 0; i < hobby.length; i++) {
+                        FYSCloud.API.queryDatabase(
+                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                            [setId, hobby[i]]
+                        ).fail(function (reason) {
+                            console.log(reason)
+                        })
+                    }
+                })
+            }
+        )
         loginUser(setId)
     }).fail(function (reason) {
         console.log(reason)

@@ -145,6 +145,7 @@ nav#settingsNavigation > ul a:hover {
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 .user-card-content {
