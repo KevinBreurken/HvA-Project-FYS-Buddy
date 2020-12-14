@@ -22,20 +22,22 @@
 <!--    <button onclick="openOverlay()">Klik mij</button>-->
 <!--    <div id="on-boarding"></div>-->
 
-        <div class="show-options">
-                <h2 data-translate="specification"></h2>
-        </div>
+<!--        <div class="show-options">-->
+<!--                <h2 data-translate="specification"></h2>-->
+<!--        </div>-->
     <div id="travel-container">
         <div class="content-wrapper">
+            <h2 data-translate="specification"></h2>
             <form action="" method="get" id="travel-form">
-                <label for="date-for" data-translate="specification.from"></label>
+                <label for="sDate" data-translate="specification.from"></label>
                 <input type="Date" name="" id="sDate" class="date-picker">
-                <label for="date-till" id="date-till-label" data-translate="specification.till"></label>
+                <label for="eDate" id="date-till-label" data-translate="specification.till"></label>
                 <input type="Date" name="" id="eDate" class="date-picker">
                 <label for="cityList" id="my-list-label" data-translate="specification.cities"></label>
-                <select id="cityList">
-                </select>
-                <button type="button" id="travelSubmitButton" onclick="sendTravelData()" data-translate="specification.button"></button>
+                <select id="cityList"></select>
+                <div id="travelSubmitButton-wrapper">
+                    <button type="button" id="travelSubmitButton" onclick="sendTravelData()" data-translate="specification.button"></button>
+                </div>
             </form>
         </div>
     </div>

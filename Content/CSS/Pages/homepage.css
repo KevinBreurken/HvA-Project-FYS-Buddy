@@ -17,6 +17,18 @@ main {
   margin: 0 auto 40px auto;
   border: var(--border-corendon-grey);
   padding: 20px;
+  width: 60%;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-wrapper h2 {
+  margin: 0;
 }
 
 #travelSubmitButton {
@@ -28,6 +40,11 @@ main {
   border-radius: 4px;
   cursor: pointer;
   width: 200px;
+}
+
+#travelSubmitButton-wrapper {
+  display: flex;
+  justify-content: center;
 }
 
 .content-wrapper input, select{

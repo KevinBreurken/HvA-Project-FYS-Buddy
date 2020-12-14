@@ -219,7 +219,7 @@ async function openTabContent(currentButton) {
             break;
         case "favourites":
             queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
-            noMatchesMessage = `<p class="no-matches-message"data-translate="tab.empty.favourites"></p>`;
+            noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.favourites"></p>`;
             break;
     }
 
