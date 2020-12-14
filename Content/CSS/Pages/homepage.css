@@ -16,7 +16,7 @@ main {
 #travel-container {
   margin: 0 auto 40px auto;
   border: var(--border-corendon-grey);
-  padding: 20px;
+  padding: 12px;
   width: 60%;
 }
 
@@ -25,6 +25,7 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 80%;
 }
 
 .content-wrapper span {
@@ -35,11 +36,27 @@ main {
 
 .content-wrapper span h2 {
   margin: 0 5px 0 0;
+  color: var(--color-corendon-light-blue);
 }
 
 .content-wrapper span img {
   width: 20px;
   height: 20px;
+}
+
+#currentTravelData {
+  display: flex;
+  width: 80%;
+  justify-content: space-evenly;
+}
+
+#currentTravelData div {
+  display: flex;
+
+}
+
+#currentTravelData div p {
+  margin-right: 5px;
 }
 
 .content-wrapper form {

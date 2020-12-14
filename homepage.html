@@ -22,12 +22,14 @@
 <!--    <button onclick="openOverlay()">Klik mij</button>-->
 <!--    <div id="on-boarding"></div>-->
 
-<!--        <div class="show-options">-->
-<!--                <h2 data-translate="specification"></h2>-->
-<!--        </div>-->
     <div id="travel-container">
         <div class="content-wrapper">
-            <span id="travel-span"><h2 data-translate="specification"></h2><img src="Content/Images/down-arrow.svg"></span>
+            <span id="travel-span" onclick="toggleTravelForm()"><h2 data-translate="specification"></h2><img src="Content/Images/down-arrow.svg"></span>
+            <div id="currentTravelData">
+                <div><p data-translate="specification.from"></p><p id="current-start-date"> hi</p></div>
+                <div><p data-translate="specification.till"></p><p id="current-end-date"> hi2</p></div>
+                <div><p>Stad</p><p id="current-city"> h3</p></div>
+            </div>
             <form action="" method="get" id="travel-form">
                 <label for="sDate" data-translate="specification.from"></label>
                 <input type="Date" name="" id="sDate" class="date-picker">

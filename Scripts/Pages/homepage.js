@@ -120,24 +120,38 @@ window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
 
-    //on page load fire this function that will populate a select list using data from the database
+    //set the current travel data for travel element
+    updateCurrentTravelData();
+
+    //on page load this function will populate a select list using data from the database
     populateCityList();
-
-    $("#travel-span").click(function() {$("#travel-form").slideToggle("slow")});
 })
-
-// let locationList;
-// async function getLocation(locationID){
-//     if (locationList === undefined)
-//         locationList = await getDataByPromise("SELECT * FROM location");
-//     for (let i = 0; i < locationList.length; i++) {
-//         if(locationList[i].id === locationID)
-//             return locationList[i];
-//     }
-// }
 
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
 //todo: filters; distance and buddy type
+
+/** toggles the current travel data display and the travel data form */
+function toggleTravelForm() {
+    $("#travel-form").slideToggle("slow");
+    $("#currentTravelData").slideToggle("slow");
+}
+
+/** gets the users current travel data and sets it on the travel data display */
+async function updateCurrentTravelData() {
+    let currentTravelData= await getDataByPromise(`SELECT 
+    t.startdate, t.enddate,
+    l.destination
+    FROM travel t
+    INNER JOIN location l ON t.locationId = l.id
+    WHERE userId = ?`, [getCurrentUserID()]);
+
+    //sets the travel data of the current user on the page
+    let date = new Date(currentTravelData[0]["startdate"]);
+    $("#current-start-date").html(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
+    date = new Date(currentTravelData[0]["enddate"]);
+    $("#current-end-date").html(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
+    $("#current-city").html(currentTravelData[0]["destination"]);
+}
 
 async function populateCityList() {
     //query the database for all location data using a promise
@@ -171,6 +185,9 @@ function sendTravelData() {
     }else{
         alert("no date selected");
     }
+
+    //sets the current travel data display closes the travel form
+    updateCurrentTravelData().then(toggleTravelForm());
 }
 
 let lastButtonId;
@@ -286,11 +303,8 @@ function generateUserDisplay(currentUser) {
     //todo: fix the displaying of dates
     //todo: fix translations
     let date = new Date(currentUser["startdate"]);
-    let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    // let startDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.from").replace("@date", startDate);
-
-    let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    // let endDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.until").replace("@date", endDate);
+    let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
