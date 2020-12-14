@@ -2,8 +2,9 @@
 FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/header-translation.json");
 FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/footer-translation.json");
 //Add header and footer css to <head>.
-$("head").append('<link rel="stylesheet" href="Content/CSS/header.css">');
-$("head").append('<link rel="stylesheet" href="Content/CSS/footer.css">');
+let headElm = $("head");
+headElm.append('<link rel="stylesheet" href="Content/CSS/header.css">');
+headElm.append('<link rel="stylesheet" href="Content/CSS/footer.css">');
 // "is a shorthand for : $(document).ready(function() { ... });"
 $(function () {
     //Add to header the start of the body.
