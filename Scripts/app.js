@@ -1,4 +1,3 @@
-$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>'); //Required for session data.
 $("head").append('<script src="Scripts/custom-language.js"></script>');
 let currentUserID = getCurrentUserID();
 let currentPageType;
@@ -165,6 +164,8 @@ async function loginUser(id) {
  * Sends session data to the FYS database.
  */
 async function sendSessionData() {
+    if (document.getElementById("statistics-snippet") === null)
+        $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js" id="statistics-snippet"></script>'); //Required for session data.
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
     const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
