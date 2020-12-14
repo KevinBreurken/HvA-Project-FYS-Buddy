@@ -1,4 +1,34 @@
 var translations = {
+    slide: {
+      h1: {
+          0: {
+              nl: "header 0 nl",
+              en: "header 0 en"
+          },
+          1: {
+              nl: "header 1 nl",
+              en: "header 1 en"
+          },
+          2: {
+              nl: "header 2 nl",
+              en: "header 2 en"
+          }
+      },
+      text: {
+          0: {
+              nl: "tekst 0 nl",
+              en: "text 0 en"
+          },
+          1: {
+              nl: "tekst 1 nl",
+              en: "text 1 en"
+          },
+          2: {
+              nl: "tekst 2 nl",
+              en: "text 2 en"
+          }
+      }
+    },
     specification: {
         nl: "Reis specificaties ",
         en: "Travel specifications ",
@@ -131,22 +161,13 @@ let slide = 0;
 /**  displays the next slide */
 function displayNextSlide(arrow) {
     switch (slide) {
-        case 0:
-            console.log(slide)
-            arrow.id.toString() === "left-arrow" ? slide = 2 : slide++;
-            console.log(slide)
-            break;
-        case 1:
-            console.log(slide)
-            arrow.id.toString() === "left-arrow" ? slide-- : slide++;
-            console.log(slide)
-            break;
-        case 2:
-            console.log(slide)
-            arrow.id.toString() === "left-arrow" ? slide-- : slide = 0;
-            console.log(slide)
-            break;
+        case 0: arrow.id.toString() === "left-arrow" ? slide = 2 : slide++; break;
+        case 1: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
     }
+    $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
+    $("#p-slide").attr("data-translate", `slide.text.${slide}`);
+    FYSCloud.Localization.translate(false);
 }
 
 /** toggles the current travel data display and the travel data form */
