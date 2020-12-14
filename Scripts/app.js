@@ -35,27 +35,6 @@ if (appElement !== null) {
     }
 }
 
-function redirectToHome() {
-    let appElement = document.getElementById("app");
-    if (appElement !== null) {
-        let attrElement = appElement.getAttribute("data-pageType");
-        if (attrElement === "user") {
-            window.open("homepage.html", "_self");
-        }
-        if (attrElement === "admin") {
-            window.open("admin-profile.html", "_self");
-        }
-    }
-}
-
-let headElement = $('head');
-//add the general stylesheet to the page's header.
-// headElement.append('<link rel="stylesheet" type="text/css" href="Content/CSS/default.css">');
-//add the favicon to the page's header.
-headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
-//add the config file
-headElement.append(`<title>Corendon Travel Buddy</title>`);
-
 /** Localisation */
 FYSCloud.Localization.CustomTranslations = (function ($) {
     const exports = {
@@ -115,13 +94,42 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
         FYSCloud.Localization.translate(false);
     }
 
-    function loadJSONTranslationFile(fileURL){
-        $.getJSON(fileURL, function(json) {
+    function loadJSONTranslationFile(fileURL) {
+        $.getJSON(fileURL, function (json) {
             addTranslationJSON(json);
         });
     }
+
     return exports;
 })(jQuery);
+
+/** Check if this page want to load an translation */
+if (appElement !== null) {
+    let transElement = appElement.getAttribute("data-translations");
+    if (transElement !== null) {
+        FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
+    }
+}
+
+function redirectToHome() {
+    let appElement = document.getElementById("app");
+    if (appElement !== null) {
+        let attrElement = appElement.getAttribute("data-pageType");
+        if (attrElement === "user") {
+            window.open("homepage.html", "_self");
+        }
+        if (attrElement === "admin") {
+            window.open("admin-profile.html", "_self");
+        }
+    }
+}
+
+let headElement = $('head');
+//add the favicon to the page's header.
+headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+//add the config file
+headElement.append(`<title>Corendon Travel Buddy</title>`);
+
 
 /** Sessions */
 function setCurrentUserID(id) {

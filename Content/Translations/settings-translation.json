@@ -1,0 +1,138 @@
+{
+  "settings": {
+    "header": {
+      "nl": "Instellingen",
+      "en": "Settings"
+    },
+    "language": {
+      "nl": "Taal",
+      "en": "Language",
+      "select": {
+        "nl": {
+          "nl": "Nederlands",
+          "en": "Dutch"
+        },
+        "en": {
+          "nl": "Engels",
+          "en": "English"
+        }
+      }
+    },
+    "account": {
+      "nl": "Account",
+      "en": "Account",
+      "label": {
+        "nl": "Profiel uitschakelen",
+        "en": "Disable profile"
+      },
+      "anchor": {
+        "nl": "Uitschakelen",
+        "en": "Disable"
+      }
+    },
+    "security": {
+      "nl": "Beveiliging",
+      "en": "Security",
+      "currentPassword": {
+        "nl": "Huidige wachtwoord",
+        "en": "Current password"
+      },
+      "newPassword": {
+        "nl": "Nieuwe wachtwoord",
+        "en": "New password"
+      },
+      "repeatPassword": {
+        "nl": "Herhaal wachtwoord",
+        "en": "Repeat password"
+      }
+    },
+    "privacy": {
+      "nl": "Privacy",
+      "en": "Privacy",
+      "label": {
+        "nl": "Profiel zichtbaar voor",
+        "en": "Profile visible to"
+      },
+      "select": {
+        "everyone": {
+          "nl": "Iedereen",
+          "en": "Everyone"
+        },
+        "matchesOnly": {
+          "nl": "Alleen matches",
+          "en": "Matches only"
+        },
+        "justMe": {
+          "nl": "Alleen mij",
+          "en": "Just me"
+        }
+      }
+    },
+    "block": {
+      "nl": "Blokkeren",
+      "en": "Block",
+      "label": {
+        "nl": "Zoeken",
+        "en": "Search"
+      },
+      "button" : {
+        "nl": "Blokkeren",
+        "en": "Block"
+      }
+    },
+    "preferences": {
+      "nl": "Voorkeuren",
+      "en": "Preferences",
+      "genderLabel": {
+        "nl": "Toon alleen resultaat van hetzelfde geslacht als mij.",
+        "en": "Only show results matching my own gender."
+      },
+      "identifyLabel": {
+        "nl": "Identificeren als",
+        "en": "Identify as"
+      },
+      "maxDistanceLabel": {
+        "nl": "Maximale afstand",
+        "en": "Maximum distance"
+      },
+      "distanceRangeLabel": {
+        "nl": "Straal van afstand",
+        "en": "Radial distance"
+      },
+      "distanceResultLabel": {
+        "nl": "De afstand is ingesteld op: ",
+        "en": "The distance has been set to: "
+      },
+      "select": {
+        "unlimited": {
+          "nl": "Oneindig",
+          "en": "Unlimited"
+        }
+      }
+    },
+    "notifications": {
+      "nl": "Meldingen",
+      "en": "Notifications",
+      "optionOneLabel": {
+        "nl": "Bij wijzigingen aan mijn profiel (zoals een nieuwe potentiele beschikbare connection) zou ik meldingen per mail willen ontvangen",
+        "en": "I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)"
+      },
+      "optionTwoLabel": {
+        "nl": "Ik zou meldingen per mail willen over app wijzigingen",
+        "en": "I would like to get notified by e-mail about updates to the app"
+      }
+    },
+    "information": {
+      "nl": "Informatie",
+      "en": "Information",
+      "version": {
+        "nl": "Versie ",
+        "en": "Version "
+      }
+    },
+    "applyButton": {
+      "nl": "Gegevens bijwerken",
+      "en": "Apply changes"
+    }
+  }
+}
