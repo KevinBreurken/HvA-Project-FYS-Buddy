@@ -84,7 +84,7 @@ input[type=button]:hover {
   color: var(--color-corendon-white);
   font-size: 18px;
   border: none;
-  border-right: var(--color-corendon-dark-red) groove;
+  border-right: #ff1b00 groove;
   padding: 10px 15px 10px 15px;
   background-color: var(--color-corendon-red);
 }
@@ -217,6 +217,14 @@ input[type=button]:hover {
 .user-display button:hover {
   color: var(--color-corendon-white);
   background-color: var(--color-corendon-red);
+}
+
+.user-display-column-3 span, .user-display-column-3 span p {
+  display: flex;
+  padding-left: 0;
+  padding-right: 5px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .user-display-column-4 {

@@ -63,12 +63,12 @@ var translations = {
             nl: "meer info"
         },
         from: {
-            en: "from @date",
-            nl: "vanaf @date"
+            en: "from ",
+            nl: "vanaf "
         },
         until: {
-            en: "until @date",
-            nl: "tot @date"
+            en: "until ",
+            nl: "tot "
         },
         buddy: {
           default: {
@@ -77,11 +77,11 @@ var translations = {
           },
           activity: {
               en: "activity buddy",
-              nl: "activiteitenbuddy"
+              nl: "activiteiten-buddy"
           },
           travel: {
               en: "travel buddy",
-              nl: "reisbuddy"
+              nl: "reis-buddy"
           }
         }
     },
@@ -175,9 +175,8 @@ let lastButtonId;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
 
-    //check if a new tab is opened.
-    if(lastButtonId === currentButton.id)
-        return
+    //disallows the user from spamming a tab-button
+    if(lastButtonId === currentButton.id) {return}
     lastButtonId = currentButton.id;
 
     let tab = $("#tab");
@@ -273,7 +272,7 @@ function generateUserDisplay(currentUser) {
 
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
     let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
-    let location = currentUser["locationId"] === "" ? "location" : currentUser["locationId"];
+    let location = currentUser["destinationd"] === "" ? "destination" : currentUser["destination"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
     //buddy
@@ -283,30 +282,34 @@ function generateUserDisplay(currentUser) {
     
     //start and end date
     //todo: fix the displaying of dates
+    //todo: fix translations
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    let startDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.from").replace("@date", startDate);
+    // let startDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.from").replace("@date", startDate);
 
     let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    let endDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.until").replace("@date", endDate);
+    // let endDateString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("userDisplay.until").replace("@date", endDate);
 
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
             <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div class="user-display-column-3">
-            <p>${location}</p>
-            <p>${startDateString}</p>
-            <p>${endDateString}</p>
-            <p class="buddy">${buddy}</p>
+                <p>${location}</p>
+                <span><p data-translate="userDisplay.from">from </p><p>${startDate}</p></span>
+                <span><p data-translate="userDisplay.until">from </p><p>${endDate}</p></span>
+                <p class="buddy">${buddy}</p>
             </div>
             <div class="user-display-column-4">
-            <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
-            <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
+                <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
+                <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
             <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}',)">
             <img src="Content/Images/favourite-v${favouriteVersion}.png" class="favourite-icon">
             </div>
             </div>
             </div>`;
+
+    // requestButton.attr("data-translate", "overlay.button.sent");
+    // requestButton.attr("data-translate", "overlay.button.sent");
 
     return userDisplay;
 }
@@ -321,10 +324,11 @@ async function openUserOverlay(overlayUserId) {
     document.querySelector('html').scrollTop = window.scrollY;
 
     //get user profile.
-    let overlayUserData = await getDataByPromise(`SELECT p.*, u.username, u.id
-                                                  FROM fys_is111_1_dev.profile p
-                                                  INNER JOIN fys_is111_1_dev.user u ON p.userId = u.id
-                                                  WHERE u.id = ?`, overlayUserId);
+    let overlayUserData = await getDataByPromise(`SELECT 
+       p.*, u.username, u.id
+    FROM profile p
+    INNER JOIN user u ON p.userId = u.id
+    WHERE u.id = ?`, overlayUserId);
 
     let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
 
@@ -348,9 +352,9 @@ async function openUserOverlay(overlayUserId) {
 
     //determine what kind of request button we want to show the user,
     let matchingFriend = await getDataByPromise(`SELECT *
-                                                 FROM friendrequest
-                                                 WHERE (targetUser = ? AND requestingUser = ?)
-                                                    OR (targetUser = ? AND requestingUser = ?)
+    FROM friendrequest
+    WHERE (targetUser = ? AND requestingUser = ?)
+    OR (targetUser = ? AND requestingUser = ?)
     `, [getCurrentUserID(), overlayUserId, overlayUserId, getCurrentUserID()]);
 
     //Reset button style elements.
@@ -374,10 +378,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
 
-    FYSCloud.Localization.translate(false);
-    $("#profile-button").click(function () {
-        redirectToProfileById(overlayUserId)
-    });
+    $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
 function disableRequestButton() {
