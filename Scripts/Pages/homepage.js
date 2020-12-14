@@ -122,6 +122,8 @@ window.addEventListener('load', function () {
 
     //on page load fire this function that will populate a select list using data from the database
     populateCityList();
+
+    $("#travel-span").click(function() {$("#travel-form").slideToggle("slow")});
 })
 
 // let locationList;

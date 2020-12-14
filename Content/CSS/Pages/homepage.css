@@ -27,8 +27,23 @@ main {
   align-items: center;
 }
 
-.content-wrapper h2 {
-  margin: 0;
+.content-wrapper span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-wrapper span h2 {
+  margin: 0 5px 0 0;
+}
+
+.content-wrapper span img {
+  width: 20px;
+  height: 20px;
+}
+
+.content-wrapper form {
+  display: none;
 }
 
 #travelSubmitButton {
