@@ -13,12 +13,17 @@ main {
 }
 
 /* homepage img */
-#homepage-img-div {
+#homepage-slide-div-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+#homepage-slide-div {
   display: flex;
   justify-content: center;
 }
 
-#homepage-img-div img {
+#homepage-slide-div #homepage-img {
   width: 60%;
   margin-right: 20px;
 }
@@ -37,6 +42,20 @@ main {
 
 #img-text {
   margin: 10px;
+}
+
+.img-arrow {
+  width: 30px;
+  height: 30px;
+  /*margin: 0 20px 0 20px;*/
+}
+
+#left-arrow {
+  transform: rotate(90deg);
+}
+
+#right-arrow{
+  transform: rotate(270deg);
 }
 
 /* travel specifications */

@@ -22,23 +22,29 @@
 <!--    <button onclick="openOverlay()">Klik mij</button>-->
 <!--    <div id="on-boarding"></div>-->
 
-    <div id="homepage-img-div">
-        <img src="Content/Images/homepage-img.jpg">
-        <div id="img-text-wrapper">
-            <div id="img-text">
-                <h1>Lorem ipsum.</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error incidunt iure modi molestias necessitatibus nemo? A et facilis inventore non.</p>
+    <div id="homepage-slide-div-wrapper">
+        <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
+        <!--current slide-->
+        <div id="homepage-slide-div">
+            <img  id="homepage-img" src="Content/Images/homepage-img.jpg">
+            <div id="img-text-wrapper">
+                <div id="img-text">
+                    <h1>Lorem ipsum.</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error incidunt iure modi molestias necessitatibus nemo? A et facilis inventore non.</p>
+                </div>
             </div>
         </div>
+        <img class="img-arrow" id="right-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
     </div>
+
 
     <div id="travel-container">
         <div class="content-wrapper">
             <span id="travel-span" onclick="toggleTravelForm()"><h2 data-translate="specification"></h2><img src="Content/Images/down-arrow.svg"></span>
             <div id="currentTravelData">
-                <div><p data-translate="specification.from"></p><p id="current-start-date"> hi</p></div>
-                <div><p data-translate="specification.till"></p><p id="current-end-date"> hi2</p></div>
-                <div><p>Stad</p><p id="current-city"> h3</p></div>
+                <div><p data-translate="specification.from"></p><p id="current-start-date">startdate</p></div>
+                <div><p data-translate="specification.till"></p><p id="current-end-date">enddate</p></div>
+                <div><p>Stad</p><p id="current-city">stad</p></div>
             </div>
             <form action="" method="get" id="travel-form">
                 <label for="sDate" data-translate="specification.from"></label>

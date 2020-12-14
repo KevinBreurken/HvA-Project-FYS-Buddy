@@ -120,15 +120,34 @@ window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
 
-    //set the current travel data for travel element
-    updateCurrentTravelData();
-
     //on page load this function will populate a select list using data from the database
     populateCityList();
 })
 
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
 //todo: filters; distance and buddy type
+
+let slide = 0;
+/**  displays the next slide */
+function displayNextSlide(arrow) {
+    switch (slide) {
+        case 0:
+            console.log(slide)
+            arrow.id.toString() === "left-arrow" ? slide = 2 : slide++;
+            console.log(slide)
+            break;
+        case 1:
+            console.log(slide)
+            arrow.id.toString() === "left-arrow" ? slide-- : slide++;
+            console.log(slide)
+            break;
+        case 2:
+            console.log(slide)
+            arrow.id.toString() === "left-arrow" ? slide-- : slide = 0;
+            console.log(slide)
+            break;
+    }
+}
 
 /** toggles the current travel data display and the travel data form */
 function toggleTravelForm() {
