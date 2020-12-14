@@ -92,7 +92,7 @@ function redirectToHome() {
  */
 function closeSession() {
     /** Statistics - Set page visit */
-    var name = window.location.pathname
+    let name = window.location.pathname
         .split("/")
         .filter(function (c) {
             return c.length;
@@ -141,7 +141,7 @@ function parseDateToInputDate(date) {
     //we don't want to send page data as an admin.
     if (currentPageType === "admin")
         return;
-    var name = window.location.pathname.split("/").filter(function (c) {
+    let name = window.location.pathname.split("/").filter(function (c) {
         return c.length;
     }).pop();
 
