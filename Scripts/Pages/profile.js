@@ -87,52 +87,19 @@ function changeButton() {
 function changeButton2() {
     document.getElementById('block').value = "Blocked";
 }
-
-function AgeCheck() {
-    const MIN_AGE = 18;
-    const MAX_AGE = 100;
-
-    let today = new Date();
-    let dd = today.getDate();
-    let mm = today.getMonth() + 1;
-    let yyyy = today.getFullYear() - MIN_AGE;
-    if (dd < 10) {
-        dd = '0' + dd
-    }
-    if (mm < 10) {
-        mm = '0' + mm
-    }
-    today = yyyy + '-' + mm + '-' + dd;
-
-    let ageCheck = new Date();
-    let day = ageCheck.getDate();
-    let month = ageCheck.getMonth() + 1;
-    let year = ageCheck.getFullYear() - MAX_AGE;
-    if (day < 10) {
-        day = '0' + day
-    }
-    if (month < 10) {
-        month = '0' + month
-    }
-    ageCheck = year + '-' + month + '-' + day;
-    // TODO: fix bug.
-//document.getElementById("dateOfBirth").setAttribute("max", today);
-//document.getElementById("dateOfBirth").setAttribute("min", ageCheck);
-}
-
 let count;
 
-function countCharacters() {
-    var textEntered, countRemaining, counter;
-    textEntered = document.getElementById('biography').value;
-    counter = (500 - (textEntered.length));
-    countRemaining = document.getElementById('charactersRemaining');
-    countRemaining.textContent = counter;
-}
-
-//count = document.getElementById('biography');
-//count.addEventListener('keyup', countCharacters, false);
-//let userId5 = getCurrentUserID();
+// function countCharacters() {
+//     var textEntered, countRemaining, counter;
+//     textEntered = document.getElementById('biography').value;
+//     counter = (500 - (textEntered.length));
+//     countRemaining = document.getElementById('charactersRemaining');
+//     countRemaining.textContent = counter;
+// }
+//
+// count = document.getElementById('biography');
+// count.addEventListener('keyup', countCharacters, false);
+// let userId5 = getCurrentUserID();
 
 
 //get the url
@@ -386,21 +353,4 @@ if (currentUserId !== profileId) {
     $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
 }
 
-// FYSCloud.API.queryDatabase(
-//     "SELECT * FROM `friend` WHERE `user2` = ? AND `user1` = ?", [currentUserId, profileId]
-// ).done(function (data) {
-//     console.log(data);
-//     showContactinfo();
-//     FYSCloud.Localization.translate(false);
-// }).fail(function () {
-//     alert("paniek");
-// });
 
-console.log(profileId);
-console.log(currentUserId);
-
-// function showContactinfo(data) {
-//         $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
-//             <p id="email"><b>E-mail:</b></p>
-//             <p id="tel"><b>Tel:</b></p>`);
-// }

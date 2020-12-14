@@ -9,6 +9,35 @@ let gender
 let buddy
 let userId = getCurrentUserID();
 
+const MIN_AGE = 18;
+const MAX_AGE = 100;
+
+let today = new Date();
+let dd = today.getDate();
+let mm = today.getMonth() + 1;
+let yyyy = today.getFullYear() - MIN_AGE;
+today = yyyy + '-' + mm + '-' + dd;
+
+let ageCheck = new Date();
+let day = ageCheck.getDate();
+let month = ageCheck.getMonth() + 1;
+let year = ageCheck.getFullYear() - MAX_AGE;
+ageCheck = year + '-' + month + '-' + day;
+
+document.getElementById("DateOfBirth").setAttribute("max", parseDateToInputDate(today));
+document.getElementById("DateOfBirth").setAttribute("min", parseDateToInputDate(ageCheck));
+
+function countCharacters() {
+    let textEntered, countRemaining, counter;
+    textEntered = document.getElementById('Biography').value;
+    counter = (500 - (textEntered.length));
+    countRemaining = document.getElementById('charactersRemaining');
+    countRemaining.textContent = counter;
+
+    count = document.getElementById('Biography');
+    count.addEventListener('keyup', countCharacters, false);
+}
+
 document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
     event.preventDefault();
     let firstname = document.querySelector("#FirstName").value;
