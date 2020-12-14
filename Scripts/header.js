@@ -1,15 +1,15 @@
 /**
  * Check whether the page is currently accessed by a Admin Profile.
  */
-var isOnAdminProfile = false;
+let isOnAdminProfile = false;
 /**
  * name of the current menu. ex: 'home/statistics'.
  */
-var currentMenuType = 'home';
+let currentMenuType = 'home';
 /**
  * Check whether the navigation is visible on the screen.
  */
-var isNavigationVisible = true;
+let isNavigationVisible = true;
 
 const generalElement = document.getElementById("general");
 if (generalElement !== null) {
@@ -17,8 +17,6 @@ if (generalElement !== null) {
     isOnAdminProfile = generalElement.hasAttribute("data-nav-admin");
     isNavigationVisible = generalElement.hasAttribute("data-nav-visible");
 }
-
-console.log(isOnAdminProfile);
 
 $(function () {
     onHeaderLoaded();
