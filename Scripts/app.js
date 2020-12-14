@@ -111,11 +111,19 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
     return exports;
 })(jQuery);
 
+/** Check if this page want to load an translation */
+if (appElement !== null) {
+    let transElement = appElement.getAttribute("data-translations");
+    console.log(transElement);
+    if (transElement !== null) {
+        FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
+    }
+}
+
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = FYSCloud.Session.get("language", "nl");
 FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
-
 
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.translate(false);

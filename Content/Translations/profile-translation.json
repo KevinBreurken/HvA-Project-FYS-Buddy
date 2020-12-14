@@ -1,0 +1,80 @@
+{
+  "profile": {
+    "username": {
+      "nl": "Gebruikersnaam: ",
+      "en": "Username: "
+    },
+    "firstname": {
+      "nl": "Voornaam: ",
+      "en": "First name: "
+    },
+    "lastname": {
+      "nl": "Achternaam: ",
+      "en": "Last name: "
+    },
+    "gender": {
+      "nl": "Geslacht",
+      "en": "Gender"
+    },
+    "age": {
+      "nl": "leeftijd: ",
+      "en": "Age: "
+    },
+    "ageTitle": {
+      "nl": "Leeftijd",
+      "en": "Age"
+    },
+    "dob": {
+      "nl": "Geboortedatum: ",
+      "en": "Date of Birth: "
+    },
+    "destination": {
+      "nl": "Bestemming: ",
+      "en": "Destination: "
+    },
+    "from": {
+      "nl": "Van: ",
+      "en": "From: "
+    },
+    "untill": {
+      "nl": "Tot: ",
+      "en": "Untill: "
+    },
+    "lookingfor": {
+      "nl": "Opzoek naar: ",
+      "en": "I am looking for: "
+    },
+    "phone": {
+      "nl": "Tel: ",
+      "en": "Phone: "
+    },
+    "contact": {
+      "nl": "Contact Informatie",
+      "en": "Contact Information"
+    },
+    "trip": {
+      "nl": "Trip Informatie",
+      "en": "Trip Information"
+    },
+    "editbutton": {
+      "nl": "Profiel Aanpassen",
+      "en": "Edit Profile"
+    },
+    "interest": {
+      "nl": "Interesses",
+      "en": "Interests"
+    },
+    "bio": {
+      "nl": "Biografie",
+      "en": "Biography"
+    },
+    "block": {
+      "nl": "Blokkeer",
+      "en": "Block"
+    },
+    "match": {
+      "nl": "Stuur vriendschapsverzoek",
+      "en": "Send request"
+    }
+  }
+}

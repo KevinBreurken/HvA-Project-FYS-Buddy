@@ -1,5 +1,3 @@
-FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/admin-statistics-translation.json");
-
 var pieChartColors = [
     "#2ecc71",
     "#3498db",

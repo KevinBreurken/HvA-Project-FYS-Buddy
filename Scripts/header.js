@@ -24,7 +24,9 @@ $(function () {
 
 function onHeaderLoaded() {
     //sets the profile page url
-    $("#profile-link").click(function (){redirectToProfileById(getCurrentUserID())});
+    $("#profile-link").click(function () {
+        redirectToProfileById(getCurrentUserID())
+    });
 
     setNavigationVisibility(isNavigationVisible);
     if (isNavigationVisible) {
@@ -37,18 +39,19 @@ function onHeaderLoaded() {
         updateMenuButtons();
     }
 
-    if(getCurrentUserID() !== undefined)
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE id = ?", [getCurrentUserID()]
-    ).done(function (data) {
-        if (data.length !== undefined)
-            $('#profile-display-name').html(data[0]["username"]);
-    }).fail(function (reason) {
-        console.log(reason);
-    });
+    if (getCurrentUserID() !== undefined)
+        FYSCloud.API.queryDatabase(
+            "SELECT * FROM user WHERE id = ?", [getCurrentUserID()]
+        ).done(function (data) {
+            if (data.length !== undefined)
+                $('#profile-display-name').html(data[0]["username"]);
+        }).fail(function (reason) {
+            console.log(reason);
+        });
 
     document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
 }
+
 /**
  * Updates the button menu's 'current' attributes.
  * @param {string} typeName name of the menu button's type attribute.
@@ -57,9 +60,9 @@ function updateMenuButtons() {
     //Get every main menu button
     $('.main-menu-buttons').each(function (i, obj) {
         if (currentMenuType == $(this).attr("type")) {
-            if($(this).attr("type") === "home"){
+            if ($(this).attr("type") === "home") {
                 $("#home-nav-element").attr("current", "");
-            }else {
+            } else {
                 $(this).attr("current", "");
             }
             return;
@@ -83,7 +86,7 @@ function overrideMenuButtons(newButtons) {
     itemList.remove();
     $('#notification-display').remove();
 
-    for (let i = newButtons.length -1; i >= 0; i--) {
+    for (let i = newButtons.length - 1; i >= 0; i--) {
         //Add the homepage icon to the first item only.
         const homeImageHTML = i == 0 ? `<img class="main-menu-home-icon"
         src="Content/Images/home-icon.png">` : '';
@@ -149,48 +152,48 @@ function addNotification(userData) {
 
 document.addEventListener("languageChangeEvent", function (event) {
     let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
-    $(".notification-text-name").each(function() {
+    $(".notification-text-name").each(function () {
         $(this).html(displayString.replace("%name", $(this).attr("username")));
     });
 });
 
 /** Notification - Database connection */
 //Fetch user notifications.
-if(getCurrentUserID() !== undefined)
-FYSCloud.API.queryDatabase(
-    "SELECT * FROM usernotification WHERE targetUser = ?", [getCurrentUserID()]
-).done(function (notificationData) {
-
-    // returns if there are no notifications to be displayed
-    if (notificationData.length <= 0) {
-        updateNotificationCounter();
-        return;
-    }
-
-    let notificationIDs = new Array (notificationData.length);
-    for (let i = 0; i < notificationIDs.length; i++) {
-        notificationIDs[i] = notificationData[i]["requestingUser"];
-    }
-
-    let targetUserArrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
-
-    //Fetch all the notifications that match all the ID's in arrayString.
+if (getCurrentUserID() !== undefined)
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM user WHERE id IN " + targetUserArrayString
-    ).done(function (userData) {
-        // console.log(userData)
-        currentNotificationAmount = userData.length;
-        updateNotificationCounter();
+        "SELECT * FROM usernotification WHERE targetUser = ?", [getCurrentUserID()]
+    ).done(function (notificationData) {
 
-        $(userData).each(object => $("#notification-display-list").append(addNotification(userData[object])));
+        // returns if there are no notifications to be displayed
+        if (notificationData.length <= 0) {
+            updateNotificationCounter();
+            return;
+        }
 
-        //translate the newly added objects.
-        FYSCloud.Localization.translate(false);
+        let notificationIDs = new Array(notificationData.length);
+        for (let i = 0; i < notificationIDs.length; i++) {
+            notificationIDs[i] = notificationData[i]["requestingUser"];
+        }
+
+        let targetUserArrayString = "(" + notificationIDs.toString() + ")"; //method shown on FYSCloud didn't work.
+
+        //Fetch all the notifications that match all the ID's in arrayString.
+        FYSCloud.API.queryDatabase(
+            "SELECT * FROM user WHERE id IN " + targetUserArrayString
+        ).done(function (userData) {
+            // console.log(userData)
+            currentNotificationAmount = userData.length;
+            updateNotificationCounter();
+
+            $(userData).each(object => $("#notification-display-list").append(addNotification(userData[object])));
+
+            //translate the newly added objects.
+            FYSCloud.Localization.translate(false);
+        }).fail(function (reason) {
+            console.log(reason);
+        });
+
     }).fail(function (reason) {
         console.log(reason);
     });
-
-}).fail(function (reason) {
-    console.log(reason);
-});
 
