@@ -37,6 +37,7 @@ header {
   min-height: 214px;
   max-width: 800px;
   height: auto;
+  margin-bottom: 30px;
 }
 
 body {
