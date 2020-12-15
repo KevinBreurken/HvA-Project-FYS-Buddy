@@ -40,6 +40,10 @@ var translations = {
             nl: "Tot ",
             en: "Till "
         },
+        city: {
+          nl: "Stad",
+          en: "City"
+        },
         cities: {
             nl: "Steden ",
             en: "Cities "
