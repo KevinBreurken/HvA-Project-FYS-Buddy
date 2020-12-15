@@ -147,6 +147,7 @@ FYSCloud.API.queryDatabase(
         let userdata = data[0];
         console.log(data);
         let destination = userdata.destination;
+        FYSCloud.Localization.translate(false);
         $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
     }).fail(function (reason) {
         console.log(reason)
