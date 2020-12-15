@@ -89,19 +89,6 @@ function changeButton2() {
 }
 let count;
 
-// function countCharacters() {
-//     var textEntered, countRemaining, counter;
-//     textEntered = document.getElementById('biography').value;
-//     counter = (500 - (textEntered.length));
-//     countRemaining = document.getElementById('charactersRemaining');
-//     countRemaining.textContent = counter;
-// }
-//
-// count = document.getElementById('biography');
-// count.addEventListener('keyup', countCharacters, false);
-// let userId5 = getCurrentUserID();
-
-
 //get the url
 var pageUrl = window.location.href;
 

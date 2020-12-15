@@ -38,6 +38,8 @@ function countCharacters() {
     count.addEventListener('keyup', countCharacters, false);
 }
 
+let interestId = new Array();
+
 document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
     event.preventDefault();
     let firstname = document.querySelector("#FirstName").value;
@@ -81,7 +83,8 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [firstname, lastname, gender, dobFormat, biography, tel, buddy, userId]
     ).done(function (data) {
         console.log(data);
-        window.location.href = "profile.html" + "?id=" + currentUserId;
+        // window.location.href = "profile.html" + "?id=" + currentUserId;
+        redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
     });
@@ -94,7 +97,6 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [email, username, userId]
     ).done(function (data) {
         console.log(data);
-        // window.location.href = "profile.html" + "?id=" + currentUserId;
         redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
@@ -107,7 +109,6 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [destination, userId]
     ).done(function (data) {
         console.log(data);
-        // window.location.href = "profile.html" + "?id=" + currentUserId;
         redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
@@ -123,70 +124,73 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         [startFormat, endFormat, userId]
     ).done(function (data) {
         console.log(data);
-        // window.location.href = "profile.html" + "?id=" + currentUserId;
         redirectToProfileById(userId);
     }).fail(function (reason) {
         console.log(reason)
     });
 
-    // TODO: fix editing interests.
-    // var interestId = new Array();
-    //     let userData = data[0];
-    //     let interest1 = document.getElementById("interest1").checked;
-    //     let interest2 = document.getElementById("interest2").checked;
-    //     let interest3 = document.getElementById("interest3").checked;
-    //     let interest4 = document.getElementById("interest4").checked;
-    //     let interest5 = document.getElementById("interest5").checked;
-    //     let interest6 = document.getElementById("interest6").checked;
-    //     let interest7 = document.getElementById("interest7").checked;
-    //     let interest8 = document.getElementById("interest8").checked;
-    //     let interest9 = document.getElementById("interest9").checked;
-    //     let interest10 = document.getElementById("interest10").checked;
-    //
-    //     if (interest1 === true) {
-    //         interestId.push('1');
-    //     }
-    //     if (interest2 === true) {
-    //         interestId.push('2');
-    //     }
-    //     if (interest3 === true) {
-    //         interestId.push('3');
-    //     }
-    //     if (interest4 === true) {
-    //         interestId.push('4');
-    //     }
-    //     if (interest5 === true) {
-    //         interestId.push('5');
-    //     }
-    //     if (interest6 === true) {
-    //         interestId.push('6');
-    //     }
-    //     if (interest7 === true) {
-    //         interestId.push('7');
-    //     }
-    //     if (interest8 === true) {
-    //         interestId.push('8');
-    //     }
-    //     if (interest9 === true) {
-    //         interestId.push('9');
-    //     }
-    //     if (interest10 === true) {
-    //         interestId.push('10');
-    //     }
-    //
-    //     console.log(interestId);
-    //
-    // for (let i = 0; i < interestId.length; i++) {
-    //     FYSCloud.API.queryDatabase(
-    //         "UPDATE `userinterest` SET `interestId` = ? WHERE `id` = ?;",
-    //         [interestId[i], userId]
-    //     ).done(function (data) {
-    //         console.log(data);
-    //         window.location.href = "profile.html";
-    //     }).fail(function (reason) {
-    //         console.log(reason)
-    //     });
-    // }
+    // TODO: fix deleting interests.
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `userinterest` where userId = ?", [userId]
+    ).done(function (data) {
+        console.log(data);
+        let interestId = new Array();
+        let interest1 = document.getElementById("interest1").checked;
+        let interest2 = document.getElementById("interest2").checked;
+        let interest3 = document.getElementById("interest3").checked;
+        let interest4 = document.getElementById("interest4").checked;
+        let interest5 = document.getElementById("interest5").checked;
+        let interest6 = document.getElementById("interest6").checked;
+        let interest7 = document.getElementById("interest7").checked;
+        let interest8 = document.getElementById("interest8").checked;
+        let interest9 = document.getElementById("interest9").checked;
+        let interest10 = document.getElementById("interest10").checked;
+
+        if (interest1 === true) {
+            interestId.push(1);
+        }
+        if (interest2 === true) {
+            interestId.push(2);
+        }
+        if (interest3 === true) {
+            interestId.push(3);
+        }
+        if (interest4 === true) {
+            interestId.push(4);
+        }
+        if (interest5 === true) {
+            interestId.push(5);
+        }
+        if (interest6 === true) {
+            interestId.push(6);
+        }
+        if (interest7 === true) {
+            interestId.push(7);
+        }
+        if (interest8 === true) {
+            interestId.push(8);
+        }
+        if (interest9 === true) {
+            interestId.push(9);
+        }
+        if (interest10 === true) {
+            interestId.push(10);
+        }
+        console.log(interestId);
+    for (let i = 0; i < interestId.length; i++) {
+        FYSCloud.API.queryDatabase(
+            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?);",
+            [userId, interestId[i]]
+        ).done(function (data) {
+            console.log(data);
+            redirectToProfileById(userId);
+        }).fail(function (reason) {
+            console.log(reason)
+        });
+    }
+    }).fail(function () {
+        alert("paniek");
+    });
 });
 
     FYSCloud.API.queryDatabase(
@@ -259,43 +263,43 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         alert("paniek");
     });
 
-FYSCloud.API.queryDatabase(
-    "SELECT * FROM `userinterest` where userId = ?", [userId]
-).done(function (data) {
-    console.log(data);
-     for (let i = 0; i < data.length; i++) {
-         let userData = data[i];
-        if (userData.interestId === 1) {
-            document.getElementById("interest1").checked = true;
-        }
-        if (userData.interestId === 2) {
-            document.getElementById("interest2").checked = true;
-        }
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `userinterest` where userId = ?", [userId]
+    ).done(function (data) {
+        console.log(data);
+        for (let i = 0; i < data.length; i++) {
+            let userData = data[i];
+            if (userData.interestId === 1) {
+                document.getElementById("interest1").checked = true;
+            }
+            if (userData.interestId === 2) {
+                document.getElementById("interest2").checked = true;
+            }
             if (userData.interestId === 3) {
                 document.getElementById("interest3").checked = true;
             }
             if (userData.interestId === 4) {
                 document.getElementById("interest4").checked = true;
             }
-         if (userData.interestId === 5) {
-             document.getElementById("interest5").checked = true;
-         }
-         if (userData.interestId === 6) {
-             document.getElementById("interest6").checked = true;
-         }
-        if (userData.interestId === 7) {
-            document.getElementById("interest7").checked = true;
+            if (userData.interestId === 5) {
+                document.getElementById("interest5").checked = true;
+            }
+            if (userData.interestId === 6) {
+                document.getElementById("interest6").checked = true;
+            }
+            if (userData.interestId === 7) {
+                document.getElementById("interest7").checked = true;
+            }
+            if (userData.interestId === 8) {
+                document.getElementById("interest8").checked = true;
+            }
+            if (userData.interestId === 9) {
+                document.getElementById("interest9").checked = true;
+            }
+            if (userData.interestId === 10) {
+                document.getElementById("interest10").checked = true;
+            }
         }
-         if (userData.interestId === 8) {
-             document.getElementById("interest8").checked = true;
-         }
-         if (userData.interestId === 9) {
-             document.getElementById("interest9").checked = true;
-         }
-        if (userData.interestId === 10) {
-            document.getElementById("interest10").checked = true;
-        }
-   }
-}).fail(function () {
-    alert("paniek");
-});
+    }).fail(function () {
+        alert("paniek");
+    });
