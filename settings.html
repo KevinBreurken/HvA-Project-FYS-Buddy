@@ -34,7 +34,7 @@
                         <a href="#preferencesSettings" data-translate="settings.preferences">Preferences</a>
                     </li>
                     <li>
-                        <a href="#notificationsSettings" data-translate="settings.notifications">Notifications</a>
+<!--                        <a href="#notificationsSettings" data-translate="settings.notifications">Notifications</a>-->
                     </li>
                     <li>
                         <a href="#appInformation" data-translate="settings.information">Information</a>
@@ -63,12 +63,12 @@
                         <label for="repeatAccountPassword" data-translate="settings.security.repeatPassword">Repeat password</label>
                         <input type="password" id="repeatAccountPassword" name="repeatAccountPassword"/>
                         <div id="validationMessage">
-                            <h3>Password must contain the following</h3>
+                            <h3 data-translate="settings.security.validationMessage">Password must contain the following</h3>
                             <ul class="validation-list">
-                                <li id="letterVal" class="invalid">A <b>lowercase</b> letter</li>
-                                <li id="capitalVal" class="invalid">A <b>capital (uppercase</b> letter</li>
-                                <li id="numberVal" class="invalid">A <b>number</b></li>
-                                <li id="lengthVal" class="invalid">Minimum of <b>8 characters</b></li>
+                                <li id="letterVal" class="invalid"><span data-translate="settings.capitalArticles">A</span>&nbsp;<b data-translate="settings.lowercase">lowercase</b>&nbsp;<span>letter</span></li>
+                                <li id="capitalVal" class="invalid"><span data-translate="settings.capitalArticles">A</span>&nbsp;<b data-translate="settings.uppercase">capital (uppercase)</b>letter</li>
+                                <li id="numberVal" class="invalid"><span data-translate="settings.capitalArticles">A</span>&nbsp;<b data-translate="settings.number">number</b></li>
+                                <li id="lengthVal" class="invalid"><span data-translate="settings.security.minOf">Minimum of</span>&nbsp;<b data-translate="settings.security.eightChars">8 characters</b></li>
                             </ul>
                         </div>
                         <h2 id="privacySettings" data-translate="settings.privacy">Privacy</h2>
