@@ -185,6 +185,26 @@ function setLanguage(initialLanguageKey) {
 
     translations = {
         settings: {
+            capitalArticles: {
+                nl: "Een",
+                en: "A"
+            },
+            articles: {
+                nl: "een",
+                en: "a"
+            },
+            lowercase: {
+                nl: "kleine",
+                en: "lowercase"
+            },
+            uppercase: {
+                nl: "hoofd",
+                en: "capital (uppercase)&nbsp;"
+            },
+            number: {
+                nl: "nummer",
+                en: "number"
+            },
             header: {
                 nl: "Instellingen",
                 en: "Settings"
@@ -229,6 +249,18 @@ function setLanguage(initialLanguageKey) {
                 repeatPassword: {
                     nl: "Herhaal wachtwoord",
                     en: "Repeat password"
+                },
+                validationMessage: {
+                    nl: "Wachtwoord moet het volgende bevatten",
+                    en: "Password must contain the following"
+                },
+                minOf: {
+                    nl: "Minimum van",
+                    en: "Minimum of"
+                },
+                eightChars: {
+                    nl: "8 karakters",
+                    en: "8 characters"
                 }
             },
             privacy: {
