@@ -1,4 +1,34 @@
 {
+  "slide": {
+    "h1": {
+      "0": {
+        "nl": "header 0 nl",
+        "en": "header 0 en"
+      },
+      "1": {
+        "nl": "header 1 nl",
+        "en": "header 1 en"
+      },
+      "2": {
+        "nl": "header 2 nl",
+        "en": "header 2 en"
+      }
+    },
+    "text": {
+      "0": {
+        "nl": "tekst 0 nl",
+        "en": "text 0 en"
+      },
+      "1": {
+        "nl": "tekst 1 nl",
+        "en": "text 1 en"
+      },
+      "2": {
+        "nl": "tekst 2 nl",
+        "en": "text 2 en"
+      }
+    }
+  },
   "specification": {
     "nl": "Reis specificaties ",
     "en": "Travel specifications ",
@@ -9,6 +39,10 @@
     "till": {
       "nl": "Tot ",
       "en": "Till "
+    },
+    "city": {
+      "nl": "Stad",
+      "en": "City"
     },
     "cities": {
       "nl": "Steden ",
@@ -63,12 +97,12 @@
       "nl": "meer info"
     },
     "from": {
-      "en": "from @date",
-      "nl": "vanaf @date"
+      "en": "from ",
+      "nl": "vanaf "
     },
     "until": {
-      "en": "until @date",
-      "nl": "tot @date"
+      "en": "until ",
+      "nl": "tot "
     },
     "buddy": {
       "default": {
@@ -77,11 +111,11 @@
       },
       "activity": {
         "en": "activity buddy",
-        "nl": "activiteitenbuddy"
+        "nl": "activiteiten-buddy"
       },
       "travel": {
         "en": "travel buddy",
-        "nl": "reisbuddy"
+        "nl": "reis-buddy"
       }
     }
   },
