@@ -165,9 +165,9 @@ FYSCloud.API.queryDatabase(
 }).fail(function () {
     alert("paniek");
 });
-
+let userId = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM `friend`"
+    "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?", [userId, userId]
 ).done(function (data) {
     FYSCloud.Localization.translate(false);
     console.log(data);
