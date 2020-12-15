@@ -134,11 +134,23 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT `destination` FROM location where id = ?", [profileId]
+    "SELECT * FROM travel where id = ?", [profileId]
 ).done(function (data) {
+    let userData = data[0];
+    let locatie = userData.locationId;
     console.log(data);
-    generateDestination(data);
     FYSCloud.Localization.translate(false);
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `location` WHERE `id` = ?;",
+        [locatie]
+    ).done(function (data) {
+        let userdata = data[0];
+        console.log(data);
+        let destination = userdata.destination;
+        $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
+    }).fail(function (reason) {
+        console.log(reason)
+    });
 }).fail(function () {
     alert("paniek");
 });
@@ -296,28 +308,46 @@ function generateBuddy(data) {
     }
 }
 
-function generateDestination(data) {
-    let userData = data[0];
-    let destination = userData.destination == null ? "" : userData.destination;
-    $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
-}
+// function generateDestination(data) {
+//     let userData = data[0];
+//     let destination = userData.destination == null ? "" : userData.destination;
+//     $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
+// }
 
-function generateInterests(data) {
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM `userinterest` where userId = ?", [profileId]
+).done(function (data) {
     for (let i = 0; i < data.length; i++) {
-        $("#interests").append("<div style='color: var(--color-corendon-white);\n" +
-            "    background-color: var(--color-corendon-red);\n" +
-            "    display: inline-block;\n" +
-            "    padding: .25em .4em;\n" +
-            "    font-size: 75%;\n" +
-            "    font-weight: 700;\n" +
-            "    line-height: 1;\n" +
-            "    text-align: center;\n" +
-            "    white-space: nowrap;\n" +
-            "    vertical-align: baseline;\n" +
-            "    border-radius: .25rem;\n" +
-            "    margin: 2px;'>" + data[i].interestId + "<div>");
+    let userData = data[i];
+    let interests = [];
+    interests[i] = userData.interestId;
+    console.log(data);
+    FYSCloud.Localization.translate(false);
+        FYSCloud.API.queryDatabase(
+            "SELECT * FROM `interest` WHERE `id` = ?;",
+            [interests[i]]
+        ).done(function (data) {
+            for (let i = 0; i < data.length; i++) {
+                $("#interests").append("<div style='color: var(--color-corendon-white);\n" +
+                    "    background-color: var(--color-corendon-red);\n" +
+                    "    display: inline-block;\n" +
+                    "    padding: .25em .4em;\n" +
+                    "    font-size: 75%;\n" +
+                    "    font-weight: 700;\n" +
+                    "    line-height: 1;\n" +
+                    "    text-align: center;\n" +
+                    "    white-space: nowrap;\n" +
+                    "    vertical-align: baseline;\n" +
+                    "    border-radius: .25rem;\n" +
+                    "    margin: 2px;'>" + data[i].name + "<div>");
+            }
+        }).fail(function (reason) {
+            console.log(reason)
+        });
     }
-}
+}).fail(function () {
+    alert("paniek");
+});
 
 let imgLoc;
 $("#fileUpload").on("change", function () {
