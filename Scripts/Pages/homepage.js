@@ -150,12 +150,12 @@ window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
 
+    //updates the display of the user's current travel data
+    updateCurrentTravelData()
+
     //on page load this function will populate a select list using data from the database
     populateCityList();
 })
-
-//1.1 All results todo: gender preference, blocked, display settings en evt. interests
-//todo: filters; distance and buddy type
 
 let slide = 0;
 /**  displays the next slide */
@@ -179,11 +179,10 @@ function toggleTravelForm() {
 /** gets the users current travel data and sets it on the travel data display */
 async function updateCurrentTravelData() {
     let currentTravelData= await getDataByPromise(`SELECT 
-    t.startdate, t.enddate,
-    l.destination
+    t.startdate, t.enddate, l.destination
     FROM travel t
     INNER JOIN location l ON t.locationId = l.id
-    WHERE userId = ?`, [getCurrentUserID()]);
+    WHERE userId = ?`, getCurrentUserID());
 
     //sets the travel data of the current user on the page
     let date = new Date(currentTravelData[0]["startdate"]);
@@ -230,6 +229,8 @@ function sendTravelData() {
     updateCurrentTravelData().then(toggleTravelForm());
 }
 
+//1.1 All results todo: gender preference, blocked, display settings en evt. interests
+//todo: filters; distance and buddy type
 let lastButtonId;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
