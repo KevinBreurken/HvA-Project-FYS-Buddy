@@ -1,0 +1,32 @@
+{
+  "footer": {
+    "changeLanguage": {
+      "nl": "Verander Taal",
+      "en": "Change Language"
+    },
+    "dutchLanguage": {
+      "nl": "Nederlands",
+      "en": "Dutch"
+    },
+    "englishLanguage": {
+      "nl": "Engels",
+      "en": "English"
+    },
+    "links": {
+      "nl": "Links",
+      "en": "Links"
+    },
+    "help": {
+      "nl": "Hulp Pagina",
+      "en": "Help Page"
+    },
+    "contact": {
+      "nl": "Contact",
+      "en": "Contact"
+    },
+    "vacations": {
+      "nl": "Corendon Vakanties",
+      "en": "Corendon Vacations"
+    }
+  }
+}

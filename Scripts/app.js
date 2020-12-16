@@ -1,5 +1,4 @@
-$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>'); //Required for session data.
-
+$("head").append('<script src="Scripts/custom-language.js"></script>');
 let currentUserID = getCurrentUserID();
 let currentPageType;
 console.log("currentUserID = " + currentUserID);
@@ -39,74 +38,19 @@ let headElement = $('head');
 headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
 headElement.append(`<title>Corendon Travel Buddy</title>`);
 
-/** Localisation wrapper*/
-FYSCloud.Localization.CustomTranslations = (function ($) {
-    const exports = {
-        addTranslationJSON: addTranslationJSON,
-        setLanguage: setLanguage,
-        getLanguage: getLanguage,
-        getStringFromTranslations: getStringFromTranslations
-    };
-
-    let currentLanguage;
-    let currentTranslations;
-
-    function setLanguage(language) {
-        currentLanguage = language;
-        FYSCloud.Session.set("language", currentLanguage);
-        FYSCloud.Localization.switchLanguage(currentLanguage);
-        //Fire an language event.
-        document.dispatchEvent(new CustomEvent("languageChangeEvent", {
-            detail: {id: currentLanguage}
-        }));
+/** Check if this page want to load an translation */
+if (appElement !== null) {
+    let transElement = appElement.getAttribute("data-translations");
+    console.log(transElement);
+    if (transElement !== null) {
+        FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
     }
-
-    function getLanguage() {
-        return currentLanguage;
-    }
-
-    /**
-     *  Partially used code form FYSCloud translate function.
-     *  See FYSCloud documentation.
-     */
-    function getStringFromTranslations(translateKey, languageID) {
-        //no language is given, use current language.
-        if (languageID === undefined)
-            languageID = currentLanguage;
-
-        const localizeKeys = translateKey.split(".");
-
-        let result = currentTranslations;
-        for (let i = 0; i < localizeKeys.length; i++) {
-            result = result[localizeKeys[i]];
-            if (result === undefined) {
-                break;
-            }
-        }
-
-        return result[languageID];
-    }
-
-    /**
-     * Combines multiple translation objects into one.
-     */
-    function addTranslationJSON(jsonObject) {
-        if (currentTranslations === undefined)
-            currentTranslations = jsonObject;
-        else
-            $.extend(currentTranslations, jsonObject);
-        FYSCloud.Localization.setTranslations(currentTranslations);
-        FYSCloud.Localization.translate(false);
-    }
-
-    return exports;
-})(jQuery);
+}
 
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = FYSCloud.Session.get("language", "nl");
 FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
-
 
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.translate(false);
@@ -148,7 +92,7 @@ function redirectToHome() {
  */
 function closeSession() {
     /** Statistics - Set page visit */
-    var name = window.location.pathname
+    let name = window.location.pathname
         .split("/")
         .filter(function (c) {
             return c.length;
@@ -197,7 +141,7 @@ function parseDateToInputDate(date) {
     //we don't want to send page data as an admin.
     if (currentPageType === "admin")
         return;
-    var name = window.location.pathname.split("/").filter(function (c) {
+    let name = window.location.pathname.split("/").filter(function (c) {
         return c.length;
     }).pop();
 
@@ -220,6 +164,8 @@ async function loginUser(id) {
  * Sends session data to the FYS database.
  */
 async function sendSessionData() {
+    if (document.getElementById("statistics-snippet") === null)
+        $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js" id="statistics-snippet"></script>'); //Required for session data.
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
     const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
