@@ -160,14 +160,14 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM userinterest where userId = ?", [profileId]
 ).done(function (data) {
     console.log(data);
-    generateInterests(data);
+    //generateInterests(data);
     FYSCloud.Localization.translate(false);
 }).fail(function () {
     alert("paniek");
 });
 let userId = getCurrentUserID();
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?", [userId, userId]
+    "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?;", [userId, userId]
 ).done(function (data) {
     FYSCloud.Localization.translate(false);
     console.log(data);
@@ -309,12 +309,6 @@ function generateBuddy(data) {
     }
 }
 
-// function generateDestination(data) {
-//     let userData = data[0];
-//     let destination = userData.destination == null ? "" : userData.destination;
-//     $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
-// }
-
 FYSCloud.API.queryDatabase(
     "SELECT * FROM `userinterest` where userId = ?", [profileId]
 ).done(function (data) {
@@ -350,7 +344,6 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
-let imgLoc;
 $("#fileUpload").on("change", function () {
     FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
         if (data.isImage) {
@@ -365,10 +358,28 @@ $("#fileUpload").on("change", function () {
 
 if (currentUserId !== profileId) {
     $("#profileButtons").append(
-    `<button type="button" onclick="changeButton()" id="match" class="match" data-translate="profile.match">Send Request</button>
-        <button type="button" onclick="changeButton2()" id="block" class="block" data-translate="profile.block">Block</button>`);
+    `<button type="button" onclick="requestFriend()" id="match" class="match" data-translate="profile.match">Send Request</button>
+     <button type="button" onclick="blockUser()" id="block" class="block" data-translate="profile.block">Block</button>`);
 } else if (currentUserId === profileId) {
     $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
 }
 
+function requestFriend() {
+    FYSCloud.API.queryDatabase(
+        "INSERT INTO `friendrequest` (`requestingUser`, `targetUser`) VALUES (?, ?);", [currentUserId, profileId]
+    ).done(function (data) {
+        console.log(data);
+    }).fail(function () {
+        alert("paniek");
+    });
+}
 
+function blockUser() {
+    FYSCloud.API.queryDatabase(
+        "INSERT INTO `blocked` (`requestingUser`, `blockedUser`) VALUES (?, ?);", [currentUserId, profileId]
+    ).done(function (data) {
+        console.log(data);
+    }).fail(function () {
+        alert("paniek");
+    });
+}

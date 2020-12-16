@@ -75,26 +75,26 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
     let dobFormat = dob.getFullYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDate()
 
     // TODO: fix profile picture upload.
-    // FYSCloud.Utils
-    //     .getDataUrl($("#fileUpload"))
-    //     .done(function (data) {
-    //         let picExtension = data.extension
-    //         let url = "pp-" + userId + "." + picExtension;
-    //         FYSCloud.API.uploadFile(
-    //             "profile-pictures/pp-" + userId + ".png",
-    //             data.url)
-    //         FYSCloud.API.queryDatabase(
-    //             "UPDATE `profile` SET `pictureUrl` = ? WHERE `id` = ?;",
-    //             [url, userId]
-    //         ).done(function (data) {
-    //             console.log(data);
-    //             redirectToProfileById(userId);
-    //         }).fail(function (reason) {
-    //             console.log(reason)
-    //         });
-    //     }).fail(function (reason) {
-    //     console.log(reason)
-    // })
+    FYSCloud.Utils
+        .getDataUrl($("#fileUpload"))
+        .done(function (data) {
+            let picExtension = data.extension
+            let url = "pp-" + userId + "." + picExtension;
+            FYSCloud.API.uploadFile(
+                "profile-pictures/pp-" + userId + ".jpeg",
+                data.url)
+            FYSCloud.API.queryDatabase(
+                "INSERT INTO `profile` (`pictureUrl`, `id`) VALUES (?, ?);",
+                [url, userId]
+            ).done(function (data) {
+                console.log(data);
+                redirectToProfileById(userId);
+            }).fail(function (reason) {
+                console.log(reason)
+            });
+        }).fail(function (reason) {
+        console.log(reason)
+    });
 
     FYSCloud.API.queryDatabase(
         "UPDATE `profile` SET `firstname` = ?, `lastname` = ?, `gender` = ?, `dob` = ?, `biography` = ?, `phone` = ?, `buddyType` = ? WHERE `id` = ?;",
@@ -209,6 +209,7 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
     });
 });
 
+// TODO: display chosen destination from database.
 //let destination = document.querySelector("#Destination").value;
 // let citySelect = document.getElementById("cityList").value;
 // FYSCloud.API.queryDatabase(
