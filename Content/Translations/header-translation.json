@@ -1,0 +1,50 @@
+{
+  "header": {
+    "navigation": {
+      "home": {
+        "nl": "Home",
+        "en": "Home"
+      },
+      "profile": {
+        "nl": "Profiel",
+        "en": "Profile"
+      },
+      "settings": {
+        "nl": "Instellingen",
+        "en": "Settings"
+      },
+      "help": {
+        "nl": "Help",
+        "en": "Help"
+      }
+    },
+    "adminNavigation": {
+      "account": {
+        "nl": "Account",
+        "en": "Account"
+      },
+      "overview": {
+        "nl": "Data Overzicht",
+        "en": "Data Overview"
+      },
+      "statistics": {
+        "nl": "Statistieken",
+        "en": "Statistics"
+      }
+    },
+    "notificationText": {
+      "nl": "%name Heeft een contactverzoek verstuurd.",
+      "en": "%name Has sent a contact request."
+    },
+    "userDisplay": {
+      "welcomeText": {
+        "nl": "Welkom,",
+        "en": "Welcome,"
+      },
+      "signOut": {
+        "nl": "Uitloggen",
+        "en": "Log out"
+      }
+    }
+  }
+}

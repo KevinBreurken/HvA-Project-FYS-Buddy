@@ -3,6 +3,7 @@ textarea:focus, input:focus{
   outline: none;
 }
 
+/* removes the highlight around a selected item that is present on chrome*/
 *:focus {
   outline: none;
 }
@@ -11,12 +12,102 @@ main {
   max-width: 1000px;
 }
 
-/* travel specifications */
+/* homepage img */
+#homepage-slide-div-wrapper {
+  display: flex;
+  align-items: center;
+}
 
+#homepage-slide-div {
+  display: flex;
+  justify-content: center;
+}
+
+#homepage-slide-div #homepage-img {
+  width: 60%;
+  margin-right: 20px;
+}
+
+#img-text-wrapper {
+  border: #efefef solid 1px;
+  width: 25%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+}
+
+#img-text-wrapper:hover {
+  background-color: #efefef;
+}
+
+#img-text {
+  margin: 10px;
+}
+
+.img-arrow {
+  width: 30px;
+  height: 30px;
+  /*margin: 0 20px 0 20px;*/
+}
+
+#left-arrow {
+  transform: rotate(90deg);
+}
+
+#right-arrow{
+  transform: rotate(270deg);
+}
+
+/* travel specifications */
 #travel-container {
-  margin: 0 auto 40px auto;
-  border: var(--border-corendon-grey);
-  padding: 20px;
+  margin: 40px auto 40px auto;
+  /*border: var(--border-corendon-grey);*/
+  padding: 12px;
+  width: 60%;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+}
+
+.content-wrapper span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-wrapper span h2 {
+  margin: 0 5px 0 0;
+  color: var(--color-corendon-light-blue);
+}
+
+.content-wrapper span img {
+  width: 20px;
+  height: 20px;
+}
+
+#currentTravelData {
+  display: flex;
+  width: 80%;
+  justify-content: space-evenly;
+}
+
+#currentTravelData div {
+  display: flex;
+
+}
+
+#currentTravelData div p {
+  margin-right: 5px;
+  margin-top: 5px;
+}
+
+.content-wrapper form {
+  display: none;
 }
 
 #travelSubmitButton {
@@ -30,8 +121,12 @@ main {
   width: 200px;
 }
 
+#travelSubmitButton-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .content-wrapper input, select{
-/* removes the highlight around a selected item that is present on chrome*/
   box-sizing: border-box;
   width: 100%;
   padding: 12px;
@@ -84,7 +179,7 @@ input[type=button]:hover {
   color: var(--color-corendon-white);
   font-size: 18px;
   border: none;
-  border-right: var(--color-corendon-dark-red) groove;
+  border-right: #ff1b00 groove;
   padding: 10px 15px 10px 15px;
   background-color: var(--color-corendon-red);
 }
@@ -217,6 +312,14 @@ input[type=button]:hover {
 .user-display button:hover {
   color: var(--color-corendon-white);
   background-color: var(--color-corendon-red);
+}
+
+.user-display-column-3 span, .user-display-column-3 span p {
+  display: flex;
+  padding-left: 0;
+  padding-right: 5px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .user-display-column-4 {

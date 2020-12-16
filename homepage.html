@@ -4,14 +4,10 @@
     <meta charset="UTF-8">
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
-    <script src="Scripts/app.js" id="app" data-pageType="user"></script>
+    <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="homepage-translation"></script>
     <script src="Vendors/Snippets/distance-snippets.js"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-    <script src="Scripts/general.js"></script>
-    <script>
-        isOnAdminProfile = false;
-        currentMenuType = 'home';
-    </script>
+    <script src="Scripts/general.js" id="general" data-type="home" data-nav-visible></script>
     <link rel="stylesheet" href="Content/CSS/Pages/homepage.css">
 <!--    <link rel="stylesheet" href="Content/CSS/on-boarding.css">-->
     <script src="Scripts/Pages/homepage.js"></script>
@@ -22,20 +18,43 @@
 <!--    <button onclick="openOverlay()">Klik mij</button>-->
 <!--    <div id="on-boarding"></div>-->
 
-        <div class="show-options">
-                <h2 data-translate="specification"></h2>
+    <div id="homepage-slide-div-wrapper">
+        <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
+        <!--current slide-->
+        <div id="homepage-slide-div">
+            <img  id="homepage-img" src="Content/Images/homepage-img.jpg">
+            <div id="img-text-wrapper">
+                <div id="img-text">
+                    <h1 id="h1-slide" data-translate="slide.h1.0">Lorem ipsum.</h1>
+                    <p id="p-slide" data-translate="slide.text.0">paragraph</p>
+                </div>
+            </div>
         </div>
+        <img class="img-arrow" id="right-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
+    </div>
+
+
     <div id="travel-container">
         <div class="content-wrapper">
+            <span id="travel-span" onclick="toggleTravelForm()">
+                <h2 data-translate="specification"></h2>
+                <img id="travel-dropdown-arrow" src="Content/Images/down-arrow.svg">
+            </span>
+            <div id="currentTravelData">
+                <div><p data-translate="specification.from"></p><p id="current-start-date">startdate</p></div>
+                <div><p data-translate="specification.till"></p><p id="current-end-date">enddate</p></div>
+                <div><p data-translate="specification.city">location</p><p id="current-city">location</p></div>
+            </div>
             <form action="" method="get" id="travel-form">
-                <label for="date-for" data-translate="specification.from"></label>
+                <label for="sDate" data-translate="specification.from"></label>
                 <input type="Date" name="" id="sDate" class="date-picker">
-                <label for="date-till" id="date-till-label" data-translate="specification.till"></label>
+                <label for="eDate" id="date-till-label" data-translate="specification.till"></label>
                 <input type="Date" name="" id="eDate" class="date-picker">
                 <label for="cityList" id="my-list-label" data-translate="specification.cities"></label>
-                <select id="cityList">
-                </select>
-                <button type="button" id="travelSubmitButton" onclick="sendTravelData()" data-translate="specification.button"></button>
+                <select id="cityList"></select>
+                <div id="travelSubmitButton-wrapper">
+                    <button type="button" id="travelSubmitButton" onclick="sendTravelData()" data-translate="specification.button"></button>
+                </div>
             </form>
         </div>
     </div>
