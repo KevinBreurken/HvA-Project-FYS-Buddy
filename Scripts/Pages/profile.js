@@ -344,17 +344,17 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
-$("#fileUpload").on("change", function () {
-    FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
-        if (data.isImage) {
-            $("#imagePreview").attr("src", data.url)
-        } else {
-            $("#imagePreview").attr("src", null,)
-        }
-    }).fail(function (reason) {
-        $("#filePreviewResult").html(reason)
-    })
-})
+// $("#fileUpload").on("change", function () {
+//     FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
+//         if (data.isImage) {
+//             $("#imagePreview").attr("src", data.url)
+//         } else {
+//             $("#imagePreview").attr("src", null,)
+//         }
+//     }).fail(function (reason) {
+//         $("#filePreviewResult").html(reason)
+//     })
+// })
 
 if (currentUserId !== profileId) {
     $("#profileButtons").append(

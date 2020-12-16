@@ -50,6 +50,11 @@ async function populateCityList() {
     });
 }
 
+let profileImageUrl = "";
+document.getElementById("fileUpload").addEventListener("change", function() {
+    profileImageUrl = this.value.replace(/^.*[\\\/]/, '');
+});
+
 document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
     event.preventDefault();
     let firstname = document.querySelector("#FirstName").value;
@@ -78,19 +83,22 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
     FYSCloud.Utils
         .getDataUrl($("#fileUpload"))
         .done(function (data) {
-            let picExtension = data.extension
-            let url = "pp-" + userId + "." + picExtension;
             FYSCloud.API.uploadFile(
-                "profile-pictures/pp-" + userId + ".jpeg",
-                data.url)
-            FYSCloud.API.queryDatabase(
-                "INSERT INTO `profile` (`pictureUrl`, `id`) VALUES (?, ?);",
-                [url, userId]
-            ).done(function (data) {
+                profileImageUrl,
+                data.url
+            ).done(function(data) {
                 console.log(data);
-                redirectToProfileById(userId);
-            }).fail(function (reason) {
-                console.log(reason)
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `profile` SET `pictureUrl` = ? WHERE `profile`.`userId` = ?;",
+                    [profileImageUrl, userId]
+                ).done(function (data) {
+                    console.log(data);
+                    redirectToProfileById(userId);
+                }).fail(function (reason) {
+                    console.log(reason)
+                });
+            }).fail(function(reason) {
+                alert(reason);
             });
         }).fail(function (reason) {
         console.log(reason)
@@ -199,7 +207,7 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
             [userId, interestId[i]]
         ).done(function (data) {
             console.log(data);
-            redirectToProfileById(userId);
+            //redirectToProfileById(userId);
         }).fail(function (reason) {
             console.log(reason)
         });
@@ -227,113 +235,113 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
 //     console.log(reason)
 // });
 
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM user where id = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        let userData = data[0];
-        $("#Email").val(userData.email);
-        $("#Username").val(userData.username);
-    }).fail(function () {
-        alert("paniek");
-    });
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM user where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    $("#Email").val(userData.email);
+    $("#Username").val(userData.username);
+}).fail(function () {
+    alert("paniek");
+});
 
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM profile where id = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        let userData = data[0];
-        let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userData.pictureUrl;
-        let dob = parseDateToInputDate(userData.dob);
-        $("#DateOfBirth").val(dob);
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM profile where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userData.pictureUrl;
+    let dob = parseDateToInputDate(userData.dob);
+    $("#DateOfBirth").val(dob);
 
-        let gendertest = userData.gender;
-        if (gendertest === "male") {
-            document.getElementById("Male").checked = true;
-        } else if (gendertest === "female") {
-            document.getElementById("Female").checked = true;
-        } else {
-            document.getElementById("Other").checked = true;
+    let gendertest = userData.gender;
+    if (gendertest === "male") {
+        document.getElementById("Male").checked = true;
+    } else if (gendertest === "female") {
+        document.getElementById("Female").checked = true;
+    } else {
+        document.getElementById("Other").checked = true;
+    }
+
+    let buddytest = userData.buddyType;
+    if (buddytest === 1) {
+        document.getElementById("Choice1").checked = true;
+        document.getElementById("Choice2").checked = true;
+    } else if (buddytest === 2) {
+        document.getElementById("Choice1").checked = true;
+    } else if (buddytest === 3) {
+        document.getElementById("Choice2").checked = true;
+    }
+    $("#imagePreview").attr("src",  "https://dev-is111-1.fys.cloud/uploads/" + url);
+    $("#FirstName").val(userData.firstname);
+    $("#LastName").val(userData.lastname);
+    $("#Biography").val(userData.biography);
+    $("#Telephone").val(userData.phone);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM location where id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    $("#Destination").val(userData.destination);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT `startdate`, `enddate` FROM `travel` WHERE id = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    let startdate = parseDateToInputDate(userData.startdate);
+    $("#Data").val(startdate);
+    let enddate = parseDateToInputDate(userData.enddate);
+    $("#Data2").val(enddate);
+}).fail(function () {
+    alert("paniek");
+});
+
+FYSCloud.API.queryDatabase(
+    "SELECT * FROM `userinterest` where userId = ?", [userId]
+).done(function (data) {
+    console.log(data);
+    for (let i = 0; i < data.length; i++) {
+        let userData = data[i];
+        if (userData.interestId === 1) {
+            document.getElementById("interest1").checked = true;
         }
-
-        let buddytest = userData.buddyType;
-        if (buddytest === 1) {
-            document.getElementById("Choice1").checked = true;
-            document.getElementById("Choice2").checked = true;
-        } else if (buddytest === 2) {
-            document.getElementById("Choice1").checked = true;
-        } else if (buddytest === 3) {
-            document.getElementById("Choice2").checked = true;
+        if (userData.interestId === 2) {
+            document.getElementById("interest2").checked = true;
         }
-        $("#imagePreview").attr("src",  "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + url);
-        $("#FirstName").val(userData.firstname);
-        $("#LastName").val(userData.lastname);
-        $("#Biography").val(userData.biography);
-        $("#Telephone").val(userData.phone);
-    }).fail(function () {
-        alert("paniek");
-    });
-
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM location where id = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        let userData = data[0];
-        $("#Destination").val(userData.destination);
-    }).fail(function () {
-        alert("paniek");
-    });
-
-    FYSCloud.API.queryDatabase(
-        "SELECT `startdate`, `enddate` FROM `travel` WHERE id = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        let userData = data[0];
-        let startdate = parseDateToInputDate(userData.startdate);
-        $("#Data").val(startdate);
-        let enddate = parseDateToInputDate(userData.enddate);
-        $("#Data2").val(enddate);
-    }).fail(function () {
-        alert("paniek");
-    });
-
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM `userinterest` where userId = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        for (let i = 0; i < data.length; i++) {
-            let userData = data[i];
-            if (userData.interestId === 1) {
-                document.getElementById("interest1").checked = true;
-            }
-            if (userData.interestId === 2) {
-                document.getElementById("interest2").checked = true;
-            }
-            if (userData.interestId === 3) {
-                document.getElementById("interest3").checked = true;
-            }
-            if (userData.interestId === 4) {
-                document.getElementById("interest4").checked = true;
-            }
-            if (userData.interestId === 5) {
-                document.getElementById("interest5").checked = true;
-            }
-            if (userData.interestId === 6) {
-                document.getElementById("interest6").checked = true;
-            }
-            if (userData.interestId === 7) {
-                document.getElementById("interest7").checked = true;
-            }
-            if (userData.interestId === 8) {
-                document.getElementById("interest8").checked = true;
-            }
-            if (userData.interestId === 9) {
-                document.getElementById("interest9").checked = true;
-            }
-            if (userData.interestId === 10) {
-                document.getElementById("interest10").checked = true;
-            }
+        if (userData.interestId === 3) {
+            document.getElementById("interest3").checked = true;
         }
-    }).fail(function () {
-        alert("paniek");
-    });
+        if (userData.interestId === 4) {
+            document.getElementById("interest4").checked = true;
+        }
+        if (userData.interestId === 5) {
+            document.getElementById("interest5").checked = true;
+        }
+        if (userData.interestId === 6) {
+            document.getElementById("interest6").checked = true;
+        }
+        if (userData.interestId === 7) {
+            document.getElementById("interest7").checked = true;
+        }
+        if (userData.interestId === 8) {
+            document.getElementById("interest8").checked = true;
+        }
+        if (userData.interestId === 9) {
+            document.getElementById("interest9").checked = true;
+        }
+        if (userData.interestId === 10) {
+            document.getElementById("interest10").checked = true;
+        }
+    }
+}).fail(function () {
+    alert("paniek");
+});
