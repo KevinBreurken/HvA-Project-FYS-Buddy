@@ -102,10 +102,12 @@ async function openTabContent(currentButton) {
 
     //gets the current user's data
     let currentUser = await getDataByPromise(`SELECT 
-       u.id, 
+       u.id,
+       GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
     FROM fys_is111_1_dev.user u
+    LEFT JOIN userinterest ui ON ui.userId = u.id
     INNER JOIN travel t ON u.id = t.userId
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
@@ -162,14 +164,24 @@ async function openTabContent(currentButton) {
     GROUP by p.userId`
         , queryArray);
 
-    //getting the users interests and putting it into the correct json object
-    // currentUser[0]["id_interests"] = await getDataByPromise(`SELECT interestId FROm userinterest WHERE userId = ?`, [getCurrentUserID()]);
-    // for (let i = 0; i < userList.length; i++) {
-    //     userList[i]["id_interests"] = await getDataByPromise(`SELECT interestId FROM userinterest WHERE userId = ?`, [userList[i]["userId"]]);
-    // }
+    //spliting all the interestGroups into arrays
+    currentUser[0]["interestGroup"] != null ? currentUser[0]["interestGroup"] = currentUser[0]["interestGroup"].split(',') : currentUser[0]["interestGroup"] = [];
+    for (let i = 0; i < userList.length; i++) {
+        userList[i]["interestGroup"] != null
+            ? userList[i]["interestGroup"] = userList[i]["interestGroup"].split(',')
+            : userList[i]["interestGroup"] = [];
+    }
 
-    console.log(currentUser)
-    console.log(userList)
+    //setting the amount of equal interests to the current user for every user in the userList
+    for (let i = 0; i < userList.length; i++) {
+        let equalInterests = 0;
+        for (let j = 0; j < userList[i]["interestGroup"].length; j++) {
+            for (let k = 0; k < currentUser[0]["interestGroup"].length; k++) {
+                if (userList[i]["interestGroup"][j] === currentUser[0]["interestGroup"][k]) equalInterests++;
+            }
+        }
+        userList[i]["equalInterests"] = equalInterests;
+    }
 
     //todo: sort userList
     //destination
