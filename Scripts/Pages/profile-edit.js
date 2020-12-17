@@ -48,13 +48,57 @@ async function populateCityList() {
     $(cityList).each(city => {
         $("#cityList").append(`<option value=${cityList[city]["id"]}>` + cityList[city]["destination"] + `</option>`);
     });
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `travel` WHERE `id` = ?;",
+        [userId]
+    ).done(function (data) {
+        console.log(data);
+        let userData = data[0];
+        let locatie = userData.locationId;
+        //
+        console.log(locatie);
+        let lijst = document.getElementById("cityList");
+        lijst.selectedIndex = locatie - 1;
+    }).fail(function (reason) {
+        console.log(reason)
+    });
 }
 
-let profileImageUrl = "";
 document.getElementById("fileUpload").addEventListener("change", function() {
-    profileImageUrl = this.value.replace(/^.*[\\\/]/, '');
-});
 
+    FYSCloud.Utils
+        .getDataUrl($("#fileUpload"))
+        .done(function (data) {
+            let profileImageUrl = "profile-pictures/pp-" + userId + "." + data.extension;
+            console.log(profileImageUrl);
+            FYSCloud.API.deleteFile(profileImageUrl).done(function (data) {
+                alert("gelukt!");
+                console.log(profileImageUrl);
+            }).fail(function (reason) {
+                alert(reason);
+            });
+
+            url = "pp-" + userId + "." + data.extension
+            FYSCloud.API.uploadFile(
+                "profile-pictures/pp-" + userId + "." + data.extension,
+                data.url,
+            ).done(function (data) {
+                alert("joepie!");
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `profile` SET `pictureUrl` = ? WHERE `profile`.`userId` = ?;",
+                    [url, userId]
+                ).done(function (data) {
+                    console.log(data);
+                }).fail(function (reason) {
+                    console.log(reason)
+                });
+            }).fail(function (reason) {
+                console.log(reason)
+            });
+            }).fail(function(reason) {
+                alert(reason);
+            });
+});
 document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
     event.preventDefault();
     let firstname = document.querySelector("#FirstName").value;
@@ -78,31 +122,6 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
     }
     let dob = new Date($('#DateOfBirth').val());
     let dobFormat = dob.getFullYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDate()
-
-    // TODO: fix profile picture upload.
-    FYSCloud.Utils
-        .getDataUrl($("#fileUpload"))
-        .done(function (data) {
-            FYSCloud.API.uploadFile(
-                profileImageUrl,
-                data.url
-            ).done(function(data) {
-                console.log(data);
-                FYSCloud.API.queryDatabase(
-                    "UPDATE `profile` SET `pictureUrl` = ? WHERE `profile`.`userId` = ?;",
-                    [profileImageUrl, userId]
-                ).done(function (data) {
-                    console.log(data);
-                    redirectToProfileById(userId);
-                }).fail(function (reason) {
-                    console.log(reason)
-                });
-            }).fail(function(reason) {
-                alert(reason);
-            });
-        }).fail(function (reason) {
-        console.log(reason)
-    });
 
     FYSCloud.API.queryDatabase(
         "UPDATE `profile` SET `firstname` = ?, `lastname` = ?, `gender` = ?, `dob` = ?, `biography` = ?, `phone` = ?, `buddyType` = ? WHERE `id` = ?;",
@@ -217,24 +236,6 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
     });
 });
 
-// TODO: display chosen destination from database.
-//let destination = document.querySelector("#Destination").value;
-// let citySelect = document.getElementById("cityList").value;
-// FYSCloud.API.queryDatabase(
-//     "SELECT * FROM `travel` WHERE `id` = ?;",
-//     [citySelect]
-// ).done(function (data) {
-//     console.log(data);
-//     let userData = data[0];
-//     let locatie = userData.locationId;
-//     // let bestemming = $("#cityList").val(locatie);
-//     // bestemming.setAttribute()
-//     // console.log("'" + locatie + "'");
-//     document.getElementById("cityList").setAttribute("value", "TEST");
-// }).fail(function (reason) {
-//     console.log(reason)
-// });
-
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [userId]
 ).done(function (data) {
@@ -273,21 +274,11 @@ FYSCloud.API.queryDatabase(
     } else if (buddytest === 3) {
         document.getElementById("Choice2").checked = true;
     }
-    $("#imagePreview").attr("src",  "https://dev-is111-1.fys.cloud/uploads/" + url);
+    $("#imagePreview").attr("src",  "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + url);
     $("#FirstName").val(userData.firstname);
     $("#LastName").val(userData.lastname);
     $("#Biography").val(userData.biography);
     $("#Telephone").val(userData.phone);
-}).fail(function () {
-    alert("paniek");
-});
-
-FYSCloud.API.queryDatabase(
-    "SELECT * FROM location where id = ?", [userId]
-).done(function (data) {
-    console.log(data);
-    let userData = data[0];
-    $("#Destination").val(userData.destination);
 }).fail(function () {
     alert("paniek");
 });
@@ -345,3 +336,15 @@ FYSCloud.API.queryDatabase(
 }).fail(function () {
     alert("paniek");
 });
+
+$("#fileUpload").on("change", function () {
+    FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
+        if (data.isImage) {
+            $("#imagePreview").attr("src", data.url)
+        } else {
+            $("#imagePreview").attr("src", null,)
+        }
+    }).fail(function (reason) {
+        $("#filePreviewResult").html(reason)
+    })
+})
