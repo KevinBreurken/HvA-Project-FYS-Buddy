@@ -45,8 +45,19 @@ async function updateCurrentTravelData() {
 }
 
 async function populateCityList() {
+    let travelData = await getDataByPromise("SELECT `startdate`, `enddate` FROM travel WHERE userId = ?", [getCurrentUserID()]);
     //query the database for all location data using a promise
     let cityList = await getDataByPromise("SELECT * FROM location");
+
+    if(travelData.length > 0) {
+
+    getStartdate = travelData[0]["startdate"].split("T")[0];
+    getEnddate = travelData[0]["enddate"].split("T")[0];
+
+    document.getElementById("sDate").value = getStartdate;
+    document.getElementById("eDate").value = getEnddate;
+
+    }
 
     //for each loop that populates the cityList select options with data from the database
     $(cityList).each(city => {
@@ -64,19 +75,28 @@ function sendTravelData() {
     startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
     endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
     
-    if(startDateFormat != "" && endDateFormat != "" && citySelect != "") {
-        FYSCloud.API.queryDatabase(
-            "UPDATE `travel` SET `destination` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
-            [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]
-            ).done(function() {
-                alert("updated the destination in travel table succesfull");
-            }).fail(function (reason) {
-                console.log(reason);
-            });
-    }else{
-        alert("no date selected");
-    }
-
+//check if user already has a travel spec data
+    FYSCloud.API.queryDatabase("SELECT * FROM travel WHERE `userId` = ?;",
+    [getCurrentUserID()]).done(function(data){
+        console.log(data.length)
+        if(data.length > 0) {
+            console.log("im not empty");
+            if(startDateFormat != "" && endDateFormat != "") {
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
+                    [citySelect, startDateFormat, endDateFormat, getCurrentUserID()])
+            }else{
+                alert("no date or city selected");
+            }
+        }else {
+            if(startDateFormat != "" && endDateFormat != "") {
+            FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
+            [getCurrentUserID(), citySelect, startDateFormat, endDateFormat])
+                }else{
+                alert("no date or city selected");
+            }
+        }
+    })
     //sets the current travel data display closes the travel form
     updateCurrentTravelData().then(toggleTravelForm());
 }
