@@ -3,7 +3,7 @@ window.addEventListener('load', function () {
     $("#all-results").click();
 
     //updates the display of the user's current travel data
-    updateCurrentTravelData()
+    updateCurrentTravelData();
 
     //on page load this function will populate a select list using data from the database
     populateCityList();
@@ -110,6 +110,7 @@ async function openTabContent(currentButton) {
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
+    //filters the data bases on the current tab
     let queryExtension = ``;
     let queryArray = [];
     let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.allResults"></p>`;
@@ -137,14 +138,15 @@ async function openTabContent(currentButton) {
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
-    let userList = await getDataByPromise(`SELECT 
+    let userList = await getDataByPromise(`
+    SELECT 
        p.userId, p.pictureUrl, p.buddyType, 
        u.username,
        r.roleId, 
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
-       f.favouriteUser
+       f.favouriteUser  
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     INNER JOIN userrole r ON r.userId = p.userId
@@ -157,7 +159,16 @@ async function openTabContent(currentButton) {
     WHERE r.roleId != 2`+ queryExtension
         , queryArray);
 
-    // console.log(userList)
+    //getting the users interests and putting it into the correct json object
+    for (let i = 0; i < userList.length; i++) {
+        userList[i]["id_interests"] = await getDataByPromise(`SELECT interestId FROM userinterest WHERE userId = ?`, [userList[i]["userId"]]);
+    }
+
+    console.log(userList)
+
+    //todo: sort userList
+    //destination
+    //interests
 
     $(tab).html("");
     if (userList.length !== 0) {
@@ -169,6 +180,13 @@ async function openTabContent(currentButton) {
         //displays a help message whenever there are no matches available to the user
         $(tab).append(noMatchesMessage)
     }
+
+    // let test = await getDataByPromise(`
+    // SELECT INTO id_interests ARRAY (SELECT interestId FROM userinterest WHERE userId = ?`, [userList[0]["userId"]]);
+
+    // let test1 = await getDataByPromise(`SELECT interestId FROM userinterest WHERE userId = ${getCurrentUserID()}`)
+
+    // console.log(test1)
 
     FYSCloud.Localization.translate(false);
 }
