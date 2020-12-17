@@ -80,7 +80,6 @@ function sendTravelData() {
     [getCurrentUserID()]).done(function(data){
         console.log(data.length)
         if(data.length > 0) {
-            console.log("im not empty");
             if(startDateFormat != "" && endDateFormat != "") {
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
