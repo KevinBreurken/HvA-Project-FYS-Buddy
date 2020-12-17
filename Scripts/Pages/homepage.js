@@ -144,7 +144,7 @@ async function openTabContent(currentButton) {
     SELECT 
        p.userId, p.pictureUrl, p.buddyType, 
        u.username,
-       GROUP_CONCAT ( ui.interestId ) as "interestGroup",
+       GROUP_CONCAT (ui.interestId) as "interestGroup",
        r.roleId, 
        s.radialDistance,
        t.startdate, t.enddate,
@@ -164,7 +164,7 @@ async function openTabContent(currentButton) {
     GROUP by p.userId`
         , queryArray);
 
-    //spliting all the interestGroups into arrays
+    //spliting all the interestGroups strings into arrays
     currentUser[0]["interestGroup"] != null ? currentUser[0]["interestGroup"] = currentUser[0]["interestGroup"].split(',') : currentUser[0]["interestGroup"] = [];
     for (let i = 0; i < userList.length; i++) {
         userList[i]["interestGroup"] != null
@@ -184,8 +184,10 @@ async function openTabContent(currentButton) {
     }
 
     //todo: sort userList
-    //destination
-    //interests
+    //sorting the userList by destination and interests
+    userList = userList.sort(function (obj1, obj2) {
+        return obj2["equalInterests"] - obj1["equalInterests"];
+    });
 
     $(tab).html("");
     if (userList.length !== 0) {
