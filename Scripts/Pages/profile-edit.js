@@ -172,7 +172,6 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
         console.log(reason)
     });
 
-    // TODO: fix deleting interests.
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `userinterest` where userId = ?", [userId]
     ).done(function (data) {
@@ -231,6 +230,68 @@ document.getElementById("saveChangesBtn").addEventListener("click", function (ev
             console.log(reason)
         });
     }
+    }).fail(function () {
+        alert("paniek");
+    });
+
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `userinterest` where userId = ?", [userId]
+    ).done(function (data) {
+        console.log(data);
+        let interestId2 = new Array();
+        let interest1 = document.getElementById("interest1").checked;
+        let interest2 = document.getElementById("interest2").checked;
+        let interest3 = document.getElementById("interest3").checked;
+        let interest4 = document.getElementById("interest4").checked;
+        let interest5 = document.getElementById("interest5").checked;
+        let interest6 = document.getElementById("interest6").checked;
+        let interest7 = document.getElementById("interest7").checked;
+        let interest8 = document.getElementById("interest8").checked;
+        let interest9 = document.getElementById("interest9").checked;
+        let interest10 = document.getElementById("interest10").checked;
+
+        if (interest1 === false) {
+            interestId2.push(1);
+        }
+        if (interest2 === false) {
+            interestId2.push(2);
+        }
+        if (interest3 === false) {
+            interestId2.push(3);
+        }
+        if (interest4 === false) {
+            interestId2.push(4);
+        }
+        if (interest5 === false) {
+            interestId2.push(5);
+        }
+        if (interest6 === false) {
+            interestId2.push(6);
+        }
+        if (interest7 === false) {
+            interestId2.push(7);
+        }
+        if (interest8 === false) {
+            interestId2.push(8);
+        }
+        if (interest9 === false) {
+            interestId2.push(9);
+        }
+        if (interest10 === false) {
+            interestId2.push(10);
+        }
+        console.log(interestId2);
+        for (let i = 0; i < interestId2.length; i++) {
+            FYSCloud.API.queryDatabase(
+                "DELETE FROM `userinterest` WHERE `userId` = ? AND `interestId` = ?;",
+                [userId, interestId2[i]]
+            ).done(function (data) {
+                console.log(data);
+                //redirectToProfileById(userId);
+            }).fail(function (reason) {
+                console.log(reason)
+            });
+        }
     }).fail(function () {
         alert("paniek");
     });
