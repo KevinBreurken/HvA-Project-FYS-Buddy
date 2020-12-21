@@ -156,8 +156,28 @@ function parseDateToInputDate(date) {
  */
 async function loginUser(id) {
     setCurrentUserID(id);
+    await setLanguageBySettings();
     await sendSessionData();
     await redirectUserByUserRole();
+}
+
+async function setLanguageBySettings(){
+    //Retrieve data of users settings.
+    const currentUserSetting = await getDataByPromise("SELECT * FROM setting WHERE userId = ?;",
+        [getCurrentUserID()]);
+
+    //User has no settings, we won't set the language.
+    if(currentUserSetting <= 0)
+        return;
+
+    //Retrieve data of given language type.
+    const currentLanguage = await getDataByPromise(`SELECT *
+                                                    FROM language
+                                                    WHERE id = ?;`,
+        [currentUserSetting[0].languageId]);
+
+    //Set the LocalStorage language.
+    FYSCloud.Localization.CustomTranslations.setLanguage(currentLanguage[0].languageKey);
 }
 
 /**
