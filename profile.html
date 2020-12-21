@@ -30,7 +30,6 @@
             <h2 data-translate="profile.ageTitle">Age</h2>
             <p id="age"><b>Age:</b></p>
             <p id="dob"><b>Date of birth:</b></p>
-            <div id="profileButtons"> </div>
         </div>
         <div class="column">
             <h2 data-translate="profile.interest">Interests</h2>
@@ -40,9 +39,7 @@
             <textarea rows="10" cols="30%" id="biography" class="biography" name="biography" maxlength="500" disabled></textarea>
         </div>
         <div class="column">
-            <h2 data-translate="profile.contact">Contactinformation</h2>
-            <p id="email"><b>E-mail:</b></p>
-            <p id="tel"><b>Tel:</b></p>
+            <div class="contactinformation" id="contactinformation"></div>
             <br>
             <h2 data-translate="profile.trip">Trip Information</h2>
             <p id="destination"><b>Destination:</b></p>
@@ -50,9 +47,9 @@
             <p id="untill"><b>Untill:</b></p>
             <p id="lookingFor"><b>I am looking for:</b></p>
             <div class="button" id="saveChangesBtn">
-<!--                <button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>-->
             </div>
         </div>
+        <div id="profileButtons" class="profileButtons"> </div>
     </form>
     <br>
 </main>
