@@ -156,28 +156,42 @@ function parseDateToInputDate(date) {
  */
 async function loginUser(id) {
     setCurrentUserID(id);
-    await setLanguageBySettings();
+    await setLanguageBySettingsData(id);
     await sendSessionData();
     await redirectUserByUserRole();
 }
 
-async function setLanguageBySettings(){
+/**
+ * Retrieves the language data of the user's setting, creates a new setting if the user has none.
+ * @returns {Promise<void>}
+ */
+async function setLanguageBySettingsData(userId) {
     //Retrieve data of users settings.
     const currentUserSetting = await getDataByPromise("SELECT * FROM setting WHERE userId = ?;",
-        [getCurrentUserID()]);
+        [userId]);
 
-    //User has no settings, we won't set the language.
-    if(currentUserSetting <= 0)
-        return;
+    //User has no settings, add an new settings
+    if (currentUserSetting <= 0) {
+        //Get the language data so we know what ID we need to set..
+        const currentLanguage = await getDataByPromise(`SELECT *
+                                                        FROM language
+                                                        WHERE languageKey = ?;`,
+            [FYSCloud.Localization.CustomTranslations.getLanguage()]);
+        //Insert new setting.
+        getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
+                                               displayGenderId, notifcationId, maxDistance, radialDistance)
+                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [userId, currentLanguage[0].id, 1, 1, 1, 0, 11, 500]);
+    } else {
+        //Retrieve data of given language type.
+        const currentLanguage = await getDataByPromise(`SELECT *
+                                                        FROM language
+                                                        WHERE id = ?;`,
+            [currentUserSetting[0].languageId]);
 
-    //Retrieve data of given language type.
-    const currentLanguage = await getDataByPromise(`SELECT *
-                                                    FROM language
-                                                    WHERE id = ?;`,
-        [currentUserSetting[0].languageId]);
-
-    //Set the LocalStorage language.
-    FYSCloud.Localization.CustomTranslations.setLanguage(currentLanguage[0].languageKey);
+        //Set the LocalStorage language.
+        FYSCloud.Localization.CustomTranslations.setLanguage(currentLanguage[0].languageKey);
+    }
 }
 
 /**
