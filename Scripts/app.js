@@ -178,10 +178,7 @@ async function setLanguageBySettingsData(userId) {
                                                         WHERE languageKey = ?;`,
             [FYSCloud.Localization.CustomTranslations.getLanguage()]);
         //Insert new setting.
-        getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
-                                               displayGenderId, notifcationId, maxDistance, radialDistance)
-                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [userId, currentLanguage[0].id, 1, 1, 1, 0, 11, 500]);
+        await generateDefaultSetting(userId, currentLanguage[0].id);
     } else {
         //Retrieve data of given language type.
         const currentLanguage = await getDataByPromise(`SELECT *
@@ -194,6 +191,12 @@ async function setLanguageBySettingsData(userId) {
     }
 }
 
+async function generateDefaultSetting(userId,languageId){
+    await getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
+                                               displayGenderId, notifcationId, maxDistance, radialDistance)
+                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [userId, languageId, 1, 1, 1, 0, 11, 100]);
+}
 /**
  * Sends session data to the FYS database.
  */

@@ -25,10 +25,7 @@ async function setLanguageSetting(languageKey, userId) {
             [currentLanguage[0].id, userId]);
     } else {
         //Create new settings.
-        getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
-                                               displayGenderId, notifcationId, maxDistance, radialDistance)
-                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [userId, currentLanguage[0].id, 1, 1, 1, 0, 11, 500]);
+        generateDefaultSetting(userId,currentLanguage[0].id);
     }
 
     //Set the LocalStorage language.
