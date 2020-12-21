@@ -98,8 +98,7 @@ function sendTravelData() {
         }
     })
     //sets the current travel data display closes the travel form
-    updateCurrentTravelData();
-    toggleTravelForm();
+    updateCurrentTravelData().then(toggleTravelForm())
 }
 
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
