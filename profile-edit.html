@@ -79,7 +79,7 @@
             <h2>Biography</h2>
             <label for="Biography"></label>
             <textarea rows="10" cols="30%" class="biography" id="Biography" name="Biography" placeholder="Max 500 characters"
-                      maxlength="500"></textarea>
+                      maxlength="500" onkeyup="countCharacters()"></textarea>
             <div id="charactersRemaining">500 characters</div>
             <br>
         </div>
@@ -92,9 +92,9 @@
             <br>
             <h2>Trip information</h2>
             <div class="destination">
-                <label for="Destination">Destination: </label><br>
-                <input type="text" id="Destination" name="Destination" placeholder="Rome" maxlength="50" required>
-                <br>
+                <label for="cityList">Destination: </label><br>
+                <select id="cityList">
+                </select>
             </div>
             <div class="data">
                 <label for="Data">From: </label><br>
@@ -120,5 +120,4 @@
 </main>
 </body>
 </html>
-<!--<script src="Scripts/Pages/profile.js"></script>-->
 <script src="Scripts/Pages/profile-edit.js"></script>
