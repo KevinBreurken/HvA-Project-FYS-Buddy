@@ -84,90 +84,93 @@ FYSCloud.API.queryDatabase(
 }).fail(function () {
     alert("paniek");
 });
-let userId = getCurrentUserID();
-FYSCloud.API.queryDatabase(
-    "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?;", [userId, userId]
-).done(function (data) {
-    FYSCloud.Localization.translate(false);
-    console.log(data);
-    let userData = data[0];
-    let tabel1 = userData.user1;
-    let tabel2 = userData.user2;
-    console.log(tabel1);
-    console.log(tabel2);
-    if (tabel2 == currentUserId && tabel1 == profileId) {
-        $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
+
+if (currentUserId === profileId) {
+    $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
             <p id="email"><b>E-mail:</b></p>
             <p id="tel"><b>Tel:</b></p>`);
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM user where id = ?", [profileId]
+    ).done(function (data) {
+        console.log(data);
+        generateUserinfo(data);
+        FYSCloud.Localization.translate(false);
         FYSCloud.API.queryDatabase(
-            "SELECT * FROM user where id = ?", [profileId]
+            "SELECT * FROM profile where id = ?", [profileId]
         ).done(function (data) {
             console.log(data);
-            generateUserinfo(data);
+            generateProfileDisplay(data);
+            generateBuddy(data);
             FYSCloud.Localization.translate(false);
-            FYSCloud.API.queryDatabase(
-                "SELECT * FROM profile where id = ?", [profileId]
-            ).done(function (data) {
-                console.log(data);
-                generateProfileDisplay(data);
-                generateBuddy(data);
-                FYSCloud.Localization.translate(false);
-            }).fail(function () {
-                alert("paniek");
-            });
         }).fail(function () {
             alert("paniek");
         });
-    } else if (tabel1 == currentUserId && tabel2 == profileId) {
-        $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
+    }).fail(function () {
+        alert("paniek");
+    });
+} else {
+    let userId = getCurrentUserID();
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?;", [userId, userId]
+    ).done(function (data) {
+        FYSCloud.Localization.translate(false);
+        console.log(data);
+        let userData = data[0];
+        let tabel1 = userData.user1;
+        let tabel2 = userData.user2;
+        console.log(tabel1);
+        console.log(tabel2);
+        if (tabel2 == currentUserId && tabel1 == profileId) {
+            $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
             <p id="email"><b>E-mail:</b></p>
             <p id="tel"><b>Tel:</b></p>`);
-        FYSCloud.API.queryDatabase(
-            "SELECT * FROM user where id = ?", [profileId]
-        ).done(function (data) {
-            console.log(data);
-            generateUserinfo(data);
-            FYSCloud.Localization.translate(false);
             FYSCloud.API.queryDatabase(
-                "SELECT * FROM profile where id = ?", [profileId]
+                "SELECT * FROM user where id = ?", [profileId]
             ).done(function (data) {
                 console.log(data);
-                generateProfileDisplay(data);
-                generateBuddy(data);
+                generateUserinfo(data);
                 FYSCloud.Localization.translate(false);
+                FYSCloud.API.queryDatabase(
+                    "SELECT * FROM profile where id = ?", [profileId]
+                ).done(function (data) {
+                    console.log(data);
+                    generateProfileDisplay(data);
+                    generateBuddy(data);
+                    FYSCloud.Localization.translate(false);
+                }).fail(function () {
+                    alert("paniek");
+                });
             }).fail(function () {
                 alert("paniek");
             });
-        }).fail(function () {
-            alert("paniek");
-        });
-    } else if (currentUserId === profileId) {
-        $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
+        } else if (tabel1 == currentUserId && tabel2 == profileId) {
+            $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
             <p id="email"><b>E-mail:</b></p>
             <p id="tel"><b>Tel:</b></p>`);
-        FYSCloud.API.queryDatabase(
-            "SELECT * FROM user where id = ?", [profileId]
-        ).done(function (data) {
-            console.log(data);
-            generateUserinfo(data);
-            FYSCloud.Localization.translate(false);
             FYSCloud.API.queryDatabase(
-                "SELECT * FROM profile where id = ?", [profileId]
+                "SELECT * FROM user where id = ?", [profileId]
             ).done(function (data) {
                 console.log(data);
-                generateProfileDisplay(data);
-                generateBuddy(data);
+                generateUserinfo(data);
                 FYSCloud.Localization.translate(false);
+                FYSCloud.API.queryDatabase(
+                    "SELECT * FROM profile where id = ?", [profileId]
+                ).done(function (data) {
+                    console.log(data);
+                    generateProfileDisplay(data);
+                    generateBuddy(data);
+                    FYSCloud.Localization.translate(false);
+                }).fail(function () {
+                    alert("paniek");
+                });
             }).fail(function () {
                 alert("paniek");
             });
-        }).fail(function () {
-            alert("paniek");
-        });
-    }
-}).fail(function () {
-    alert("paniek");
-});
+        }
+    }).fail(function () {
+        alert("paniek");
+    });
+}
 
 function generateProfileDisplay(data) {
     let userData = data[0];
@@ -262,18 +265,6 @@ FYSCloud.API.queryDatabase(
 }).fail(function () {
     alert("paniek");
 });
-
-// $("#fileUpload").on("change", function () {
-//     FYSCloud.Utils.getDataUrl($(this)).done(function (data) {
-//         if (data.isImage) {
-//             $("#imagePreview").attr("src", data.url)
-//         } else {
-//             $("#imagePreview").attr("src", null,)
-//         }
-//     }).fail(function (reason) {
-//         $("#filePreviewResult").html(reason)
-//     })
-// })
 
 if (currentUserId !== profileId) {
     $("#profileButtons").append(

@@ -75,7 +75,7 @@ document.getElementById("fileUpload").addEventListener("change", function() {
                 alert("gelukt!");
                 console.log(profileImageUrl);
             }).fail(function (reason) {
-                alert(reason);
+                //alert(reason);
             });
 
             url = "pp-" + userId + "." + data.extension
