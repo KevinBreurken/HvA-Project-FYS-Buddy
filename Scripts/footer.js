@@ -9,7 +9,7 @@ document.getElementById("english-language").onclick = function () {
 
 async function setLanguageSetting(languageKey, userId) {
     //Retrieve data of users settings.
-    const currentUserSetting = await getDataByPromise("SELECT * FROM setting WHERE userId = ?;",
+    const currentUserSetting = await getDataByPromise(`SELECT * FROM setting WHERE userId = ?;`,
         [userId]);
     //Retrieve data of given language type.
     const currentLanguage = await getDataByPromise(`SELECT *
@@ -19,13 +19,13 @@ async function setLanguageSetting(languageKey, userId) {
 
     //Does this user have settings?
     if (currentUserSetting.length > 0) {
-        getDataByPromise(`UPDATE setting
+        await getDataByPromise(`UPDATE setting
                           SET languageId = ?
                           WHERE setting.userId = ?`,
             [currentLanguage[0].id, userId]);
     } else {
         //Create new settings.
-        generateDefaultSetting(userId,currentLanguage[0].id);
+        await generateDefaultSetting(userId,currentLanguage[0].id);
     }
 
     //Set the LocalStorage language.

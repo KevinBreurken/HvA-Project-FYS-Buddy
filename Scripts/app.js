@@ -167,7 +167,7 @@ async function loginUser(id) {
  */
 async function setLanguageBySettingsData(userId) {
     //Retrieve data of users settings.
-    const currentUserSetting = await getDataByPromise("SELECT * FROM setting WHERE userId = ?;",
+    const currentUserSetting = await getDataByPromise(`SELECT * FROM setting WHERE userId = ?;`,
         [userId]);
 
     //User has no settings, add an new settings
