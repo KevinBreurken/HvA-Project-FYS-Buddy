@@ -80,7 +80,8 @@ function sendTravelData() {
     [getCurrentUserID()]).done(function(data){
         console.log(data.length)
         if(data.length > 0) {
-            if(startDateFormat != "" && endDateFormat != "") {
+            if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
+                console.log(startDateFormat)
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
                     [citySelect, startDateFormat, endDateFormat, getCurrentUserID()])
@@ -88,7 +89,7 @@ function sendTravelData() {
                 alert("no date or city selected");
             }
         }else {
-            if(startDateFormat != "" && endDateFormat != "") {
+            if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
             FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
             [getCurrentUserID(), citySelect, startDateFormat, endDateFormat])
                 }else{
@@ -97,7 +98,8 @@ function sendTravelData() {
         }
     })
     //sets the current travel data display closes the travel form
-    updateCurrentTravelData().then(toggleTravelForm());
+    updateCurrentTravelData();
+    toggleTravelForm();
 }
 
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
