@@ -245,7 +245,7 @@ FYSCloud.API.queryDatabase(
             [interests[i]]
         ).done(function (data) {
             for (let i = 0; i < data.length; i++) {
-                $("#interests").append("<div style='color: var(--color-corendon-white);\n" +
+                $("#interests").append(`<div data-translate='interests.${data[i].id}' style='color: var(--color-corendon-white);\n` +
                     "    background-color: var(--color-corendon-red);\n" +
                     "    display: inline-block;\n" +
                     "    padding: .25em .4em;\n" +
@@ -256,7 +256,7 @@ FYSCloud.API.queryDatabase(
                     "    white-space: nowrap;\n" +
                     "    vertical-align: baseline;\n" +
                     "    border-radius: .25rem;\n" +
-                    "    margin: 2px;'>" + data[i].name + "<div>");
+                    "    margin: 2px;'>" + "<div>");
             }
         }).fail(function (reason) {
             console.log(reason)
