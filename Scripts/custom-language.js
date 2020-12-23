@@ -8,7 +8,7 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
         getStringFromTranslations: getStringFromTranslations
     };
 
-    let currentLanguage;
+    let currentLanguage = 'nl';
     let currentTranslations;
 
     function setLanguage(language) {
