@@ -3,7 +3,7 @@ window.addEventListener('load', function () {
     $("#all-results").click();
 
     //updates the display of the user's current travel data
-    updateCurrentTravelData()
+    fetchCurrentTravelData();
 
     //on page load this function will populate a select list using data from the database
     populateCityList();
@@ -22,26 +22,29 @@ function displayNextSlide(arrow) {
     FYSCloud.Localization.translate(false);
 }
 
-/** toggles the current travel data display and the travel data form */
-function toggleTravelForm() {
-    $("#travel-form").slideToggle("slow");
-    $("#currentTravelData").slideToggle("slow");
-}
-
-/** gets the users current travel data and sets it on the travel data display */
-async function updateCurrentTravelData() {
-    let currentTravelData= await getDataByPromise(`SELECT 
+/** fetches the current user's travel data */
+async function fetchCurrentTravelData() {
+    await getDataByPromise(`SELECT 
     t.startdate, t.enddate, l.destination
     FROM travel t
     INNER JOIN location l ON t.locationId = l.id
-    WHERE userId = ?`, getCurrentUserID());
+    WHERE userId = ?`, getCurrentUserID())
+        .then(data => {
+            const START_DATE = new Date(data[0]["startdate"]);
+            const END_DATE = new Date(data[0]["startdate"]);
 
-    //sets the travel data of the current user on the page
-    let date = new Date(currentTravelData[0]["startdate"]);
-    $("#current-start-date").html(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
-    date = new Date(currentTravelData[0]["enddate"]);
-    $("#current-end-date").html(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
-    $("#current-city").html(currentTravelData[0]["destination"]);
+            let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
+            let endDate = `${END_DATE.getDate()}-${END_DATE.getMonth()+1}-${END_DATE.getFullYear()}`;
+
+            updateCurrentTravelData(startDate, endDate, data[0]["destination"])
+        });
+}
+
+/** sets the current user's travel data on the travel-data-display */
+async function updateCurrentTravelData(startdate, enddate, destination) {
+    $("#current-start-date").html(startdate);
+    $("#current-end-date").html(enddate);
+    $("#current-city").html(destination);
 }
 
 async function populateCityList() {
@@ -72,16 +75,23 @@ function sendTravelData() {
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
-    startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
-    endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
-    
-//check if user already has a travel spec data
+    var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
+    var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
+
+    //updating the travel data display
+    let location = document.getElementById("cityList").options[citySelect - 1].text;
+    updateCurrentTravelData(
+        `${startDate.getDate()}-${startDate.getMonth()+1}-${startDate.getFullYear()}`,
+        `${endDate.getDate()}-${endDate.getMonth()+1}-${endDate.getFullYear()}`,
+        location);
+
+    //check if user already has a travel spec data
     FYSCloud.API.queryDatabase("SELECT * FROM travel WHERE `userId` = ?;",
     [getCurrentUserID()]).done(function(data){
-        console.log(data.length)
+        // console.log(data.length)
         if(data.length > 0) {
             if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
-                console.log(startDateFormat)
+                // console.log(startDateFormat)
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
                     [citySelect, startDateFormat, endDateFormat, getCurrentUserID()])
@@ -96,9 +106,15 @@ function sendTravelData() {
                 alert("no date or city selected");
             }
         }
-    })
-    //sets the current travel data display closes the travel form
-    updateCurrentTravelData().then(toggleTravelForm())
+    });
+
+    toggleTravelForm();
+}
+
+/** toggles the current travel data display and the travel data form */
+function toggleTravelForm() {
+    $("#travel-form").slideToggle("slow");
+    $("#currentTravelData").slideToggle("slow");
 }
 
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
