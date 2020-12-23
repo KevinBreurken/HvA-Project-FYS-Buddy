@@ -273,9 +273,9 @@ async function openUserOverlay(overlayUserId) {
     //putting the interests into the overlay
     $("#overlay-interests-ul").html("");
     $(overlayUserInterestsIds).each(interest => {
-        $("#overlay-interests-ul").append(`<li>` + overlayUserInterestsIds[interest]["interestId"] + `</li>`);
+        $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
-
+    FYSCloud.Localization.translate(false);
     //displays the overlay and overlay-background
     displayUserOverlay();
 

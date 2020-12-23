@@ -111,47 +111,7 @@
       },
       "hobbies": {
         "nl": "Hobby's",
-        "en": "Hobbies",
-        "sport": {
-          "nl": "Sport",
-          "en": "Sport"
-        },
-        "hiking": {
-          "nl": "Wandelen",
-          "en": "Hiking"
-        },
-        "cooking": {
-          "nl": "Koken",
-          "en": "Cooking"
-        },
-        "art": {
-          "nl": "Kunst of schilderen",
-          "en": "Art or painting"
-        },
-        "museum": {
-          "nl": "Musea bezoeken",
-          "en": "Museum visiting"
-        },
-        "music": {
-          "nl": "Muziek",
-          "en": "Music"
-        },
-        "dancing": {
-          "nl": "Dansen",
-          "en": "Dancing"
-        },
-        "theater": {
-          "nl": "Theater bezoeken",
-          "en": "Theater visiting"
-        },
-        "partying": {
-          "nl": "Feesten",
-          "en": "Partying"
-        },
-        "gaming": {
-          "nl": "Gamen",
-          "en": "Gaming"
-        }
+        "en": "Hobbies"
       }
     },
     "buttons": {

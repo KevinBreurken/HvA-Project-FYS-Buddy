@@ -1,4 +1,5 @@
 $("head").append('<script src="Scripts/custom-language.js"></script>');
+FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/default-translation.json")
 let currentUserID = getCurrentUserID();
 let currentPageType;
 console.log("currentUserID = " + currentUserID);
