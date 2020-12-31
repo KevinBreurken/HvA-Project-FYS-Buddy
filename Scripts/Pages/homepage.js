@@ -137,15 +137,18 @@ async function openTabContent(currentButton) {
     resetFilters();
 
     //gets the current user's data
-    const CURRENT_USER = await getDataByPromise(`SELECT 
-       u.id, 
+    let currentUser = await getDataByPromise(`SELECT 
+       u.id,
+       GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
     FROM fys_is111_1_dev.user u
+    LEFT JOIN userinterest ui ON ui.userId = u.id
     INNER JOIN travel t ON u.id = t.userId
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
+    //filters the data bases on the current tab
     let queryExtension = ``;
     let queryArray = [];
     let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.allResults"></p>`;
@@ -155,45 +158,72 @@ async function openTabContent(currentButton) {
             AND t.enddate > ?
             AND p.userId != ?
             AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`;
-            queryArray = [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]];
+            queryArray = [currentUser[0]["enddate"], currentUser[0]["startdate"], getCurrentUserID(), currentUser[0]["latitude"], currentUser[0]["longitude"], currentUser[0]["latitude"]];
             break;
         case "friends":
-            queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
+            queryExtension = ` AND (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)`;
             noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friends"></p>`;
             break;
         case "friend-requests":
-            queryExtension = ` AND rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]}`;
+            queryExtension = ` AND rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}`;
             noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friendRequests"></p>`;
             break;
         case "favourites":
-            queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
+            queryExtension = ` AND f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId`;
             noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.favourites"></p>`;
             break;
     }
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
-    let userList = await getDataByPromise(`SELECT 
+    let userList = await getDataByPromise(`
+    SELECT 
        p.userId, p.pictureUrl, p.buddyType, 
        u.username,
+       GROUP_CONCAT (ui.interestId) as "interestGroup",
        r.roleId, 
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
-       f.favouriteUser
+       f.favouriteUser  
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
+    LEFT JOIN userinterest ui ON ui.userId = p.userId 
     INNER JOIN userrole r ON r.userId = p.userId
     LEFT JOIN setting s ON s.userId = p.userId
     INNER JOIN travel t ON t.userId = p.userId
     INNER JOIN location l ON l.id = t.locationId
-    LEFT JOIN favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
-    LEFT JOIN friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
-    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]})
-    WHERE r.roleId != 2`+ queryExtension
+    LEFT JOIN favourite f ON f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId
+    LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
+    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]})
+    WHERE r.roleId != 2 ${queryExtension} 
+    GROUP by p.userId`
         , queryArray);
 
-    // console.log(userList)
+    //spliting all the interestGroups strings into arrays
+    currentUser[0]["interestGroup"] != null ? currentUser[0]["interestGroup"] = currentUser[0]["interestGroup"].split(',') : currentUser[0]["interestGroup"] = [];
+    for (let i = 0; i < userList.length; i++) {
+        userList[i]["interestGroup"] != null
+            ? userList[i]["interestGroup"] = userList[i]["interestGroup"].split(',')
+            : userList[i]["interestGroup"] = [];
+    }
+
+    //setting the amount of equal interests to the current user for every user in the userList
+    for (let i = 0; i < userList.length; i++) {
+        let equalInterests = 0;
+        for (let j = 0; j < userList[i]["interestGroup"].length; j++) {
+            for (let k = 0; k < currentUser[0]["interestGroup"].length; k++) {
+                if (userList[i]["interestGroup"][j] === currentUser[0]["interestGroup"][k]) equalInterests++;
+            }
+        }
+        userList[i]["equalInterests"] = equalInterests;
+    }
+
+    //todo: sort userList
+    //sorting the userList by destination and interests
+    userList = userList.sort(function (obj1, obj2) {
+        return obj2["equalInterests"] - obj1["equalInterests"];
+    });
 
     $(tab).html("");
     if (userList.length !== 0) {
