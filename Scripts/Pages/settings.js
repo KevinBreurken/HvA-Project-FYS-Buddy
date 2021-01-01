@@ -57,24 +57,21 @@ let initialDistanceResult;
 // Using FYS Cloud API must use the correct database, if page appears incorrect,
 // please make sure to configure config.js to the appropriate database.
 
+// Retrieve all database information related to stored settings for a provided user:
 FYSCloud.API.queryDatabase(
     "SELECT * FROM `setting` WHERE `userId` = ?;",
     [sessionUserId]
 ).done(function(settings) {
+    // Retrieve all database information related to stored languages
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `language`;"
     ).done(function(languages) {
-        // Languages:
         // Populate language dropdown:
         setLanguages(languages);
 
         // Initial language can be set here:
         // initialLanguageKey = languages[0].languageKey;
 
-        // A way to get language could be by using a function which returns:
-        //initialLanguageKey = getLanguageKeyByUser(languages, sessionUserId);
-
-        // TODO: Use promises to move this to a function and return the appropriate language key:
         // Get initial language by looking into user settings (if it exists):
         if(settings.length > 0) {
             // Get the stored language key for a user:
@@ -85,7 +82,7 @@ FYSCloud.API.queryDatabase(
             });
         }
 
-        // Profile visibility:
+        // Retrieve all database information related to stored profile visibility options:
         FYSCloud.API.queryDatabase(
             "SELECT * FROM `profilevisbility`;"
         ).done(function(profileVisibilities) {
@@ -103,7 +100,7 @@ FYSCloud.API.queryDatabase(
             }
 
 
-            // Gender:
+            // Retrieve all database information related to stored gender options:
             FYSCloud.API.queryDatabase(
                 "SELECT * FROM `gender`;"
             ).done(function(genders) {
@@ -131,6 +128,7 @@ FYSCloud.API.queryDatabase(
                     initialDistanceResult = settings[0].radialDistance;
                 }
 
+                // Final functions and setters, utilize all retrieved information:
                 setProfileVisibility(initialProfileVisibility);
                 setGender(initialGender);
                 setMaxDistance(initialMaxDistance);
@@ -164,7 +162,7 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM `profile`"
 ).done(function(profiles) {
     genderEventlistener(profiles)
-    // blockEventListener(profiles);
+    blockEventListener(profiles);
 }).fail(function(reason) {
     console.log(reason);
 });
@@ -492,59 +490,61 @@ function setProfileVisibility(initialProfileVisibility) {
     }
 }
 
-// // Block handling:
-// function blockEventListener(profiles) {
-//     document.querySelector("input#search-block").addEventListener("input", function() {
-//         const resultContainer = this.parentNode.querySelector("#searchBlockResult");
-//         let result = "";
-//         // Check if given input is empty:
-//         if(this.value === "") {
-//             // remove any existing result container if available:
-//             resultContainer.remove();
-//         }
-//         else {
-//             let providedInput = this.value.toUpperCase();
-//
-//             for(let i = 0; i < profiles.length; i++) {
-//                 // null checking
-//                 firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
-//                 middlename = profiles[i].middlename == null ? "" : profiles[i].middlename + " ";
-//                 lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
-//
-//                 if(firstname.toUpperCase().indexOf(providedInput) > -1
-//                     || middlename.toUpperCase().indexOf(providedInput) > -1
-//                     || lastname.toUpperCase().indexOf(providedInput) > -1) {
-//                     result += "<div class=\"user-card\">" +
-//                         "<div class=\"user-card-image\">" +
-//                         "<img onerror=\"this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'\" src=\"" + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
-//                         "</div>" +
-//                         "<div class=\"user-card-content\">" +
-//                         "<div class=\"card-info\">" + firstname + middlename + lastname + "<br />Eventual information...</div>" +
-//                         "<div class=\"card-control\">" +
-//                         "<button>Block</button>" +
-//                         "</div>" +
-//                         "</div>" +
-//                         "</div>";
-//                 }
-//             }
-//
-//             // If no container element exists, create one:
-//             if(resultContainer === null) {
-//                 // resultContainer = <div class="search-block-result"></div>
-//                 const resultContainer = document.createElement("div");
-//                 resultContainer.setAttribute("id", "searchBlockResult");
-//                 const eleToAppendAfter = document.querySelector("button#block-user");
-//                 // Display whatever is entered (sample):
-//                 resultContainer.innerHTML = result;
-//                 eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
-//             }
-//             else {
-//                 // Element already exists, change its contents:
-//                 resultContainer.innerHTML =  result;
-//             }
-//         }
-//     });
-// }
+// Block handling:
+// TODO: prefix must be set depending on environment configured within javascript configuration (e.g. config.js):
+const imageSrcPrefix = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/";
+function blockEventListener(profiles) {
+    document.querySelector("input#search-block").addEventListener("input", function() {
+        const resultContainer = this.parentNode.querySelector("#searchBlockResult");
+        let result = "";
+        // Check if given input is empty:
+        if(this.value === "") {
+            // remove any existing result container if available:
+            resultContainer.remove();
+        }
+        else {
+            let providedInput = this.value.toUpperCase();
+
+            for(let i = 0; i < profiles.length; i++) {
+                // null checking
+                firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
+                lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
+
+                // Check for input match to firstname and lastname
+                if(firstname.toUpperCase().indexOf(providedInput) > -1
+                    || lastname.toUpperCase().indexOf(providedInput) > -1) {
+                    result += "<div class=\"user-card\">" +
+                        "<div class=\"user-card-image\">" +
+                        "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                        "</div>" +
+                        "<div class=\"user-card-content\">" +
+                        "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
+                        "<div class=\"card-info\">" + firstname + lastname + "<br />" + profiles[i].biography + "</div>" +
+                        "<div class=\"card-control\">" +
+                        "<button class=\"block-button\">Block</button>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>";
+                }
+            }
+
+            // If no container element exists, create one:
+            if(resultContainer === null) {
+                // resultContainer = <div class="search-block-result"></div>
+                const resultContainer = document.createElement("div");
+                resultContainer.setAttribute("id", "searchBlockResult");
+                const eleToAppendAfter = document.querySelector("button#block-user");
+                // Display whatever is entered (sample):
+                resultContainer.innerHTML = result;
+                eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
+            }
+            else {
+                // Element already exists, change its contents:
+                resultContainer.innerHTML =  result;
+            }
+        }
+    });
+}
 
 // Gender handling:
 function setGender(initialGender) {
@@ -571,10 +571,9 @@ function genderEventlistener(profiles) {
 
             // // null checking
             // firstname = currentProfile.firstname == null ? "" : currentProfile.firstname + " ";
-            // middlename = currentProfile.middlename == null ? "" : currentProfile.middlename + " ";
             // lastname = currentProfile.lastname == null ? "" : currentProfile.lastname + " ";
             // // logging
-            // console.log("User " + firstname + middlename + lastname + "is of gender \'" + currentProfile.gender + "\'");
+            // console.log("User " + firstname + lastname + "is of gender \'" + currentProfile.gender + "\'");
 
             if(currentProfile.gender.toLowerCase() === "other") {
                 document.querySelector("#identifyAsContainer").style.display = "block";
