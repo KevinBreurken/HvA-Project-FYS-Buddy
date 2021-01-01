@@ -154,6 +154,10 @@ async function openTabContent(currentButton) {
 
     console.log(currentUser)
 
+    //AND CASE
+    //   WHEN ${currentUser[0]["sameGender"]} <> NULL
+    //   THEN p.gender = "female" END
+
     //filters the data bases on the current tab
     let queryExtension = ``;
     let queryArray = [];
@@ -184,7 +188,7 @@ async function openTabContent(currentButton) {
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
     let userList = await getDataByPromise(`
     SELECT 
-       p.userId, p.pictureUrl, p.buddyType, 
+       p.userId, p.pictureUrl, p.buddyType, p.gender, 
        u.username,
        GROUP_CONCAT (ui.interestId) as "interestGroup",
        r.roleId, 
@@ -242,8 +246,26 @@ async function openTabContent(currentButton) {
         //appends a user-display with the correct data to the tab for every user that needs to be displayed
         for (let i = 0; i < userList.length; i++) {
             $(tab).append(generateUserDisplay(userList[i]))
-            console.log(userList[i])
+            // console.log(userList[i])
         }
+
+        //todo filters users by gender with delete or within query?
+        if (currentUser[0]["sameGender"] === 1) {
+            if (currentUser[0]["gender"] === "male" || currentUser[0]["gender"] === "female") {
+                for (let i = 0; i < userList.length; i++) {
+                    if (userList[i]["gender"] !== currentUser[0]["gender"]) {
+                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                    }
+                }
+            } else if (currentUser[0]["gender"] === "other") {
+                if (currentUser[0]["displayGender"] === 1 && (userList[i]["gender"] !== "male" || userList[i]["gender"] !== "other")) {
+                    $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                } else if (currentUser[0]["displayGender"] === 2 && (userList[i]["gender"] !== "female" || userList[i]["gender"] !== "other")) {
+                    $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                }
+            }
+        }
+
     } else {
         //displays a help message whenever there are no matches available to the user
         $(tab).append(noMatchesMessage)
