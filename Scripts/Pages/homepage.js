@@ -500,10 +500,6 @@ function resetFilters() {
 }
 
 function filterCurrentDisplayedUsers() {
-    console.log(currentDisplayedUsers);
-    console.log(currentDistanceFilterAmount);
-    console.log(currentBuddyFilterID);
-
     $('.user-display').show();
 
     $(currentDisplayedUsers).each(userDisplay => {
@@ -512,12 +508,18 @@ function filterCurrentDisplayedUsers() {
             if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
                 $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
         }
-        
+
         let distanceOfCurrentDisplay = 150; //TODO: change to data of userDisplay's JSON.
         if(currentDistanceFilterAmount !== undefined)
         if(distanceOfCurrentDisplay > currentDistanceFilterAmount)
             $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
-
-        console.log(currentDistanceFilterAmount + " : " + distanceOfCurrentDisplay);
     });
+
+    if ($('.user-display:visible').length === 0)
+    {
+        $('.no-matches-message').remove();
+        let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
+        $('#tab').append(noMatchesMessage);
+        FYSCloud.Localization.translate(false);
+    }
 }
