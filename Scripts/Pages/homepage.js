@@ -120,6 +120,7 @@ function toggleTravelForm() {
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
 //todo: filters; distance and buddy type
 let lastButtonId;
+let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
 
@@ -236,6 +237,7 @@ async function openTabContent(currentButton) {
         $(tab).append(noMatchesMessage)
     }
 
+    currentDisplayedUsers = userList;
     FYSCloud.Localization.translate(false);
 }
 
@@ -467,9 +469,10 @@ function setTravelFilter(element) {
     currentDistanceFilterAmount = distanceAmount;
 
     //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
-var currentBuddyFilterID;
+let currentBuddyFilterID = 1;
 
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
@@ -480,6 +483,7 @@ function setBuddyFilter(element) {
     currentBuddyFilterID = buddyIndex;
 
     //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
 function resetFilters() {
@@ -494,4 +498,19 @@ function resetFilters() {
     let distanceDefault = $("#filter-option-distance-default");
     currentDistanceFilterAmount = buddyDefault.data("distance");
     distanceDefault.attr("current", "");
+}
+
+function filterCurrentDisplayedUsers(){
+    console.log(currentDisplayedUsers);
+    console.log(currentDistanceFilterAmount);
+    console.log(currentBuddyFilterID);
+
+    $('.user-display').show();
+
+    $(currentDisplayedUsers).each(userDisplay => {
+        if(currentBuddyFilterID !== 1) // 1 == both buddy types
+            if(currentDisplayedUsers[userDisplay]['buddyType'] !== currentBuddyFilterID){
+                $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+            }
+    });
 }
