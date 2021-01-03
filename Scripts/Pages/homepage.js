@@ -71,7 +71,7 @@ async function populateCityList() {
 function sendTravelData() {
     //get current selected value from select element in form
     var citySelect = document.getElementById("cityList").value;
-    
+
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
@@ -182,7 +182,7 @@ async function openTabContent(currentButton) {
        p.userId, p.pictureUrl, p.buddyType, 
        u.username,
        GROUP_CONCAT (ui.interestId) as "interestGroup",
-       r.roleId, 
+       u.userRole, 
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
@@ -190,14 +190,13 @@ async function openTabContent(currentButton) {
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     LEFT JOIN userinterest ui ON ui.userId = p.userId 
-    INNER JOIN userrole r ON r.userId = p.userId
     LEFT JOIN setting s ON s.userId = p.userId
     INNER JOIN travel t ON t.userId = p.userId
     INNER JOIN location l ON l.id = t.locationId
     LEFT JOIN favourite f ON f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId
     LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
     LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]})
-    WHERE r.roleId != 2 ${queryExtension} 
+    WHERE u.userRole != 2 ${queryExtension} 
     GROUP by p.userId`
         , queryArray);
 
@@ -259,7 +258,7 @@ function generateUserDisplay(currentUser) {
     let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
     if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
-    
+
     //start and end date
     //todo: fix the displaying of dates
     //todo: fix translations
@@ -500,7 +499,7 @@ function resetFilters() {
     distanceDefault.attr("current", "");
 }
 
-function filterCurrentDisplayedUsers(){
+function filterCurrentDisplayedUsers() {
     console.log(currentDisplayedUsers);
     console.log(currentDistanceFilterAmount);
     console.log(currentBuddyFilterID);
@@ -508,9 +507,17 @@ function filterCurrentDisplayedUsers(){
     $('.user-display').show();
 
     $(currentDisplayedUsers).each(userDisplay => {
-        if(currentBuddyFilterID !== 1) // 1 == both buddy types
-            if(currentDisplayedUsers[userDisplay]['buddyType'] !== currentBuddyFilterID){
+        if (currentBuddyFilterID !== 1) { // 1 == both buddy types
+            const displayedUserBuddyId = currentDisplayedUsers[userDisplay]['buddyType'];
+            if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
                 $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
-            }
+        }
+        
+        let distanceOfCurrentDisplay = 150; //TODO: change to data of userDisplay's JSON.
+        if(currentDistanceFilterAmount !== undefined)
+        if(distanceOfCurrentDisplay > currentDistanceFilterAmount)
+            $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+
+        console.log(currentDistanceFilterAmount + " : " + distanceOfCurrentDisplay);
     });
 }
