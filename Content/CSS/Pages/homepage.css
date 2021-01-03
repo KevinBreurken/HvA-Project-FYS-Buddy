@@ -189,7 +189,7 @@ input[type=button]:hover {
 }
 
 #tab-buttons-border {
-  width: 100%;
+  width: 90%;
   background-color: var(--color-corendon-red);
 }
 
