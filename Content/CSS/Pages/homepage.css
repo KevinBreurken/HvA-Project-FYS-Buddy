@@ -288,7 +288,7 @@ input[type=button]:hover {
 }
 
 .profile-picture {
-  width: 160px;
+  height: 160px;
   border-radius: 2%;
   margin: 10px 0 20px 0;
 }

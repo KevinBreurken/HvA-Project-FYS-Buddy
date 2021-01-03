@@ -189,6 +189,7 @@ async function openTabContent(currentButton) {
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
+       f.favouriteUser,
        SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
        - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
     FROM profile p
