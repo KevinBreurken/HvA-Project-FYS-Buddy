@@ -152,11 +152,7 @@ async function openTabContent(currentButton) {
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
-    console.log(currentUser)
-
-    //AND CASE
-    //   WHEN ${currentUser[0]["sameGender"]} <> NULL
-    //   THEN p.gender = "female" END
+    // console.log(currentUser)
 
     //filters the data bases on the current tab
     let queryExtension = ``;
@@ -195,7 +191,6 @@ async function openTabContent(currentButton) {
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
-       f.favouriteUser,
        SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
        - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
     FROM profile p
@@ -209,7 +204,13 @@ async function openTabContent(currentButton) {
     LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
     LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}) 
     WHERE r.roleId != 2
-    ${queryExtension}
+    AND NOT EXISTS (
+        SELECT *
+        FROM blocked b
+        WHERE (b.blockedUser = p.userId OR b.blockedUser = ${currentUser[0]["userId"]})
+        AND (b.requestingUser = p.userId OR b.requestingUser = ${currentUser[0]["userId"]})
+        )
+    ${queryExtension} 
     GROUP by p.userId`
         , queryArray);
 
@@ -250,18 +251,21 @@ async function openTabContent(currentButton) {
         }
 
         //todo filters users by gender with delete or within query?
-        if (currentUser[0]["sameGender"] === 1) {
-            if (currentUser[0]["gender"] === "male" || currentUser[0]["gender"] === "female") {
-                for (let i = 0; i < userList.length; i++) {
-                    if (userList[i]["gender"] !== currentUser[0]["gender"]) {
+        //filters the userlist based on the current user's gender settings
+        if (currentButton.id.toString() === "all-results") {
+            if (currentUser[0]["sameGender"] === 1) {
+                if (currentUser[0]["gender"] === "male" || currentUser[0]["gender"] === "female") {
+                    for (let i = 0; i < userList.length; i++) {
+                        if (userList[i]["gender"] !== currentUser[0]["gender"]) {
+                            $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                        }
+                    }
+                } else if (currentUser[0]["gender"] === "other") {
+                    if (currentUser[0]["displayGender"] === 1 && (userList[i]["gender"] !== "male" || userList[i]["gender"] !== "other")) {
+                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                    } else if (currentUser[0]["displayGender"] === 2 && (userList[i]["gender"] !== "female" || userList[i]["gender"] !== "other")) {
                         $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
                     }
-                }
-            } else if (currentUser[0]["gender"] === "other") {
-                if (currentUser[0]["displayGender"] === 1 && (userList[i]["gender"] !== "male" || userList[i]["gender"] !== "other")) {
-                    $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
-                } else if (currentUser[0]["displayGender"] === 2 && (userList[i]["gender"] !== "female" || userList[i]["gender"] !== "other")) {
-                    $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
                 }
             }
         }
