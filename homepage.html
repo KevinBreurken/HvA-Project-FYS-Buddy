@@ -73,20 +73,20 @@
             <button id="filters">filters<img src="Content/Images/down-arrow-filters.png"></button>
             <div id="filter-dropdown">
                 <div class="filter-option">
-                    <p class="filter-title">Travel distance</p>
+                    <p class="filter-title" data-translate="filters.travelDistance.title">Travel distance</p>
                     <div class="filter-option-buttons">
-                        <button class="filter-option-distance" id="filter-option-distance-default" data-distance="40100" onclick="setTravelFilter(this)">Everywhere</button>
-                        <button class="filter-option-distance" data-distance="100" onclick="setTravelFilter(this)">< 100km</button>
-                        <button class="filter-option-distance" data-distance="2000" onclick="setTravelFilter(this)">< 2000km</button>
-                        <button class="filter-option-distance" data-distance="8000" onclick="setTravelFilter(this)">< 8000km</button>
+                        <button class="filter-option-distance" id="filter-option-distance-default" data-distance="40100" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option1">Everywhere</button>
+                        <button class="filter-option-distance" data-distance="100" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option2">< 100km</button>
+                        <button class="filter-option-distance" data-distance="2000" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option3">< 2000km</button>
+                        <button class="filter-option-distance" data-distance="8000" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option4">< 8000km</button>
                     </div>
                 </div>
                 <div class="filter-option">
-                    <p class="filter-title">Type of buddy</p>
+                    <p class="filter-title" data-translate="filters.buddy.title">Type of buddy</p>
                     <div class="filter-option-buttons">
-                        <button class="filter-option-buddy" id="filter-option-buddy-default" data-buddy="1" onclick="setBuddyFilter(this)">Both</button>
-                        <button class="filter-option-buddy" data-buddy="3" onclick="setBuddyFilter(this)">Only travel buddies</button>
-                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)">Only activity buddies</button>
+                        <button class="filter-option-buddy" id="filter-option-buddy-default" data-buddy="1" onclick="setBuddyFilter(this)" data-translate="filters.buddy.option1">Both</button>
+                        <button class="filter-option-buddy" data-buddy="3" onclick="setBuddyFilter(this)" data-translate="filters.buddy.option2">Only travel buddies</button>
+                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)" data-translate="filters.buddy.option3">Only activity buddies</button>
                     </div>
                 </div>
             </div>

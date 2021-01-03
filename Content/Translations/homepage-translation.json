@@ -150,5 +150,47 @@
         "en": "Accept Friend Request"
       }
     }
+  },
+  "filters": {
+    "travelDistance": {
+      "title": {
+        "nl": "Reis Afstand",
+        "en": "Travel Distance"
+      },
+      "option1": {
+        "nl": "Overal",
+        "en": "Everywhere"
+      },
+      "option2": {
+        "nl": "< 100km",
+        "en": "< 100km"
+      },
+      "option3": {
+        "nl": "< 2000km",
+        "en": "< 2000km"
+      },
+      "option4": {
+        "nl": "< 8000km",
+        "en": "< 8000km"
+      }
+    },
+    "buddy": {
+      "title": {
+        "nl": "Buddy type",
+        "en": "Type of buddy"
+      },
+      "option1": {
+        "nl": "Beide",
+        "en": "Both"
+      },
+      "option2": {
+        "nl": "Aleen reis-buddies",
+        "en": "Only travel buddies"
+      },
+      "option3": {
+        "nl": "Aleen activiteiten-buddies",
+        "en": "Only activity buddies"
+      }
+    }
   }
 }

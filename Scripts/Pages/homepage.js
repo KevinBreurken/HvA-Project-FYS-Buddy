@@ -118,7 +118,6 @@ function toggleTravelForm() {
 }
 
 //1.1 All results todo: gender preference, blocked, display settings en evt. interests
-//todo: filters; distance and buddy type
 let lastButtonId;
 let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
@@ -467,7 +466,6 @@ function setTravelFilter(element) {
     $(element).attr("current", "");
     currentDistanceFilterAmount = distanceAmount;
 
-    //todo: apply filter.
     filterCurrentDisplayedUsers();
 }
 
@@ -481,7 +479,6 @@ function setBuddyFilter(element) {
     $(element).attr("current", "");
     currentBuddyFilterID = buddyIndex;
 
-    //todo: apply filter.
     filterCurrentDisplayedUsers();
 }
 
@@ -500,23 +497,26 @@ function resetFilters() {
 }
 
 function filterCurrentDisplayedUsers() {
+    //Reset all
     $('.user-display').show();
 
     $(currentDisplayedUsers).each(userDisplay => {
+        //Hide displays depending on selected buddy type filter.
         if (currentBuddyFilterID !== 1) { // 1 == both buddy types
             const displayedUserBuddyId = currentDisplayedUsers[userDisplay]['buddyType'];
             if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
                 $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
         }
-
+        //Hide displays depending on selected distance filter.
         let distanceOfCurrentDisplay = 150; //TODO: change to data of userDisplay's JSON.
         if(currentDistanceFilterAmount !== undefined)
         if(distanceOfCurrentDisplay > currentDistanceFilterAmount)
             $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
     });
 
-    if ($('.user-display:visible').length === 0)
-    {
+    //Check if there's any display being shown..
+    if ($('.user-display:visible').length === 0) {
+        //Generate a new message to display in the tab content.
         $('.no-matches-message').remove();
         let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
         $('#tab').append(noMatchesMessage);
