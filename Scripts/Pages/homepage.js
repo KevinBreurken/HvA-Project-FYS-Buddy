@@ -118,7 +118,6 @@ function toggleTravelForm() {
     $("#currentTravelData").slideToggle("slow");
 }
 
-//1.1 All results todo: gender preference, blocked
 let lastButtonId;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
@@ -187,7 +186,6 @@ async function openTabContent(currentButton) {
        p.userId, p.pictureUrl, p.buddyType, p.gender, 
        u.username,
        GROUP_CONCAT (ui.interestId) as "interestGroup",
-       r.roleId, 
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
@@ -196,14 +194,13 @@ async function openTabContent(currentButton) {
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     LEFT JOIN userinterest ui ON ui.userId = p.userId 
-    INNER JOIN userrole r ON r.userId = p.userId
     LEFT JOIN setting s ON s.userId = p.userId
     INNER JOIN travel t ON t.userId = p.userId
     INNER JOIN location l ON l.id = t.locationId
     LEFT JOIN favourite f ON f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId
     LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
     LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}) 
-    WHERE r.roleId != 2
+    WHERE userRole != 2
     AND NOT EXISTS (
         SELECT *
         FROM blocked b
@@ -465,6 +462,7 @@ function closeElement(currentDisplay) {
 /** favourites function */
 async function setFavourite (userId) {
 
+    //gets the row in the favourites table where the requestingUser is the current user and the favouriteUser the other user
     let favourite = await getDataByPromise(`SELECT * FROM favourite
     WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]);
 
