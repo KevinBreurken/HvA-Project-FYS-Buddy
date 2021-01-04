@@ -521,7 +521,7 @@ function blockEventListener(profiles) {
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
                         "<div class=\"card-info\">" + firstname + lastname + "<br /><span class='profile-bio'>" + profiles[i].biography + "</span></div>" +
                         "<div class=\"card-control\">" +
-                        "<button class=\"block-button\" data-translate=\"settings.block.button\">Block</button>" +
+                        "<button class=\"block-button\" type=\"button\" data-translate=\"settings.block.button\">Block</button>" +
                         "</div>" +
                         "</div>" +
                         "</div>";
@@ -547,6 +547,43 @@ function blockEventListener(profiles) {
         // Translate the dynamically generated "block" buttons:
         FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
     });
+}
+
+// Block button handling:
+document.addEventListener("click", function(e) {
+    // Clicking on block buttons:
+    if(e.target.classList.contains("block-button")) {
+        // Clicking on card specific block button:
+        if(e.target.parentNode.classList.contains("card-control")) {
+            // Block specified person:
+            let blockedUser = e.target.parentNode.parentNode.getElementsByClassName("user-data")[0].innerText;
+            blockUser(blockedUser);
+        }
+        else {
+            // Clicking on general block button:
+            // If any cards exists, by default block the first person:
+            if(document.getElementsByClassName("user-card")[0]) {
+                // Block the first person:
+                let blockedUser = document.getElementsByClassName("user-card")[0].getElementsByClassName("user-data")[0].innerText;
+                blockUser(blockedUser);
+            }
+        }
+    }
+});
+
+function blockUser(blockedUser) {
+    if(blockedUser) {
+        FYSCloud.API.queryDatabase(
+            "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`)" +
+            "VALUES (?, ?, 'Blocked through settings, reason unsupported.');",
+            [sessionUserId, blockedUser]
+        ).done(function(data) {
+            console.log(data);
+            alert("Persoon met gebruikers id " + blockedUser + " is nu geblokkeerd.");
+        }).fail(function(reason) {
+            console.log(reason);
+        });
+    }
 }
 
 // Gender handling:
