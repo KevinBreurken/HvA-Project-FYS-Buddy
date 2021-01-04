@@ -579,7 +579,7 @@ function blockUser(blockedUser) {
             [sessionUserId, blockedUser]
         ).done(function(data) {
             console.log(data);
-            alert("Persoon met gebruikers id " + blockedUser + " is nu geblokkeerd.");
+            alert("User containing userId " + blockedUser + " is now blocked.");
         }).fail(function(reason) {
             console.log(reason);
         });
