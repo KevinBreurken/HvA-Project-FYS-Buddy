@@ -495,7 +495,7 @@ function setProfileVisibility(initialProfileVisibility) {
 const imageSrcPrefix = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/";
 function blockEventListener(profiles) {
     document.querySelector("input#search-block").addEventListener("input", function() {
-        const resultContainer = this.parentNode.querySelector("#searchBlockResult");
+        const resultContainer = document.getElementById("searchBlockResult");
         let result = "";
         // Check if given input is empty:
         if(this.value === "") {
@@ -519,9 +519,9 @@ function blockEventListener(profiles) {
                         "</div>" +
                         "<div class=\"user-card-content\">" +
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
-                        "<div class=\"card-info\">" + firstname + lastname + "<br />" + profiles[i].biography + "</div>" +
+                        "<div class=\"card-info\">" + firstname + lastname + "<br /><span class='profile-bio'>" + profiles[i].biography + "</span></div>" +
                         "<div class=\"card-control\">" +
-                        "<button class=\"block-button\">Block</button>" +
+                        "<button class=\"block-button\" data-translate=\"settings.block.button\">Block</button>" +
                         "</div>" +
                         "</div>" +
                         "</div>";
@@ -543,6 +543,9 @@ function blockEventListener(profiles) {
                 resultContainer.innerHTML =  result;
             }
         }
+
+        // Translate the dynamically generated "block" buttons:
+        FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
     });
 }
 
