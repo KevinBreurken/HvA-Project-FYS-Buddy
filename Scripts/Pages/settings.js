@@ -162,7 +162,15 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM `profile`"
 ).done(function(profiles) {
     genderEventlistener(profiles)
-    blockEventListener(profiles);
+
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `blocked` WHERE `blocked`.`requestingUser` = ?",
+        [sessionUserId]
+    ).done(function(blockedUsers) {
+        blockEventListener(profiles, blockedUsers);
+    }).fail(function(reason) {
+        console.log(reason);
+    });
 }).fail(function(reason) {
     console.log(reason);
 });
@@ -493,7 +501,7 @@ function setProfileVisibility(initialProfileVisibility) {
 // Block handling:
 // TODO: prefix must be set depending on environment configured within javascript configuration (e.g. config.js):
 const imageSrcPrefix = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/";
-function blockEventListener(profiles) {
+function blockEventListener(profiles, blockedUsers) {
     document.querySelector("input#search-block").addEventListener("input", function() {
         const resultContainer = this.parentNode.querySelector("#searchBlockResult");
         let result = "";
@@ -506,6 +514,15 @@ function blockEventListener(profiles) {
             let providedInput = this.value.toUpperCase();
 
             for(let i = 0; i < profiles.length; i++) {
+                // Check if a given profile is already blocked:
+                let profileBlocked;
+                for (let j = 0; j < blockedUsers.length; j++) {
+                    if(profiles[i].userId === blockedUsers[j].blockedUser) {
+                        profileBlocked = true;
+                        break;
+                    }
+                }
+
                 // null checking
                 firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
                 lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
@@ -513,6 +530,7 @@ function blockEventListener(profiles) {
                 // Check for input match to firstname and lastname
                 if(firstname.toUpperCase().indexOf(providedInput) > -1
                     || lastname.toUpperCase().indexOf(providedInput) > -1) {
+
                     result += "<div class=\"user-card\">" +
                         "<div class=\"user-card-image\">" +
                         "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
@@ -520,9 +538,16 @@ function blockEventListener(profiles) {
                         "<div class=\"user-card-content\">" +
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
                         "<div class=\"card-info\">" + firstname + lastname + "<br />" + profiles[i].biography + "</div>" +
-                        "<div class=\"card-control\">" +
-                        "<button class=\"block-button\">Block</button>" +
-                        "</div>" +
+                        "<div class=\"card-control\">";
+
+                    // Create appropriate button depending on whether a profile has been blocked or not:
+                    if (profileBlocked) {
+                        result += "<button class=\"unblock-button\">Unblock</button>";
+                    } else {
+                        result += "<button class=\"block-button\">Block</button>"
+                    }
+
+                    result += "</div>" +
                         "</div>" +
                         "</div>";
                 }

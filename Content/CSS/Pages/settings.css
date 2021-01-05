@@ -48,7 +48,8 @@ nav#settingsNavigation > ul a {
 
 nav#settingsNavigation > ul a:hover,
 .settings-controls button#apply:hover,
-button.block-button:hover {
+button.block-button:hover,
+button.unblock-button:hover {
   background-color: var(--color-corendon-dark-red);
 }
 
@@ -186,14 +187,18 @@ button.block-button:hover {
   padding-bottom: 15px;
 }
 
-.settings-controls button, button.block-button {
+.settings-controls button,
+button.block-button,
+button.unblock-button {
   padding: .375rem .75rem;
   user-select: none;
   border: 1px solid transparent;
   border-radius: .25rem;
 }
 
-.settings-controls button#apply, button.block-button {
+.settings-controls button#apply,
+button.block-button,
+button.unblock-button {
   color: var(--color-corendon-white);
   background-color: var(--color-corendon-red);
   border: #d81e05 solid 1px;
