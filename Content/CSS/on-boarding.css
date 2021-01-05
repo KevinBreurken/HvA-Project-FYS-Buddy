@@ -7,15 +7,16 @@
     top: 300px;
     margin: 0 auto;
     padding: 15px;
-    z-index: 2;
+    z-index: 100;
 }
 
-#on-boarding p {
+#on-boarding p, #on-boarding h2, #on-boarding h4 {
     text-align: left;
+    margin: 0;
 }
 
-#on-boarding .first-header {
-    margin-top: 0;
+#on-boarding .header-margin {
+    margin-top: 12px;
 }
 
 #on-boarding button {
@@ -32,4 +33,13 @@
     background: var(--color-corendon-white);
     border: var(--border-corendon-red);
     transition: 200ms;
+}
+
+.procedure {
+    display: none;
+}
+
+.procedure img {
+    border: 1px solid black;
+    margin: 5px 0 5px 0;
 }

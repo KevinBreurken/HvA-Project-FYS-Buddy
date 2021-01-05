@@ -1,14 +1,42 @@
-<button onclick="closeOverlay()">X</button>
+<button onclick="toggleOnBoarding()">X</button>
+<div class="procedure">
 
-<h2 class="first-header">The navigation bar. </h2>
-<p>Here you can quickly swap between the different tabs. </p>
-<p>In the all results tab you can view all of your current matches. </p>
-<p>In the recently viewed tab you'll see the profile you've most recently visited. </p>
-<p>In the matched tab you can find the people you're currently matched with. </p>
-<p>You can find the people you've favored in the favorites tab. </p>
+    <h2>Homepage</h2>
+    <p>This is the homepage of Corendon Travel Buddy. </p>
 
-<h2>Profile cards</h2>
-<p>On the profile cards you have 2 different options. You can select match or profile</p>
-<p>The match will send a notification to the other person notifying them you are now matched with each other. </p>
-<p>The profile button will send you to the profile of the person you selected. Here you can view in detail who the
-    person is. </p>
+    <h4 class="header-margin">Travel specifications</h4>
+
+    <p>Here you can set your travel specifications and see all the people you've matched with. </p>
+    <img src="Content/Images/onboarding-specifications.png" height="321" width="564" id=""/>
+    <p>When you set your travel specifications the system will look for other people with the same destination
+        and
+        similar interests. </p>
+</div>
+
+<div class="procedure">
+
+    <h2>Matching </h2>
+    <p>Underneath the travel specifications you'll find all your current matches. </p>
+    <img src="Content/Images/onboarding-specifications.png" height="321" width="564"/></div>
+
+<div class="button-group">
+    <button onclick="swapStep(1)">Next</button>
+    <button onclick="swapStep(-1)">Back</button>
+</div>
+
+<div style="display: none">
+    <h2 class="first-header">The navigation bar. </h2>
+    <p>Here you can quickly swap between the different tabs. </p>
+    <p>In the all results tab you can view all of your current matches. </p>
+    <p>In the recently viewed tab you'll see the profile you've most recently visited. </p>
+    <p>In the matched tab you can find the people you're currently matched with. </p>
+    <p>You can find the people you've favored in the favorites tab. </p>
+
+    <h2>Profile cards</h2>
+    <p>On the profile cards you have 2 different options. You can select match or profile</p>
+    <p>The match will send a notification to the other person notifying them you are now matched with each
+        other. </p>
+    <p>The profile button will send you to the profile of the person you selected. Here you can view in detail
+        who the
+        person is. </p>
+</div>
