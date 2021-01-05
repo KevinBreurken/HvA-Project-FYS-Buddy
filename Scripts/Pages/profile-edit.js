@@ -344,6 +344,7 @@ FYSCloud.API.queryDatabase(
     $("#FirstName").val(userData.firstname);
     $("#LastName").val(userData.lastname);
     $("#Biography").val(userData.biography);
+    countCharacters();
     $("#Telephone").val(userData.phone);
 }).fail(function () {
     alert("paniek");
