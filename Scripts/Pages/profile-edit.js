@@ -415,3 +415,11 @@ $("#fileUpload").on("change", function () {
         $("#filePreviewResult").html(reason)
     })
 })
+
+/**
+ * Change the language on biography section when languaga is changed.
+ */
+document.addEventListener("languageChangeEvent", function (event) {
+    characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
+    countCharacters();
+});
