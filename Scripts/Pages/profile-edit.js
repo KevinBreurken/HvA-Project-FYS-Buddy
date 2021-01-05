@@ -24,6 +24,8 @@ let month = ageCheck.getMonth() + 1;
 let year = ageCheck.getFullYear() - MAX_AGE;
 ageCheck = year + '-' + month + '-' + day;
 
+let characterLeftText;
+
 document.getElementById("DateOfBirth").setAttribute("max", parseDateToInputDate(today));
 document.getElementById("DateOfBirth").setAttribute("min", parseDateToInputDate(ageCheck));
 
@@ -32,7 +34,10 @@ function countCharacters() {
     textEntered = document.getElementById('Biography').value;
     counter = (500 - (textEntered.length));
     countRemaining = document.getElementById('charactersRemaining');
-    countRemaining.textContent = counter;
+
+    if(characterLeftText === undefined)
+        characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
+    countRemaining.textContent = characterLeftText.replace("%amount", counter);
 
     count = document.getElementById('Biography');
     count.addEventListener('keyup', countCharacters, false);
