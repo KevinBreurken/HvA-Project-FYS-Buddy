@@ -27,7 +27,6 @@ let initialProfileVisibility;
 let profileVisibilityOptions;
 let currentProfile;
 let firstname;
-let middlename;
 let lastname;
 let profileVisibilityId;
 
@@ -303,6 +302,12 @@ function setLanguage(initialLanguageKey) {
                     en: "Block"
                 }
             },
+            unblock: {
+                button: {
+                    nl: "Deblokkeren",
+                    en: "Unblock"
+                }
+            },
             preferences: {
                 nl: "Voorkeuren",
                 en: "Preferences",
@@ -542,7 +547,7 @@ function blockEventListener(profiles, blockedUsers) {
 
                     // Create appropriate button depending on whether a profile has been blocked or not:
                     if (profileBlocked) {
-                        result += "<button class=\"unblock-button\" data-translate=\"settings.unblock.button\">Unblock</button>";
+                        result += "<button class=\"unblock-button\" type=\"button\" data-translate=\"settings.unblock.button\">Unblock</button>";
                     } else {
                         result += "<button class=\"block-button\" type=\"button\" data-translate=\"settings.block.button\">Block</button>"
                     }
@@ -594,17 +599,39 @@ document.addEventListener("click", function(e) {
             }
         }
     }
+    else if(e.target.classList.contains("unblock-button")) {
+        let blockedUser = e.target.parentNode.parentNode.getElementsByClassName("user-data")[0].innerText;
+        unblockUser(blockedUser);
+    }
 });
 
-function blockUser(blockedUser) {
-    if(blockedUser) {
+// Blocking a user:
+function blockUser(user) {
+    if(user) {
         FYSCloud.API.queryDatabase(
             "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`)" +
             "VALUES (?, ?, 'Blocked through settings, reason unsupported.');",
-            [sessionUserId, blockedUser]
+            [sessionUserId, user]
         ).done(function(data) {
             console.log(data);
-            alert("User containing userId " + blockedUser + " is now blocked.");
+            alert("User containing userId " + user + " is now blocked.");
+        }).fail(function(reason) {
+            console.log(reason);
+        });
+    }
+}
+
+// Unblocking a user:
+function unblockUser(user) {
+    if(user) {
+        FYSCloud.API.queryDatabase(
+            "DELETE FROM `blocked`" +
+            "WHERE `blocked`.`requestingUser` = ?" +
+            "AND `blocked`.`blockedUser` = ?",
+            [sessionUserId, user]
+        ).done(function(data) {
+            console.log(data);
+            alert("User containing userId " + user + " is now unblocked.");
         }).fail(function(reason) {
             console.log(reason);
         });
