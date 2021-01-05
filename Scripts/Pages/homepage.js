@@ -3,7 +3,7 @@ window.addEventListener('load', function () {
     $("#all-results").click();
 
     //updates the display of the user's current travel data
-    updateCurrentTravelData()
+    fetchCurrentTravelData();
 
     //on page load this function will populate a select list using data from the database
     populateCityList();
@@ -22,26 +22,29 @@ function displayNextSlide(arrow) {
     FYSCloud.Localization.translate(false);
 }
 
-/** toggles the current travel data display and the travel data form */
-function toggleTravelForm() {
-    $("#travel-form").slideToggle("slow");
-    $("#currentTravelData").slideToggle("slow");
-}
-
-/** gets the users current travel data and sets it on the travel data display */
-async function updateCurrentTravelData() {
-    let currentTravelData= await getDataByPromise(`SELECT 
+/** fetches the current user's travel data */
+async function fetchCurrentTravelData() {
+    await getDataByPromise(`SELECT 
     t.startdate, t.enddate, l.destination
     FROM travel t
     INNER JOIN location l ON t.locationId = l.id
-    WHERE userId = ?`, getCurrentUserID());
+    WHERE userId = ?`, getCurrentUserID())
+        .then(data => {
+            const START_DATE = new Date(data[0]["startdate"]);
+            const END_DATE = new Date(data[0]["startdate"]);
 
-    //sets the travel data of the current user on the page
-    let date = new Date(currentTravelData[0]["startdate"]);
-    $("#current-start-date").html(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
-    date = new Date(currentTravelData[0]["enddate"]);
-    $("#current-end-date").html(`${date.getDate()}-${date.getMonth()+1}-${date.getFullYear()}`);
-    $("#current-city").html(currentTravelData[0]["destination"]);
+            let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
+            let endDate = `${END_DATE.getDate()}-${END_DATE.getMonth()+1}-${END_DATE.getFullYear()}`;
+
+            updateCurrentTravelData(startDate, endDate, data[0]["destination"])
+        });
+}
+
+/** sets the current user's travel data on the travel-data-display */
+async function updateCurrentTravelData(startdate, enddate, destination) {
+    $("#current-start-date").html(startdate);
+    $("#current-end-date").html(enddate);
+    $("#current-city").html(destination);
 }
 
 async function populateCityList() {
@@ -72,16 +75,24 @@ function sendTravelData() {
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
-    startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
-    endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
-    
-//check if user already has a travel spec data
+    //sets the start and end date in the format required for the current travel data display
+    var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
+    var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
+
+    //updating the travel data display
+    let location = document.getElementById("cityList").options[citySelect - 1].text;
+    updateCurrentTravelData(
+        `${startDate.getDate()}-${startDate.getMonth()+1}-${startDate.getFullYear()}`,
+        `${endDate.getDate()}-${endDate.getMonth()+1}-${endDate.getFullYear()}`,
+        location);
+
+    //check if user already has a travel spec data
     FYSCloud.API.queryDatabase("SELECT * FROM travel WHERE `userId` = ?;",
     [getCurrentUserID()]).done(function(data){
-        console.log(data.length)
+        // console.log(data.length)
         if(data.length > 0) {
             if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
-                console.log(startDateFormat)
+                // console.log(startDateFormat)
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
                     [citySelect, startDateFormat, endDateFormat, getCurrentUserID()])
@@ -96,13 +107,17 @@ function sendTravelData() {
                 alert("no date or city selected");
             }
         }
-    })
-    //sets the current travel data display closes the travel form
-    updateCurrentTravelData().then(toggleTravelForm())
+    });
+
+    toggleTravelForm();
 }
 
-//1.1 All results todo: gender preference, blocked, display settings en evt. interests
-//todo: filters; distance and buddy type
+/** toggles the current travel data display and the travel data form */
+function toggleTravelForm() {
+    $("#travel-form").slideToggle("slow");
+    $("#currentTravelData").slideToggle("slow");
+}
+
 let lastButtonId;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
@@ -121,15 +136,24 @@ async function openTabContent(currentButton) {
     resetFilters();
 
     //gets the current user's data
-    const CURRENT_USER = await getDataByPromise(`SELECT 
-       u.id, 
+    let currentUser = await getDataByPromise(`SELECT 
+       u.id,
+       p.gender,
+       s.sameGender, s.displayGenderId,
+       GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
     FROM fys_is111_1_dev.user u
+    INNER JOIN profile p ON p.userId = u.id
+    LEFT JOIN setting s ON s.userId = u.id
+    LEFT JOIN userinterest ui ON ui.userId = u.id
     INNER JOIN travel t ON u.id = t.userId
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
+    // console.log(currentUser)
+
+    //filters the data bases on the current tab
     let queryExtension = ``;
     let queryArray = [];
     let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.allResults"></p>`;
@@ -139,52 +163,111 @@ async function openTabContent(currentButton) {
             AND t.enddate > ?
             AND p.userId != ?
             AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`;
-            queryArray = [CURRENT_USER[0]["enddate"], CURRENT_USER[0]["startdate"], getCurrentUserID(), CURRENT_USER[0]["latitude"], CURRENT_USER[0]["longitude"], CURRENT_USER[0]["latitude"]];
+            queryArray = [currentUser[0]["enddate"], currentUser[0]["startdate"], getCurrentUserID(), currentUser[0]["latitude"], currentUser[0]["longitude"], currentUser[0]["latitude"]];
             break;
         case "friends":
-            queryExtension = ` AND (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)`;
+            queryExtension = ` AND (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)`;
             noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friends"></p>`;
             break;
         case "friend-requests":
-            queryExtension = ` AND rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]}`;
+            queryExtension = ` AND rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}`;
             noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.friendRequests"></p>`;
             break;
         case "favourites":
-            queryExtension = ` AND f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId`;
+            queryExtension = ` AND f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId`;
             noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.favourites"></p>`;
             break;
     }
 
     //gets the data of the relevant users for the current user
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
-    let userList = await getDataByPromise(`SELECT 
-       p.userId, p.pictureUrl, p.buddyType, 
+    let userList = await getDataByPromise(`
+    SELECT 
+       p.userId, p.pictureUrl, p.buddyType, p.gender, 
        u.username,
-       r.roleId, 
+       GROUP_CONCAT (ui.interestId) as "interestGroup",
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
-       f.favouriteUser
+       f.favouriteUser,
+       SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
+       - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
-    INNER JOIN userrole r ON r.userId = p.userId
+    LEFT JOIN userinterest ui ON ui.userId = p.userId 
     LEFT JOIN setting s ON s.userId = p.userId
     INNER JOIN travel t ON t.userId = p.userId
     INNER JOIN location l ON l.id = t.locationId
-    LEFT JOIN favourite f ON f.requestingUser = ${CURRENT_USER[0]["userId"]} AND f.favouriteUser = p.userId
-    LEFT JOIN friend fr ON (fr.user1 = ${CURRENT_USER[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${CURRENT_USER[0]["userId"]} OR fr.user2 = p.userId)
-    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${CURRENT_USER[0]["userId"]})
-    WHERE r.roleId != 2`+ queryExtension
+    LEFT JOIN favourite f ON f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId
+    LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
+    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}) 
+    WHERE userRole != 2
+    AND NOT EXISTS (
+        SELECT *
+        FROM blocked b
+        WHERE (b.blockedUser = p.userId OR b.blockedUser = ${currentUser[0]["userId"]})
+        AND (b.requestingUser = p.userId OR b.requestingUser = ${currentUser[0]["userId"]})
+        )
+    ${queryExtension} 
+    GROUP by p.userId`
         , queryArray);
 
-    // console.log(userList)
+    //spliting all the interestGroups strings into arrays
+    currentUser[0]["interestGroup"] != null ? currentUser[0]["interestGroup"] = currentUser[0]["interestGroup"].split(',') : currentUser[0]["interestGroup"] = [];
+    for (let i = 0; i < userList.length; i++) {
+        userList[i]["interestGroup"] != null
+            ? userList[i]["interestGroup"] = userList[i]["interestGroup"].split(',')
+            : userList[i]["interestGroup"] = [];
+    }
+
+    //setting the amount of equal interests to the current user for every user in the userList
+    for (let i = 0; i < userList.length; i++) {
+        let equalInterests = 0;
+        for (let j = 0; j < userList[i]["interestGroup"].length; j++) {
+            for (let k = 0; k < currentUser[0]["interestGroup"].length; k++) {
+                if (userList[i]["interestGroup"][j] === currentUser[0]["interestGroup"][k]) equalInterests++;
+            }
+        }
+        userList[i]["equalInterests"] = equalInterests;
+    }
+
+    //sorting the userList by destination and interests
+    userList = userList.sort(function (obj1, obj2) {
+        if (parseInt(obj1["distanceInKm"] - obj2["distanceInKm"]) !== 0) {
+            return parseInt(obj1["distanceInKm"] - obj2["distanceInKm"]);
+        } else {
+            return obj2["equalInterests"] - obj1["equalInterests"];
+        }
+    });
 
     $(tab).html("");
     if (userList.length !== 0) {
         //appends a user-display with the correct data to the tab for every user that needs to be displayed
         for (let i = 0; i < userList.length; i++) {
             $(tab).append(generateUserDisplay(userList[i]))
+            // console.log(userList[i])
         }
+
+        //todo filters users by gender with delete or within query?
+        //filters the userlist based on the current user's gender settings
+        if (currentButton.id.toString() === "all-results") {
+            if (currentUser[0]["sameGender"] === 1) {
+                if (currentUser[0]["gender"] === "male" || currentUser[0]["gender"] === "female") {
+                    for (let i = 0; i < userList.length; i++) {
+                        if (userList[i]["gender"] !== currentUser[0]["gender"]) {
+                            $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                        }
+                    }
+                } else if (currentUser[0]["gender"] === "other") {
+                    if (currentUser[0]["displayGender"] === 1 && (userList[i]["gender"] !== "male" || userList[i]["gender"] !== "other")) {
+                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                    } else if (currentUser[0]["displayGender"] === 2 && (userList[i]["gender"] !== "female" || userList[i]["gender"] !== "other")) {
+                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                    }
+                }
+            }
+        }
+
     } else {
         //displays a help message whenever there are no matches available to the user
         $(tab).append(noMatchesMessage)
@@ -213,8 +296,6 @@ function generateUserDisplay(currentUser) {
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
     
     //start and end date
-    //todo: fix the displaying of dates
-    //todo: fix translations
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -236,9 +317,6 @@ function generateUserDisplay(currentUser) {
             </div>
             </div>
             </div>`;
-
-    // requestButton.attr("data-translate", "overlay.button.sent");
-    // requestButton.attr("data-translate", "overlay.button.sent");
 
     return userDisplay;
 }
@@ -273,9 +351,9 @@ async function openUserOverlay(overlayUserId) {
     //putting the interests into the overlay
     $("#overlay-interests-ul").html("");
     $(overlayUserInterestsIds).each(interest => {
-        $("#overlay-interests-ul").append(`<li>` + overlayUserInterestsIds[interest]["interestId"] + `</li>`);
+        $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
-
+    FYSCloud.Localization.translate(false);
     //displays the overlay and overlay-background
     displayUserOverlay();
 
@@ -385,6 +463,7 @@ function closeElement(currentDisplay) {
 /** favourites function */
 async function setFavourite (userId) {
 
+    //gets the row in the favourites table where the requestingUser is the current user and the favouriteUser the other user
     let favourite = await getDataByPromise(`SELECT * FROM favourite
     WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]);
 
@@ -410,6 +489,7 @@ async function setFavourite (userId) {
 }
 
 /** Filters */
+//todo: filters; distance and buddy type
 var currentDistanceFilterAmount;
 
 function setTravelFilter(element) {

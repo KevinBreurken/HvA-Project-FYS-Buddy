@@ -76,5 +76,35 @@
       "nl": "Stuur vriendschapsverzoek",
       "en": "Send request"
     }
+  },
+  "edit": {
+    "profilesettings": {
+      "nl": "Profiel instellingen",
+      "en": "Profile settings"
+    },
+    "picture": {
+      "nl": "Profiel foto",
+      "en": "Profile picture"
+    },
+    "name": {
+      "nl": "Naam",
+      "en": "Name"
+    },
+    "bioinput": {
+      "nl": "%amount / 500 karakters ingevoerd",
+      "en": "%amount / 500 characters entered"
+    },
+    "save":{
+      "nl": "Aanpassingen opslaan",
+      "en": "Save changes"
+    },
+    "travelbuddy":{
+      "nl": "Een reis-buddy",
+      "en": "A travel buddy"
+    },
+    "activitybuddy":{
+      "nl": "Een activiteiten-buddy",
+      "en": "A activity buddy"
+    }
   }
 }
