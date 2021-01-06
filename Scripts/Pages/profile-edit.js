@@ -24,6 +24,8 @@ let month = ageCheck.getMonth() + 1;
 let year = ageCheck.getFullYear() - MAX_AGE;
 ageCheck = year + '-' + month + '-' + day;
 
+let characterLeftText;
+
 document.getElementById("DateOfBirth").setAttribute("max", parseDateToInputDate(today));
 document.getElementById("DateOfBirth").setAttribute("min", parseDateToInputDate(ageCheck));
 
@@ -32,7 +34,10 @@ function countCharacters() {
     textEntered = document.getElementById('Biography').value;
     counter = (500 - (textEntered.length));
     countRemaining = document.getElementById('charactersRemaining');
-    countRemaining.textContent = counter;
+
+    if(characterLeftText === undefined)
+        characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
+    countRemaining.textContent = characterLeftText.replace("%amount", counter);
 
     count = document.getElementById('Biography');
     count.addEventListener('keyup', countCharacters, false);
@@ -496,6 +501,7 @@ FYSCloud.API.queryDatabase(
     $("#FirstName").val(userData.firstname);
     $("#LastName").val(userData.lastname);
     $("#Biography").val(userData.biography);
+    countCharacters();
     $("#Telephone").val(userData.phone);
 }).fail(function () {
     alert("paniek");
@@ -566,6 +572,14 @@ $("#fileUpload").on("change", function () {
         $("#filePreviewResult").html(reason)
     })
 })
+
+/**
+ * Change the language on biography section when languaga is changed.
+ */
+document.addEventListener("languageChangeEvent", function (event) {
+    characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
+    countCharacters();
+});
 
 // // Wait for the DOM to be ready
 // $(function () {

@@ -24,25 +24,32 @@ function generatePieChart(divID, data) {
 
 }
 
-function makeOL(array) {
+function makeOL(array, translateKeys) {
     // Create the list element:
     let list = document.createElement('div');
     for (let i = 0; i < array[0].length; i++) {
         // Create the list item:
         let item = document.createElement('li');
+        // Create the text item
+        let textElement = document.createElement('div');
+        // Check if we have translation keys
+        (translateKeys !== undefined) ? $(textElement).attr("data-translate", translateKeys[i]) : $(textElement).html(array[0][i]);
+        $(textElement).addClass("statistics-item-list-text-element");
+        item.appendChild(textElement);
+        //Create the value item
+        if (array[1] != null) {
+            let valueElement = document.createElement('div');
+            $(valueElement).addClass("statistics-item-list-value-element");
+            valueElement.appendChild(document.createTextNode("   (" + array[1][i] + ")"));
+            item.appendChild(valueElement);
+        }
 
-        // Set its contents:
-        item.appendChild(document.createTextNode(array[0][i]));
-        if (array[1] != null)
-            item.appendChild(document.createTextNode(" (" + array[1][i] + ")"));
-        // Add it to the list:
         list.appendChild(item);
     }
 
     // Finally, return the constructed list:
     return list;
 }
-
 
 (async function fetchStatisticsFromDatabase() {
     // ~~~~ FETCH AMOUNT OF USERS ~~~~
@@ -92,8 +99,14 @@ function makeOL(array) {
                       WHERE id IN ${interestIDString}`);
     }).then(names => {
         let combinedArray = combineJsonToArray(names, interestData, "name", "interestEverMatched");
-        // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
-        $('#most-match-equal-interests').html(makeOL(combinedArray));
+        //Create list of translation keys for interests.
+        let translateKeys = [names.length];
+        for (let i = 0; i < names.length; i++) {
+            translateKeys[i] = "interests." + names[i].id;
+        }
+
+        // ** MATCHING - MOST FRIENDS WITH EQUAL INTEREST **
+        $('#most-match-equal-interests').html(makeOL(combinedArray, translateKeys));
     });
 
     let locationData;
