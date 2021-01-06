@@ -1,4 +1,24 @@
 {
+  "onBoarding": {
+    "img": {
+      "1": {
+        "nl": "<img src='Content/Images/onboarding-specifications-nl.png' id='OB-img-1'/>",
+        "en": "<img src='Content/Images/onboarding-specifications-en.png' id='OB-img-1'/>"
+      },
+      "2": {
+        "nl": "<img src='Content/Images/onboarding-matches-nl.png' id='OB-img-2'/>",
+        "en": "<img src='Content/Images/onboarding-matches-en.png' id='OB-img-2'/>"
+      },
+      "3": {
+        "nl": "<img src='Content/Images/onboarding-user-card-nl.png' id='OB-img-3'/>",
+        "en": "<img src='Content/Images/onboarding-user-card-en.png' id='OB-img-3'/>"
+      },
+      "4": {
+        "nl": "<img src='Content/Images/onboarding-user-profile-nl.png' id='OB-img-4'/>",
+        "en": "<img src='Content/Images/onboarding-user-profile-en.png' id='OB-img-4'/>"
+      }
+    }
+  },
   "slide": {
     "h1": {
       "0": {
