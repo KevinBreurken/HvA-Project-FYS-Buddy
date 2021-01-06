@@ -125,7 +125,7 @@ button.unblock-button:hover {
   display: none;
 }
 
-#searchBlockResult {
+#searchProfilesResult, #searchBlockedResult {
   border: 1px solid #efefef;
   height: 170px;
   overflow-y: scroll;
@@ -180,7 +180,7 @@ button.unblock-button:hover {
 
 /* Use full screen real estate on dekstop by using flexbox: */
 @media only screen and (min-width: 1000px) {/* <-- please hit me up what the min width for desktop will be */
-  #searchBlockResult {
+  #searchProfilesResult, #searchBlockedResult {
     display: flex;
     flex-wrap: wrap;
   }
