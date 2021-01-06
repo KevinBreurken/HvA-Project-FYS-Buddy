@@ -10,16 +10,47 @@ window.addEventListener('load', function () {
 })
 
 let slide = 0;
-/**  displays the next slide */
-function displayNextSlide(arrow) {
+/** sets the current slide */
+function setSlide(arrow) {
     switch (slide) {
-        case 0: arrow.id.toString() === "left-arrow" ? slide = 2 : slide++; break;
+        case 0: arrow.id.toString() === "left-arrow" ? slide = 4 : slide++; break;
         case 1: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
-        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
+        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 3: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 4: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
     }
+    displayNextSlide();
+}
+
+/**  displays the next slide */
+function displayNextSlide() {
+    //sets the correct text for the current slide
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
-    FYSCloud.Localization.translate(false);
+
+    FYSCloud.Localization.translate(false);     //translates the current slide if needed
+
+    let slideText = document.getElementById(`img-text-wrapper`);
+    slideText.onclick = function(){goToAnchor()};
+}
+
+/** jumps to an anchor on the page when clikcing on a slide */
+function goToAnchor() {
+    if (slide === 0) {
+        slide = 1;
+        displayNextSlide();
+    } else if (slide === 1) {
+        toggleTravelForm();
+        $('html, body').animate({scrollTop: $("#travel-container").offset().top}, 1000);
+    } else if(slide === 2) {
+        $("#all-results").click();
+        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
+    } else if (slide === 3) {
+        $("#friends").click();
+        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
+    } else if (slide === 4) {
+        //todo: restart on-boarding
+    }
 }
 
 /** fetches the current user's travel data */

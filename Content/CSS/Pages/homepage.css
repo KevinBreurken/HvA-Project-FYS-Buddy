@@ -579,3 +579,16 @@ input[type=button]:hover {
     max-width: 200px;
   }
 }
+
+/* slides p and h1 */
+#h1-slide {
+  color: var(--color-corendon-light-blue);
+}
+
+#img-text-wrapper:hover #h1-slide {
+  color: #00D1FC;
+}
+
+#img-text-wrapper:hover #p-slide {
+  color: #B7B7B7;
+}

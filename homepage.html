@@ -73,18 +73,18 @@
     </div>
 
     <div id="homepage-slide-div-wrapper">
-        <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
+        <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="setSlide(this)">
         <!--current slide-->
         <div id="homepage-slide-div">
             <img  id="homepage-img" src="Content/Images/homepage-img.jpg">
-            <div id="img-text-wrapper">
+            <div id="img-text-wrapper" onclick="goToAnchor()">
                 <div id="img-text">
                     <h1 id="h1-slide" data-translate="slide.h1.0">Lorem ipsum.</h1>
                     <p id="p-slide" data-translate="slide.text.0">paragraph</p>
                 </div>
             </div>
         </div>
-        <img class="img-arrow" id="right-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
+        <img class="img-arrow" id="right-arrow" src="Content/Images/down-arrow.svg" onclick="setSlide(this)">
     </div>
 
 
