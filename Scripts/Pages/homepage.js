@@ -544,9 +544,8 @@ function filterCurrentDisplayedUsers() {
                 $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
         }
         //Hide displays depending on selected distance filter.
-        let distanceOfCurrentDisplay = 150; //TODO: change to data of userDisplay's JSON.
         if(currentDistanceFilterAmount !== undefined)
-        if(distanceOfCurrentDisplay > currentDistanceFilterAmount)
+        if(currentDisplayedUsers[userDisplay]['distanceInKm'] > currentDistanceFilterAmount)
             $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
     });
 
