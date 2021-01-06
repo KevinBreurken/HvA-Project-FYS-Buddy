@@ -9,20 +9,74 @@
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js" id="general" data-type="home" data-nav-visible></script>
     <link rel="stylesheet" href="Content/CSS/Pages/homepage.css">
-<!--    <link rel="stylesheet" href="Content/CSS/on-boarding.css">-->
+    <link rel="stylesheet" href="Content/CSS/on-boarding.css">
     <script src="Scripts/Pages/homepage.js"></script>
 </head>
 <body>
 <header></header>
 <main>
-<!--    <button onclick="openOverlay()">Klik mij</button>-->
-<!--    <div id="on-boarding"></div>-->
+    <button onclick="toggleOnBoarding()">Klik mij</button>
+    <div id="on-boarding">
+        <button onclick="toggleOnBoarding()">X</button>
+
+        <div class="procedure">
+            <h2>On boarding introduction</h2>
+            <p>You are now on the homepage of Corendon Travel Buddy. </p>
+
+            <h4 class="header-margin">Travel specifications</h4>
+
+            <p>Here you can set your travel specifications and see all the people you've matched with. </p>
+            <img src="Content/Images/onboarding-specifications.png" id="OB-img-1"/>
+            <p>You can set your travel specification by filling out your start and end date and the city you're
+                travelling to. The system will then look for other users with that same travel specification. </p>
+        </div>
+
+        <div class="procedure">
+            <h4>Matching page</h4>
+
+            <p>Underneath the travel specifications you'll find all your current matches. </p>
+            <p>If you have no current matches you'll see this on your screen otherwise you'll find a list of all the
+                people who you've been matched with. </p>
+            <img src="Content/Images/onboarding-matches.png" id="OB-img-2"/>
+
+            <p></p>
+            <h4>The navigation bar. </h4>
+            <p>Here you can quickly swap between the different tabs. </p>
+            <p>In the all results tab you can view all of your current matches. </p>
+            <p>In the recently viewed tab you'll see the profile you've most recently visited. </p>
+            <p>In the matched tab you can find the people you're currently matched with. </p>
+            <p>You can find the people you've favorited in the favorites tab. </p>
+
+            <hr>
+
+            <h4>Profile cards</h4>
+            <p>When you click on of these matches you'll find some extra information about that user. </p>
+            <img src="Content/Images/onboarding-user-card.png" id="OB-img-3"/>
+            <p>You can click on the profile button to view even more information and then accept their invitation or
+                block them. </p>
+
+        </div>
+
+        <div class="procedure">
+            <h4>Profile page</h4>
+
+            <p>The user profile page</p>
+            <img src="Content/Images/onboarding-user-profile.png" id="OB-img-4"/>
+            <p>On the send friend request you'll send a request to that user and if he/she accepts </p>
+        </div>
+
+        <div id="button-group">
+            <button class="btn-OB" onclick="toggleOnBoarding()">Finnish</button>
+            <button class="btn-OB" onclick="swapStep(1)">Next</button>
+            <button class="btn-OB" onclick="swapStep(-1)">Back</button>
+        </div>
+    </div>
 
     <div id="homepage-slide-div-wrapper">
         <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
         <!--current slide-->
         <div id="homepage-slide-div">
-            <img  id="homepage-img" src="Content/Images/homepage-img.jpg">
+            <img id="homepage-img" src="Content/Images/homepage-img.jpg">
             <div id="img-text-wrapper">
                 <div id="img-text">
                     <h1 id="h1-slide" data-translate="slide.h1.0">Lorem ipsum.</h1>
@@ -41,9 +95,12 @@
                 <img id="travel-dropdown-arrow" src="Content/Images/down-arrow.svg">
             </span>
             <div id="currentTravelData">
-                <div><p data-translate="specification.from"></p><p id="current-start-date">startdate</p></div>
-                <div><p data-translate="specification.till"></p><p id="current-end-date">enddate</p></div>
-                <div><p data-translate="specification.city">location</p><p id="current-city">location</p></div>
+                <div><p data-translate="specification.from"></p>
+                    <p id="current-start-date">startdate</p></div>
+                <div><p data-translate="specification.till"></p>
+                    <p id="current-end-date">enddate</p></div>
+                <div><p data-translate="specification.city">location</p>
+                    <p id="current-city">location</p></div>
             </div>
             <form action="" method="get" id="travel-form">
                 <label for="sDate" data-translate="specification.from"></label>
@@ -53,7 +110,8 @@
                 <label for="cityList" id="my-list-label" data-translate="specification.cities"></label>
                 <select id="cityList"></select>
                 <div id="travelSubmitButton-wrapper">
-                    <button type="button" id="travelSubmitButton" onclick="sendTravelData()" data-translate="specification.button"></button>
+                    <button type="button" id="travelSubmitButton" onclick="sendTravelData()"
+                            data-translate="specification.button"></button>
                 </div>
             </form>
         </div>
@@ -65,10 +123,18 @@
         <!--tab title buttons-->
         <div id="button-menu-container">
             <div id="tab-buttons-border">
-                <button class="tab-button" onclick="openTabContent(this)" id="all-results" data-translate="tab.button.allResults">All results</button>
-                <button class="tab-button" onclick="openTabContent(this)" id="friends" data-translate="tab.button.friends">Friends</button>
-                <button class="tab-button" onclick="openTabContent(this)" id="friend-requests" data-translate="tab.button.friendRequests">Friend requests</button>
-                <button class="tab-button" onclick="openTabContent(this)" id="favourites" data-translate="tab.button.favourites">Favourites</button>
+                <button class="tab-button" onclick="openTabContent(this)" id="all-results"
+                        data-translate="tab.button.allResults">All results
+                </button>
+                <button class="tab-button" onclick="openTabContent(this)" id="friends"
+                        data-translate="tab.button.friends">Friends
+                </button>
+                <button class="tab-button" onclick="openTabContent(this)" id="friend-requests"
+                        data-translate="tab.button.friendRequests">Friend requests
+                </button>
+                <button class="tab-button" onclick="openTabContent(this)" id="favourites"
+                        data-translate="tab.button.favourites">Favourites
+                </button>
             </div>
             <!--todo: remove display: "none" and make filters fully functional-->
             <!--todo: change % back to 90/10-->
@@ -77,18 +143,32 @@
                 <div class="filter-option">
                     <p class="filter-title">Travel distance</p>
                     <div class="filter-option-buttons">
-                        <button class="filter-option-distance" id="filter-option-distance-default" data-distance="40100" onclick="setTravelFilter(this)">Everywhere</button>
-                        <button class="filter-option-distance" data-distance="100" onclick="setTravelFilter(this)">< 100km</button>
-                        <button class="filter-option-distance" data-distance="2000" onclick="setTravelFilter(this)">< 2000km</button>
-                        <button class="filter-option-distance" data-distance="8000" onclick="setTravelFilter(this)">< 8000km</button>
+                        <button class="filter-option-distance" id="filter-option-distance-default" data-distance="40100"
+                                onclick="setTravelFilter(this)">Everywhere
+                        </button>
+                        <button class="filter-option-distance" data-distance="100" onclick="setTravelFilter(this)"><
+                            100km
+                        </button>
+                        <button class="filter-option-distance" data-distance="2000" onclick="setTravelFilter(this)"><
+                            2000km
+                        </button>
+                        <button class="filter-option-distance" data-distance="8000" onclick="setTravelFilter(this)"><
+                            8000km
+                        </button>
                     </div>
                 </div>
                 <div class="filter-option">
                     <p class="filter-title">Type of buddy</p>
                     <div class="filter-option-buttons">
-                        <button class="filter-option-buddy" id="filter-option-buddy-default" data-buddy="0" onclick="setBuddyFilter(this)">Both</button>
-                        <button class="filter-option-buddy" data-buddy="1" onclick="setBuddyFilter(this)">Only travel buddies</button>
-                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)">Only activity buddies</button>
+                        <button class="filter-option-buddy" id="filter-option-buddy-default" data-buddy="0"
+                                onclick="setBuddyFilter(this)">Both
+                        </button>
+                        <button class="filter-option-buddy" data-buddy="1" onclick="setBuddyFilter(this)">Only travel
+                            buddies
+                        </button>
+                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)">Only activity
+                            buddies
+                        </button>
                     </div>
                 </div>
             </div>
@@ -99,36 +179,37 @@
 
     </div>
     <!--todo: fix overlay css-->
-        <!--overlay-->
-        <div id="overlay">
-            <button id="close-button-mobile" onclick="closeUserOverlay()">X</button>
-            <div class="overlay-content">
-                <div class="overlay-row" id="overlay-row-1"></div>
-                <div class="overlay-row" id="overlay-row-2">
-                    <div>
-                        <h2 id="overlay-full-name"></h2>
-                        <p id="overlay-username"></p>
-                    </div>
-                    <div id="overlay-interests">
-                        <p class="header-text" data-translate="overlay.interests">Interests</p>
-                        <ul id="overlay-interests-ul"></ul>
-                    </div>
+    <!--overlay-->
+    <div id="overlay">
+        <button id="close-button-mobile" onclick="closeUserOverlay()">X</button>
+        <div class="overlay-content">
+            <div class="overlay-row" id="overlay-row-1"></div>
+            <div class="overlay-row" id="overlay-row-2">
+                <div>
+                    <h2 id="overlay-full-name"></h2>
+                    <p id="overlay-username"></p>
                 </div>
-                <div class="overlay-row" id="overlay-row-3">
-                    <p class="header-text" data-translate="overlay.bio">Biography</p>
-                    <p id="overlay-bio"></p>
+                <div id="overlay-interests">
+                    <p class="header-text" data-translate="overlay.interests">Interests</p>
+                    <ul id="overlay-interests-ul"></ul>
                 </div>
             </div>
-            <div class="overlay-header">
-                <button class="close-button" onclick="closeUserOverlay()">X</button>
-                <button id="send-request-button" class="header-buttons">send request</button>
-                <button id="profile-button" class="header-buttons" data-translate="overlay.profileButton">profile</a></button>
+            <div class="overlay-row" id="overlay-row-3">
+                <p class="header-text" data-translate="overlay.bio">Biography</p>
+                <p id="overlay-bio"></p>
             </div>
         </div>
+        <div class="overlay-header">
+            <button class="close-button" onclick="closeUserOverlay()">X</button>
+            <button id="send-request-button" class="header-buttons">send request</button>
+            <button id="profile-button" class="header-buttons" data-translate="overlay.profileButton">
+                profile</a></button>
+        </div>
+    </div>
 
-        <div id="overlay-background"></div>
+    <div id="overlay-background"></div>
 
 </main>
-<!--<script src="Scripts/on-boarding.js"></script>-->
+<script src="Scripts/on-boarding.js"></script>
 </body>
 </html>

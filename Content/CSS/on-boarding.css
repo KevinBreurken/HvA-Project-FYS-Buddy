@@ -1,12 +1,10 @@
 #on-boarding {
     display: none;
     position: absolute;
-    width: 968px;
-    border: 1px solid black;
+    width: 100%;
     background: rgba(255, 255, 255, 0.9);
-    top: 300px;
-    margin: 0 auto;
-    padding: 15px;
+    top: 0;
+    left: 0;
     z-index: 100;
 }
 
@@ -19,19 +17,27 @@
     margin-top: 12px;
 }
 
+#button-group {
+    width: auto;
+    margin: 0 auto;
+}
+
 #on-boarding button {
     float: right;
+    background: var(--color-corendon-white);
     border: var(--border-corendon-red);
-    background: var(--color-corendon-red);
+    color: var(--color-corendon-red);
     border-radius: 10px;
     padding: 7px 12px;
     cursor: pointer;
     transition: 200ms;
+    margin: 5px 5px;
 }
 
 #on-boarding button:hover {
-    background: var(--color-corendon-white);
+    background: var(--color-corendon-red);
     border: var(--border-corendon-red);
+    color: var(--color-corendon-white);
     transition: 200ms;
 }
 
@@ -39,7 +45,53 @@
     display: none;
 }
 
+#OB-img-1 {
+    max-width: 564px;
+}
+
+#OB-img-2 {
+    max-width: 1002px;
+}
+
+#OB-img-3 {
+    max-width: 554px;
+}
+
+#OB-img-4 {
+    max-width: 862px;
+}
+
+
 .procedure img {
-    border: 1px solid black;
+    width: 100%;
+    max-width: 750px;
     margin: 5px 0 5px 0;
+}
+
+@media only screen and (min-width: 1086px) {
+    #on-boarding {
+        width: calc(80% - 130px) !important;
+    }
+}
+
+@media only screen and (min-width: 1436px) {
+    #on-boarding {
+        width: 1000px !important;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    #on-boarding {
+        width: 70%;
+        border: 1px solid black;
+        margin: 0 auto;
+        top: 300px;
+        left: auto;
+        padding: 15px;
+    }
+
+    .procedure img {
+        /*width: auto;*/
+        border: 1px solid black;
+    }
 }
