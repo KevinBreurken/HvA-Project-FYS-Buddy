@@ -69,16 +69,13 @@ async function populateCityList() {
     });
 }
 
-// Wait for the DOM to be ready
-$(document).change(function () {
-    $("#username_error_message").hide();
-
+// Validation
+$(document).on("change", "body", function () {
     let error_username = false;
     let error_firstname = false;
     let error_lastname = false;
     let error_email = false;
     let error_tel = false;
-    let error_buddy = false;
 
     $("#Username").focusout(function () {
         check_username();
@@ -98,21 +95,11 @@ $(document).change(function () {
     $("#Telephone").focusout(function () {
         check_tel();
     });
-    // $("#Choice1").focusout(function () {
-    //     check_buddy();
-    // });
-    // $("#Choice2").focusout(function () {
-    //     check_buddy2();
-    // });
-    let travel = $("#Choice1").checked;
-    let activity = $("#Choice1").checked;
-    while (travel || activity) {
 
-    }
     function check_username() {
         let pattern = /^[a-zA-Z\s\d]*$/;
         let username = $("#Username").val();
-        if(pattern.test(username) && username !== '') {
+        if (pattern.test(username) && username !== '') {
             $("#username_error_message").hide();
             $("#Username").css("border", "2px solid #34F458")
         } else {
@@ -123,19 +110,19 @@ $(document).change(function () {
         }
     }
 
-function check_firstname() {
-    let pattern = /^[a-zA-Z\s]+$/;
-    let firstname = $("#FirstName").val();
-    if(pattern.test(firstname) && firstname !== '') {
-        $("#firstname_error_message").hide();
-        $("#FirstName").css("border", "2px solid #34F458")
-    } else {
-        $("#firstname_error_message").html("<p style='color: #d81e05'>First name is not valid</p>")
-        $("#firstname_error_message").show();
-        $("#FirstName").css("border", "2px solid #F90A0A");
-        error_firstname = true;
+    function check_firstname() {
+        let pattern = /^[a-zA-Z\s]+$/;
+        let firstname = $("#FirstName").val();
+        if (pattern.test(firstname) && firstname !== '') {
+            $("#firstname_error_message").hide();
+            $("#FirstName").css("border", "2px solid #34F458")
+        } else {
+            $("#firstname_error_message").html("<p style='color: #d81e05'>First name is not valid</p>")
+            $("#firstname_error_message").show();
+            $("#FirstName").css("border", "2px solid #F90A0A");
+            error_firstname = true;
+        }
     }
-}
 
     function check_lastname() {
         let pattern = /^[a-zA-Z\s]+$/;
@@ -164,6 +151,7 @@ function check_firstname() {
             error_email = true;
         }
     }
+
     function check_tel() {
         let pattern = /^[{10}]+$/;
         let tel = $("#Telephone").val();
@@ -177,57 +165,8 @@ function check_firstname() {
             error_tel = true;
         }
     }
-    $("#Choice1").change( function () {
-        //let pattern = /^[{10}]+$/;
-        let travel = $("#Choice1").checked;
-        if (travel === true) {
-            $("#buddy_error_message").hide();
-        } else {
-            $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
-            $("#buddy_error_message").show();
-            error_buddy = true;
-        }
-    })
-    $("#Choice2").change ( function() {
-        //let pattern = /^[{10}]+$/;
-        let activity = $("#Choice2").checked;
-        if (activity === true) {
-            $("#buddy_error_message").hide();
-        } else {
-            $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
-            $("#buddy_error_message").show();
-            error_buddy = true;
-        }
-    })
-
-function check_buddy() {
-    //let pattern = /^[{10}]+$/;
-    let travel = $("#Choice1").checked;
-    if (travel === true) {
-        $("#buddy_error_message").hide();
-    }
-    if (travel === false) {
-        $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
-        $("#buddy_error_message").show();
-        error_buddy = true;
-    }
-}
-function check_buddy2() {
-    //let pattern = /^[{10}]+$/;
-    let activity = $("#Choice2").checked;
-    if (activity === true) {
-        $("#buddy_error_message").hide();
-    }
-    if(activity === false) {
-        $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
-        $("#buddy_error_message").show();
-        error_buddy = true;
-    }
-}
-});
 
 document.getElementById("fileUpload").addEventListener("change", function() {
-
     FYSCloud.Utils
         .getDataUrl($("#fileUpload"))
         .done(function (data) {
@@ -261,202 +200,211 @@ document.getElementById("fileUpload").addEventListener("change", function() {
                 alert(reason);
             });
 });
-document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
-    event.preventDefault();
-    let firstname = document.querySelector("#FirstName").value;
-    let lastname = document.querySelector("#LastName").value;
-    let biography = document.querySelector("#Biography").value;
-    let tel = document.querySelector("#Telephone").value;
-    if (female.checked === true) {
-        gender = "female";
-    } else if (male.checked === true) {
-        gender = "male";
-    } else if (other.checked === true) {
-        gender = "other";
-    }
+        document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
+            if(error_username === false &&
+                error_firstname === false &&
+                error_lastname === false &&
+                error_email === false &&
+                error_tel === false) {
+                //event.preventDefault();
+                let firstname = document.querySelector("#FirstName").value;
+                let lastname = document.querySelector("#LastName").value;
+                let biography = document.querySelector("#Biography").value;
+                let tel = document.querySelector("#Telephone").value;
+                if (female.checked === true) {
+                    gender = "female";
+                } else if (male.checked === true) {
+                    gender = "male";
+                } else if (other.checked === true) {
+                    gender = "other";
+                }
 
-    if (travel.checked === true && activity.checked === true) {
-        buddy = 1;
-    } else if (activity.checked === true) {
-        buddy = 2;
-    } else {
-        buddy = 3;
-    }
-    let dob = new Date($('#DateOfBirth').val());
-    let dobFormat = dob.getFullYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDate()
+                if (travel.checked === true && activity.checked === true) {
+                    buddy = 1;
+                } else if (activity.checked === true) {
+                    buddy = 2;
+                } else {
+                    buddy = 3;
+                }
+                let dob = new Date($('#DateOfBirth').val());
+                let dobFormat = dob.getFullYear() + "-" + (dob.getMonth() + 1) + "-" + dob.getDate()
 
-    FYSCloud.API.queryDatabase(
-        "UPDATE `profile` SET `firstname` = ?, `lastname` = ?, `gender` = ?, `dob` = ?, `biography` = ?, `phone` = ?, `buddyType` = ? WHERE `id` = ?;",
-        [firstname, lastname, gender, dobFormat, biography, tel, buddy, userId]
-    ).done(function (data) {
-        console.log(data);
-        redirectToProfileById(userId);
-    }).fail(function (reason) {
-        console.log(reason)
-    });
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `profile` SET `firstname` = ?, `lastname` = ?, `gender` = ?, `dob` = ?, `biography` = ?, `phone` = ?, `buddyType` = ? WHERE `id` = ?;",
+                    [firstname, lastname, gender, dobFormat, biography, tel, buddy, userId]
+                ).done(function (data) {
+                    console.log(data);
+                    redirectToProfileById(userId);
+                }).fail(function (reason) {
+                    console.log(reason)
+                });
 
-    let email = document.querySelector("#Email").value;
-    let username = document.querySelector('#Username').value;
+                let email = document.querySelector("#Email").value;
+                let username = document.querySelector('#Username').value;
 
-    FYSCloud.API.queryDatabase(
-        "UPDATE `user` SET `email` = ?, `username` = ? WHERE `id` = ?;",
-        [email, username, userId]
-    ).done(function (data) {
-        console.log(data);
-        redirectToProfileById(userId);
-    }).fail(function (reason) {
-        console.log(reason)
-    });
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `user` SET `email` = ?, `username` = ? WHERE `id` = ?;",
+                    [email, username, userId]
+                ).done(function (data) {
+                    console.log(data);
+                    redirectToProfileById(userId);
+                }).fail(function (reason) {
+                    console.log(reason)
+                });
 
-    let citySelect = document.getElementById("cityList").value;
-    FYSCloud.API.queryDatabase(
-        "UPDATE `travel` SET `locationId` = ? WHERE `id` = ?;",
-        [citySelect, userId]
-    ).done(function (data) {
-        console.log(data);
-        redirectToProfileById(userId);
-    }).fail(function (reason) {
-        console.log(reason)
-    });
+                let citySelect = document.getElementById("cityList").value;
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `travel` SET `locationId` = ? WHERE `id` = ?;",
+                    [citySelect, userId]
+                ).done(function (data) {
+                    console.log(data);
+                    redirectToProfileById(userId);
+                }).fail(function (reason) {
+                    console.log(reason)
+                });
 
-    let start = new Date($('#Data').val());
-    let startFormat = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate();
+                let start = new Date($('#Data').val());
+                let startFormat = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate();
 
-    let end = new Date($('#Data2').val());
-    let endFormat = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate();
-    FYSCloud.API.queryDatabase(
-        "UPDATE `travel` SET `startdate` = ?, `enddate` = ? WHERE `id` = ?;",
-        [startFormat, endFormat, userId]
-    ).done(function (data) {
-        console.log(data);
-        redirectToProfileById(userId);
-    }).fail(function (reason) {
-        console.log(reason)
-    });
+                let end = new Date($('#Data2').val());
+                let endFormat = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate();
+                FYSCloud.API.queryDatabase(
+                    "UPDATE `travel` SET `startdate` = ?, `enddate` = ? WHERE `id` = ?;",
+                    [startFormat, endFormat, userId]
+                ).done(function (data) {
+                    console.log(data);
+                    redirectToProfileById(userId);
+                }).fail(function (reason) {
+                    console.log(reason)
+                });
 
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM `userinterest` where userId = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        let interestId = new Array();
-        let interest1 = document.getElementById("interest1").checked;
-        let interest2 = document.getElementById("interest2").checked;
-        let interest3 = document.getElementById("interest3").checked;
-        let interest4 = document.getElementById("interest4").checked;
-        let interest5 = document.getElementById("interest5").checked;
-        let interest6 = document.getElementById("interest6").checked;
-        let interest7 = document.getElementById("interest7").checked;
-        let interest8 = document.getElementById("interest8").checked;
-        let interest9 = document.getElementById("interest9").checked;
-        let interest10 = document.getElementById("interest10").checked;
+                FYSCloud.API.queryDatabase(
+                    "SELECT * FROM `userinterest` where userId = ?", [userId]
+                ).done(function (data) {
+                    console.log(data);
+                    let interestId = new Array();
+                    let interest1 = document.getElementById("interest1").checked;
+                    let interest2 = document.getElementById("interest2").checked;
+                    let interest3 = document.getElementById("interest3").checked;
+                    let interest4 = document.getElementById("interest4").checked;
+                    let interest5 = document.getElementById("interest5").checked;
+                    let interest6 = document.getElementById("interest6").checked;
+                    let interest7 = document.getElementById("interest7").checked;
+                    let interest8 = document.getElementById("interest8").checked;
+                    let interest9 = document.getElementById("interest9").checked;
+                    let interest10 = document.getElementById("interest10").checked;
 
-        if (interest1 === true) {
-            interestId.push(1);
-        }
-        if (interest2 === true) {
-            interestId.push(2);
-        }
-        if (interest3 === true) {
-            interestId.push(3);
-        }
-        if (interest4 === true) {
-            interestId.push(4);
-        }
-        if (interest5 === true) {
-            interestId.push(5);
-        }
-        if (interest6 === true) {
-            interestId.push(6);
-        }
-        if (interest7 === true) {
-            interestId.push(7);
-        }
-        if (interest8 === true) {
-            interestId.push(8);
-        }
-        if (interest9 === true) {
-            interestId.push(9);
-        }
-        if (interest10 === true) {
-            interestId.push(10);
-        }
-        console.log(interestId);
-    for (let i = 0; i < interestId.length; i++) {
-        FYSCloud.API.queryDatabase(
-            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?);",
-            [userId, interestId[i]]
-        ).done(function (data) {
-            console.log(data);
-            //redirectToProfileById(userId);
-        }).fail(function (reason) {
-            console.log(reason)
+                    if (interest1 === true) {
+                        interestId.push(1);
+                    }
+                    if (interest2 === true) {
+                        interestId.push(2);
+                    }
+                    if (interest3 === true) {
+                        interestId.push(3);
+                    }
+                    if (interest4 === true) {
+                        interestId.push(4);
+                    }
+                    if (interest5 === true) {
+                        interestId.push(5);
+                    }
+                    if (interest6 === true) {
+                        interestId.push(6);
+                    }
+                    if (interest7 === true) {
+                        interestId.push(7);
+                    }
+                    if (interest8 === true) {
+                        interestId.push(8);
+                    }
+                    if (interest9 === true) {
+                        interestId.push(9);
+                    }
+                    if (interest10 === true) {
+                        interestId.push(10);
+                    }
+                    console.log(interestId);
+                    for (let i = 0; i < interestId.length; i++) {
+                        FYSCloud.API.queryDatabase(
+                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?);",
+                            [userId, interestId[i]]
+                        ).done(function (data) {
+                            console.log(data);
+                            //redirectToProfileById(userId);
+                        }).fail(function (reason) {
+                            console.log(reason)
+                        });
+                    }
+                }).fail(function () {
+                    alert("paniek");
+                });
+
+                FYSCloud.API.queryDatabase(
+                    "SELECT * FROM `userinterest` where userId = ?", [userId]
+                ).done(function (data) {
+                    console.log(data);
+                    let interestId2 = new Array();
+                    let interest1 = document.getElementById("interest1").checked;
+                    let interest2 = document.getElementById("interest2").checked;
+                    let interest3 = document.getElementById("interest3").checked;
+                    let interest4 = document.getElementById("interest4").checked;
+                    let interest5 = document.getElementById("interest5").checked;
+                    let interest6 = document.getElementById("interest6").checked;
+                    let interest7 = document.getElementById("interest7").checked;
+                    let interest8 = document.getElementById("interest8").checked;
+                    let interest9 = document.getElementById("interest9").checked;
+                    let interest10 = document.getElementById("interest10").checked;
+
+                    if (interest1 === false) {
+                        interestId2.push(1);
+                    }
+                    if (interest2 === false) {
+                        interestId2.push(2);
+                    }
+                    if (interest3 === false) {
+                        interestId2.push(3);
+                    }
+                    if (interest4 === false) {
+                        interestId2.push(4);
+                    }
+                    if (interest5 === false) {
+                        interestId2.push(5);
+                    }
+                    if (interest6 === false) {
+                        interestId2.push(6);
+                    }
+                    if (interest7 === false) {
+                        interestId2.push(7);
+                    }
+                    if (interest8 === false) {
+                        interestId2.push(8);
+                    }
+                    if (interest9 === false) {
+                        interestId2.push(9);
+                    }
+                    if (interest10 === false) {
+                        interestId2.push(10);
+                    }
+                    console.log(interestId2);
+                    for (let i = 0; i < interestId2.length; i++) {
+                        FYSCloud.API.queryDatabase(
+                            "DELETE FROM `userinterest` WHERE `userId` = ? AND `interestId` = ?;",
+                            [userId, interestId2[i]]
+                        ).done(function (data) {
+                            console.log(data);
+                            //redirectToProfileById(userId);
+                        }).fail(function (reason) {
+                            console.log(reason)
+                        });
+                    }
+                }).fail(function () {
+                    alert("paniek");
+                });
+            } else {
+                event.preventDefault();
+            }
         });
-    }
-    }).fail(function () {
-        alert("paniek");
-    });
-
-    FYSCloud.API.queryDatabase(
-        "SELECT * FROM `userinterest` where userId = ?", [userId]
-    ).done(function (data) {
-        console.log(data);
-        let interestId2 = new Array();
-        let interest1 = document.getElementById("interest1").checked;
-        let interest2 = document.getElementById("interest2").checked;
-        let interest3 = document.getElementById("interest3").checked;
-        let interest4 = document.getElementById("interest4").checked;
-        let interest5 = document.getElementById("interest5").checked;
-        let interest6 = document.getElementById("interest6").checked;
-        let interest7 = document.getElementById("interest7").checked;
-        let interest8 = document.getElementById("interest8").checked;
-        let interest9 = document.getElementById("interest9").checked;
-        let interest10 = document.getElementById("interest10").checked;
-
-        if (interest1 === false) {
-            interestId2.push(1);
-        }
-        if (interest2 === false) {
-            interestId2.push(2);
-        }
-        if (interest3 === false) {
-            interestId2.push(3);
-        }
-        if (interest4 === false) {
-            interestId2.push(4);
-        }
-        if (interest5 === false) {
-            interestId2.push(5);
-        }
-        if (interest6 === false) {
-            interestId2.push(6);
-        }
-        if (interest7 === false) {
-            interestId2.push(7);
-        }
-        if (interest8 === false) {
-            interestId2.push(8);
-        }
-        if (interest9 === false) {
-            interestId2.push(9);
-        }
-        if (interest10 === false) {
-            interestId2.push(10);
-        }
-        console.log(interestId2);
-        for (let i = 0; i < interestId2.length; i++) {
-            FYSCloud.API.queryDatabase(
-                "DELETE FROM `userinterest` WHERE `userId` = ? AND `interestId` = ?;",
-                [userId, interestId2[i]]
-            ).done(function (data) {
-                console.log(data);
-                //redirectToProfileById(userId);
-            }).fail(function (reason) {
-                console.log(reason)
-            });
-        }
-    }).fail(function () {
-        alert("paniek");
-    });
 });
 
 FYSCloud.API.queryDatabase(
@@ -580,24 +528,3 @@ document.addEventListener("languageChangeEvent", function (event) {
     characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
     countCharacters();
 });
-
-// // Wait for the DOM to be ready
-// $(function () {
-//     $("#username_error_message").hide();
-//
-//     let error_username = false;
-//
-//     $("#Username").focusout(function () {
-//         check_username();
-//     })
-//
-//     function check_username() {
-//         let pattern = /^[a-zA-Z]*$/;
-//         let username = $("#username").val();
-//         if(pattern.test(username) && username !== '') {
-//             $("#username_error_message").hide();
-//             $("#Username").css("border", "2px solid #34F458")
-//         }
-//     }
-//
-// })
