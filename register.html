@@ -24,136 +24,275 @@
     </div>
 
     <form class="register">
-
-        <div class="step">
-            <div class="right-panel">
-                <h2 data-translate="register.step1.info.title"></h2>
-                <p data-translate="register.step1.info.paragraph"></p>
-            </div>
-
+        <div class="flex-container">
             <div>
                 <h2 data-translate="register.step1.title"></h2>
-                <div class="form-group">
-                    <label for="username" data-translate="register.step1.username"></label>
-                    <input type="text" id="username" name="username" maxlength="50" required>
-                </div>
+                <form>
+                    <div class="form-group">
+                        <label for="username">Gebruikersnaam *</label>
+                        <input type="text" id="username" name="username" maxlength="50" required="">
+                    </div>
 
-                <div class="form-group">
-                    <label for="email" data-translate="register.step1.email"></label>
-                    <input type="email" id="email" name="email" maxlength="50" required>
-                </div>
+                    <div class="form-group">
+                        <label for="email">E-mail *</label>
+                        <input type="email" id="email" name="email" maxlength="50" required="">
+                    </div>
 
-                <div class="form-group">
-                    <label for="password" data-translate="register.step1.password"></label>
-                    <input type="password" id="password" name="password" maxlength="16" required>
-                </div>
+                    <div class="form-group">
+                        <label for="password">Wachtwoord *</label>
+                        <input type="password" id="password" name="password" maxlength="16" required="">
+                    </div>
 
-                <div class="form-group">
-                    <label for="repeat-password" data-translate="register.step1.confirmPassword"></label>
-                    <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required>
+                    <div class="form-group">
+                        <label for="repeat-password">Herhaal wachtwoord *</label>
+                        <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required="">
+                    </div>
+
+                </form>
+            </div>
+            <div class="information">
+                <div>
+                    <h2 data-translate="register.step1.info.title"></h2>
+                    <p data-translate="register.step1.info.paragraph"></p>
                 </div>
             </div>
         </div>
+        <style>
+            .flex-container {
+                display: flex;
+                -webkit-flex-wrap: wrap;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
 
-        <div class="step">
-            <h2 data-translate="register.step2.title"></h2>
+            .flex-container > div {
+                margin: 10px;
+                width: 300px;
+            }
 
-            <div class="img-block">
-                <label for="fileUpload" data-translate="register.step2.profilePic"></label>
-                <input type="file" id="fileUpload" name="profile_picture" accept="image/*" hidden>
+            .flex-container > div.information > div {
+                border: 1px solid #ccc;
+                padding: 15px;
 
-                <div class="img-preview" style="width: 200px; height: 200px;border: 1px solid black; ">
-                    <img id="imagePreview"/>
-                </div>
-            </div>
+                /* border: var(--border-corendon-grey); */
+            }
+            .register .form-group input {
+                padding: 0;
+            }
+        </style>
+        <script>
+            /* Detect a flex wrap so that the order of flex items might be changed: */
+            var detectWrap = function(className) {
+                var wrappedItems = [];
+                var prevItem = {};
+                var currItem = {};
+                let flexContainers = document.getElementsByClassName(className);
+                let items = [];
+                for (let i = 0; i < flexContainers.length; i++) {
+                    for (let j = 0; j < flexContainers[i].children.length; j++) {
+                        items.push(flexContainers[i].children[j]);
+                    }
+                }
 
-            <div class="form-group">
-                <label for="firstname" data-translate="register.step2.firstname"></label>
-                <input type="text" id="firstname" name="first_name" maxlength="25" required>
-            </div>
+                for (let i = 0; i < items.length; i++) {
+                    currItem = items[i].getBoundingClientRect();
+                    if (prevItem && prevItem.top < currItem.top) {
+                        wrappedItems.push(items[i]);
+                    }
+                    prevItem = currItem;
+                }
 
-            <div class="form-group">
-                <label for="lastname" data-translate="register.step2.lastname">Last name *</label>
-                <input type="text" id="lastname" name="last_name" maxlength="25" required>
-            </div>
+                return wrappedItems;
+            }
 
-            <div class="form-group">
-                <p data-translate="register.step2.gender"></p>
+            window.onload = function() {
+                let flexContainerClassName = "flex-container";
+                let flexContainers = document.getElementsByClassName(flexContainerClassName);
+                for (let i = 0; i < flexContainers.length; i++) {
+                    console.log(flexContainers[i].children.length);
+                    for (let j = 0; j < flexContainers[i].children.length; j++) {
+                        flexContainers[i].children[j].style.removeProperty("order");
+                    }
+                }
 
-                <input type="radio" class="inline-form gender" id="male" name="gender" value="male" required>
-                <label for="male" data-translate="register.step2.gender.male"></label><br>
+                let wrappedItems = detectWrap(flexContainerClassName);
 
-                <input type="radio" class="inline-form gender" id="female" name="gender" value="female" required>
-                <label for="female" data-translate="register.step2.gender.female"></label><br>
+                // When using space-between:
+                if(wrappedItems.length > 0) {
+                    for (let i = 0; i < flexContainers.length; i++) {
+                        flexContainers[i].style.setProperty("justify-content", "center");
+                    }
+                }
+                else {
+                    for (let i = 0; i < flexContainers.length; i++) {
+                        flexContainers[i].style.setProperty("justify-content", "space-between");
+                    }
+                }
 
-                <input type="radio" class="inline-form gender" id="other-gender" name="gender" value="other" required>
-                <label for="other-gender" data-translate="register.step2.gender.other"></label>
-            </div>
+                for (let i = 0; i < wrappedItems.length; i++) {
+                    wrappedItems[i].style.setProperty("order", "-1");
+                }
+            };
 
-            <div class="form-group">
-                <label for="DoB" data-translate="register.step2.dob"></label>
-                <span class="minAge" data-translate="register.step2.dob.desc"></span>
-                <input type="Date" id="DoB" name="DoB" required>
-            </div>
-        </div>
+            window.onresize = function() {
+                let flexContainerClassName = "flex-container";
+                let flexContainers = document.getElementsByClassName(flexContainerClassName);
+                for (let i = 0; i < flexContainers.length; i++) {
+                    for (let j = 0; j < flexContainers[i].children.length; j++) {
+                        flexContainers[i].children[j].style.removeProperty("order");
+                    }
+                }
 
-        <div class="step">
-            <h2 data-translate="register.step3.title"></h2>
-            <div class="form-group">
-                <h3 data-translate="register.step3.bio"></h3>
-                <textarea id="bio" cols="40" rows="5" maxlength="500" name="bio"
-                          onkeyup="countChars('bio','charCountBio');"
-                          onkeydown="countChars('bio','charCountBio');"
-                          onmouseout="countChars('bio','charCountBio');"></textarea>
-                <p><span id="charCountBio">0 </span><span data-translate="register.step3.bio.chars"></span></p>
-            </div>
+                let wrappedItems = detectWrap(flexContainerClassName);
 
-            <div class="form-group">
-                <h3 data-translate="register.step3.hobbies"></h3>
-                <ul>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="sport" name="sport" value="1">
-                        <label for="sport" data-translate="interests.1"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="hiking" name="hiking" value="2">
-                        <label for="hiking" data-translate="interests.2"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="cooking" name="cooking" value="3">
-                        <label for="cooking" data-translate="interests.3"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="art" name="art" value="4">
-                        <label for="art" data-translate="interests.4"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="museum" name="museum" value="5">
-                        <label for="museum" data-translate="interests.5"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="music" name="music" value="6">
-                        <label for="music" data-translate="interests.6"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="dancing" name="dancing" value="7">
-                        <label for="dancing" data-translate="interests.7"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="theater" name="theater" value="8">
-                        <label for="theater" data-translate="interests.8"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="partying" name="partying" value="9">
-                        <label for="partying" data-translate="interests.9"></label>
-                    </li>
-                    <li>
-                        <input type="checkbox" class="inline-form hobby" id="gaming" name="gaming" value="10">
-                        <label for="gaming" data-translate="interests.10"></label>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                // When using space-between:
+                if(wrappedItems.length > 0) {
+                    for (let i = 0; i < flexContainers.length; i++) {
+                        flexContainers[i].style.setProperty("justify-content", "center");
+                    }
+                }
+                else {
+                    for (let i = 0; i < flexContainers.length; i++) {
+                        flexContainers[i].style.setProperty("justify-content", "space-between");
+                    }
+                }
+
+                for (let i = 0; i < wrappedItems.length; i++) {
+                    wrappedItems[i].style.setProperty("order", "-1");
+                }
+            }
+        </script>
+
+
+        <!--        <div class="step">-->
+<!--            <div class="right-panel">-->
+<!--                <h2 data-translate="register.step1.info.title"></h2>-->
+<!--                <p data-translate="register.step1.info.paragraph"></p>-->
+<!--            </div>-->
+
+<!--            <div>-->
+<!--                <h2 data-translate="register.step1.title"></h2>-->
+<!--                <div class="form-group">-->
+<!--                    <label for="username" data-translate="register.step1.username"></label>-->
+<!--                    <input type="text" id="username" name="username" maxlength="50" required>-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="email" data-translate="register.step1.email"></label>-->
+<!--                    <input type="email" id="email" name="email" maxlength="50" required>-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="password" data-translate="register.step1.password"></label>-->
+<!--                    <input type="password" id="password" name="password" maxlength="16" required>-->
+<!--                </div>-->
+
+<!--                <div class="form-group">-->
+<!--                    <label for="repeat-password" data-translate="register.step1.confirmPassword"></label>-->
+<!--                    <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="step">-->
+<!--            <h2 data-translate="register.step2.title"></h2>-->
+
+<!--            <div class="img-block">-->
+<!--                <label for="fileUpload" data-translate="register.step2.profilePic"></label>-->
+<!--                <input type="file" id="fileUpload" name="profile_picture" accept="image/*" hidden>-->
+
+<!--                <div class="img-preview" style="width: 200px; height: 200px;border: 1px solid black; ">-->
+<!--                    <img id="imagePreview"/>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <label for="firstname" data-translate="register.step2.firstname"></label>-->
+<!--                <input type="text" id="firstname" name="first_name" maxlength="25" required>-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <label for="lastname" data-translate="register.step2.lastname">Last name *</label>-->
+<!--                <input type="text" id="lastname" name="last_name" maxlength="25" required>-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <p data-translate="register.step2.gender"></p>-->
+
+<!--                <input type="radio" class="inline-form gender" id="male" name="gender" value="male" required>-->
+<!--                <label for="male" data-translate="register.step2.gender.male"></label><br>-->
+
+<!--                <input type="radio" class="inline-form gender" id="female" name="gender" value="female" required>-->
+<!--                <label for="female" data-translate="register.step2.gender.female"></label><br>-->
+
+<!--                <input type="radio" class="inline-form gender" id="other-gender" name="gender" value="other" required>-->
+<!--                <label for="other-gender" data-translate="register.step2.gender.other"></label>-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <label for="DoB" data-translate="register.step2.dob"></label>-->
+<!--                <span class="minAge" data-translate="register.step2.dob.desc"></span>-->
+<!--                <input type="Date" id="DoB" name="DoB" required>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        <div class="step">-->
+<!--            <h2 data-translate="register.step3.title"></h2>-->
+<!--            <div class="form-group">-->
+<!--                <h3 data-translate="register.step3.bio"></h3>-->
+<!--                <textarea id="bio" cols="40" rows="5" maxlength="500" name="bio"-->
+<!--                          onkeyup="countChars('bio','charCountBio');"-->
+<!--                          onkeydown="countChars('bio','charCountBio');"-->
+<!--                          onmouseout="countChars('bio','charCountBio');"></textarea>-->
+<!--                <p><span id="charCountBio">0 </span><span data-translate="register.step3.bio.chars"></span></p>-->
+<!--            </div>-->
+
+<!--            <div class="form-group">-->
+<!--                <h3 data-translate="register.step3.hobbies"></h3>-->
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="sport" name="sport" value="1">-->
+<!--                        <label for="sport" data-translate="interests.1"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="hiking" name="hiking" value="2">-->
+<!--                        <label for="hiking" data-translate="interests.2"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="cooking" name="cooking" value="3">-->
+<!--                        <label for="cooking" data-translate="interests.3"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="art" name="art" value="4">-->
+<!--                        <label for="art" data-translate="interests.4"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="museum" name="museum" value="5">-->
+<!--                        <label for="museum" data-translate="interests.5"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="music" name="music" value="6">-->
+<!--                        <label for="music" data-translate="interests.6"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="dancing" name="dancing" value="7">-->
+<!--                        <label for="dancing" data-translate="interests.7"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="theater" name="theater" value="8">-->
+<!--                        <label for="theater" data-translate="interests.8"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="partying" name="partying" value="9">-->
+<!--                        <label for="partying" data-translate="interests.9"></label>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <input type="checkbox" class="inline-form hobby" id="gaming" name="gaming" value="10">-->
+<!--                        <label for="gaming" data-translate="interests.10"></label>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="btn-group">
             <p class="btn" id="btn-back" onclick="swapStep(-1)" data-translate="register.buttons.back"></p>
