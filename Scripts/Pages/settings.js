@@ -25,7 +25,6 @@ const profileVisibilityControl = document.getElementById("profileVisibility");
 let initialProfileVisibility;
 
 let profileVisibilityOptions;
-let currentProfile;
 let firstname;
 let middlename;
 let lastname;
@@ -598,6 +597,7 @@ function setGender(initialGender) {
     }
 }
 
+let currentProfile;
 function genderEventlistener(profiles) {
     document.getElementById("showOwnGenderOnly").addEventListener("change", function() {
         // Check whether own gender should only be shown:
@@ -607,7 +607,7 @@ function genderEventlistener(profiles) {
                 if(profile.userId === Number(sessionUserId)) {
                     currentProfile = profile;
                 }
-            })
+            });
 
             // // null checking
             // firstname = currentProfile.firstname == null ? "" : currentProfile.firstname + " ";
@@ -615,8 +615,13 @@ function genderEventlistener(profiles) {
             // // logging
             // console.log("User " + firstname + lastname + "is of gender \'" + currentProfile.gender + "\'");
 
-            if(currentProfile.gender.toLowerCase() === "other") {
-                document.querySelector("#identifyAsContainer").style.display = "block";
+            if(currentProfile === undefined) {
+                console.log("Profile for user " + sessionUserId + " does not exist.");
+            }
+            else {
+                if(currentProfile.gender.toLowerCase() === "other") {
+                    document.querySelector("#identifyAsContainer").style.display = "block";
+                }
             }
         }
         else {
