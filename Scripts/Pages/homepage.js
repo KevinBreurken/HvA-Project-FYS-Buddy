@@ -556,5 +556,7 @@ function filterCurrentDisplayedUsers() {
         let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
         $('#tab').append(noMatchesMessage);
         FYSCloud.Localization.translate(false);
+    }else {
+        $('.no-matches-message').remove();
     }
 }
