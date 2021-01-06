@@ -150,3 +150,31 @@ main {
         height: 110px;
     }
 }
+
+.flex-container {
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    /*justify-content: space-between;*/
+    justify-content: center;
+}
+
+.flex-container > div {
+    margin: 20px;
+    /*width: 300px;*/
+    width: 332px;
+}
+
+/* When using space between: */
+/*.flex-container > div:first-of-type {*/
+/*    margin-right: 24px; !* added input padding to this value *!*/
+/*}*/
+
+/*.flex-container > div:last-of-type {*/
+/*    margin-left: 10px;*/
+/*}*/
+
+.flex-container > div.information > div {
+    padding: 15px;
+    border: var(--border-corendon-grey);
+}

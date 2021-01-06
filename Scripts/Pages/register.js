@@ -41,9 +41,17 @@ let dateMax = new Date(dateYear - MAX_AGE, dateMonth, dateDate)
 let currentStep = 0
 let step = $('.step')
 
-step[currentStep].style.display = 'block'
+step[currentStep].style.display = 'flex'
 
 function swapStep(number) {
+    let $myForm = $("#registerForm");
+
+    if(! $myForm[0].checkValidity()) {
+        // If the form is invalid, submit it. The form won't actually submit;
+        // this will just cause the browser to display the native HTML5 error messages.
+        $myForm.find(':submit').click();
+    }
+
     // Set all the buttons
     let nextBtn = $('#btn-next')
     let backBtn = $('#btn-back')
@@ -157,7 +165,7 @@ function swapStep(number) {
 // Function for the biography input. Writes the amount of used characters in text
 function countChars(countFrom, displayTo) {
     document.querySelector("#" + displayTo).innerHTML =
-        document.querySelector("#" + countFrom).value.length
+        document.querySelector("#" + countFrom).value.length;
 }
 
 // Image preview function from FYS Cloud
@@ -246,4 +254,102 @@ function register() {
     }).fail(function (reason) {
         console.log(reason)
     })
+}
+
+/* Detect a flex wrap so that the order of flex items might be changed: */
+let detectWrap = function(className) {
+    let wrappedItems = [];
+    let prevItem = {};
+    let currItem = {};
+    let flexContainers = document.getElementsByClassName(className);
+    let items = [];
+    for (let i = 0; i < flexContainers.length; i++) {
+        for (let j = 0; j < flexContainers[i].children.length; j++) {
+            items.push(flexContainers[i].children[j]);
+        }
+    }
+
+    for (let i = 0; i < items.length; i++) {
+        currItem = items[i].getBoundingClientRect();
+        if (prevItem && prevItem.top < currItem.top) {
+            wrappedItems.push(items[i]);
+        }
+        prevItem = currItem;
+    }
+
+    return wrappedItems;
+}
+
+window.onload = function() {
+    let flexContainerClassName = "flex-container";
+    let flexContainers = document.getElementsByClassName(flexContainerClassName);
+    for (let i = 0; i < flexContainers.length; i++) {
+        console.log(flexContainers[i].children.length);
+        for (let j = 0; j < flexContainers[i].children.length; j++) {
+            flexContainers[i].children[j].style.removeProperty("order");
+        }
+    }
+
+    let wrappedItems = detectWrap(flexContainerClassName);
+
+    // When using space-between:
+    // if(wrappedItems.length > 0) {
+    //     for (let i = 0; i < flexContainers.length; i++) {
+    //         flexContainers[i].style.setProperty("justify-content", "center");
+    //
+    //         for (let j = 0; j < flexContainers[i].children.length; j++) {
+    //             flexContainers[i].children[j].style.setProperty("margin", "0");
+    //         }
+    //     }
+    // }
+    // else {
+    //     for (let i = 0; i < flexContainers.length; i++) {
+    //         flexContainers[i].style.setProperty("justify-content", "space-between");
+    //
+    //         for (let j = 0; j < flexContainers[i].children.length; j++) {
+    //             flexContainers[i].children[j].style.removeProperty("margin");
+    //         }
+    //     }
+    // }
+
+    for (let i = 0; i < wrappedItems.length; i++) {
+        wrappedItems[i].style.setProperty("order", "-1");
+        wrappedItems[i].style.setProperty("margin-left", "0");
+    }
+};
+
+window.onresize = function() {
+    let flexContainerClassName = "flex-container";
+    let flexContainers = document.getElementsByClassName(flexContainerClassName);
+    for (let i = 0; i < flexContainers.length; i++) {
+        for (let j = 0; j < flexContainers[i].children.length; j++) {
+            flexContainers[i].children[j].style.removeProperty("order");
+        }
+    }
+
+    let wrappedItems = detectWrap(flexContainerClassName);
+
+    // When using space-between:
+    // if(wrappedItems.length > 0) {
+    //     for (let i = 0; i < flexContainers.length; i++) {
+    //         flexContainers[i].style.setProperty("justify-content", "center");
+    //
+    //         for (let j = 0; j < flexContainers[i].children.length; j++) {
+    //             flexContainers[i].children[j].style.setProperty("margin", "0");
+    //         }
+    //     }
+    // }
+    // else {
+    //     for (let i = 0; i < flexContainers.length; i++) {
+    //         flexContainers[i].style.setProperty("justify-content", "space-between");
+    //
+    //         for (let j = 0; j < flexContainers[i].children.length; j++) {
+    //             flexContainers[i].children[j].style.removeProperty("margin");
+    //         }
+    //     }
+    // }
+
+    for (let i = 0; i < wrappedItems.length; i++) {
+        wrappedItems[i].style.setProperty("order", "-1");
+    }
 }
