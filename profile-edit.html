@@ -17,7 +17,7 @@
 <header></header>
 <main class="main" id="main">
 <h1>Profile settings</h1>
-    <form method="post">
+    <form id="form" method="post">
     <div class="row">
         <div class="column">
             <h2 class="photo">Profile picture</h2>
@@ -32,13 +32,15 @@
             <h2>Name</h2>
             <label for="Username">Username:</label><br>
             <input type="text" id="Username" name="Username" placeholder="username" maxlength="50" required>
+            <span class="error_form" id="username_error_message"></span>
             <br>
             <label for="Firstname">First name:</label><br>
             <input type="text" id="FirstName" name="FirstName" placeholder="first name" maxlength="50" required>
+            <span class="error_form" id="firstname_error_message"></span>
             <br>
             <label for="Lastname">Last name:</label><br>
             <input type="text" id="LastName" name="LastName" placeholder="last name" maxlength="50" required>
-
+            <span class="error_form" id="lastname_error_message"></span>
             <h2>Gender</h2>
             <input type="radio" id="Male" name="gender">
             <label for="Male">Male</label><br>
@@ -87,8 +89,10 @@
             <h2>Contactinformation</h2>
             <label for="Email">E-mail: </label><br>
             <input type="email" id="Email" name="Email" placeholder="name@hotmail.com" required><br>
+            <span class="error_form" id="email_error_message"></span>
             <label for="Telephone">Tel: </label><br>
             <input type="tel" id="Telephone" name="Telephone" placeholder="0612345678" size="10" required><br>
+            <span class="error_form" id="tel_error_message"></span>
             <br>
             <h2>Trip information</h2>
             <div class="destination">
@@ -110,6 +114,7 @@
                 <label for="Choice1" f-data-tooltip="Somebody you want to explore the country with">A travel buddy</label><br>
                 <input type="checkbox" id="Choice2" name="choice2">
                 <label for="Choice2" data-tooltip="Somebody you want to do activities with like swimming">An activity buddy</label><br>
+                <span class="error_form" id="buddy_error_message"></span>
             </div>
             <div class="button">
                 <button id="saveChangesBtn" class="saveChangesBtn" type="submit">Save changes</button>

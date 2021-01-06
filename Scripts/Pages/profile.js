@@ -256,7 +256,9 @@ FYSCloud.API.queryDatabase(
                     "    white-space: nowrap;\n" +
                     "    vertical-align: baseline;\n" +
                     "    border-radius: .25rem;\n" +
-                    "    margin: 2px;'>" + data[i].name + "<div>");
+                    "    margin: 2px;\n" +
+                    "    width: 50px;\n" +
+                    "    height: 50px;'>" + data[i].name + "<div>");
             }
         }).fail(function (reason) {
             console.log(reason)

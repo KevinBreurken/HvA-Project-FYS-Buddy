@@ -64,6 +64,163 @@ async function populateCityList() {
     });
 }
 
+// Wait for the DOM to be ready
+$(document).change(function () {
+    $("#username_error_message").hide();
+
+    let error_username = false;
+    let error_firstname = false;
+    let error_lastname = false;
+    let error_email = false;
+    let error_tel = false;
+    let error_buddy = false;
+
+    $("#Username").focusout(function () {
+        check_username();
+    });
+    $("#FirstName").focusout(function () {
+        check_firstname();
+    });
+    $("#LastName").focusout(function () {
+        check_lastname();
+    });
+    $("#DateOfBirth").focusout(function () {
+        check_lastname();
+    });
+    $("#Email").focusout(function () {
+        check_email();
+    });
+    $("#Telephone").focusout(function () {
+        check_tel();
+    });
+    // $("#Choice1").focusout(function () {
+    //     check_buddy();
+    // });
+    // $("#Choice2").focusout(function () {
+    //     check_buddy2();
+    // });
+    let travel = $("#Choice1").checked;
+    let activity = $("#Choice1").checked;
+    while (travel || activity) {
+
+    }
+    function check_username() {
+        let pattern = /^[a-zA-Z\s\d]*$/;
+        let username = $("#Username").val();
+        if(pattern.test(username) && username !== '') {
+            $("#username_error_message").hide();
+            $("#Username").css("border", "2px solid #34F458")
+        } else {
+            $("#username_error_message").html("<br> Username is not valid")
+            $("#username_error_message").show();
+            $("#Username").css("border", "2px solid #F90A0A");
+            error_username = true;
+        }
+    }
+
+function check_firstname() {
+    let pattern = /^[a-zA-Z\s]+$/;
+    let firstname = $("#FirstName").val();
+    if(pattern.test(firstname) && firstname !== '') {
+        $("#firstname_error_message").hide();
+        $("#FirstName").css("border", "2px solid #34F458")
+    } else {
+        $("#firstname_error_message").html("<p style='color: #d81e05'>First name is not valid</p>")
+        $("#firstname_error_message").show();
+        $("#FirstName").css("border", "2px solid #F90A0A");
+        error_firstname = true;
+    }
+}
+
+    function check_lastname() {
+        let pattern = /^[a-zA-Z\s]+$/;
+        let lastname = $("#LastName").val();
+        if (pattern.test(lastname) && lastname !== '') {
+            $("#lastname_error_message").hide();
+            $("#LastName").css("border", "2px solid #34F458");
+        } else {
+            $("#lastname_error_message").html("<br>Last name is not valid")
+            $("#lastname_error_message").show();
+            $("#LastName").css("border", "2px solid #F90A0A");
+            error_lastname = true;
+        }
+    }
+
+    function check_email() {
+        let pattern = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/;
+        let email = $("#Email").val();
+        if (pattern.test(email) && email !== '') {
+            $("#email_error_message").hide();
+            $("#Email").css("border", "2px solid #34F458");
+        } else {
+            $("#email_error_message").html("Email is not valid<br>")
+            $("#email_error_message").show();
+            $("#Email").css("border", "2px solid #F90A0A");
+            error_email = true;
+        }
+    }
+    function check_tel() {
+        let pattern = /^[{10}]+$/;
+        let tel = $("#Telephone").val();
+        if (pattern.test(tel) && tel !== '') {
+            $("#tel_error_message").hide();
+            $("#Telephone").css("border", "2px solid #34F458");
+        } else {
+            $("#tel_error_message").html("Telephone number is not valid<br>")
+            $("#tel_error_message").show();
+            $("#Telephone").css("border", "2px solid #F90A0A");
+            error_tel = true;
+        }
+    }
+    $("#Choice1").change( function () {
+        //let pattern = /^[{10}]+$/;
+        let travel = $("#Choice1").checked;
+        if (travel === true) {
+            $("#buddy_error_message").hide();
+        } else {
+            $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
+            $("#buddy_error_message").show();
+            error_buddy = true;
+        }
+    })
+    $("#Choice2").change ( function() {
+        //let pattern = /^[{10}]+$/;
+        let activity = $("#Choice2").checked;
+        if (activity === true) {
+            $("#buddy_error_message").hide();
+        } else {
+            $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
+            $("#buddy_error_message").show();
+            error_buddy = true;
+        }
+    })
+
+function check_buddy() {
+    //let pattern = /^[{10}]+$/;
+    let travel = $("#Choice1").checked;
+    if (travel === true) {
+        $("#buddy_error_message").hide();
+    }
+    if (travel === false) {
+        $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
+        $("#buddy_error_message").show();
+        error_buddy = true;
+    }
+}
+function check_buddy2() {
+    //let pattern = /^[{10}]+$/;
+    let activity = $("#Choice2").checked;
+    if (activity === true) {
+        $("#buddy_error_message").hide();
+    }
+    if(activity === false) {
+        $("#buddy_error_message").html("<br>You have to select at least one type of buddy")
+        $("#buddy_error_message").show();
+        error_buddy = true;
+    }
+}
+});
+
 document.getElementById("fileUpload").addEventListener("change", function() {
 
     FYSCloud.Utils
@@ -409,3 +566,24 @@ $("#fileUpload").on("change", function () {
         $("#filePreviewResult").html(reason)
     })
 })
+
+// // Wait for the DOM to be ready
+// $(function () {
+//     $("#username_error_message").hide();
+//
+//     let error_username = false;
+//
+//     $("#Username").focusout(function () {
+//         check_username();
+//     })
+//
+//     function check_username() {
+//         let pattern = /^[a-zA-Z]*$/;
+//         let username = $("#username").val();
+//         if(pattern.test(username) && username !== '') {
+//             $("#username_error_message").hide();
+//             $("#Username").css("border", "2px solid #34F458")
+//         }
+//     }
+//
+// })
