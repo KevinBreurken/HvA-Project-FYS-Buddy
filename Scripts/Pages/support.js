@@ -19,7 +19,12 @@ for (let i = 0; i < coll.length; i++) {
     });
 }
 
-// When clicking back button:
-document.querySelector(".support-controls button#back").addEventListener("click", function () {
-    window.location.href = "index.html";
+document.getElementById("backToTop").addEventListener("click", function(e) {
+    e.preventDefault();
+    $("html, body").animate({scrollTop: 0});
 });
+
+// When clicking back button:
+// document.querySelector(".support-controls button#back").addEventListener("click", function () {
+//     window.location.href = "index.html";
+// });
