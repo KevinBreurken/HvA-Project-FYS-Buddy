@@ -1,6 +1,6 @@
 {
-  "test": {
-    "en": "this is a test",
-    "nl": "dit is een test"
+  "admin-profile": {
+    "en": "Last seen:",
+    "nl": "Laatst gezien:"
   }
 }
