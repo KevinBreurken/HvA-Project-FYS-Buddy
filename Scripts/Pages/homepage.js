@@ -371,8 +371,7 @@ async function openUserOverlay(overlayUserId) {
     requestButton.css('opacity', '1');
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
         }, function () { $(this).css("background-color", "");} );
-
-
+    
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
@@ -384,7 +383,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-
+    FYSCloud.Localization.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -394,7 +393,6 @@ function disableRequestButton() {
     requestButton.css('opacity', '0.6');
     requestButton.attr("disabled", true);
     requestButton.attr("data-translate", "overlay.button.sent");
-    FYSCloud.Localization.translate(false);
 }
 
 function acceptRequest(acceptedUser,userIdToAccept) {
