@@ -44,13 +44,7 @@ let step = $('.step')
 step[currentStep].style.display = 'flex'
 
 function swapStep(number) {
-    let $myForm = $("#registerForm");
 
-    if(! $myForm[0].checkValidity()) {
-        // If the form is invalid, submit it. The form won't actually submit;
-        // this will just cause the browser to display the native HTML5 error messages.
-        $myForm.find(':submit').click();
-    }
 
     // Set all the buttons
     let nextBtn = $('#btn-next')
@@ -69,14 +63,29 @@ function swapStep(number) {
             passwordRepeat = $('#repeat-password').val()
 
             // Check if nothing is left empty and if it's within the given parameter
-            if (username !== "" && username.length <= MAX_USERNAME &&
-                email !== "" && email.length <= MAX_EMAIL &&
-                password !== "" && password.length <= MAX_PASSWORD && password === passwordRepeat) {
-
-                // Hides the current step and will display the next step
-                step[currentStep].style.display = 'none'
-                step[currentStep + number].style.display = 'block'
-                currentStep += number
+            if (username !== "" && username.length <= MAX_USERNAME) {
+                if(email !== "" && email.length <= MAX_EMAIL) {
+                    if(password !== "" && password.length <= MAX_PASSWORD) {
+                        if(password === passwordRepeat) {
+                            // Hides the current step and will display the next step
+                            step[currentStep].style.display = 'none';
+                            step[currentStep + number].style.display = 'block';
+                            currentStep += number;
+                        }
+                        else {
+                            alert("Entered password and repeated password do not match. Please re-enter and try again.");
+                        }
+                    }
+                    else {
+                        alert("Password was left empty or exceeded character limit of " + MAX_PASSWORD + " characters.");
+                    }
+                }
+                else {
+                    alert("Email was left empty or exceeded character limit of " + MAX_EMAIL + " characters.");
+                }
+            }
+            else {
+                alert("Username was left empty or exceeded character limit of " + MAX_USERNAME + " characters.");
             }
 
             backBtn.css('display', 'none')
@@ -138,7 +147,7 @@ function swapStep(number) {
         }
     } else { // If the user pressed back don't check for valid input and show previous step
         step[currentStep].style.display = 'none'
-        step[currentStep + number].style.display = 'block'
+        step[currentStep + number].style.display = 'flex'
         // For clarity: currentStep = currentStep - - -1
         currentStep = currentStep - -number
 
@@ -159,6 +168,14 @@ function swapStep(number) {
             nextBtn.css('display', 'none')
             registerBtn.css('display', 'inline')
         }
+    }
+
+    let $myForm = $("#registerForm");
+
+    if(! $myForm[0].checkValidity()) {
+        // If the form is invalid, submit it. The form won't actually submit;
+        // this will just cause the browser to display the native HTML5 error messages.
+        $myForm.find(':submit').click();
     }
 }
 
