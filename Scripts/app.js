@@ -18,6 +18,7 @@ if (appElement !== null) {
         case "user":
             if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
                 window.open("index.html", "_self");
+            //redirectDeactivatedUser(); //<-- This doesn't seem to work and cause a loop
             break;
         case "admin":
             if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
@@ -37,7 +38,7 @@ if (appElement !== null) {
 let headElement = $('head');
 //add general page elements to the head tag.
 headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
-headElement.append(`<title>Corendon Travel Buddy</title>`);
+headElement.append(`<title>Corendon Travel Buddy</title>`); // <-- No specific pages in the title?
 
 /** Check if this page want to load an translation */
 if (appElement !== null) {
@@ -69,6 +70,26 @@ function setCurrentUserID(id) {
  */
 function getCurrentUserID() {
     return FYSCloud.Session.get("userID");
+}
+
+/**
+ * Redirects a user to reactivation page for reactivating accounts that are deactivated.
+ */
+function redirectDeactivatedUser() {
+    FYSCloud.API.queryDatabase(
+        "SELECT * " +
+        "FROM `setting` " +
+        "WHERE `userId` = ?",
+        [currentUserID]
+    ).done(function(data) {
+        if(data.length > 0) {
+            if(Number(data[0].deactivated) === 1) {
+                window.open("reactivate.html", "_self");
+            }
+        }
+    }).fail(function(reason) {
+        console.log(reason);
+    });
 }
 
 /**
