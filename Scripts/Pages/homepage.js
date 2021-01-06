@@ -75,6 +75,7 @@ function sendTravelData() {
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
+    //sets the start and end date in the format required for the current travel data display
     var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
     var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
 
@@ -117,7 +118,6 @@ function toggleTravelForm() {
     $("#currentTravelData").slideToggle("slow");
 }
 
-//1.1 All results todo: gender preference, blocked, display settings en evt. interests
 let lastButtonId;
 let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
@@ -139,14 +139,20 @@ async function openTabContent(currentButton) {
     //gets the current user's data
     let currentUser = await getDataByPromise(`SELECT 
        u.id,
+       p.gender,
+       s.sameGender, s.displayGenderId,
        GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
     FROM fys_is111_1_dev.user u
+    INNER JOIN profile p ON p.userId = u.id
+    LEFT JOIN setting s ON s.userId = u.id
     LEFT JOIN userinterest ui ON ui.userId = u.id
     INNER JOIN travel t ON u.id = t.userId
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
+
+    // console.log(currentUser)
 
     //filters the data bases on the current tab
     let queryExtension = ``;
@@ -178,14 +184,15 @@ async function openTabContent(currentButton) {
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
     let userList = await getDataByPromise(`
     SELECT 
-       p.userId, p.pictureUrl, p.buddyType, 
+       p.userId, p.pictureUrl, p.buddyType, p.gender, 
        u.username,
        GROUP_CONCAT (ui.interestId) as "interestGroup",
-       u.userRole, 
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
-       f.favouriteUser  
+       f.favouriteUser,
+       SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
+       - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     LEFT JOIN userinterest ui ON ui.userId = p.userId 
@@ -194,8 +201,15 @@ async function openTabContent(currentButton) {
     INNER JOIN location l ON l.id = t.locationId
     LEFT JOIN favourite f ON f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId
     LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
-    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]})
-    WHERE u.userRole != 2 ${queryExtension} 
+    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}) 
+    WHERE userRole != 2
+    AND NOT EXISTS (
+        SELECT *
+        FROM blocked b
+        WHERE (b.blockedUser = p.userId OR b.blockedUser = ${currentUser[0]["userId"]})
+        AND (b.requestingUser = p.userId OR b.requestingUser = ${currentUser[0]["userId"]})
+        )
+    ${queryExtension} 
     GROUP by p.userId`
         , queryArray);
 
@@ -218,10 +232,13 @@ async function openTabContent(currentButton) {
         userList[i]["equalInterests"] = equalInterests;
     }
 
-    //todo: sort userList
     //sorting the userList by destination and interests
     userList = userList.sort(function (obj1, obj2) {
-        return obj2["equalInterests"] - obj1["equalInterests"];
+        if (parseInt(obj1["distanceInKm"] - obj2["distanceInKm"]) !== 0) {
+            return parseInt(obj1["distanceInKm"] - obj2["distanceInKm"]);
+        } else {
+            return obj2["equalInterests"] - obj1["equalInterests"];
+        }
     });
 
     $(tab).html("");
@@ -229,7 +246,29 @@ async function openTabContent(currentButton) {
         //appends a user-display with the correct data to the tab for every user that needs to be displayed
         for (let i = 0; i < userList.length; i++) {
             $(tab).append(generateUserDisplay(userList[i]))
+            // console.log(userList[i])
         }
+
+        //todo filters users by gender with delete or within query?
+        //filters the userlist based on the current user's gender settings
+        if (currentButton.id.toString() === "all-results") {
+            if (currentUser[0]["sameGender"] === 1) {
+                if (currentUser[0]["gender"] === "male" || currentUser[0]["gender"] === "female") {
+                    for (let i = 0; i < userList.length; i++) {
+                        if (userList[i]["gender"] !== currentUser[0]["gender"]) {
+                            $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                        }
+                    }
+                } else if (currentUser[0]["gender"] === "other") {
+                    if (currentUser[0]["displayGender"] === 1 && (userList[i]["gender"] !== "male" || userList[i]["gender"] !== "other")) {
+                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                    } else if (currentUser[0]["displayGender"] === 2 && (userList[i]["gender"] !== "female" || userList[i]["gender"] !== "other")) {
+                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
+                    }
+                }
+            }
+        }
+
     } else {
         //displays a help message whenever there are no matches available to the user
         $(tab).append(noMatchesMessage)
@@ -259,8 +298,6 @@ function generateUserDisplay(currentUser) {
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
 
     //start and end date
-    //todo: fix the displaying of dates
-    //todo: fix translations
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -282,9 +319,6 @@ function generateUserDisplay(currentUser) {
             </div>
             </div>
             </div>`;
-
-    // requestButton.attr("data-translate", "overlay.button.sent");
-    // requestButton.attr("data-translate", "overlay.button.sent");
 
     return userDisplay;
 }
@@ -431,6 +465,7 @@ function closeElement(currentDisplay) {
 /** favourites function */
 async function setFavourite (userId) {
 
+    //gets the row in the favourites table where the requestingUser is the current user and the favouriteUser the other user
     let favourite = await getDataByPromise(`SELECT * FROM favourite
     WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]);
 
@@ -456,6 +491,7 @@ async function setFavourite (userId) {
 }
 
 /** Filters */
+//todo: filters; distance and buddy type
 var currentDistanceFilterAmount;
 
 function setTravelFilter(element) {

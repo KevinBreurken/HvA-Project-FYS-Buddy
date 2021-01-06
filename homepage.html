@@ -9,14 +9,68 @@
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js" id="general" data-type="home" data-nav-visible></script>
     <link rel="stylesheet" href="Content/CSS/Pages/homepage.css">
-<!--    <link rel="stylesheet" href="Content/CSS/on-boarding.css">-->
+    <link rel="stylesheet" href="Content/CSS/on-boarding.css">
     <script src="Scripts/Pages/homepage.js"></script>
 </head>
 <body>
 <header></header>
 <main>
-<!--    <button onclick="openOverlay()">Klik mij</button>-->
-<!--    <div id="on-boarding"></div>-->
+    <button onclick="toggleOnBoarding()">Klik mij</button>
+    <div id="on-boarding">
+        <button onclick="toggleOnBoarding()">X</button>
+
+        <div class="procedure">
+            <h2>On boarding introduction</h2>
+            <p>You are now on the homepage of Corendon Travel Buddy. </p>
+
+            <h4 class="header-margin">Travel specifications</h4>
+
+            <p>Here you can set your travel specifications and see all the people you've matched with. </p>
+            <img src="Content/Images/onboarding-specifications.png" id="OB-img-1"/>
+            <p>You can set your travel specification by filling out your start and end date and the city you're
+                travelling to. The system will then look for other users with that same travel specification. </p>
+        </div>
+
+        <div class="procedure">
+            <h4>Matching page</h4>
+
+            <p>Underneath the travel specifications you'll find all your current matches. </p>
+            <p>If you have no current matches you'll see this on your screen otherwise you'll find a list of all the
+                people who you've been matched with. </p>
+            <img src="Content/Images/onboarding-matches.png" id="OB-img-2"/>
+
+            <p></p>
+            <h4>The navigation bar. </h4>
+            <p>Here you can quickly swap between the different tabs. </p>
+            <p>In the all results tab you can view all of your current matches. </p>
+            <p>In the recently viewed tab you'll see the profile you've most recently visited. </p>
+            <p>In the matched tab you can find the people you're currently matched with. </p>
+            <p>You can find the people you've favorited in the favorites tab. </p>
+
+            <hr>
+
+            <h4>Profile cards</h4>
+            <p>When you click on of these matches you'll find some extra information about that user. </p>
+            <img src="Content/Images/onboarding-user-card.png" id="OB-img-3"/>
+            <p>You can click on the profile button to view even more information and then accept their invitation or
+                block them. </p>
+
+        </div>
+
+        <div class="procedure">
+            <h4>Profile page</h4>
+
+            <p>The user profile page</p>
+            <img src="Content/Images/onboarding-user-profile.png" id="OB-img-4"/>
+            <p>On the send friend request you'll send a request to that user and if he/she accepts </p>
+        </div>
+
+        <div id="button-group">
+            <button class="btn-OB" onclick="toggleOnBoarding()">Finnish</button>
+            <button class="btn-OB" onclick="swapStep(1)">Next</button>
+            <button class="btn-OB" onclick="swapStep(-1)">Back</button>
+        </div>
+    </div>
 
     <div id="homepage-slide-div-wrapper">
         <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
@@ -127,6 +181,6 @@
         <div id="overlay-background"></div>
 
 </main>
-<!--<script src="Scripts/on-boarding.js"></script>-->
+<script src="Scripts/on-boarding.js"></script>
 </body>
 </html>
