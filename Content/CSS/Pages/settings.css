@@ -166,6 +166,10 @@ button.block-button:hover {
   /*word-break: break-all; <-- Possible solution to not breaking words correctly*/
 }
 
+.profile-bio {
+  word-break: break-all;
+}
+
 .card-control {
   display: flex;
   padding: 5px;
