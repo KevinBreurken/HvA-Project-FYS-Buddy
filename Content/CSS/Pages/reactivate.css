@@ -1,0 +1,87 @@
+/* Reactivate related CSS: */
+main {
+    margin: 0;
+    width: 100%;
+    max-width: none;
+}
+
+.disable-highlight-select {
+    user-select: none; /* supported by Chrome and Opera */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+/* reactivate side navigation */
+.reactivate-nav-container {
+    display: flex;
+    justify-content: center;
+    max-width: 800px; /* <-- change max-width of the page here for reactivate instead (because of the sticky navigation menu) */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+nav#reactivateNavigation {
+    display: table; /* Using table as it is compatible with most browsers but could also use align-self: flex-start instead. */
+    position: sticky;
+    top: 0;
+    max-width: 300px;
+    background-color: #fff;
+}
+
+nav#reactivateNavigation > ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav#reactivateNavigation > ul a {
+    display: block;
+    margin: 5px;
+    padding: 15px 10px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    background-color: var(--color-corendon-red);
+}
+
+nav#reactivateNavigation > ul a:hover {
+    background-color: var(--color-corendon-dark-red);
+}
+
+@media only screen and (max-width: 1000px) {
+    nav#reactivateNavigation {
+        display: none;
+    }
+}
+
+/* Content */
+.content {
+    padding: 0 15px;
+}
+
+.content, nav#reactivateNavigation {
+    border: var(--border-corendon-grey);
+}
+
+.reactivate-controls {
+    text-align: center;
+    padding: 15px 0;
+}
+
+.reactivate-controls button {
+    padding: .375rem .75rem;
+    user-select: none;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+
+.reactivate-controls button {
+    background-color: var(--color-corendon-red);
+    border-color: var(--color-corendon-dark-red);
+    color: var(--color-corendon-white);
+}
+
+.reactivate-controls button:hover {
+    background-color: var(--color-corendon-dark-red);
+}
