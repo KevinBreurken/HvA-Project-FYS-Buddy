@@ -153,7 +153,7 @@ $(document).on("change", "body", function () {
     }
 
     function check_tel() {
-        let pattern = /^[{10}]+$/;
+        let pattern = /^\d{10}$/;
         let tel = $("#Telephone").val();
         if (pattern.test(tel) && tel !== '') {
             $("#tel_error_message").hide();
@@ -200,13 +200,14 @@ document.getElementById("fileUpload").addEventListener("change", function() {
                 alert(reason);
             });
 });
-        document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
+    document.getElementById("saveChangesBtn").addEventListener("click", function (event) {
             if(error_username === false &&
                 error_firstname === false &&
                 error_lastname === false &&
                 error_email === false &&
                 error_tel === false) {
-                //event.preventDefault();
+
+                event.preventDefault();
                 let firstname = document.querySelector("#FirstName").value;
                 let lastname = document.querySelector("#LastName").value;
                 let biography = document.querySelector("#Biography").value;
