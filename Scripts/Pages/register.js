@@ -361,6 +361,7 @@ function register() {
                     ).done(function(data) {
                         console.log(data);
                         loginUser(setId);
+                        window.location.href = "http://localhost:63342/register/team-1/homepage.html?activateOnBoarding";
                     }).fail(function (reason) {
                         console.log(reason)
                     })

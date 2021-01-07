@@ -56,3 +56,7 @@ function swapStep(i) {
         btn[2].style.display = 'block'
     }
 }
+
+if (window.location == "http://localhost:63342/register/team-1/homepage.html?activateOnBoarding") {
+    toggleOnBoarding()
+}
