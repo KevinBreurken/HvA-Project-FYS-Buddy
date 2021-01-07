@@ -59,3 +59,8 @@ function validationCheck() {
         }
     }
 }
+
+document.getElementById("signIn").addEventListener("click", function(e) {
+   e.preventDefault();
+   validationCheck();
+});
