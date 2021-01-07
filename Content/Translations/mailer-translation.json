@@ -1,0 +1,32 @@
+{
+  "mail": {
+    "accept": {
+      "subject": {
+        "nl": "Een vriendschapsverzoek is geacepteerd!",
+        "en": "A friend request has been accepted!"
+      },
+      "text": {
+        "nl": "Iemand heeft een vriendschapsverzoek geaccepteerd!",
+        "en": "Somebody has accepted your contact request!"
+      },
+      "link": {
+        "nl": "Ga naar website",
+        "en": "Go to site"
+      }
+    },
+    "request": {
+      "subject": {
+        "nl": "Vriendschapsverzoek ontvangen",
+        "en": "Received friend request"
+      },
+      "text": {
+        "nl": "Iemand heeft een vriendschapsverzoek verstuurd!",
+        "en": "Somebody has sent a contact request!"
+      },
+      "link": {
+        "nl": "Ga naar website",
+        "en": "Go to site"
+      }
+    }
+  }
+}
