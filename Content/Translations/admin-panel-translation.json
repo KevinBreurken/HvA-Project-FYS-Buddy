@@ -25,6 +25,10 @@
         "nl": "Achternaam",
         "en": "Lastname"
       },
+      "userRole": {
+        "nl": "Gebruiker Rol",
+        "en": "User Role"
+      },
       "edit": {
         "nl": "Wijzig",
         "en": "Edit"
