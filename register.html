@@ -54,6 +54,8 @@
                 </div>
             </div>
         </div>
+        <!-- TODO: Use flexbox for other steps as well -->
+        <!-- TODO: Back button comes right after date input. When pressing enter on date it causes the back button's "click" event to trigger instead of "swapping" to the next step. -->
         <div class="step">
             <h2 data-translate="register.step2.title"></h2>
 
@@ -154,9 +156,10 @@
         </div>
 
         <div class="btn-group">
-            <p class="btn" id="btn-back" onclick="swapStep(-1)" data-translate="register.buttons.back"></p>
-            <p class="btn" id="btn-next" onclick="swapStep(1)" data-translate="register.buttons.next"></p>
-            <p class="btn" id="btn-register" onclick="register()" data-translate="register.buttons.register"></p>
+            <!-- TODO: Figure out a way to deal with the fact then when pressing the "Enter" key, the events for the first button on the form will get executed first instead of the input events first: -->
+<!--            <button class="btn" id="btn-back" onclick="swapStep(-1);" data-translate="register.buttons.back"></button>-->
+            <button class="btn" id="btn-next" onclick="swapStep(1);" data-translate="register.buttons.next"></button>
+            <button class="btn" id="btn-register" onclick="register();" data-translate="register.buttons.register"></button>
             <input type="submit" style="display: none;">
         </div>
     </form>

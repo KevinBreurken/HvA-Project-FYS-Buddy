@@ -77,17 +77,18 @@ function swapStep(number) {
                         }
                     }
                     else {
-                        alert("Password was left empty or exceeded character limit of " + MAX_PASSWORD + " characters.");
+                        //alert("Password was left empty or exceeded character limit of " + MAX_PASSWORD + " characters.");
                     }
                 }
                 else {
-                    alert("Email was left empty or exceeded character limit of " + MAX_EMAIL + " characters.");
+                    //alert("Email was left empty or exceeded character limit of " + MAX_EMAIL + " characters.");
                 }
             }
             else {
-                alert("Username was left empty or exceeded character limit of " + MAX_USERNAME + " characters.");
+                //alert("Username was left empty or exceeded character limit of " + MAX_USERNAME + " characters.");
             }
 
+            console.log("current step is: " + currentStep);
             backBtn.css('display', 'none')
             nextBtn.css('display', 'inline')
             registerBtn.css('display', 'none')
@@ -110,16 +111,44 @@ function swapStep(number) {
             }
 
             // Check if nothing is left empty and if it's within the given parameter
-            if (firstname !== "" && firstname.length <= MAX_FIRSTNAME &&
-                lastname !== "" && lastname.length <= MAX_LASTNAME &&
-                dob !== "" && dob <= dateMin && dob >= dateMax &&
-                (gender === "male" || gender === "female" || gender === "other")) {
-
-
-                // Hides the current step and will display the next step
-                step[currentStep].style.display = 'none'
-                step[currentStep + number].style.display = 'block'
-                currentStep += number
+            if(firstname !== "") {
+                if(firstname.length <= MAX_FIRSTNAME) {
+                    if(lastname !== "") {
+                        if(lastname.length <= MAX_LASTNAME) {
+                            if(dob !== "") {
+                                if(dob <= dateMin && dob >= dateMax) {
+                                    if((gender === "male" || gender === "female" || gender === "other")) {
+                                        // Hides the current step and will display the next step
+                                        step[currentStep].style.display = 'none'
+                                        step[currentStep + number].style.display = 'block'
+                                        currentStep += number
+                                    }
+                                    else {
+                                        //alert("No gender was selected. Please re-enter and try again.");
+                                    }
+                                }
+                                else {
+                                    //alert("Date of birth field exceeded date limit of " + dateMin + " or " + dateMax +  ". Please re-enter and try again.");
+                                }
+                            }
+                            else {
+                                //alert("Date of birth field was left empty. Please re-enter and try again.");
+                            }
+                        }
+                        else {
+                            //alert("Last name field exceeded character limit of " + MAX_LASTNAME + " characters. Please re-enter and try again.");
+                        }
+                    }
+                    else {
+                        //alert("Last name field was left empty. Please re-enter and try again.");
+                    }
+                }
+                else {
+                    //alert("First name field exceeded character limit of " + MAX_FIRSTNAME + " characters. Please re-enter and try again.")
+                }
+            }
+            else {
+                //alert("First name field was left empty. Please re-enter and try again.");
             }
 
             backBtn.css('display', 'inline')
@@ -147,7 +176,12 @@ function swapStep(number) {
         }
     } else { // If the user pressed back don't check for valid input and show previous step
         step[currentStep].style.display = 'none'
-        step[currentStep + number].style.display = 'flex'
+        if((currentStep + number) === 0) {
+            step[currentStep + number].style.display = 'flex'
+        }
+        else {
+            step[currentStep + number].style.display = 'block'
+        }
         // For clarity: currentStep = currentStep - - -1
         currentStep = currentStep - -number
 
@@ -169,13 +203,56 @@ function swapStep(number) {
             registerBtn.css('display', 'inline')
         }
     }
+}
 
+
+
+addInputEventListeners();
+function addInputEventListeners() {
+    let registerForm = document.getElementById("registerForm");
+    let inputFields = registerForm.getElementsByTagName("input");
+    for (let i = 0; i < inputFields.length; i++) {
+        if (inputFields[i].getAttribute("type") === "text" ||
+            inputFields[i].getAttribute("type") === "password" ||
+            inputFields[i].getAttribute("type") === "email" ||
+            inputFields[i].getAttribute("type") === "date" ||
+            inputFields[i].getAttribute("type") === "file") {
+            inputFields[i].addEventListener("keyup", function(e) {
+                if(e.key === "Enter") {
+                    swapStep(1);
+                    fireHtml5FormValidation();
+                }
+            });
+        }
+    }
+
+    // TODO: Add enter submition event on textarea enter keypress:
+    let textAreas = registerForm.getElementsByTagName("textarea");
+    for (let i = 0; i < textAreas.length; i++) {
+        //console.log(textAreas[i]);
+    }
+}
+
+// document.getElementById("btn-back").addEventListener("click", function(e) {
+//     e.preventDefault();
+//     fireHtml5FormValidation();
+// });
+document.getElementById("btn-next").addEventListener("click", function(e) {
+    e.preventDefault();
+    fireHtml5FormValidation();
+});
+document.getElementById("btn-register").addEventListener("click", function(e) {
+    e.preventDefault();
+    fireHtml5FormValidation();
+});
+
+function fireHtml5FormValidation() {
     let $myForm = $("#registerForm");
 
     if(! $myForm[0].checkValidity()) {
         // If the form is invalid, submit it. The form won't actually submit;
         // this will just cause the browser to display the native HTML5 error messages.
-        $myForm.find(':submit').click();
+        $myForm.find('input:submit').click();
     }
 }
 
@@ -218,56 +295,80 @@ function register() {
         }
     }
 
+    console.log(email + " " + password + " " + username);
+
+    // TODO: Create an element on an adminstrator only page to add more administrator accounts:
+    // Curently only creating "user" role accounts:
     FYSCloud.API.queryDatabase(
-        "INSERT INTO `user` (`id`, `username`, `email`, `password`) VALUES (NULL, ?, ?, ?);",
-        [username, email, password]
+        "INSERT INTO `user` (`id`, `email`, `password`, `username`, `userRole`) " +
+        "VALUES (NULL, ?, ?, ?, '1')",
+        [email, password, username]
     ).done(function (data) {
         setId = data.insertId
 
-        FYSCloud.Utils.getDataUrl(
-            $("#fileUpload")
-        ).done(function (data) {
-                picExtension = data.extension
-                url = "pp-" + setId + "." + picExtension
+        FYSCloud.Utils.getDataUrl($("#fileUpload"))
+        .done(function (data) {
+            picExtension = data.extension
+            url = "pp-" + setId + "." + picExtension
 
-                FYSCloud.API.uploadFile(
-                    "profile-pictures/pp-" + setId + "." + picExtension,
-                    data.url,
-                )
+            FYSCloud.API.uploadFile(
+                "profile-pictures/pp-" + setId + "." + picExtension,
+                data.url,
+            ).done(function(data) {
+                console.log(data);
+            }).fail(function(reason) {
+                console.log(reason);
+            });
 
-                FYSCloud.API.queryDatabase(
-                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);INSERT INTO setting (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (?, ?, '1', '1', '1', '1', '1', '11', '500')",
-                    [setId, setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
-                ).done(function (data) {
-                    for (let i = 0; i < hobby.length; i++) {
-                        FYSCloud.API.queryDatabase(
-                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
-                            [setId, hobby[i]]
-                        ).fail(function (reason) {
-                            console.log(reason)
-                        })
-                    }
-                }).fail(function (reason) {
-                    console.log(reason)
-                })
-            }
-        ).fail(function (reason) {
-                FYSCloud.API.queryDatabase(
-                    "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`) VALUES (?, ?, ?, ?, ?, ?, ?, DEFAULT, NULL, NULL);INSERT INTO setting (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (?, ?, '1', '1', '1', '1', '1', '11', '500')",
-                    [setId, setId, firstname, lastname, gender, dobFormat, bio, setId, setId]
-                ).done(function (data) {
-                    for (let i = 0; i < hobby.length; i++) {
-                        FYSCloud.API.queryDatabase(
-                            "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
-                            [setId, hobby[i]]
-                        ).fail(function (reason) {
-                            console.log(reason)
-                        })
-                    }
-                })
-            }
-        )
-        loginUser(setId)
+            FYSCloud.API.queryDatabase(
+                "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`)" +
+                "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);" +
+                "INSERT INTO setting (`id`, `userId`, `deactivated`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`)" +
+                "VALUES (NULL, ?, '0', '1', '1', '1', '1', '1', '11', '500')",
+                [setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
+            ).done(function (data) {
+                console.log(data);
+                for (let i = 0; i < hobby.length; i++) {
+                    FYSCloud.API.queryDatabase(
+                        "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                        [setId, hobby[i]]
+                    ).done(function(data) {
+                        console.log(data);
+                        loginUser(setId);
+                    }).fail(function (reason) {
+                        console.log(reason);
+                    });
+                }
+            }).fail(function (reason) {
+                console.log(reason);
+            });
+        }).fail(function (reason) {
+            console.log(reason);
+
+            FYSCloud.API.queryDatabase(
+                "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`)" +
+                "VALUES (NULL, ?, ?, ?, ?, ?, ?, DEFAULT, NULL, NULL);" +
+                "INSERT INTO setting (`id`, `userId`, `deactivated`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`)" +
+                "VALUES (NULL, ?, '0', '1', '1', '1', '1', '1', '11', '500')",
+                [setId, firstname, lastname, gender, dobFormat, bio, setId, setId]
+            ).done(function (data) {
+                console.log(data);
+
+                for (let i = 0; i < hobby.length; i++) {
+                    FYSCloud.API.queryDatabase(
+                        "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?)",
+                        [setId, hobby[i]]
+                    ).done(function(data) {
+                        console.log(data);
+                        loginUser(setId);
+                    }).fail(function (reason) {
+                        console.log(reason)
+                    })
+                }
+            }).fail(function(reason) {
+                console.log(reason);
+            });
+        });
     }).fail(function (reason) {
         console.log(reason)
     })
@@ -301,7 +402,6 @@ window.onload = function() {
     let flexContainerClassName = "flex-container";
     let flexContainers = document.getElementsByClassName(flexContainerClassName);
     for (let i = 0; i < flexContainers.length; i++) {
-        console.log(flexContainers[i].children.length);
         for (let j = 0; j < flexContainers[i].children.length; j++) {
             flexContainers[i].children[j].style.removeProperty("order");
         }
