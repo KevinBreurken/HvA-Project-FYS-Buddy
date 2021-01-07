@@ -1,16 +1,6 @@
 {
-  "adminprofile": {
-    "title": {
-      "en": "Account",
-      "nl": "Account"
-    },
-    "lastseen": {
-      "en": "Last seen:",
-      "nl": "Laatst gezien:"
-    },
-    "adres": {
-      "en": "IP-Address:",
-      "nl": "IP-Adres:"
-    }
+  "test": {
+    "en": "this is a test",
+    "nl": "dit is een test"
   }
 }

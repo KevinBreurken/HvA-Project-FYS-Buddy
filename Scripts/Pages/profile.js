@@ -188,7 +188,7 @@ function generateProfileDisplay(data) {
     $("#img").attr("src", url);
     $("#firstname").html("<b data-translate='profile.firstname'>First name: </b>" + firstname);
     $("#lastname").html("<b data-translate='profile.lastname'>Last name: </b>" + lastname);
-    $("#gender").attr('data-translate',`gender.${gender}`);
+    $("#gender").html(gender);
     $("#age").html("<b data-translate='profile.age'>Age: </b>" + age);
     $("#dob").html("<b data-translate='profile.dob'>Date of birth: </b>" + dob);
     $("#biography").html(biography);

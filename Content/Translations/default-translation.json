@@ -44,19 +44,5 @@
       "nl": "Meubels Verplaatsen",
       "en": "Moving Furniture"
     }
-  },
-  "gender": {
-    "male": {
-      "nl": "Man",
-      "en": "Male"
-    },
-    "female": {
-      "nl": "Vrouw",
-      "en": "Female"
-    },
-    "other": {
-      "nl": "Anders",
-      "en": "Other"
-    }
   }
 }

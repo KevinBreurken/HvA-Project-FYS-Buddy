@@ -10,47 +10,16 @@ window.addEventListener('load', function () {
 })
 
 let slide = 0;
-/** sets the current slide */
-function setSlide(arrow) {
-    switch (slide) {
-        case 0: arrow.id.toString() === "left-arrow" ? slide = 4 : slide++; break;
-        case 1: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
-        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
-        case 3: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
-        case 4: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
-    }
-    displayNextSlide();
-}
-
 /**  displays the next slide */
-function displayNextSlide() {
-    //sets the correct text for the current slide
+function displayNextSlide(arrow) {
+    switch (slide) {
+        case 0: arrow.id.toString() === "left-arrow" ? slide = 2 : slide++; break;
+        case 1: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
+    }
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
-
-    FYSCloud.Localization.translate(false);     //translates the current slide if needed
-
-    let slideText = document.getElementById(`img-text-wrapper`);
-    slideText.onclick = function(){goToAnchor()};
-}
-
-/** jumps to an anchor on the page when clikcing on a slide */
-function goToAnchor() {
-    if (slide === 0) {
-        slide = 1;
-        displayNextSlide();
-    } else if (slide === 1) {
-        toggleTravelForm();
-        $('html, body').animate({scrollTop: $("#travel-container").offset().top}, 1000);
-    } else if(slide === 2) {
-        $("#all-results").click();
-        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
-    } else if (slide === 3) {
-        $("#friends").click();
-        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
-    } else if (slide === 4) {
-        //todo: restart on-boarding
-    }
+    FYSCloud.Localization.translate(false);
 }
 
 /** fetches the current user's travel data */
@@ -102,11 +71,10 @@ async function populateCityList() {
 function sendTravelData() {
     //get current selected value from select element in form
     var citySelect = document.getElementById("cityList").value;
-
+    
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
-    //sets the start and end date in the format required for the current travel data display
     var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
     var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
 
@@ -149,8 +117,9 @@ function toggleTravelForm() {
     $("#currentTravelData").slideToggle("slow");
 }
 
+//1.1 All results todo: gender preference, blocked, display settings en evt. interests
+//todo: filters; distance and buddy type
 let lastButtonId;
-let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
 
@@ -170,20 +139,14 @@ async function openTabContent(currentButton) {
     //gets the current user's data
     let currentUser = await getDataByPromise(`SELECT 
        u.id,
-       p.gender,
-       s.sameGender, s.displayGenderId,
        GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
     FROM fys_is111_1_dev.user u
-    INNER JOIN profile p ON p.userId = u.id
-    LEFT JOIN setting s ON s.userId = u.id
     LEFT JOIN userinterest ui ON ui.userId = u.id
     INNER JOIN travel t ON u.id = t.userId
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
-
-    // console.log(currentUser)
 
     //filters the data bases on the current tab
     let queryExtension = ``;
@@ -215,32 +178,25 @@ async function openTabContent(currentButton) {
     //calculating distance snippet from stackoverflow answer; https://stackoverflow.com/a/48263512
     let userList = await getDataByPromise(`
     SELECT 
-       p.userId, p.pictureUrl, p.buddyType, p.gender, 
+       p.userId, p.pictureUrl, p.buddyType, 
        u.username,
        GROUP_CONCAT (ui.interestId) as "interestGroup",
+       r.roleId, 
        s.radialDistance,
        t.startdate, t.enddate,
        l.*,
-       f.favouriteUser,
-       SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
-       - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
+       f.favouriteUser  
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     LEFT JOIN userinterest ui ON ui.userId = p.userId 
+    INNER JOIN userrole r ON r.userId = p.userId
     LEFT JOIN setting s ON s.userId = p.userId
     INNER JOIN travel t ON t.userId = p.userId
     INNER JOIN location l ON l.id = t.locationId
     LEFT JOIN favourite f ON f.requestingUser = ${currentUser[0]["userId"]} AND f.favouriteUser = p.userId
     LEFT JOIN friend fr ON (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)
-    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]}) 
-    WHERE userRole != 2
-    AND NOT EXISTS (
-        SELECT *
-        FROM blocked b
-        WHERE (b.blockedUser = p.userId OR b.blockedUser = ${currentUser[0]["userId"]})
-        AND (b.requestingUser = p.userId OR b.requestingUser = ${currentUser[0]["userId"]})
-        )
-    ${queryExtension} 
+    LEFT JOIN friendrequest rq ON (rq.requestingUser = p.userId AND rq.targetUser = ${currentUser[0]["userId"]})
+    WHERE r.roleId != 2 ${queryExtension} 
     GROUP by p.userId`
         , queryArray);
 
@@ -263,13 +219,10 @@ async function openTabContent(currentButton) {
         userList[i]["equalInterests"] = equalInterests;
     }
 
+    //todo: sort userList
     //sorting the userList by destination and interests
     userList = userList.sort(function (obj1, obj2) {
-        if (parseInt(obj1["distanceInKm"] - obj2["distanceInKm"]) !== 0) {
-            return parseInt(obj1["distanceInKm"] - obj2["distanceInKm"]);
-        } else {
-            return obj2["equalInterests"] - obj1["equalInterests"];
-        }
+        return obj2["equalInterests"] - obj1["equalInterests"];
     });
 
     $(tab).html("");
@@ -277,35 +230,12 @@ async function openTabContent(currentButton) {
         //appends a user-display with the correct data to the tab for every user that needs to be displayed
         for (let i = 0; i < userList.length; i++) {
             $(tab).append(generateUserDisplay(userList[i]))
-            // console.log(userList[i])
         }
-
-        //todo filters users by gender with delete or within query?
-        //filters the userlist based on the current user's gender settings
-        if (currentButton.id.toString() === "all-results") {
-            if (currentUser[0]["sameGender"] === 1) {
-                if (currentUser[0]["gender"] === "male" || currentUser[0]["gender"] === "female") {
-                    for (let i = 0; i < userList.length; i++) {
-                        if (userList[i]["gender"] !== currentUser[0]["gender"]) {
-                            $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
-                        }
-                    }
-                } else if (currentUser[0]["gender"] === "other") {
-                    if (currentUser[0]["displayGender"] === 1 && (userList[i]["gender"] !== "male" || userList[i]["gender"] !== "other")) {
-                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
-                    } else if (currentUser[0]["displayGender"] === 2 && (userList[i]["gender"] !== "female" || userList[i]["gender"] !== "other")) {
-                        $(`#user-display-${userList[i]["userId"]}`).css("display", "none")
-                    }
-                }
-            }
-        }
-
     } else {
         //displays a help message whenever there are no matches available to the user
         $(tab).append(noMatchesMessage)
     }
 
-    currentDisplayedUsers = userList;
     FYSCloud.Localization.translate(false);
 }
 
@@ -327,8 +257,10 @@ function generateUserDisplay(currentUser) {
     let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
     if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
-
+    
     //start and end date
+    //todo: fix the displaying of dates
+    //todo: fix translations
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -350,6 +282,9 @@ function generateUserDisplay(currentUser) {
             </div>
             </div>
             </div>`;
+
+    // requestButton.attr("data-translate", "overlay.button.sent");
+    // requestButton.attr("data-translate", "overlay.button.sent");
 
     return userDisplay;
 }
@@ -404,7 +339,8 @@ async function openUserOverlay(overlayUserId) {
     requestButton.css('opacity', '1');
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
         }, function () { $(this).css("background-color", "");} );
-    
+
+
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
@@ -416,7 +352,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-    FYSCloud.Localization.translate(false);
+
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -426,6 +362,7 @@ function disableRequestButton() {
     requestButton.css('opacity', '0.6');
     requestButton.attr("disabled", true);
     requestButton.attr("data-translate", "overlay.button.sent");
+    FYSCloud.Localization.translate(false);
 }
 
 function acceptRequest(acceptedUser,userIdToAccept) {
@@ -438,20 +375,20 @@ function acceptRequest(acceptedUser,userIdToAccept) {
                       INSERT INTO friend (user1, user2)
                       VALUES (${acceptedUser},${userIdToAccept});
     `).then((data) => sendFriendMatchData(userIdToAccept));
-    //Remove display from tab.
-    $(`#user-display-${userIdToAccept}`).remove();
+    //todo: remove element from display tab.
     closeUserOverlay();
 }
 
 async function sendFriendMatchData(userIdToAccept){
-    //Get current user travel destination.
+    //Get current user travel destination
     const CURRENT_USER = await getDataByPromise(`SELECT *
     FROM travel WHERE id = ?`, getCurrentUserID());
     //Send the location that we currently have to the database.
     await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
                             VALUES (?, 1)
-                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER[0]["locationId"]);
-    //Check which interests are equal.
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER["destination"]);
+    //Check which interests are equal
+    //TODO: Add interests to results query.
     const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
     const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
     $(userInterests).each(uInterest => {
@@ -494,7 +431,6 @@ function closeElement(currentDisplay) {
 /** favourites function */
 async function setFavourite (userId) {
 
-    //gets the row in the favourites table where the requestingUser is the current user and the favouriteUser the other user
     let favourite = await getDataByPromise(`SELECT * FROM favourite
     WHERE requestingUser = ? AND favouriteUser = ?`, [getCurrentUserID(), userId]);
 
@@ -520,7 +456,6 @@ async function setFavourite (userId) {
 }
 
 /** Filters */
-//todo: filters; distance and buddy type
 var currentDistanceFilterAmount;
 
 function setTravelFilter(element) {
@@ -531,10 +466,10 @@ function setTravelFilter(element) {
     $(element).attr("current", "");
     currentDistanceFilterAmount = distanceAmount;
 
-    filterCurrentDisplayedUsers();
+    //todo: apply filter.
 }
 
-let currentBuddyFilterID = 1;
+var currentBuddyFilterID;
 
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
@@ -544,7 +479,7 @@ function setBuddyFilter(element) {
     $(element).attr("current", "");
     currentBuddyFilterID = buddyIndex;
 
-    filterCurrentDisplayedUsers();
+    //todo: apply filter.
 }
 
 function resetFilters() {
@@ -559,33 +494,4 @@ function resetFilters() {
     let distanceDefault = $("#filter-option-distance-default");
     currentDistanceFilterAmount = buddyDefault.data("distance");
     distanceDefault.attr("current", "");
-}
-
-function filterCurrentDisplayedUsers() {
-    //Reset all
-    $('.user-display').show();
-
-    $(currentDisplayedUsers).each(userDisplay => {
-        //Hide displays depending on selected buddy type filter.
-        if (currentBuddyFilterID !== 1) { // 1 == both buddy types
-            const displayedUserBuddyId = currentDisplayedUsers[userDisplay]['buddyType'];
-            if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
-                $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
-        }
-        //Hide displays depending on selected distance filter.
-        if(currentDistanceFilterAmount !== undefined)
-        if(currentDisplayedUsers[userDisplay]['distanceInKm'] > currentDistanceFilterAmount)
-            $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
-    });
-
-    //Check if there's any display being shown..
-    if ($('.user-display:visible').length === 0) {
-        //Generate a new message to display in the tab content.
-        $('.no-matches-message').remove();
-        let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
-        $('#tab').append(noMatchesMessage);
-        FYSCloud.Localization.translate(false);
-    }else {
-        $('.no-matches-message').remove();
-    }
 }

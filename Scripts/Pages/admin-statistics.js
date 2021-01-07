@@ -1,4 +1,3 @@
-$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js" id="statistics-snippet"></script>');
 let pieChartColors = [
     "#2ecc71",
     "#3498db",

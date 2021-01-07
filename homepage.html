@@ -9,78 +9,28 @@
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js" id="general" data-type="home" data-nav-visible></script>
     <link rel="stylesheet" href="Content/CSS/Pages/homepage.css">
-    <link rel="stylesheet" href="Content/CSS/on-boarding.css">
+<!--    <link rel="stylesheet" href="Content/CSS/on-boarding.css">-->
     <script src="Scripts/Pages/homepage.js"></script>
 </head>
 <body>
 <header></header>
 <main>
-    <button onclick="toggleOnBoarding()">Klik mij</button>
-    <div id="on-boarding">
-        <button onclick="toggleOnBoarding()">X</button>
-
-        <div class="procedure">
-            <h2 data-translate="onBoarding.procedure.1.header"></h2>
-            <p data-translate="onBoarding.procedure.1.para1"></p>
-
-            <h4 class="header-margin" data-translate="onBoarding.procedure.1.subHead"></h4>
-
-            <p data-translate="onBoarding.procedure.1.para2"></p>
-            <p data-translate="onBoarding.img.1"></p>
-            <p data-translate="onBoarding.procedure.1.para3"></p>
-        </div>
-
-        <div class="procedure">
-            <h4 data-translate="onBoarding.procedure.2.subhead1"></h4>
-            <p data-translate="onBoarding.procedure.2.para1"></p>
-            <p data-translate="onBoarding.procedure.2.para2"></p>
-            <p data-translate="onBoarding.img.2"></p>
-
-            <h4 data-translate="onBoarding.procedure.2.subhead2"></h4>
-            <p data-translate="onBoarding.procedure.2.para3"></p>
-            <p data-translate="onBoarding.procedure.2.para4"></p>
-            <p data-translate="onBoarding.procedure.2.para5"></p>
-            <p data-translate="onBoarding.procedure.2.para6"></p>
-            <p data-translate="onBoarding.procedure.2.para7"></p>
-
-            <hr>
-
-            <h4 data-translate="onBoarding.procedure.2.subhead3"></h4>
-            <p data-translate="onBoarding.procedure.2.para8"></p>
-
-            <p data-translate="onBoarding.img.3"></p>
-            <p data-translate="onBoarding.procedure.2.para9"></p>
-
-        </div>
-
-        <div class="procedure">
-            <h4 data-translate="onBoarding.procedure.3.subHead"></h4>
-
-            <p data-translate="onBoarding.procedure.3.para1"></p>
-            <p data-translate="onBoarding.img.4"></p>
-            <p data-translate="onBoarding.procedure.3.para2"></p>
-        </div>
-
-        <div id="button-group">
-            <button class="btn-OB" onclick="toggleOnBoarding()" data-translate="onBoarding.buttons.finnish"></button>
-            <button class="btn-OB" onclick="swapStep(1)" data-translate="onBoarding.buttons.next"></button>
-            <button class="btn-OB" onclick="swapStep(-1)" data-translate="onBoarding.buttons.back"></button>
-        </div>
-    </div>
+<!--    <button onclick="openOverlay()">Klik mij</button>-->
+<!--    <div id="on-boarding"></div>-->
 
     <div id="homepage-slide-div-wrapper">
-        <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="setSlide(this)">
+        <img class="img-arrow" id="left-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
         <!--current slide-->
         <div id="homepage-slide-div">
             <img  id="homepage-img" src="Content/Images/homepage-img.jpg">
-            <div id="img-text-wrapper" onclick="goToAnchor()">
+            <div id="img-text-wrapper">
                 <div id="img-text">
                     <h1 id="h1-slide" data-translate="slide.h1.0">Lorem ipsum.</h1>
                     <p id="p-slide" data-translate="slide.text.0">paragraph</p>
                 </div>
             </div>
         </div>
-        <img class="img-arrow" id="right-arrow" src="Content/Images/down-arrow.svg" onclick="setSlide(this)">
+        <img class="img-arrow" id="right-arrow" src="Content/Images/down-arrow.svg" onclick="displayNextSlide(this)">
     </div>
 
 
@@ -120,23 +70,25 @@
                 <button class="tab-button" onclick="openTabContent(this)" id="friend-requests" data-translate="tab.button.friendRequests">Friend requests</button>
                 <button class="tab-button" onclick="openTabContent(this)" id="favourites" data-translate="tab.button.favourites">Favourites</button>
             </div>
-            <button id="filters">filters<img src="Content/Images/down-arrow-filters.png"></button>
+            <!--todo: remove display: "none" and make filters fully functional-->
+            <!--todo: change % back to 90/10-->
+            <button id="filters" style="display: none">filters<img src="Content/Images/down-arrow-v3.png"></button>
             <div id="filter-dropdown">
                 <div class="filter-option">
-                    <p class="filter-title" data-translate="filters.travelDistance.title">Travel distance</p>
+                    <p class="filter-title">Travel distance</p>
                     <div class="filter-option-buttons">
-                        <button class="filter-option-distance" id="filter-option-distance-default" data-distance="40100" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option1">Everywhere</button>
-                        <button class="filter-option-distance" data-distance="100" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option2">< 100km</button>
-                        <button class="filter-option-distance" data-distance="2000" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option3">< 2000km</button>
-                        <button class="filter-option-distance" data-distance="8000" onclick="setTravelFilter(this)" data-translate="filters.travelDistance.option4">< 8000km</button>
+                        <button class="filter-option-distance" id="filter-option-distance-default" data-distance="40100" onclick="setTravelFilter(this)">Everywhere</button>
+                        <button class="filter-option-distance" data-distance="100" onclick="setTravelFilter(this)">< 100km</button>
+                        <button class="filter-option-distance" data-distance="2000" onclick="setTravelFilter(this)">< 2000km</button>
+                        <button class="filter-option-distance" data-distance="8000" onclick="setTravelFilter(this)">< 8000km</button>
                     </div>
                 </div>
                 <div class="filter-option">
-                    <p class="filter-title" data-translate="filters.buddy.title">Type of buddy</p>
+                    <p class="filter-title">Type of buddy</p>
                     <div class="filter-option-buttons">
-                        <button class="filter-option-buddy" id="filter-option-buddy-default" data-buddy="1" onclick="setBuddyFilter(this)" data-translate="filters.buddy.option1">Both</button>
-                        <button class="filter-option-buddy" data-buddy="3" onclick="setBuddyFilter(this)" data-translate="filters.buddy.option2">Only travel buddies</button>
-                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)" data-translate="filters.buddy.option3">Only activity buddies</button>
+                        <button class="filter-option-buddy" id="filter-option-buddy-default" data-buddy="0" onclick="setBuddyFilter(this)">Both</button>
+                        <button class="filter-option-buddy" data-buddy="1" onclick="setBuddyFilter(this)">Only travel buddies</button>
+                        <button class="filter-option-buddy" data-buddy="2" onclick="setBuddyFilter(this)">Only activity buddies</button>
                     </div>
                 </div>
             </div>
@@ -177,6 +129,6 @@
         <div id="overlay-background"></div>
 
 </main>
-<script src="Scripts/on-boarding.js"></script>
+<!--<script src="Scripts/on-boarding.js"></script>-->
 </body>
 </html>

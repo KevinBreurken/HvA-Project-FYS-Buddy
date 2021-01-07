@@ -6,7 +6,7 @@
     <title>Edit profile page</title>
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
-    <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="profile-translation"></script>
+    <script src="Scripts/app.js"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js" id="general" data-type="profile" data-nav-visible></script>
     <link rel="stylesheet" href="Content/CSS/default.css">
@@ -16,11 +16,11 @@
 <body>
 <header></header>
 <main class="main" id="main">
-<h1 data-translate="edit.profilesettings">Profile settings</h1>
-    <form id="form" method="post">
+<h1>Profile settings</h1>
+    <form method="post">
     <div class="row">
         <div class="column">
-            <h2 class="photo" data-translate="edit.picture">Profile picture</h2>
+            <h2 class="photo">Profile picture</h2>
             <div class="img-block">
             <label for="fileUpload"></label>
             <input type="file" id="fileUpload" name="profile_picture" accept="image/*">
@@ -29,34 +29,32 @@
             </div>
             </div>
             <br>
-            <h2 data-translate="edit.name">Name</h2>
-            <label for="Username" data-translate="profile.username">Username:</label><br>
+            <h2>Name</h2>
+            <label for="Username">Username:</label><br>
             <input type="text" id="Username" name="Username" placeholder="username" maxlength="50" required>
-            <span class="error_form" id="username_error_message"></span>
             <br>
-            <label for="Firstname" data-translate="profile.firstname">First name:</label><br>
+            <label for="Firstname">First name:</label><br>
             <input type="text" id="FirstName" name="FirstName" placeholder="first name" maxlength="50" required>
-            <span class="error_form" id="firstname_error_message"></span>
             <br>
-            <label for="Lastname" data-translate="profile.lastname">Last name:</label><br>
+            <label for="Lastname">Last name:</label><br>
             <input type="text" id="LastName" name="LastName" placeholder="last name" maxlength="50" required>
-            <span class="error_form" id="lastname_error_message"></span>
-            <h2 data-translate="profile.gender">Gender</h2>
+
+            <h2>Gender</h2>
             <input type="radio" id="Male" name="gender">
-            <label for="Male" data-translate="gender.male">Male</label><br>
+            <label for="Male">Male</label><br>
             <input type="radio" id="Female" name="gender">
-            <label for="Female" data-translate="gender.female">Female</label><br>
+            <label for="Female">Female</label><br>
             <input type="radio" id="Other" name="gender">
-            <label for="Other" data-translate="gender.other">Other</label><br>
+            <label for="Other">Other</label><br>
             <br>
-            <h2 data-translate="profile.ageTitle">Age</h2>
-            <label for="DateOfBirth" data-translate="profile.dob">Date of birth</label><br>
+            <h2>Age</h2>
+            <label for="DateOfBirth">Date of birth</label><br>
                 <input type="date" id="DateOfBirth" name="DateOfBirth" required>
             <br>
         </div>
 
         <div class="column">
-            <h2 data-translate="profile.interest">Interests</h2>
+            <h2>Interests</h2>
             <input type="checkbox" class="interest" id="interest1" name="sports" value="sports">
             <label for="interest1" data-translate="interests.1"></label><br>
             <input type="checkbox" class="interest" id="interest2" name="walk" value="walk">
@@ -78,7 +76,7 @@
             <input type="checkbox" class="interest" id="interest10" name="goingOut" value="goingOut">
             <label for="interest10" data-translate="interests.10"></label><br>
             <br>
-            <h2 data-translate="profile.bio">Biography</h2>
+            <h2>Biography</h2>
             <label for="Biography"></label>
             <textarea rows="10" cols="30%" class="biography" id="Biography" name="Biography" placeholder="Max 500 characters"
                       maxlength="500" onkeyup="countCharacters()"></textarea>
@@ -86,38 +84,35 @@
             <br>
         </div>
         <div class="column">
-            <h2 data-translate="profile.contact">Contactinformation</h2>
+            <h2>Contactinformation</h2>
             <label for="Email">E-mail: </label><br>
             <input type="email" id="Email" name="Email" placeholder="name@hotmail.com" required><br>
-            <span class="error_form" id="email_error_message"></span>
-            <label for="Telephone" data-translate="profile.phone">Tel: </label><br>
+            <label for="Telephone">Tel: </label><br>
             <input type="tel" id="Telephone" name="Telephone" placeholder="0612345678" size="10" required><br>
-            <span class="error_form" id="tel_error_message"></span>
             <br>
-            <h2 data-translate="profile.trip">Trip information</h2>
+            <h2>Trip information</h2>
             <div class="destination">
-                <label for="cityList" data-translate="profile.destination">Destination: </label><br>
+                <label for="cityList">Destination: </label><br>
                 <select id="cityList">
                 </select>
             </div>
             <div class="data">
-                <label for="Data" data-translate="profile.from">From: </label><br>
+                <label for="Data">From: </label><br>
                 <input type="date" id="Data" name="Data" required>
                 <br>
-                <label for="Data2" data-translate="profile.untill">Till: </label><br>
+                <label for="Data2">Till: </label><br>
                 <input type="date" id="Data2" name="Data2" required>
                 <br>
             </div>
             <div class="lookingFor">
-                <p data-translate="profile.lookingfor">I am looking for:</p>
+                <p>I am looking for:</p>
                 <input type="checkbox" id="Choice1" name="choice1">
-                <label for="Choice1" f-data-tooltip="Somebody you want to explore the country with" data-translate="edit.travelbuddy">A travel buddy</label><br>
+                <label for="Choice1" f-data-tooltip="Somebody you want to explore the country with">A travel buddy</label><br>
                 <input type="checkbox" id="Choice2" name="choice2">
-                <label for="Choice2" data-tooltip="Somebody you want to do activities with like swimming" data-translate="edit.activitybuddy">An activity buddy</label><br>
-                <span class="error_form" id="buddy_error_message"></span>
+                <label for="Choice2" data-tooltip="Somebody you want to do activities with like swimming">An activity buddy</label><br>
             </div>
             <div class="button">
-                <button id="saveChangesBtn" class="saveChangesBtn" type="submit" data-translate="edit.save">Save changes</button>
+                <button id="saveChangesBtn" class="saveChangesBtn" type="submit">Save changes</button>
             </div>
         </div>
 </div>

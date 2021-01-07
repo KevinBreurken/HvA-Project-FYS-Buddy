@@ -189,7 +189,7 @@ input[type=button]:hover {
 }
 
 #tab-buttons-border {
-  width: 90%;
+  width: 100%;
   background-color: var(--color-corendon-red);
 }
 
@@ -288,7 +288,7 @@ input[type=button]:hover {
 }
 
 .profile-picture {
-  height: 160px;
+  width: 160px;
   border-radius: 2%;
   margin: 10px 0 20px 0;
 }
@@ -578,17 +578,4 @@ input[type=button]:hover {
   #overlay-interests {
     max-width: 200px;
   }
-}
-
-/* slides p and h1 */
-#h1-slide {
-  color: var(--color-corendon-light-blue);
-}
-
-#img-text-wrapper:hover #h1-slide {
-  color: #00D1FC;
-}
-
-#img-text-wrapper:hover #p-slide {
-  color: #B7B7B7;
 }
