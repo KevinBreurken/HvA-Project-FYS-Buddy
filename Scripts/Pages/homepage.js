@@ -49,7 +49,7 @@ function goToAnchor() {
         $("#friends").click();
         $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
     } else if (slide === 4) {
-        //todo: restart on-boarding
+        toggleOnBoarding();
     }
 }
 
