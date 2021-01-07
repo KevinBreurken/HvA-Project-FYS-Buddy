@@ -34,3 +34,6 @@
     color: rgb(184, 26, 4);
     border: 2px solid rgb(184, 26, 4);
 }
+#sendbtn {
+    margin-left: 10px;
+}
