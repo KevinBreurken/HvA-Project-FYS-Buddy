@@ -1,4 +1,126 @@
 {
+  "onBoarding": {
+    "img": {
+      "1": {
+        "nl": "<img src='Content/Images/onboarding-specifications-nl.png' id='OB-img-1'/>",
+        "en": "<img src='Content/Images/onboarding-specifications-en.png' id='OB-img-1'/>"
+      },
+      "2": {
+        "nl": "<img src='Content/Images/onboarding-matches-nl.png' id='OB-img-2'/>",
+        "en": "<img src='Content/Images/onboarding-matches-en.png' id='OB-img-2'/>"
+      },
+      "3": {
+        "nl": "<img src='Content/Images/onboarding-user-card-nl.png' id='OB-img-3'/>",
+        "en": "<img src='Content/Images/onboarding-user-card-en.png' id='OB-img-3'/>"
+      },
+      "4": {
+        "nl": "<img src='Content/Images/onboarding-user-profile-nl.png' id='OB-img-4'/>",
+        "en": "<img src='Content/Images/onboarding-user-profile-en.png' id='OB-img-4'/>"
+      }
+    },
+    "procedure": {
+      "1": {
+        "header": {
+          "nl": "On boarding introductie",
+          "en": "On boarding introduction"
+        },
+        "para1": {
+          "nl": "U bevind zich nu op de thuis pagina van Corendon Travel Buddy. ",
+          "en": "You are now on the homepage of Corendon Travel Buddy. "
+        },
+        "subHead": {
+          "nl": "Reis specificaties",
+          "en": "Travel specifications"
+        },
+        "para2": {
+          "nl": "Hier kunt u uw reis specificaties veranderen en al uw matches zien. ",
+          "en": "Here you can set your travel specifications and see all the people you've matched with. "
+        },
+        "para3": {
+          "nl": "U kunt uw reis specificaties intstellen door het begin en eind datum in te vullen en tot slot waar je van plan bent naartoe te gaan. Dan zal het systeem gaan beginnen met zoeken naar een geschikt persoon voor u. ",
+          "en": "You can set your travel specification by filling out your start and end date and the city you're travelling to. The system will then look for other users with that same travel specification. "
+        }
+      },
+      "2": {
+        "subhead1": {
+          "nl": "Matching pagina",
+          "en": "Matching page"
+        },
+        "para1": {
+          "nl": "Onder de reis specificaties vind je al jouw matches die je op dit moment hebt. ",
+          "en": "Underneath the travel specifications you'll find all your current matches. "
+        },
+        "para2": {
+          "nl": "Als je geen matches zie je dit op je scherm staan. Zodra je een match binnen hebt zal deze hieronder tevoorschijn komen. ",
+          "en": "If you have no current matches you'll see this on your screen otherwise you'll find a list of all the people who you've been matched with. "
+        },
+        "subhead2": {
+          "nl": "De navigatie balk",
+          "en": "The navigation bar"
+        },
+        "para3": {
+          "nl": "Met de balk hier kan je gemakkelijk naar je matches vinden en de actuele die je met die persoon hebt. ",
+          "en": "Here you can quickly swap between the different tabs. "
+        },
+        "para4": {
+          "nl": "Bij alle resultaten vind je al je matches. ",
+          "en": "In the all results tab you can view all of your current matches. "
+        },
+        "para5": {
+          "nl": "Bij vrienden staan alle personen tussen die jij geaccepteerd hebt. ",
+          "en": "At friends you'll find the people you have accepted as friend. "
+        },
+        "para6": {
+          "nl": "Hier zullen al uw openstaande verzoeken staan. ",
+          "en": "Friend request tab will show all the request you've send out. "
+        },
+        "para7": {
+          "nl": "Mensen die u een hart geeft komen hier te staan. ",
+          "en": "Favourites show the matches you've given a heart. "
+        },
+        "subhead3": {
+          "nl": "Profiel kaarten",
+          "en": "Profile cards"
+        },
+        "para8": {
+          "nl": "Wanneer een match open klikt zal je meer over diegene te weten komen. ",
+          "en": "When you click on of these matches you'll find some extra information about that user. "
+        },
+        "para9": {
+          "nl": "Als u naar hun profiel wilt bekijken kilk je op de profiel knop. ",
+          "en": "You can click on the profile button to view even more information and then accept their invitation or block them. "
+        }
+      },
+      "3": {
+        "subHead": {
+          "nl": "Profiel pagina",
+          "en": "Profile page"
+        },
+        "para1": {
+          "nl": "Gebruiker profiel pagina",
+          "en": "The user profile page"
+        },
+        "para2": {
+          "nl": "Op de verstuur vriendenverzoek knop stuur een verzoek en als hij/zij accepteert worden jullie verbonden met elkaar. ",
+          "en": "On the send friend request you'll send a request to that user and if he/she accepts you'll be connected with eachother"
+        }
+      }
+    },
+    "buttons": {
+      "next": {
+        "nl": "Volgende",
+        "en": "Next"
+      },
+      "back": {
+        "nl": "Terug",
+        "en": "Back"
+      },
+      "finnish": {
+        "nl": "Afronden",
+        "en": "Finnish"
+      }
+    }
+  },
   "slide": {
     "h1": {
       "0": {
