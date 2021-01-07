@@ -124,46 +124,46 @@
   "slide": {
     "h1": {
       "0": {
-        "nl": "vind jouw buddy",
-        "en": "find your buddy"
+        "nl": "Vind jouw buddy",
+        "en": "Find your buddy"
       },
       "1": {
-        "nl": "update",
-        "en": "update"
+        "nl": "Update",
+        "en": "Update"
       },
       "2": {
-        "nl": "vrienden",
-        "en": "friends"
+        "nl": "Vrienden",
+        "en": "Friends"
       },
       "3": {
-        "nl": "nieuwe vrienden",
-        "en": "got a new friend?"
+        "nl": "Nieuwe vrienden",
+        "en": "Got a new friend?"
       },
       "4": {
-        "nl": "meer hulp nodig?",
-        "en": "need more help?"
+        "nl": "Meer hulp nodig?",
+        "en": "Need more help?"
       }
     },
     "text": {
       "0": {
-        "nl": "laten we beginnen",
-        "en": "let's get started"
+        "nl": "Laten we beginnen. ",
+        "en": "Let's get started. "
       },
       "1": {
-        "nl": "stel (of update) jouw travel specifiecaties in op de homepage of op jouw profiel",
-        "en": "make sure to set or update your travel specifications on the homepage or on your profile"
+        "nl": "Stel (of update) jouw travel specifiecaties in op de homepage of op jouw profiel. ",
+        "en": "Make sure to set or update your travel specifications on the homepage or on your profile. "
       },
       "2": {
-        "nl": "bekijk het 'Alle resultaten' tabblad om te zien of er iemand is aan wie je een vriendenverzoek zou willen sturen",
-        "en": "check out the 'All results' tab to see if there's anyone you'd like to send a friend request to"
+        "nl": "Bekijk het 'Alle resultaten' tabblad om te zien of er iemand is aan wie je een vriendenverzoek zou willen sturen. ",
+        "en": "Check out the 'All results' tab to see if there's anyone you'd like to send a friend request to. "
       },
       "3": {
-        "nl": "neem contact op met hen via telefoon of e-mail",
-        "en": "make sure to reach out to them by phone or e-mail"
+        "nl": "Neem contact op met hen via telefoon of e-mail. ",
+        "en": "Make sure to reach out to them by phone or e-mail. "
       },
       "4": {
-        "nl": "start de on-boarding opnieuw",
-        "en": "restart the on-boarding"
+        "nl": "Start de on-boarding opnieuw. ",
+        "en": "Restart the on-boarding. "
       }
     }
   },
