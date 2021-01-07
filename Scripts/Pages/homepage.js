@@ -373,8 +373,7 @@ async function openUserOverlay(overlayUserId) {
     requestButton.css('opacity', '1');
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
         }, function () { $(this).css("background-color", "");} );
-
-
+    
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
@@ -386,7 +385,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-
+    FYSCloud.Localization.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -396,7 +395,6 @@ function disableRequestButton() {
     requestButton.css('opacity', '0.6');
     requestButton.attr("disabled", true);
     requestButton.attr("data-translate", "overlay.button.sent");
-    FYSCloud.Localization.translate(false);
 }
 
 function acceptRequest(acceptedUser,userIdToAccept) {
@@ -409,20 +407,20 @@ function acceptRequest(acceptedUser,userIdToAccept) {
                       INSERT INTO friend (user1, user2)
                       VALUES (${acceptedUser},${userIdToAccept});
     `).then((data) => sendFriendMatchData(userIdToAccept));
-    //todo: remove element from display tab.
+    //Remove display from tab.
+    $(`#user-display-${userIdToAccept}`).remove();
     closeUserOverlay();
 }
 
 async function sendFriendMatchData(userIdToAccept){
-    //Get current user travel destination
+    //Get current user travel destination.
     const CURRENT_USER = await getDataByPromise(`SELECT *
     FROM travel WHERE id = ?`, getCurrentUserID());
     //Send the location that we currently have to the database.
     await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
                             VALUES (?, 1)
-                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER["destination"]);
-    //Check which interests are equal
-    //TODO: Add interests to results query.
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER[0]["locationId"]);
+    //Check which interests are equal.
     const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
     const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
     $(userInterests).each(uInterest => {
