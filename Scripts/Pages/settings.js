@@ -379,6 +379,36 @@ languageControl.addEventListener("change", function() {
     FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
 });
 
+// Account handling:
+let accountControl = document.getElementById("disableProfile");
+accountControl.addEventListener("click", function() {
+    // Deactivate an account:
+    FYSCloud.API.queryDatabase(
+        "UPDATE `setting` " +
+        "SET `deactivated` = ? " +
+        "WHERE `userId` = ?;",
+        [1, sessionUserId]
+    ).done(function() {
+        // Initiate a page refresh so that user will be routed to re-activation page:
+        window.location.href = "settings.html";
+    }).fail(function(reason) {
+        console.log(reason);
+    });
+});
+
+// A way to re-activate an account on any related page responsible for doing so could use
+// the following FYS Cloud call on e.g. a button on-click event:
+// FYSCloud.API.queryDatabase(
+//     "UPDATE `setting`" +
+//     "SET `deactivated` = '0'" +
+//     "WHERE `userId` = ?;",
+//     [sessionUserId]
+// ).done(function(data) {
+//     console.log(data);
+// }).fail(function(reason) {
+//     console.log(reason);
+// });
+
 // Password handling:
 function currentPwdEventListener(password) {
     pwdCurrent.addEventListener("input", function() {
@@ -574,8 +604,8 @@ function blockUser(blockedUser) {
     if(blockedUser) {
         FYSCloud.API.queryDatabase(
             "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`)" +
-            "VALUES (?, ?, 'Blocked through settings, reason unsupported.');",
-            [sessionUserId, blockedUser]
+            "VALUES (?, ?, ?);",
+            [sessionUserId, blockedUser, "Blocked through settings, reason unsupported."]
         ).done(function(data) {
             console.log(data);
             alert("User containing userId " + blockedUser + " is now blocked.");
@@ -729,8 +759,10 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
             if(settings.length > 0) {
                 // A setting for the user already exists, so an UPDATE should be executed:
                 FYSCloud.API.queryDatabase(
-                    "UPDATE `setting` SET `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ? WHERE `setting`.`userId` = ?",
-                    [languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis, sessionUserId]
+                    "UPDATE `setting` " +
+                    "SET `deactivated` = ?, `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ?" +
+                    "WHERE `setting`.`userId` = ?;",
+                    [0, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis, sessionUserId]
                 ).done(function() {
                     // Password checking and update when necessary:
 
@@ -741,7 +773,9 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                             // Check if the password to be changed has been properly confirmed:
                             if (pwdRepeatMatch) {
                                 FYSCloud.API.queryDatabase(
-                                    "UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;",
+                                    "UPDATE `user`" +
+                                    "SET `password` = ?" +
+                                    "WHERE `user`.`id` = ?;",
                                     [pwdInput.value, sessionUserId]
                                 ).done(function () {
                                     window.location.href = "homepage.html";
@@ -764,8 +798,9 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
             else {
                 // There is no setting available yet, creating new setting, execute INSERT:
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [sessionUserId, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis]
+                    "INSERT INTO `setting` (`id`, `userId`, `deactivated`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) " +
+                    "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    [sessionUserId, 0, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis]
                 ).done(function() {
                     // Password checking and update when necessary:
 
@@ -776,7 +811,9 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                             // Check if the password to be changed has been properly confirmed:
                             if (pwdRepeatMatch) {
                                 FYSCloud.API.queryDatabase(
-                                    "UPDATE `user` SET `password` = ? WHERE `user`.`id` = ?;",
+                                    "UPDATE `user`" +
+                                    "SET `password` = ?" +
+                                    "WHERE `user`.`id` = ?;",
                                     [pwdInput.value, sessionUserId]
                                 ).done(function () {
                                     window.location.href = "homepage.html";
