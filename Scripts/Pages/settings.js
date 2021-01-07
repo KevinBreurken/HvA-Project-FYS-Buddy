@@ -384,8 +384,8 @@ let accountControl = document.getElementById("disableProfile");
 accountControl.addEventListener("click", function() {
     // Deactivate an account:
     FYSCloud.API.queryDatabase(
-        "UPDATE `setting`" +
-        "SET `deactivated` = ?" +
+        "UPDATE `setting` " +
+        "SET `deactivated` = ? " +
         "WHERE `userId` = ?;",
         [1, sessionUserId]
     ).done(function() {
