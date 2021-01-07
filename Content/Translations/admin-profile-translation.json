@@ -1,6 +1,16 @@
 {
-  "admin-profile": {
-    "en": "Last seen:",
-    "nl": "Laatst gezien:"
+  "adminprofile": {
+    "title": {
+      "en": "Account",
+      "nl": "Account"
+    },
+    "lastseen": {
+      "en": "Last seen:",
+      "nl": "Laatst gezien:"
+    },
+    "adres": {
+      "en": "IP-Address:",
+      "nl": "IP-Adres:"
+    }
   }
 }

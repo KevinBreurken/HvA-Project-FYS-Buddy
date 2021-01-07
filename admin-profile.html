@@ -7,7 +7,7 @@
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="admin" data-translations="admin-profile-translation"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-    <script src="Scripts/general.js"></script>
+    <script src="Scripts/general.js" id="general" data-type="account" data-nav-visible data-nav-admin></script>
     <script src="https://kit.fontawesome.com/54479eeac2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="Content/CSS/default.css">
     <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
@@ -16,18 +16,18 @@
 <body>
 <header></header>
 <main class="main">
-<h1>Account</h1>
+<h1 data-translate="adminprofile.title">Account</h1>
 <fieldset id="container">
     <legend id="label"><i class="fas fa-user-alt"></i>Admin</legend>
     <section class="flex-container">
         <div class="name">
             <table class="names" style="width: 75%">
                 <tr>
-                    <th data-translate="admin-profile">Last seen:</th>
+                    <th data-translate="adminprofile.lastseen">Last seen:</th>
                     <th id = "leftbox" class="leftbox"></th>
                 </tr>
                 <tr>
-                    <th>IP-Adres:</th>
+                    <th data-translate="adminprofile.adres">IP-Adres:</th>
                     <th id = "rightbox" class="rightbox"></th>
                 </tr>
             </table>
