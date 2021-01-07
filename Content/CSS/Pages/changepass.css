@@ -8,7 +8,11 @@
     display: flex;
     flex-direction: column;
 }
-.content-wrapper #recovery-email {
+.inputs{
+    display: flex;
+    flex-direction: column;
+}
+.content-wrapper .passInput {
     width: fit-content;
 }
 .button-options {
@@ -33,4 +37,7 @@
     background-color: white;
     color: rgb(184, 26, 4);
     border: 2px solid rgb(184, 26, 4);
+}
+#sendbtn {
+    margin-left: 10px;
 }
