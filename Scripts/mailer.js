@@ -46,7 +46,6 @@ async function sendFriendEmail(idOfRecipient, textPrefix) {
             const subject = FYSCloud.Localization.CustomTranslations.getStringFromTranslations(`mail.${textPrefix}.subject`, userLanguage[0].languageKey);
             sendMail(userData[0].email, userName, subject,
                 `<h1>${title}</h1> <p>${body}</p> <a href='${url}'><p>${link}</p></a>`);
-            console.log("asd");
         });
     });
 }
