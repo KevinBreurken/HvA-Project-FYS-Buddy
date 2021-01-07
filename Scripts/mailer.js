@@ -1,5 +1,22 @@
 FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/mailer-translation.json")
 
+function sendMail(email,mailName,subject,html){
+    FYSCloud.API.sendEmail({
+        from: {
+            name: "Find your travel Buddy - Corendon IS111-1",
+            address: "group@fys.cloud"
+        },
+        to: [
+            {
+                name: mailName,
+                address: email
+            }
+        ],
+        subject: subject,
+        html: html
+    });
+}
+
 async function sendFriendEmail(idOfRecipient, textPrefix){
     //Check if this user has any settings
     const recipientSetting = await getDataByPromise(`SELECT * FROM setting WHERE userId = ?`,idOfRecipient);

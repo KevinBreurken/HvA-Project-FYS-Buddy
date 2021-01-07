@@ -221,24 +221,3 @@ async function redirectUserByUserRole() {
     else
         window.open("admin-profile.html", "_self");
 }
-
-function sendMail(email,mailName,subject,html){
-    FYSCloud.API.sendEmail({
-        from: {
-            name: "Find your travel Buddy - Corendon IS111-1",
-            address: "group@fys.cloud"
-        },
-        to: [
-            {
-                name: mailName,
-                address: email
-            }
-        ],
-        subject: subject,
-        html: html
-    }).done(function(data) {
-        alert("recovery mail has been send");
-    }).fail(function(reason) {
-        console.log(reason);
-    });
-}
