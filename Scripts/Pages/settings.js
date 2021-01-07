@@ -52,6 +52,8 @@ const distanceResult = document.getElementById("distanceResult");
 let initialDistanceResult;
 
 // Notification
+const notificationControl = document.getElementById("statusNotified");
+let currentNotificationId;
 
 // Using FYS Cloud API must use the correct database, if page appears incorrect,
 // please make sure to configure config.js to the appropriate database.
@@ -121,10 +123,11 @@ FYSCloud.API.queryDatabase(
                     displayGenderId = settings[0].displayGenderId;
                 }
 
-                // Distance:
+                // Distance & Notifications:
                 if(settings.length > 0) {
                     initialMaxDistance = settings[0].maxDistance;
                     initialDistanceResult = settings[0].radialDistance;
+                    currentNotificationId = settings[0].notifcationId;
                 }
 
                 // Final functions and setters, utilize all retrieved information:
@@ -132,6 +135,7 @@ FYSCloud.API.queryDatabase(
                 setGender(initialGender);
                 setMaxDistance(initialMaxDistance);
                 setDistanceResult(initialDistanceResult);
+                setNotificationSettings(currentNotificationId)
                 applySettingsEventlistener(settings, languages, profileVisibilities, genders);
                 // Set the language of the page the configured language:
                 setLanguage(initialLanguageKey);
@@ -682,6 +686,10 @@ function setMaxDistance(initialMaxDistance) {
     distanceMax.dispatchEvent(new Event('change'));
 }
 
+function setNotificationSettings(notificationId){
+    notificationControl.checked = notificationId;
+}
+
 function setDistanceResult(initialDistanceResult) {
     let defaultDistanceResult = 20;
     initialDistanceResult = typeof initialDistanceResult === "undefined" ? defaultDistanceResult : initialDistanceResult;
@@ -724,13 +732,14 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
 
             let maxDis = distanceMax.value;
             let radDis = distanceResult.innerText;
+            currentNotificationId = notificationControl.checked;
 
             // Check whether a setting already exists for provided user:
             if(settings.length > 0) {
                 // A setting for the user already exists, so an UPDATE should be executed:
                 FYSCloud.API.queryDatabase(
                     "UPDATE `setting` SET `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ? WHERE `setting`.`userId` = ?",
-                    [languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis, sessionUserId]
+                    [languageId, profileVisibilityId, sameGender, displayGenderId, currentNotificationId, maxDis, radDis, sessionUserId]
                 ).done(function() {
                     // Password checking and update when necessary:
 
@@ -765,7 +774,7 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                 // There is no setting available yet, creating new setting, execute INSERT:
                 FYSCloud.API.queryDatabase(
                     "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [sessionUserId, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis]
+                    [sessionUserId, languageId, profileVisibilityId, sameGender, displayGenderId, currentNotificationId, maxDis, radDis]
                 ).done(function() {
                     // Password checking and update when necessary:
 
