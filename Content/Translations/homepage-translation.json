@@ -1,4 +1,26 @@
 {
+  "mail": {
+    "accept": {
+     "text": {
+       "nl": "Iemand heeft een vriendschapsverzoek geaccepteerd!",
+       "en": "Somebody has accepted your contact request!"
+     },
+      "link": {
+        "nl": "Ga naar website",
+        "en": "Go to site"
+      }
+    },
+    "request": {
+      "text": {
+        "nl": "Iemand heeft een vriendschapsverzoek geaccepteerd!",
+        "en": "Somebody has accepted your contact request!"
+      },
+      "link": {
+        "nl": "Ga naar website",
+        "en": "Go to site"
+      }
+    }
+  },
   "onBoarding": {
     "img": {
       "1": {
@@ -331,4 +353,4 @@
       }
     }
   }
-}
+},

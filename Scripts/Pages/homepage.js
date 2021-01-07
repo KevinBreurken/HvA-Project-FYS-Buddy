@@ -470,11 +470,26 @@ function sendRequest(sentUser,userIdToSend) {
                       VALUES (${sentUser},${userIdToSend});
                       INSERT INTO usernotification (requestingUser, targetUser)
                       VALUES (${sentUser},${userIdToSend});`).then((data) => {
-        // console.log(data);
     });
+
     disableRequestButton();
 }
 
+async function sendRequestEmail(idOfRecipient){
+
+    const url = window.location.href;
+
+    getDataByPromise(`SELECT * FROM user WHERE id = ?`,idOfRecipient).then((userData) => {
+        getDataByPromise(`SELECT * FROM profile WHERE userId = ?`,idOfRecipient).then((profileData) => {
+            const body = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
+            const link = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
+            sendMail(userData[0].email,profileData[0].firstname,"Ontvangen Request",
+                `<h1>Hello User </h1> <p>${body}</p> <a href='${url}'><p>${link}</p></a>`);
+
+        });
+    });
+
+}
 /** function for opening the overlay */
 function displayUserOverlay() {
     $("#overlay").css("display", "flex");
