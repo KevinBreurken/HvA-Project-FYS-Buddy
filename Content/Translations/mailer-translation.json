@@ -19,6 +19,10 @@
       }
     },
     "request": {
+      "title": {
+        "nl": "Hallo %name",
+        "en": "Hello %name"
+      },
       "subject": {
         "nl": "Vriendschapsverzoek ontvangen",
         "en": "Received friend request"
