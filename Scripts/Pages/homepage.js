@@ -71,7 +71,7 @@ async function populateCityList() {
 function sendTravelData() {
     //get current selected value from select element in form
     var citySelect = document.getElementById("cityList").value;
-    
+
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
@@ -119,6 +119,7 @@ function toggleTravelForm() {
 }
 
 let lastButtonId;
+let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
 
@@ -273,6 +274,7 @@ async function openTabContent(currentButton) {
         $(tab).append(noMatchesMessage)
     }
 
+    currentDisplayedUsers = userList;
     FYSCloud.Localization.translate(false);
 }
 
@@ -294,7 +296,7 @@ function generateUserDisplay(currentUser) {
     let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
     if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
-    
+
     //start and end date
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -500,10 +502,10 @@ function setTravelFilter(element) {
     $(element).attr("current", "");
     currentDistanceFilterAmount = distanceAmount;
 
-    //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
-var currentBuddyFilterID;
+let currentBuddyFilterID = 1;
 
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
@@ -513,7 +515,7 @@ function setBuddyFilter(element) {
     $(element).attr("current", "");
     currentBuddyFilterID = buddyIndex;
 
-    //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
 function resetFilters() {
@@ -528,4 +530,33 @@ function resetFilters() {
     let distanceDefault = $("#filter-option-distance-default");
     currentDistanceFilterAmount = buddyDefault.data("distance");
     distanceDefault.attr("current", "");
+}
+
+function filterCurrentDisplayedUsers() {
+    //Reset all
+    $('.user-display').show();
+
+    $(currentDisplayedUsers).each(userDisplay => {
+        //Hide displays depending on selected buddy type filter.
+        if (currentBuddyFilterID !== 1) { // 1 == both buddy types
+            const displayedUserBuddyId = currentDisplayedUsers[userDisplay]['buddyType'];
+            if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
+                $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+        }
+        //Hide displays depending on selected distance filter.
+        if(currentDistanceFilterAmount !== undefined)
+        if(currentDisplayedUsers[userDisplay]['distanceInKm'] > currentDistanceFilterAmount)
+            $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+    });
+
+    //Check if there's any display being shown..
+    if ($('.user-display:visible').length === 0) {
+        //Generate a new message to display in the tab content.
+        $('.no-matches-message').remove();
+        let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
+        $('#tab').append(noMatchesMessage);
+        FYSCloud.Localization.translate(false);
+    }else {
+        $('.no-matches-message').remove();
+    }
 }
