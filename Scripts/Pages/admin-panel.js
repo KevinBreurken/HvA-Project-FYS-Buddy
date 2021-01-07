@@ -1,9 +1,12 @@
+let editUserOverlay = $("#edit-user")
+let overlayBackground = $("#overlay-background")
+
 /**
  * Close the user details card
  */
 function closeDetails() {
-    document.getElementById('edit-user').style.display = 'none'
-    document.getElementById('overlay-background').style.display = 'none'
+    editUserOverlay.hide()
+    overlayBackground.hide()
 }
 
 /**
@@ -79,8 +82,6 @@ FYSCloud.API.queryDatabase(
     console.log(reason)
 })
 
-let editUserOverlay = document.getElementById("edit-user")
-
 /**
  * Gather all the data from the selected user and display them in a card
  *
@@ -100,14 +101,15 @@ function editUser(i) {
         }
 
         // Put the date of birth from the user in the dob input
-        $('#user-info-8').val(parseDateToInputDate(data[0]['dob']))
+        $('#user-info-9').val(parseDateToInputDate(data[0]['dob']))
 
-        // Set the onclick attribute with the index of submitForm being the i selected user
+        // Set the onclick attribute with the index of submitForm being the [i] selected user
         $("#submit-form").attr("onclick", "submitForm(" + i + ")")
 
         // Show the edit user overlay
-        editUserOverlay.style.display = 'block'
-    }).fail(function (reason) {
+        editUserOverlay.show()
+        overlayBackground.show()
+            }).fail(function (reason) {
         console.log(reason)
     })
 }
@@ -119,25 +121,25 @@ function editUser(i) {
  */
 function submitForm(i) {
     //Get All the values from user-info fields
-    //let id = $('#user-info-0').val()
     let email = $('#user-info-1').val()
     let password = $('#user-info-2').val()
     let username = $('#user-info-3 ').val()
-    //let userId = $('#user-info-4 ').val()
-    let firstname = $('#user-info-5 ').val()
-    let lastname = $('#user-info-6 ').val()
-    let gender = $('#user-info-7 ').val()
-    let dob = $('#user-info-8 ').val()
-    let locationId = $('#user-info-9 ').val()
-    let phone = $('#user-info-10 ').val()
-    let biography = $('#user-info-11 ').val()
-    let buddyType = $('#user-info-12 ').val()
-    let pictureUrl = $('#user-info-13 ').val()
+    let userRole = $('#user-info-4 ').val()
+    //let userId = $('#user-info-5 ').val()
+    let firstname = $('#user-info-6 ').val()
+    let lastname = $('#user-info-7 ').val()
+    let gender = $('#user-info-8 ').val()
+    let dob = $('#user-info-9 ').val()
+    let locationId = $('#user-info-10 ').val()
+    let phone = $('#user-info-11 ').val()
+    let biography = $('#user-info-12').val()
+    let buddyType = $('#user-info-13 ').val()
+    let pictureUrl = $('#user-info-14 ').val()
 
     // Update the user and profile tables with the values from user-info fields
     FYSCloud.API.queryDatabase(
-        "UPDATE user SET id = ?, email = ?, password = ?, username = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
-        [i, email, password, username, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
+        "UPDATE user SET id = ?, email = ?, password = ?, username = ?, userRole = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
+        [i, email, password, username, userRole, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
     ).done(function (data) {
         location.reload()
     }).fail(function (reason) {
