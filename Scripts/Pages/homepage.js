@@ -10,16 +10,47 @@ window.addEventListener('load', function () {
 })
 
 let slide = 0;
-/**  displays the next slide */
-function displayNextSlide(arrow) {
+/** sets the current slide */
+function setSlide(arrow) {
     switch (slide) {
-        case 0: arrow.id.toString() === "left-arrow" ? slide = 2 : slide++; break;
+        case 0: arrow.id.toString() === "left-arrow" ? slide = 4 : slide++; break;
         case 1: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
-        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
+        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 3: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 4: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
     }
+    displayNextSlide();
+}
+
+/**  displays the next slide */
+function displayNextSlide() {
+    //sets the correct text for the current slide
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
-    FYSCloud.Localization.translate(false);
+
+    FYSCloud.Localization.translate(false);     //translates the current slide if needed
+
+    let slideText = document.getElementById(`img-text-wrapper`);
+    slideText.onclick = function(){goToAnchor()};
+}
+
+/** jumps to an anchor on the page when clikcing on a slide */
+function goToAnchor() {
+    if (slide === 0) {
+        slide = 1;
+        displayNextSlide();
+    } else if (slide === 1) {
+        toggleTravelForm();
+        $('html, body').animate({scrollTop: $("#travel-container").offset().top}, 1000);
+    } else if(slide === 2) {
+        $("#all-results").click();
+        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
+    } else if (slide === 3) {
+        $("#friends").click();
+        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
+    } else if (slide === 4) {
+        toggleOnBoarding();
+    }
 }
 
 /** fetches the current user's travel data */
@@ -71,7 +102,7 @@ async function populateCityList() {
 function sendTravelData() {
     //get current selected value from select element in form
     var citySelect = document.getElementById("cityList").value;
-    
+
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
@@ -119,6 +150,7 @@ function toggleTravelForm() {
 }
 
 let lastButtonId;
+let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
 
@@ -273,6 +305,7 @@ async function openTabContent(currentButton) {
         $(tab).append(noMatchesMessage)
     }
 
+    currentDisplayedUsers = userList;
     FYSCloud.Localization.translate(false);
 }
 
@@ -294,7 +327,7 @@ function generateUserDisplay(currentUser) {
     let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
     if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
-    
+
     //start and end date
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -371,8 +404,7 @@ async function openUserOverlay(overlayUserId) {
     requestButton.css('opacity', '1');
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
         }, function () { $(this).css("background-color", "");} );
-
-
+    
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
@@ -384,7 +416,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-
+    FYSCloud.Localization.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -394,7 +426,6 @@ function disableRequestButton() {
     requestButton.css('opacity', '0.6');
     requestButton.attr("disabled", true);
     requestButton.attr("data-translate", "overlay.button.sent");
-    FYSCloud.Localization.translate(false);
 }
 
 function acceptRequest(acceptedUser,userIdToAccept) {
@@ -407,20 +438,20 @@ function acceptRequest(acceptedUser,userIdToAccept) {
                       INSERT INTO friend (user1, user2)
                       VALUES (${acceptedUser},${userIdToAccept});
     `).then((data) => sendFriendMatchData(userIdToAccept));
-    //todo: remove element from display tab.
+    //Remove display from tab.
+    $(`#user-display-${userIdToAccept}`).remove();
     closeUserOverlay();
 }
 
 async function sendFriendMatchData(userIdToAccept){
-    //Get current user travel destination
+    //Get current user travel destination.
     const CURRENT_USER = await getDataByPromise(`SELECT *
     FROM travel WHERE id = ?`, getCurrentUserID());
     //Send the location that we currently have to the database.
     await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
                             VALUES (?, 1)
-                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER["destination"]);
-    //Check which interests are equal
-    //TODO: Add interests to results query.
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER[0]["locationId"]);
+    //Check which interests are equal.
     const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
     const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
     $(userInterests).each(uInterest => {
@@ -500,10 +531,10 @@ function setTravelFilter(element) {
     $(element).attr("current", "");
     currentDistanceFilterAmount = distanceAmount;
 
-    //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
-var currentBuddyFilterID;
+let currentBuddyFilterID = 1;
 
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
@@ -513,7 +544,7 @@ function setBuddyFilter(element) {
     $(element).attr("current", "");
     currentBuddyFilterID = buddyIndex;
 
-    //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
 function resetFilters() {
@@ -528,4 +559,33 @@ function resetFilters() {
     let distanceDefault = $("#filter-option-distance-default");
     currentDistanceFilterAmount = buddyDefault.data("distance");
     distanceDefault.attr("current", "");
+}
+
+function filterCurrentDisplayedUsers() {
+    //Reset all
+    $('.user-display').show();
+
+    $(currentDisplayedUsers).each(userDisplay => {
+        //Hide displays depending on selected buddy type filter.
+        if (currentBuddyFilterID !== 1) { // 1 == both buddy types
+            const displayedUserBuddyId = currentDisplayedUsers[userDisplay]['buddyType'];
+            if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
+                $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+        }
+        //Hide displays depending on selected distance filter.
+        if(currentDistanceFilterAmount !== undefined)
+        if(currentDisplayedUsers[userDisplay]['distanceInKm'] > currentDistanceFilterAmount)
+            $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+    });
+
+    //Check if there's any display being shown..
+    if ($('.user-display:visible').length === 0) {
+        //Generate a new message to display in the tab content.
+        $('.no-matches-message').remove();
+        let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
+        $('#tab').append(noMatchesMessage);
+        FYSCloud.Localization.translate(false);
+    }else {
+        $('.no-matches-message').remove();
+    }
 }
