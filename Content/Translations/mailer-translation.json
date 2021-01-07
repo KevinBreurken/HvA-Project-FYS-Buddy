@@ -1,6 +1,10 @@
 {
   "mail": {
     "accept": {
+      "title": {
+        "nl": "Hallo %name",
+        "en": "Hello %name"
+      },
       "subject": {
         "nl": "Een vriendschapsverzoek is geacepteerd!",
         "en": "A friend request has been accepted!"
