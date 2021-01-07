@@ -386,9 +386,9 @@ accountControl.addEventListener("click", function() {
     // Deactivate an account:
     FYSCloud.API.queryDatabase(
         "UPDATE `setting`" +
-        "SET `deactivated` = '1'" +
+        "SET `deactivated` = ?" +
         "WHERE `userId` = ?;",
-        [sessionUserId]
+        [1, sessionUserId]
     ).done(function() {
         // Initiate a page refresh so that user will be routed to re-activation page:
         window.location.href = "settings.html";
@@ -605,8 +605,8 @@ function blockUser(blockedUser) {
     if(blockedUser) {
         FYSCloud.API.queryDatabase(
             "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`)" +
-            "VALUES (?, ?, 'Blocked through settings, reason unsupported.');",
-            [sessionUserId, blockedUser]
+            "VALUES (?, ?, ?);",
+            [sessionUserId, blockedUser, "Blocked through settings, reason unsupported."]
         ).done(function(data) {
             console.log(data);
             alert("User containing userId " + blockedUser + " is now blocked.");
@@ -754,10 +754,10 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
             if(settings.length > 0) {
                 // A setting for the user already exists, so an UPDATE should be executed:
                 FYSCloud.API.queryDatabase(
-                    "UPDATE `setting`" +
-                    "SET `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ?" +
-                    "WHERE `setting`.`userId` = ?",
-                    [languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis, sessionUserId]
+                    "UPDATE `setting` " +
+                    "SET `deactivated` = ?, `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ?" +
+                    "WHERE `setting`.`userId` = ?;",
+                    [0, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis, sessionUserId]
                 ).done(function() {
                     // Password checking and update when necessary:
 
@@ -793,9 +793,9 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
             else {
                 // There is no setting available yet, creating new setting, execute INSERT:
                 FYSCloud.API.queryDatabase(
-                    "INSERT INTO `setting` (`id`, `userId`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`)" +
-                    "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)",
-                    [sessionUserId, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis]
+                    "INSERT INTO `setting` (`id`, `userId`, `deactivated`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) " +
+                    "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
+                    [sessionUserId, 0, languageId, profileVisibilityId, sameGender, displayGenderId, 0, maxDis, radDis]
                 ).done(function() {
                     // Password checking and update when necessary:
 
