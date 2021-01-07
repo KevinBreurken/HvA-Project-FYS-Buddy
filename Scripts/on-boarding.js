@@ -57,6 +57,7 @@ function swapStep(i) {
     }
 }
 
-if (window.location == "http://localhost:63342/register/team-1/homepage.html?activateOnBoarding") {
+const paths = window.location.href.split('/');
+if (paths[paths.length-1] === "homepage.html?activateOnBoarding") {
     toggleOnBoarding()
 }
