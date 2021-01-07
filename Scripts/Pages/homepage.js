@@ -1,3 +1,4 @@
+$("head").append('<script src="Scripts/mailer.js"></script>');
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
@@ -440,6 +441,7 @@ function acceptRequest(acceptedUser,userIdToAccept) {
     `).then((data) => sendFriendMatchData(userIdToAccept));
     //Remove display from tab.
     $(`#user-display-${userIdToAccept}`).remove();
+    sendFriendEmail(userIdToAccept,'accept');
     closeUserOverlay();
 }
 
@@ -472,24 +474,10 @@ function sendRequest(sentUser,userIdToSend) {
                       VALUES (${sentUser},${userIdToSend});`).then((data) => {
     });
 
+    sendFriendEmail(userIdToSend,'request');
     disableRequestButton();
 }
 
-async function sendRequestEmail(idOfRecipient){
-
-    const url = window.location.href;
-
-    getDataByPromise(`SELECT * FROM user WHERE id = ?`,idOfRecipient).then((userData) => {
-        getDataByPromise(`SELECT * FROM profile WHERE userId = ?`,idOfRecipient).then((profileData) => {
-            const body = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
-            const link = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
-            sendMail(userData[0].email,profileData[0].firstname,"Ontvangen Request",
-                `<h1>Hello User </h1> <p>${body}</p> <a href='${url}'><p>${link}</p></a>`);
-
-        });
-    });
-
-}
 /** function for opening the overlay */
 function displayUserOverlay() {
     $("#overlay").css("display", "flex");
@@ -535,7 +523,6 @@ async function setFavourite (userId) {
 }
 
 /** Filters */
-//todo: filters; distance and buddy type
 var currentDistanceFilterAmount;
 
 function setTravelFilter(element) {
