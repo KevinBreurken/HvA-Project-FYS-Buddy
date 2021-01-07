@@ -22,7 +22,7 @@ if (array1 === null) {
 let currentUserId = getCurrentUserID();
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM profile where id = ?", [profileId]
+    "SELECT * FROM profile where userId = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateProfileDisplay(data);
@@ -43,7 +43,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM travel where id = ?", [profileId]
+    "SELECT * FROM travel where userId = ?", [profileId]
 ).done(function (data) {
     console.log(data);
     generateTravelInfo(data);
@@ -53,7 +53,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM travel where id = ?", [profileId]
+    "SELECT * FROM travel where userId = ?", [profileId]
 ).done(function (data) {
     let userData = data[0];
     let locatie = userData.locationId;
@@ -85,6 +85,9 @@ FYSCloud.API.queryDatabase(
     alert("paniek");
 });
 
+/**
+ * Contactinformation is only shown at your page if you look at it yourself, or if you're friends.
+ */
 if (currentUserId === profileId) {
     $("#contactinformation").append(`<h2 data-translate="profile.contact">Contactinformation</h2>
             <p id="email"><b>E-mail:</b></p>
@@ -172,6 +175,11 @@ if (currentUserId === profileId) {
     });
 }
 
+/**
+ * Functions to display user info.
+ * @param data is data from the database that the user has send at the registration page.
+ */
+
 function generateProfileDisplay(data) {
     let userData = data[0];
     let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + userData.pictureUrl;
@@ -231,6 +239,9 @@ function generateBuddy(data) {
     }
 }
 
+/**
+ * Gets all the interests from the database and displays them in a red-colored badge.
+ */
 FYSCloud.API.queryDatabase(
     "SELECT * FROM `userinterest` where userId = ?", [profileId]
 ).done(function (data) {
@@ -265,7 +276,9 @@ FYSCloud.API.queryDatabase(
 }).fail(function () {
     alert("paniek");
 });
-
+/**
+ * Checks if the current user wants to display their own profile or another user's profile.
+ */
 if (currentUserId !== profileId) {
     $("#profileButtons").append(
     `<button type="button" onclick="requestFriend()" id="match" class="match" data-translate="profile.match">Send Request</button>
@@ -274,6 +287,9 @@ if (currentUserId !== profileId) {
     $("#saveChangesBtn").append(`<button class="saveChangesBtn" type="submit" data-translate="profile.editbutton">Edit profile</button>`)
 }
 
+/**
+ * When the user clicks on the friendrequest button, the request will be sent to the database.
+ */
 function requestFriend() {
     FYSCloud.API.queryDatabase(
         "INSERT INTO `friendrequest` (`requestingUser`, `targetUser`) VALUES (?, ?);", [currentUserId, profileId]
@@ -284,6 +300,9 @@ function requestFriend() {
     });
 }
 
+/**
+ * When the user clicks on the block button, the request will be sent to the database.
+ */
 function blockUser() {
     FYSCloud.API.queryDatabase(
         "INSERT INTO `blocked` (`requestingUser`, `blockedUser`) VALUES (?, ?);", [currentUserId, profileId]
