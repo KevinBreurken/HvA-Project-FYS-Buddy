@@ -25,7 +25,6 @@ const profileVisibilityControl = document.getElementById("profileVisibility");
 let initialProfileVisibility;
 
 let profileVisibilityOptions;
-let currentProfile;
 let firstname;
 let middlename;
 let lastname;
@@ -495,7 +494,7 @@ function setProfileVisibility(initialProfileVisibility) {
 const imageSrcPrefix = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/";
 function blockEventListener(profiles) {
     document.querySelector("input#search-block").addEventListener("input", function() {
-        const resultContainer = this.parentNode.querySelector("#searchBlockResult");
+        const resultContainer = document.getElementById("searchBlockResult");
         let result = "";
         // Check if given input is empty:
         if(this.value === "") {
@@ -519,9 +518,9 @@ function blockEventListener(profiles) {
                         "</div>" +
                         "<div class=\"user-card-content\">" +
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
-                        "<div class=\"card-info\">" + firstname + lastname + "<br />" + profiles[i].biography + "</div>" +
+                        "<div class=\"card-info\">" + firstname + lastname + "<br /><span class='profile-bio'>" + profiles[i].biography + "</span></div>" +
                         "<div class=\"card-control\">" +
-                        "<button class=\"block-button\">Block</button>" +
+                        "<button class=\"block-button\" type=\"button\" data-translate=\"settings.block.button\">Block</button>" +
                         "</div>" +
                         "</div>" +
                         "</div>";
@@ -543,7 +542,47 @@ function blockEventListener(profiles) {
                 resultContainer.innerHTML =  result;
             }
         }
+
+        // Translate the dynamically generated "block" buttons:
+        FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
     });
+}
+
+// Block button handling:
+document.addEventListener("click", function(e) {
+    // Clicking on block buttons:
+    if(e.target.classList.contains("block-button")) {
+        // Clicking on card specific block button:
+        if(e.target.parentNode.classList.contains("card-control")) {
+            // Block specified person:
+            let blockedUser = e.target.parentNode.parentNode.getElementsByClassName("user-data")[0].innerText;
+            blockUser(blockedUser);
+        }
+        else {
+            // Clicking on general block button:
+            // If any cards exists, by default block the first person:
+            if(document.getElementsByClassName("user-card")[0]) {
+                // Block the first person:
+                let blockedUser = document.getElementsByClassName("user-card")[0].getElementsByClassName("user-data")[0].innerText;
+                blockUser(blockedUser);
+            }
+        }
+    }
+});
+
+function blockUser(blockedUser) {
+    if(blockedUser) {
+        FYSCloud.API.queryDatabase(
+            "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`)" +
+            "VALUES (?, ?, 'Blocked through settings, reason unsupported.');",
+            [sessionUserId, blockedUser]
+        ).done(function(data) {
+            console.log(data);
+            alert("User containing userId " + blockedUser + " is now blocked.");
+        }).fail(function(reason) {
+            console.log(reason);
+        });
+    }
 }
 
 // Gender handling:
@@ -558,6 +597,7 @@ function setGender(initialGender) {
     }
 }
 
+let currentProfile;
 function genderEventlistener(profiles) {
     document.getElementById("showOwnGenderOnly").addEventListener("change", function() {
         // Check whether own gender should only be shown:
@@ -567,7 +607,7 @@ function genderEventlistener(profiles) {
                 if(profile.userId === Number(sessionUserId)) {
                     currentProfile = profile;
                 }
-            })
+            });
 
             // // null checking
             // firstname = currentProfile.firstname == null ? "" : currentProfile.firstname + " ";
@@ -575,8 +615,13 @@ function genderEventlistener(profiles) {
             // // logging
             // console.log("User " + firstname + lastname + "is of gender \'" + currentProfile.gender + "\'");
 
-            if(currentProfile.gender.toLowerCase() === "other") {
-                document.querySelector("#identifyAsContainer").style.display = "block";
+            if(currentProfile === undefined) {
+                console.log("Profile for user " + sessionUserId + " does not exist.");
+            }
+            else {
+                if(currentProfile.gender.toLowerCase() === "other") {
+                    document.querySelector("#identifyAsContainer").style.display = "block";
+                }
             }
         }
         else {
