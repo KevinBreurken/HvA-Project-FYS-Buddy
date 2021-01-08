@@ -525,7 +525,7 @@ function setProfileVisibility(initialProfileVisibility) {
 
 // Block handling:
 // TODO: prefix must be set depending on environment configured within javascript configuration (e.g. config.js):
-const imageSrcPrefix = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/";
+const imageSrcPrefix = `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/`;
 function blockEventListener(profiles) {
     document.querySelector("input#search-block").addEventListener("input", function() {
         const resultContainer = document.getElementById("searchBlockResult");

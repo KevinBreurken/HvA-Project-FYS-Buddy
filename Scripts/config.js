@@ -1,3 +1,5 @@
+const environment = "dev";
+
 FYSCloud.API.configure({
     url: "https://api.fys.cloud",
     apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
