@@ -5,10 +5,8 @@ $.getJSON("https://api.ipify.org?format=json", function (data) {
 FYSCloud.API.queryDatabase(
     "SELECT `logintime` FROM `adminsessiondata` WHERE id = (SELECT MAX(id) - 1 FROM `adminsessiondata`);"
 ).done(function (data) {
-    console.log(data);
     let userData = data[0];
     let lastseen = userData.logintime;
     $("#leftbox").html(lastseen);
 }).fail(function (reason) {
-    console.log(reason)
 });

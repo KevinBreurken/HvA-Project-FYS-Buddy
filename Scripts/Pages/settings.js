@@ -52,7 +52,7 @@ const distanceResult = document.getElementById("distanceResult");
 let initialDistanceResult;
 
 // Notification
-const notificationControl = document.getElementById("statusNotified");
+const notificationControls = document.getElementsByClassName("statusNotified");
 let currentNotificationId;
 
 // Using FYS Cloud API must use the correct database, if page appears incorrect,
@@ -60,12 +60,15 @@ let currentNotificationId;
 
 // Retrieve all database information related to stored settings for a provided user:
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM `setting` WHERE `userId` = ?;",
+    "SELECT * " +
+    "FROM `setting` " +
+    "WHERE `userId` = ?;",
     [sessionUserId]
 ).done(function(settings) {
     // Retrieve all database information related to stored languages
     FYSCloud.API.queryDatabase(
-        "SELECT * FROM `language`;"
+        "SELECT * " +
+        "FROM `language`;"
     ).done(function(languages) {
         // Populate language dropdown:
         setLanguages(languages);
@@ -85,7 +88,8 @@ FYSCloud.API.queryDatabase(
 
         // Retrieve all database information related to stored profile visibility options:
         FYSCloud.API.queryDatabase(
-            "SELECT * FROM `profilevisbility`;"
+            "SELECT * " +
+            "FROM `profilevisbility`;"
         ).done(function(profileVisibilities) {
             // Populate profile visibility options dropdown:
             setProfileVisibilities(profileVisibilities);
@@ -103,11 +107,13 @@ FYSCloud.API.queryDatabase(
 
             // Retrieve all database information related to stored gender options:
             FYSCloud.API.queryDatabase(
-                "SELECT * FROM `gender`;"
+                "SELECT * " +
+                "FROM `gender`;"
             ).done(function(genders) {
                 // Set gender id to a default value of the first record found within genders table:
                 displayGenderId = genders[0].id;
 
+                // Retrieve account settings information:
                 if(settings.length > 0) {
                     // Check the checkbox for displaying own gender according to configuration:
                     if(settings[0].sameGender) {
@@ -121,10 +127,7 @@ FYSCloud.API.queryDatabase(
                         }
                     });
                     displayGenderId = settings[0].displayGenderId;
-                }
 
-                // Distance & Notifications:
-                if(settings.length > 0) {
                     initialMaxDistance = settings[0].maxDistance;
                     initialDistanceResult = settings[0].radialDistance;
                     currentNotificationId = settings[0].notifcationId;
@@ -150,7 +153,9 @@ FYSCloud.API.queryDatabase(
 
 // Get password from current user:
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM `user` WHERE `user`.`id` = ?",
+    "SELECT * " +
+    "FROM `user` " +
+    "WHERE `user`.`id` = ?",
     [sessionUserId]
 ).done(function(users) {
     // TODO: Use encryption/decryption for password comparison
@@ -162,7 +167,8 @@ FYSCloud.API.queryDatabase(
 // TODO: only get the profile information of profiles who communicated to the current user stored in the session.
 // Get profiles:
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM `profile`"
+    "SELECT * " +
+    "FROM `profile`"
 ).done(function(profiles) {
     genderEventlistener(profiles)
     blockEventListener(profiles);
@@ -355,8 +361,8 @@ function setLanguage(initialLanguageKey) {
         }
     };
 
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
-    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguageKey);
+    CustomTranslation.addTranslationJSON(translations);
+    CustomTranslation.setLanguage(initialLanguageKey);
 
     // $languageControl = $("select#language");
     //
@@ -380,7 +386,7 @@ function setLanguage(initialLanguageKey) {
 }
 
 languageControl.addEventListener("change", function() {
-    FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
+    CustomTranslation.setLanguage($(this).val());
 });
 
 // Account handling:
@@ -578,7 +584,7 @@ function blockEventListener(profiles) {
         }
 
         // Translate the dynamically generated "block" buttons:
-        FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
+        CustomTranslation.setLanguage($("#language").val());
     });
 }
 
@@ -717,7 +723,18 @@ function setMaxDistance(initialMaxDistance) {
 }
 
 function setNotificationSettings(notificationId){
-    notificationControl.checked = notificationId;
+    // notificationControl.checked = notificationId;
+    switch (notificationId) {
+        case 0:
+            console.log("Checkbox one");
+            break;
+        case 1:
+            console.log("Checkbox two");
+            break;
+        case 2:
+            console.log("Checkbox one and checkbox two");
+            break;
+    }
 }
 
 function setDistanceResult(initialDistanceResult) {
@@ -725,6 +742,10 @@ function setDistanceResult(initialDistanceResult) {
     initialDistanceResult = typeof initialDistanceResult === "undefined" ? defaultDistanceResult : initialDistanceResult;
     distanceRange.value = initialDistanceResult;
     distanceResult.innerHTML = initialDistanceResult;
+}
+
+function getNotificationSelection() {
+    console.log(notificationControl.length);
 }
 
 // TODO: Remove alerts

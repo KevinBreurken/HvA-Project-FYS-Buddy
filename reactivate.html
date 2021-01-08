@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+        <script src="Scripts/config.js"></script>
+        <script src="Scripts/app.js" id="app" data-pageType="deactivated" data-translations="reactivate-translation"></script>
+        <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
+        <script src="Scripts/general.js" id="general" data-type="reactivate"></script>
+        <link rel="stylesheet" href="Content/CSS/Pages/reactivate.css">
+    </head>
+    <body>
+        <header></header>
+        <div class="reactivate-nav-container">
+            <!--            <nav id="reactivateNavigation">-->
+            <!--                <ul>-->
+            <!--                    <li>-->
+            <!--                        <a href="#" data-translate="reactivate.something">Something</a>-->
+            <!--                    </li>-->
+            <!--                </ul>-->
+            <!--            </nav>-->
+            <main>
+                <div class="content">
+                    <h1 data-translate="reactivate.header">Reactivate</h1>
+                    <form name="myForm">
+                        <p data-translate="reactivate.description">Would you like to reactivate your account?</p>
+                        <br />
+                        <div class="reactivate-controls">
+                            <button id="approve" type="button" data-translate="reactivate.approve">
+                                Approve
+                            </button>
+                            <button id="cancel" type="button" data-translate="reactivate.cancel">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </div>
+        <script src="Scripts/Pages/reactivate.js"></script>
+    </body>
+</html>
