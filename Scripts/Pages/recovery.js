@@ -22,7 +22,7 @@ function emailValidation() {
                         }
                     ],
                     subject: "password recovery " + data[i].email,
-                    html: `<h1>Hello ${data[i].username}</h1> <p>please click on the following link to reset your password</p> <a href="http://127.0.0.1:5500/changepass.html?id=${data[i].id}"><p>Password recovery link</p></a>`
+                    html: `<h1>Hello ${data[i].username}</h1> <p>please click on the following link to reset your password</p> <a href="${window.location.origin}/changepass.html?id=${data[i].id}"><p>Password recovery link</p></a>`
                 }).done(function(data) {
                         alert("recovery mail has been send");
                     }).fail(function(reason) {
