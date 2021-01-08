@@ -56,3 +56,8 @@ function swapStep(i) {
         btn[2].style.display = 'block'
     }
 }
+
+const paths = window.location.href.split('/');
+if (paths[paths.length-1] === "homepage.html?activateOnBoarding") {
+    toggleOnBoarding()
+}

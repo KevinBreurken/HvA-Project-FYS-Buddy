@@ -1,3 +1,4 @@
+$("head").append('<script src="Scripts/mailer.js"></script>');
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
@@ -49,7 +50,7 @@ function goToAnchor() {
         $("#friends").click();
         $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
     } else if (slide === 4) {
-        //todo: restart on-boarding
+        toggleOnBoarding();
     }
 }
 
@@ -440,6 +441,7 @@ function acceptRequest(acceptedUser,userIdToAccept) {
     `).then((data) => sendFriendMatchData(userIdToAccept));
     //Remove display from tab.
     $(`#user-display-${userIdToAccept}`).remove();
+    sendFriendEmail(userIdToAccept,'accept');
     closeUserOverlay();
 }
 
@@ -470,8 +472,9 @@ function sendRequest(sentUser,userIdToSend) {
                       VALUES (${sentUser},${userIdToSend});
                       INSERT INTO usernotification (requestingUser, targetUser)
                       VALUES (${sentUser},${userIdToSend});`).then((data) => {
-        // console.log(data);
     });
+
+    sendFriendEmail(userIdToSend,'request');
     disableRequestButton();
 }
 
@@ -520,7 +523,6 @@ async function setFavourite (userId) {
 }
 
 /** Filters */
-//todo: filters; distance and buddy type
 var currentDistanceFilterAmount;
 
 function setTravelFilter(element) {
