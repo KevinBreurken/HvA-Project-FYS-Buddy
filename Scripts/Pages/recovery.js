@@ -3,7 +3,7 @@ function redirectBack() {
 }
 
 function emailValidation() {
-    var emailInput = document.getElementById("recovery-email").value;
+    let emailInput = document.getElementById("recovery-email").value;
     FYSCloud.API.queryDatabase(
         "SELECT * FROM user WHERE email = ?",
         [emailInput]
@@ -22,15 +22,16 @@ function emailValidation() {
                         }
                     ],
                     subject: "password recovery " + data[i].email,
-                    html: "<h1>Hello User </h1> <p>please click on the following link to reset your password</p> <a href='https://is111-1.fys.cloud/recovery.html'><p>Password recovery link</p></a>"
-                    }).done(function(data) {
+                    html: `<h1>Hello ${data[i].username}</h1> <p>please click on the following link to reset your password</p> <a href="http://127.0.0.1:5500/changepass.html?id=${data[i].id}"><p>Password recovery link</p></a>`
+                }).done(function(data) {
                         alert("recovery mail has been send");
                     }).fail(function(reason) {
                         console.log(reason);
                     });
                 }
-        }
-        alert("No email found.\nPlease make sure you are using the right e-mail address");
-        $('#recovery-email').focus();
+            }else{
+                alert("No email found.\nPlease make sure you are using the right e-mail address");
+                $('#recovery-email').focus();
+                }
     });
 }
