@@ -51,8 +51,8 @@ function newPasswordValidationcheck(id) {
                 return;
         }else {
             FYSCloud.API.queryDatabase(
-                "UPDATE `user` SET `password` = ?",
-                [newPassword]
+                "UPDATE `user` SET `password` = ? WHERE id = ?",
+                [newPassword, id]
                 ).done(function(data) {
                     alert("Succesfully updated your new password");
                 });
