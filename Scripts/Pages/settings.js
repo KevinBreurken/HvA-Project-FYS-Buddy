@@ -762,14 +762,27 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
 
             let maxDis = distanceMax.value;
             let radDis = distanceResult.innerText;
+
             currentNotificationId = notificationControl.checked;
 
             // Check whether a setting already exists for provided user:
             if(settings.length > 0) {
+                // If radial distance has been set to "unlimited"
+                if(isNaN(radDis)) {
+                    // If a setting for the radial distance exists, rather use that then setting it to a default value:
+                    if(settings[0].radialDistance) {
+                        radDis = settings[0].radialDistance;
+                    }
+                    else {
+                        // Set radial distance value to a default value:
+                        radDis = 1;
+                    }
+                }
+
                 // A setting for the user already exists, so an UPDATE should be executed:
                 FYSCloud.API.queryDatabase(
                     "UPDATE `setting` " +
-                    "SET `deactivated` = ?, `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ?" +
+                    "SET `deactivated` = ?, `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ? " +
                     "WHERE `setting`.`userId` = ?;",
                     [0, languageId, profileVisibilityId, sameGender, displayGenderId, currentNotificationId, maxDis, radDis, sessionUserId]
                 ).done(function() {
@@ -782,8 +795,8 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                             // Check if the password to be changed has been properly confirmed:
                             if (pwdRepeatMatch) {
                                 FYSCloud.API.queryDatabase(
-                                    "UPDATE `user`" +
-                                    "SET `password` = ?" +
+                                    "UPDATE `user` " +
+                                    "SET `password` = ? " +
                                     "WHERE `user`.`id` = ?;",
                                     [pwdInput.value, sessionUserId]
                                 ).done(function () {
@@ -802,6 +815,8 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                     else {
                         window.location.href = "homepage.html";
                     }
+                }).fail(function(reason) {
+                    console.log(reason);
                 });
             }
             else {
@@ -820,8 +835,8 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                             // Check if the password to be changed has been properly confirmed:
                             if (pwdRepeatMatch) {
                                 FYSCloud.API.queryDatabase(
-                                    "UPDATE `user`" +
-                                    "SET `password` = ?" +
+                                    "UPDATE `user` " +
+                                    "SET `password` = ? " +
                                     "WHERE `user`.`id` = ?;",
                                     [pwdInput.value, sessionUserId]
                                 ).done(function () {
