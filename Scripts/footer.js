@@ -10,7 +10,7 @@ document.getElementById("english-language").onclick = function () {
 async function setLanguageSetting(languageKey, userId) {
 
     if (userId === undefined) { //when the user is not logged in
-        FYSCloud.Localization.CustomTranslations.setLanguage(languageKey);
+        CustomTranslations.setLanguage(languageKey);
         return;
     }
 
