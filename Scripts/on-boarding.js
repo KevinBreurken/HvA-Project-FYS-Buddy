@@ -14,7 +14,7 @@ function toggleOnBoarding() {
     currentProcedure = 0
     btn[0].style.display = 'none'
     btn[1].style.display = 'block'
-    btn[2].style.display = 'block'
+    btn[2].style.display = 'none'
 
     procedure[0].style.display = 'block'
     procedure[1].style.display = 'none'
