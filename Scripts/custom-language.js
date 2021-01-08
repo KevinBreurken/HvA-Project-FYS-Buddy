@@ -1,6 +1,7 @@
 /** Localisation wrapper*/
-FYSCloud.Localization.CustomTranslations = (function ($) {
+CustomTranslation = (function ($) {
     const exports = {
+        translate: translate,
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,
         getLanguage: getLanguage,
@@ -10,6 +11,10 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
 
     let currentLanguage = 'nl';
     let currentTranslations;
+
+    function translate(force){
+        FYSCloud.Localization.translate(force);
+    }
 
     function setLanguage(language) {
         currentLanguage = language;
@@ -39,9 +44,8 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
         let result = currentTranslations;
         for (let i = 0; i < localizeKeys.length; i++) {
             result = result[localizeKeys[i]];
-            if (result === undefined) {
+            if (result === undefined)
                 break;
-            }
         }
 
         return result[languageID];
@@ -51,13 +55,10 @@ FYSCloud.Localization.CustomTranslations = (function ($) {
      * Combines multiple translation objects into one.
      */
     function addTranslationJSON(jsonObject) {
-        if (currentTranslations === undefined)
-            currentTranslations = jsonObject;
-        else
-            $.extend(currentTranslations, jsonObject);
+        currentTranslations === undefined ? currentTranslations = jsonObject : $.extend(currentTranslations, jsonObject);
 
         FYSCloud.Localization.setTranslations(currentTranslations);
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
     }
 
     function loadJSONTranslationFile(fileURL) {
