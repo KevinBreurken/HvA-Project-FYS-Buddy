@@ -1,4 +1,4 @@
-const environment = "live";
+const environment = "dev";
 
 FYSCloud.API.configure({
     url: "https://api.fys.cloud",

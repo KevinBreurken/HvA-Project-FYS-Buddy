@@ -424,7 +424,7 @@ FYSCloud.API.queryDatabase(
 ).done(function (data) {
     console.log(data);
     let userData = data[0];
-    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : userData.pictureUrl;
+    let url = userData.pictureUrl === "" ? `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png` : userData.pictureUrl;
     let dob = parseDateToInputDate(userData.dob);
     $("#DateOfBirth").val(dob);
 
@@ -446,7 +446,7 @@ FYSCloud.API.queryDatabase(
     } else if (buddytest === 3) {
         document.getElementById("Choice2").checked = true;
     }
-    $("#imagePreview").attr("src",  "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + url);
+    $("#imagePreview").attr("src",  `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/` + url);
     $("#FirstName").val(userData.firstname);
     $("#LastName").val(userData.lastname);
     $("#Biography").val(userData.biography);

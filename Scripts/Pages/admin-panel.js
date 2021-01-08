@@ -89,10 +89,10 @@ FYSCloud.API.queryDatabase(
  */
 function editUser(i) {
     FYSCloud.API.queryDatabase(
-        "SELECT u.*, p.* FROM fys_is111_1_dev.user u INNER JOIN fys_is111_1_dev.profile p ON p.userId = u.id WHERE `userId` = ?",
+        "SELECT u.*, p.* FROM user u INNER JOIN profile p ON p.userId = u.id WHERE `userId` = ?",
         [i]
     ).done(function (data) {
-        $("#profile-photo").attr("src", "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + data[0]['pictureUrl'])
+        $("#profile-photo").attr("src", `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/` + data[0]['pictureUrl'])
 
         // For each column in the user table create an attribute and set a value
         for (let j = 0; j < Object.keys(data[0]).length; j++) {
