@@ -2,9 +2,13 @@ $.getJSON("https://api.ipify.org?format=json", function (data) {
     $("#rightbox").html(data.ip);
 })
 
-let current = new Date();
-let currentdate = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getDate();
-let currenttime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
-let datetime = currentdate + " " + currenttime;
-
-$("#leftbox").html(datetime);
+FYSCloud.API.queryDatabase(
+    "SELECT `logintime` FROM `adminsessiondata` WHERE id = (SELECT MAX(id) - 1 FROM `adminsessiondata`);"
+).done(function (data) {
+    console.log(data);
+    let userData = data[0];
+    let lastseen = userData.logintime;
+    $("#leftbox").html(lastseen);
+}).fail(function (reason) {
+    console.log(reason)
+});

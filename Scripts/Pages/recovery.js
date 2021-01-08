@@ -1,3 +1,7 @@
+function redirectBack() {
+    location.href='index.html';
+}
+
 function emailValidation() {
     var emailInput = document.getElementById("recovery-email").value;
     FYSCloud.API.queryDatabase(

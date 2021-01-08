@@ -24,8 +24,7 @@ if (appElement !== null) {
             if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
                 window.open("index.html", "_self");
 
-            checkIfUserIsDeactivated();
-            getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`,
+            getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`,
                 [currentUserID, 2]).then((data) => {
                 if (data.length === 0) {
                     const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
@@ -244,7 +243,7 @@ async function sendSessionData() {
  * sends an user to the homepage or admin-profile by its user role.
  */
 async function redirectUserByUserRole() {
-    let data = await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
+    let data = await getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`, [getCurrentUserID(), 2]);
     if (data.length === 0)
         window.open("homepage.html", "_self");
     else

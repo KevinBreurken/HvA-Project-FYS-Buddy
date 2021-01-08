@@ -174,7 +174,7 @@ if (currentUserId === profileId) {
 
 function generateProfileDisplay(data) {
     let userData = data[0];
-    let url = userData.pictureUrl === "" ? "https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png" : "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + userData.pictureUrl;
+    let url = userData.pictureUrl === "" ? `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png` : `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/` + userData.pictureUrl;
     let firstname = userData.firstname == null ? "" : userData.firstname;
     let lastname = userData.lastname == null ? "" : userData.lastname;
     let gender = userData.gender == null ? "" : userData.gender;
