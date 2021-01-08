@@ -29,10 +29,10 @@ function displayNextSlide() {
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
 
-    CustomTranslation.translate(false);     //translates the current slide if needed
+    CustomTranslation.translate(false);     // translates the current slide if needed
 
-    let slideText = document.getElementById(`img-text-wrapper`);
-    slideText.onclick = function(){goToAnchor()};
+    let slideText = document.getElementById(`img-text-wrapper`); //gets the text area of the slide
+    slideText.onclick = function(){goToAnchor()}; // adds functionality to the slide
 }
 
 /** jumps to an anchor on the page when clikcing on a slide */
@@ -40,36 +40,50 @@ function goToAnchor() {
     if (slide === 0) {
         slide = 1;
         displayNextSlide();
-    } else if (slide === 1) {
-        toggleTravelForm();
-        $('html, body').animate({scrollTop: $("#travel-container").offset().top}, 1000);
-    } else if(slide === 2) {
-        $("#all-results").click();
-        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
-    } else if (slide === 3) {
-        $("#friends").click();
-        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
     } else if (slide === 4) {
         toggleOnBoarding();
+    } else {
+        let anchor;
+        if (slide === 1) {
+            toggleTravelForm();
+            anchor = $("#travel-container");
+        } else if(slide === 2) {
+            $("#all-results").click();
+            anchor = $("#matches-tabs-border");
+        } else if (slide === 3) {
+            $("#friends").click();
+            anchor = $("#matches-tabs-border");
+        }
+        $('html, body').animate({scrollTop: anchor.offset().top}, 1000);
     }
 }
 
-/** fetches the current user's travel data */
+/** fetches the current user's travel data used for the 'travel specifications display' element on the page */
 async function fetchCurrentTravelData() {
-    await getDataByPromise(`SELECT 
-    t.startdate, t.enddate, l.destination
+    //tries to get the data, whenever the user hasn't set there travel data the function won't continue
+    try {
+    await getDataByPromise(`
+    SELECT 
+    t.startdate, t.enddate, 
+    l.destination
     FROM travel t
     INNER JOIN location l ON t.locationId = l.id
     WHERE userId = ?`, getCurrentUserID())
-        .then(data => {
-            const START_DATE = new Date(data[0]["startdate"]);
-            const END_DATE = new Date(data[0]["startdate"]);
+            .then(data => {
 
-            let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
-            let endDate = `${END_DATE.getDate()}-${END_DATE.getMonth()+1}-${END_DATE.getFullYear()}`;
+                //creates two Date objects
+                const START_DATE = new Date(data[0]["startdate"]);
+                const END_DATE = new Date(data[0]["startdate"]);
 
-            updateCurrentTravelData(startDate, endDate, data[0]["destination"])
-        });
+                //defines the travel starting and end date
+                let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
+                let endDate = `${END_DATE.getDate()}-${END_DATE.getMonth()+1}-${END_DATE.getFullYear()}`;
+
+                updateCurrentTravelData(startDate, endDate, data[0]["destination"])
+            });
+    } catch (error) {
+        return;
+    }
 }
 
 /** sets the current user's travel data on the travel-data-display */
@@ -107,12 +121,12 @@ function sendTravelData() {
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
-    //sets the start and end date in the format required for the current travel data display
+    //sets the data required for the  travel specifications display
     var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
     var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
-
-    //updating the travel data display
     let location = document.getElementById("cityList").options[citySelect - 1].text;
+
+    //updating the travel specifications display
     updateCurrentTravelData(
         `${startDate.getDate()}-${startDate.getMonth()+1}-${startDate.getFullYear()}`,
         `${endDate.getDate()}-${endDate.getMonth()+1}-${endDate.getFullYear()}`,
@@ -142,6 +156,7 @@ function sendTravelData() {
     });
 
     toggleTravelForm();
+    window.location.reload(false); //todo: reclicks the all-results button
 }
 
 /** toggles the current travel data display and the travel data form */
@@ -154,12 +169,11 @@ let lastButtonId;
 let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
+    let tab = $("#tab");
 
     //disallows the user from spamming a tab-button
     if(lastButtonId === currentButton.id) {return}
     lastButtonId = currentButton.id;
-
-    let tab = $("#tab");
 
     //swaps the button colors
     $(".tab-button").css("backgroundColor", "");
@@ -184,9 +198,7 @@ async function openTabContent(currentButton) {
     INNER JOIN location l ON t.locationId = l.id
     WHERE u.id = ?`, getCurrentUserID());
 
-    // console.log(currentUser)
-
-    //filters the data bases on the current tab
+    //filters the data based on the active tab
     let queryExtension = ``;
     let queryArray = [];
     let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.allResults"></p>`;
@@ -273,15 +285,13 @@ async function openTabContent(currentButton) {
         }
     });
 
-    $(tab).html("");
+    $(tab).html(""); //clears the tab
     if (userList.length !== 0) {
         //appends a user-display with the correct data to the tab for every user that needs to be displayed
         for (let i = 0; i < userList.length; i++) {
             $(tab).append(generateUserDisplay(userList[i]))
-            // console.log(userList[i])
         }
 
-        //todo filters users by gender with delete or within query?
         //filters the userlist based on the current user's gender settings
         if (currentButton.id.toString() === "all-results") {
             if (currentUser[0]["sameGender"] === 1) {
@@ -306,8 +316,8 @@ async function openTabContent(currentButton) {
         $(tab).append(noMatchesMessage)
     }
 
-    currentDisplayedUsers = userList;
-    CustomTranslation.translate(false);
+    currentDisplayedUsers = userList; // used for the filters
+    CustomTranslation.translate(false); //translates whatever hasn't been translated yet
 }
 
 /** function for generating a user display */
@@ -315,12 +325,14 @@ function generateUserDisplay(currentUser) {
 
     let userId = currentUser["userId"];
 
+    //creates a user-display
     let userDisplay = document.createElement("div");
     userDisplay.className = "user-display";
     userDisplay.setAttribute("id", "user-display-" + userId);
 
+    //sets the users data
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
-    let url = `${environment}/uploads/profile-pictures/` + currentUser["pictureUrl"];
+    // let url = `${environment}/uploads/profile-pictures/` + currentUser["pictureUrl"];
     let location = currentUser["destinationd"] === "" ? "destination" : currentUser["destination"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
@@ -334,9 +346,10 @@ function generateUserDisplay(currentUser) {
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
+    //generates the inner HTML of the user display
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img onerror="this.src='${environment}/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
+            
             <div class="user-display-column-3">
                 <p>${location}</p>
                 <span><p data-translate="userDisplay.from">from </p><p>${startDate}</p></span>
@@ -346,7 +359,7 @@ function generateUserDisplay(currentUser) {
             <div class="user-display-column-4">
                 <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
                 <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
-            <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}',)">
+            <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}')">
             <img src="Content/Images/favourite-v${favouriteVersion}.png" class="favourite-icon">
             </div>
             </div>
@@ -360,21 +373,26 @@ function generateUserDisplay(currentUser) {
  * @param overlayUserId id of the user that is fetched and displayed from the database.
  */
 async function openUserOverlay(overlayUserId) {
-    //disable scrolling
+    //disables scrolling
     document.body.style.overflow = 'hidden';
     document.querySelector('html').scrollTop = window.scrollY;
 
     //get user profile.
     let overlayUserData = await getDataByPromise(`SELECT 
-       p.*, u.username, u.id
+       p.*, u.username, 
+       u.id
     FROM profile p
     INNER JOIN user u ON p.userId = u.id
     WHERE u.id = ?`, overlayUserId);
 
-    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM userinterest WHERE userId = ?", overlayUserId);
+    //gets the interestIds of the overlay user
+    let overlayUserInterestsIds = await getDataByPromise(`SELECT 
+       * 
+    FROM userinterest 
+    WHERE userId = ?`, overlayUserId);
 
     //setting the data from the user and profile tables for in the overlay
-    let url = `${environment}/uploads/profile-pictures/` + overlayUserData[0]["pictureUrl"]
+    // let url = `${environment}/uploads/profile-pictures/` + overlayUserData[0]["pictureUrl"]
     let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
 
     //putting the data from the user and profile tables in the overlay
@@ -387,7 +405,9 @@ async function openUserOverlay(overlayUserId) {
     $(overlayUserInterestsIds).each(interest => {
         $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
+
     CustomTranslation.translate(false);
+
     //displays the overlay and overlay-background
     displayUserOverlay();
 
@@ -484,6 +504,7 @@ function displayUserOverlay() {
     $("#overlay-background").css("display", "block");
 }
 
+/** function for closing the overlay */
 function closeUserOverlay(){
     document.body.style.overflow = null;
     closeElement("overlay");
@@ -524,7 +545,6 @@ async function setFavourite (userId) {
 
 /** Filters */
 var currentDistanceFilterAmount;
-
 function setTravelFilter(element) {
     let distanceAmount = $(element).data("distance");
     if (currentDistanceFilterAmount === distanceAmount)
@@ -537,7 +557,6 @@ function setTravelFilter(element) {
 }
 
 let currentBuddyFilterID = 1;
-
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
     if (currentBuddyFilterID === buddyIndex)

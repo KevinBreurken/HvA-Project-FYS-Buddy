@@ -26,7 +26,6 @@ let initialProfileVisibility;
 
 let profileVisibilityOptions;
 let firstname;
-let middlename;
 let lastname;
 let profileVisibilityId;
 
@@ -165,7 +164,16 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM `profile`"
 ).done(function(profiles) {
     genderEventlistener(profiles)
-    blockEventListener(profiles);
+
+    FYSCloud.API.queryDatabase(
+        "SELECT * FROM `blocked` WHERE `blocked`.`requestingUser` = ?",
+        [sessionUserId]
+    ).done(function(blockedUsers) {
+        profileSearchEventListener(profiles, blockedUsers);
+        blockedSearchEventListener(profiles, blockedUsers);
+    }).fail(function(reason) {
+        console.log(reason);
+    });
 }).fail(function(reason) {
     console.log(reason);
 });
@@ -290,12 +298,32 @@ function setLanguage(initialLanguageKey) {
                 nl: "Blokkeren",
                 en: "Block",
                 label: {
-                    nl: "Zoeken",
-                    en: "Search"
+                    nl: "Iemand zoeken",
+                    en: "Search someone"
                 },
                 button : {
                     nl: "Blokkeren",
                     en: "Block"
+                }
+            },
+            blocked: {
+                label: {
+                    nl: "Geblokkeerden zoeken",
+                    en: "Search blocked people"
+                },
+                button: {
+                    nl: "Geblokkeerden tonen",
+                    en: "Show blocked people"
+                },
+                buttonHide: {
+                    nl: "Geblokkeerden verbergen",
+                    en: "Hide blocked people"
+                }
+            },
+            unblock: {
+                button: {
+                    nl: "Deblokkeren",
+                    en: "Unblock"
                 }
             },
             preferences: {
@@ -524,11 +552,16 @@ function setProfileVisibility(initialProfileVisibility) {
 }
 
 // Block handling:
+// TODO: Clean up big mess of duplicate code.
+
 // TODO: prefix must be set depending on environment configured within javascript configuration (e.g. config.js):
 const imageSrcPrefix = `${environment}/uploads/profile-pictures/`;
-function blockEventListener(profiles) {
-    document.querySelector("input#search-block").addEventListener("input", function() {
-        const resultContainer = document.getElementById("searchBlockResult");
+
+// Search all available profiles to receive "blocked" status and
+// display these to receive a "blocked" status on the settings page:
+function profileSearchEventListener(profiles, blockedUsers) {
+    document.getElementById("search-profiles").addEventListener("input", function() {
+        const resultContainer = document.getElementById("searchProfilesResult");
         let result = "";
         // Check if given input is empty:
         if(this.value === "") {
@@ -538,7 +571,35 @@ function blockEventListener(profiles) {
         else {
             let providedInput = this.value.toUpperCase();
 
+            // if(localBlockedUsers) {
+            //     for (let j = 0; j < localBlockedUsers.length; j++) {
+            //         console.log(localBlockedUsers[j]);
+            //     }
+            // }
+            // else {
+            //     console.log("No locally blocked users were added.")
+            // }
+
             for(let i = 0; i < profiles.length; i++) {
+                // Check if a given profile is already blocked:
+                let profileBlocked;
+                for (let j = 0; j < blockedUsers.length; j++) {
+                    if(profiles[i].userId === blockedUsers[j].blockedUser) {
+                        profileBlocked = true;
+                        break;
+                    }
+                }
+
+                // If a user has recently been blocked, invert blocked state:
+                if(localBlockedUsers) {
+                    for (let j = 0; j < localBlockedUsers.length; j++) {
+                        if(profiles[i].userId === Number(localBlockedUsers[j])) {
+                            // Invert blocked state:
+                            profileBlocked = !profileBlocked;
+                        }
+                    }
+                }
+
                 // null checking
                 firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
                 lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
@@ -546,6 +607,7 @@ function blockEventListener(profiles) {
                 // Check for input match to firstname and lastname
                 if(firstname.toUpperCase().indexOf(providedInput) > -1
                     || lastname.toUpperCase().indexOf(providedInput) > -1) {
+
                     result += "<div class=\"user-card\">" +
                         "<div class=\"user-card-image\">" +
                         "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
@@ -553,27 +615,35 @@ function blockEventListener(profiles) {
                         "<div class=\"user-card-content\">" +
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
                         "<div class=\"card-info\">" + firstname + lastname + "<br /><span class='profile-bio'>" + profiles[i].biography + "</span></div>" +
-                        "<div class=\"card-control\">" +
-                        "<button class=\"block-button\" type=\"button\" data-translate=\"settings.block.button\">Block</button>" +
-                        "</div>" +
+                        "<div class=\"card-control\">";
+
+                    // Create appropriate button depending on whether a profile has been blocked or not:
+                    if (profileBlocked) {
+                        result += "<button class=\"unblock-button\" type=\"button\" data-translate=\"settings.unblock.button\">Unblock</button>";
+                    } else {
+                        result += "<button class=\"block-button\" type=\"button\" data-translate=\"settings.block.button\">Block</button>"
+                    }
+
+                    result += "</div>" +
                         "</div>" +
                         "</div>";
                 }
             }
 
             // If no container element exists, create one:
-            if(resultContainer === null) {
-                // resultContainer = <div class="search-block-result"></div>
-                const resultContainer = document.createElement("div");
-                resultContainer.setAttribute("id", "searchBlockResult");
-                const eleToAppendAfter = document.querySelector("button#block-user");
-                // Display whatever is entered (sample):
-                resultContainer.innerHTML = result;
-                eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
-            }
-            else {
+            if(resultContainer) {
                 // Element already exists, change its contents:
                 resultContainer.innerHTML =  result;
+            }
+            else {
+                // Utilize generated HTML by populating a container:
+                // resultContainer = <div class="search-profiles-result"></div>
+                const resultContainer = document.createElement("div");
+                resultContainer.setAttribute("id", "searchProfilesResult");
+                const eleToAppendAfter = document.getElementById("block-user");
+                // Display all profiles that are available to receive a "blocked" status on the settings page:
+                resultContainer.innerHTML = result;
+                eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
             }
         }
 
@@ -582,7 +652,165 @@ function blockEventListener(profiles) {
     });
 }
 
-// Block button handling:
+// Add event listener for block search button:
+// function blockedSearchEventListener(profiles, blockedUsers) {
+//     document.getElementById("show-blocked-users").addEventListener("click", function () {
+//         alert("Show blocked people");
+//         this.remove();
+//     });
+//
+//     document.getElementById("hide-blocked-users").addEventListener("click", function() {
+//         this.remove();
+//     });
+// }
+
+// Previous function tends to create a null reference error for some weird kind of reason I can't understand.
+
+// Add event listener for blocked people search:
+let localBlockedUsers;
+function blockedSearchEventListener(profiles, blockedUsers) {
+    // Add event listener for blocked people search button:
+    document.addEventListener("click", function(e) {
+        if(e.target.classList.contains("block-button")) {
+            const toggleButton = e.target;
+            const resultContainer = document.getElementById("searchBlockedResult");
+            if(e.target.id === "show-blocked-users") {
+                // Toggle button from show to hide blocked people:
+                toggleButton.setAttribute("id", "hide-blocked-users");
+                toggleButton.setAttribute("data-translate", "settings.blocked.buttonHide");
+
+                // Add the collection of blocked users to the settings page:
+                let result = "";
+
+                if(localBlockedUsers) {
+                    for (let j = 0; j < localBlockedUsers.length; j++) {
+                        console.log(localBlockedUsers[j]);
+                    }
+                }
+                else {
+                    console.log("No locally blocked users were added.")
+                }
+
+                // Loop through profiles
+                for(let i = 0; i < profiles.length; i++) {
+                    // Check if a given profile is already blocked:
+                    let profileBlocked;
+                    for (let j = 0; j < blockedUsers.length; j++) {
+                        if(profiles[i].userId === blockedUsers[j].blockedUser) {
+                            profileBlocked = true;
+                            break;
+                        }
+                    }
+                    if(profileBlocked) {
+                        // null checking
+                        firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
+                        lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
+
+                        result += "<div class=\"user-card\">" +
+                            "<div class=\"user-card-image\">" +
+                            "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                            "</div>" +
+                            "<div class=\"user-card-content\">" +
+                            "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
+                            "<div class=\"card-info\">" + firstname + lastname + "<br /><span class='profile-bio'>" + profiles[i].biography + "</span></div>" +
+                            "<div class=\"card-control\">" +
+                            "<button class=\"unblock-button\" type=\"button\" data-translate=\"settings.unblock.button\">Unblock</button>" +
+                            "</div>" +
+                            "</div>" +
+                            "</div>";
+                    }
+                }
+                // Utilize generated HTML by populating a container:
+                const resultContainer = document.createElement("div");
+                resultContainer.setAttribute("id", "searchBlockedResult");
+                const eleToAppendAfter = document.getElementById("hide-blocked-users");
+                // Display all profiles that are available to receive a "blocked" status on the settings page:
+                resultContainer.innerHTML = result;
+                eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
+            }
+            else if(e.target.id === "hide-blocked-users") {
+                toggleButton.setAttribute("id", "show-blocked-users");
+                toggleButton.setAttribute("data-translate", "settings.blocked.button");
+
+                // Remove the collection of blocked users to the settings page:
+                resultContainer.remove();
+            }
+
+            // Translate everything that has been added to the DOM:
+            CustomTranslation.setLanguage($("#language").val());
+        }
+    });
+
+    // Add event listener for blocked people search input:
+    document.getElementById("search-blocked-users").addEventListener("input", function() {
+        const toggleButton = document.getElementById("show-blocked-users");
+        const resultContainer = document.getElementById("searchBlockedResult");
+
+        // Toggle button from show to hide blocked people:
+        if(toggleButton) {
+            toggleButton.setAttribute("id", "hide-blocked-users");
+            toggleButton.setAttribute("data-translate", "settings.blocked.buttonHide");
+        }
+
+        // Add the collection of blocked users to the settings page:
+        let result = "";
+        let providedInput = this.value.toUpperCase();
+
+        // Loop through profiles
+        for(let i = 0; i < profiles.length; i++) {
+            // Check if a given profile is already blocked:
+            let profileBlocked;
+            for (let j = 0; j < blockedUsers.length; j++) {
+                if(profiles[i].userId === blockedUsers[j].blockedUser) {
+                    profileBlocked = true;
+                    break;
+                }
+            }
+
+            // null checking
+            firstname = profiles[i].firstname == null ? "" : profiles[i].firstname + " ";
+            lastname = profiles[i].lastname == null ? "" : profiles[i].lastname + " ";
+
+            // Check for input match to firstname and lastname
+            if(firstname.toUpperCase().indexOf(providedInput) > -1
+                || lastname.toUpperCase().indexOf(providedInput) > -1) {
+
+                // Create appropriate button depending on whether a profile has been blocked or not:
+                if (profileBlocked) {
+                    result += "<div class=\"user-card\">" +
+                        "<div class=\"user-card-image\">" +
+                        "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                        "</div>" +
+                        "<div class=\"user-card-content\">" +
+                        "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
+                        "<div class=\"card-info\">" + firstname + lastname + "<br /><span class='profile-bio'>" + profiles[i].biography + "</span></div>" +
+                        "<div class=\"card-control\">" +
+                        "<button class=\"unblock-button\" type=\"button\" data-translate=\"settings.unblock.button\">Unblock</button>" +
+                        "</div>" +
+                        "</div>" +
+                        "</div>";
+                }
+            }
+        }
+        // Utilize generated HTML by populating a container:
+        if(resultContainer) {
+            resultContainer.innerHTML = result;
+        }
+        else {
+            const resultContainer = document.createElement("div");
+            resultContainer.setAttribute("id", "searchBlockedResult");
+            const eleToAppendAfter = document.getElementById("hide-blocked-users");
+            // Display all profiles that are available to receive a "blocked" status on the settings page:
+            resultContainer.innerHTML = result;
+            eleToAppendAfter.parentNode.insertBefore(resultContainer, eleToAppendAfter.nextSibling);
+        }
+
+        // Translate the dynamically generated "block" buttons:
+        CustomTranslation.setLanguage($("#language").val());
+    });
+}
+
+// Add event listener to block buttons:
 document.addEventListener("click", function(e) {
     // Clicking on block buttons:
     if(e.target.classList.contains("block-button")) {
@@ -594,25 +822,65 @@ document.addEventListener("click", function(e) {
         }
         else {
             // Clicking on general block button:
-            // If any cards exists, by default block the first person:
-            if(document.getElementsByClassName("user-card")[0]) {
-                // Block the first person:
-                let blockedUser = document.getElementsByClassName("user-card")[0].getElementsByClassName("user-data")[0].innerText;
-                blockUser(blockedUser);
+            // When the button is a block user button:
+            if(e.target.id === "block-user") {
+                // If any cards exists, by default block the first person:
+                if (document.getElementsByClassName("user-card")[0]) {
+                    // Block the first person:
+                    let blockedUser = document.getElementsByClassName("user-card")[0].getElementsByClassName("user-data")[0].innerText;
+                    blockUser(blockedUser);
+                }
             }
         }
     }
+    else if(e.target.classList.contains("unblock-button")) {
+        let blockedUser = e.target.parentNode.parentNode.getElementsByClassName("user-data")[0].innerText;
+        unblockUser(blockedUser);
+    }
 });
 
-function blockUser(blockedUser) {
-    if(blockedUser) {
+// Blocking a user:
+function blockUser(user) {
+    if(user) {
+        // Locally keep track of added users from a blocked users collection:
+        if(localBlockedUsers) {
+            localBlockedUsers.push(user);
+        }
+        else {
+            // On first time, initialize array:
+            localBlockedUsers = [];
+            localBlockedUsers.push(user);
+        }
+
         FYSCloud.API.queryDatabase(
             "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`)" +
             "VALUES (?, ?, ?);",
-            [sessionUserId, blockedUser, "Blocked through settings, reason unsupported."]
+            [sessionUserId, user, "Blocked through settings, reason unsupported."]
         ).done(function(data) {
             console.log(data);
-            alert("User containing userId " + blockedUser + " is now blocked.");
+            alert("User containing userId " + user + " is now blocked.");
+        }).fail(function(reason) {
+            console.log(reason);
+        });
+    }
+}
+
+// Unblocking a user:
+function unblockUser(user) {
+    // Locally keep track of removed users from a blocked users collection:
+    if(localBlockedUsers) {
+        localBlockedUsers.splice(localBlockedUsers.indexOf(user), 1);
+    }
+
+    if(user) {
+        FYSCloud.API.queryDatabase(
+            "DELETE FROM `blocked`" +
+            "WHERE `blocked`.`requestingUser` = ?" +
+            "AND `blocked`.`blockedUser` = ?",
+            [sessionUserId, user]
+        ).done(function(data) {
+            console.log(data);
+            alert("User containing userId " + user + " is now unblocked.");
         }).fail(function(reason) {
             console.log(reason);
         });
