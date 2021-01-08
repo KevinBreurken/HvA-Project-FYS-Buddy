@@ -1,3 +1,4 @@
+$("head").append('<script src="Scripts/mailer.js"></script>');
 window.addEventListener('load', function () {
     //clicks on the 'All results' tab so it's open by default
     $("#all-results").click();
@@ -10,16 +11,47 @@ window.addEventListener('load', function () {
 })
 
 let slide = 0;
-/**  displays the next slide */
-function displayNextSlide(arrow) {
+/** sets the current slide */
+function setSlide(arrow) {
     switch (slide) {
-        case 0: arrow.id.toString() === "left-arrow" ? slide = 2 : slide++; break;
+        case 0: arrow.id.toString() === "left-arrow" ? slide = 4 : slide++; break;
         case 1: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
-        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
+        case 2: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 3: arrow.id.toString() === "left-arrow" ? slide-- : slide++; break;
+        case 4: arrow.id.toString() === "left-arrow" ? slide-- : slide = 0; break;
     }
+    displayNextSlide();
+}
+
+/**  displays the next slide */
+function displayNextSlide() {
+    //sets the correct text for the current slide
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
-    FYSCloud.Localization.translate(false);
+
+    CustomTranslation.translate(false);     //translates the current slide if needed
+
+    let slideText = document.getElementById(`img-text-wrapper`);
+    slideText.onclick = function(){goToAnchor()};
+}
+
+/** jumps to an anchor on the page when clikcing on a slide */
+function goToAnchor() {
+    if (slide === 0) {
+        slide = 1;
+        displayNextSlide();
+    } else if (slide === 1) {
+        toggleTravelForm();
+        $('html, body').animate({scrollTop: $("#travel-container").offset().top}, 1000);
+    } else if(slide === 2) {
+        $("#all-results").click();
+        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
+    } else if (slide === 3) {
+        $("#friends").click();
+        $('html, body').animate({scrollTop: $("#matches-tabs-border").offset().top}, 1000);
+    } else if (slide === 4) {
+        toggleOnBoarding();
+    }
 }
 
 /** fetches the current user's travel data */
@@ -71,7 +103,7 @@ async function populateCityList() {
 function sendTravelData() {
     //get current selected value from select element in form
     var citySelect = document.getElementById("cityList").value;
-    
+
     var startDate = new Date($('#sDate').val());
     var endDate = new Date($('#eDate').val());
 
@@ -119,6 +151,7 @@ function toggleTravelForm() {
 }
 
 let lastButtonId;
+let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
 async function openTabContent(currentButton) {
 
@@ -143,7 +176,7 @@ async function openTabContent(currentButton) {
        GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
-    FROM fys_is111_1_dev.user u
+    FROM user u
     INNER JOIN profile p ON p.userId = u.id
     LEFT JOIN setting s ON s.userId = u.id
     LEFT JOIN userinterest ui ON ui.userId = u.id
@@ -273,7 +306,8 @@ async function openTabContent(currentButton) {
         $(tab).append(noMatchesMessage)
     }
 
-    FYSCloud.Localization.translate(false);
+    currentDisplayedUsers = userList;
+    CustomTranslation.translate(false);
 }
 
 /** function for generating a user display */
@@ -286,7 +320,7 @@ function generateUserDisplay(currentUser) {
     userDisplay.setAttribute("id", "user-display-" + userId);
 
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
-    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
+    let url = `${environment}/uploads/profile-pictures/` + currentUser["pictureUrl"];
     let location = currentUser["destinationd"] === "" ? "destination" : currentUser["destination"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
@@ -294,7 +328,7 @@ function generateUserDisplay(currentUser) {
     let buddy = `<p data-translate="userDisplay.buddy.default"></p>`;
     if (currentUser["buddyType"] === 2) buddy = `<p data-translate="userDisplay.buddy.activity"></p>`;
     if (currentUser["buddyType"] === 3) buddy = `<p data-translate="userDisplay.buddy.travel"></p>`;
-    
+
     //start and end date
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
@@ -302,7 +336,7 @@ function generateUserDisplay(currentUser) {
 
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
+            <img onerror="this.src='${environment}/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div class="user-display-column-3">
                 <p>${location}</p>
                 <span><p data-translate="userDisplay.from">from </p><p>${startDate}</p></span>
@@ -337,14 +371,14 @@ async function openUserOverlay(overlayUserId) {
     INNER JOIN user u ON p.userId = u.id
     WHERE u.id = ?`, overlayUserId);
 
-    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
+    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM userinterest WHERE userId = ?", overlayUserId);
 
     //setting the data from the user and profile tables for in the overlay
-    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + overlayUserData[0]["pictureUrl"]
+    let url = `${environment}/uploads/profile-pictures/` + overlayUserData[0]["pictureUrl"]
     let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
 
     //putting the data from the user and profile tables in the overlay
-    $("#overlay-row-1").html(`<img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
+    $("#overlay-row-1").html(`<img onerror="this.src='${environment}/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
     $("#overlay-full-name").html(`${fullName}`);
     $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
     $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
@@ -353,7 +387,7 @@ async function openUserOverlay(overlayUserId) {
     $(overlayUserInterestsIds).each(interest => {
         $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
     //displays the overlay and overlay-background
     displayUserOverlay();
 
@@ -371,8 +405,7 @@ async function openUserOverlay(overlayUserId) {
     requestButton.css('opacity', '1');
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
         }, function () { $(this).css("background-color", "");} );
-
-
+    
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
@@ -384,7 +417,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-
+    CustomTranslation.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -394,7 +427,6 @@ function disableRequestButton() {
     requestButton.css('opacity', '0.6');
     requestButton.attr("disabled", true);
     requestButton.attr("data-translate", "overlay.button.sent");
-    FYSCloud.Localization.translate(false);
 }
 
 function acceptRequest(acceptedUser,userIdToAccept) {
@@ -407,20 +439,21 @@ function acceptRequest(acceptedUser,userIdToAccept) {
                       INSERT INTO friend (user1, user2)
                       VALUES (${acceptedUser},${userIdToAccept});
     `).then((data) => sendFriendMatchData(userIdToAccept));
-    //todo: remove element from display tab.
+    //Remove display from tab.
+    $(`#user-display-${userIdToAccept}`).remove();
+    sendFriendEmail(userIdToAccept,'accept');
     closeUserOverlay();
 }
 
 async function sendFriendMatchData(userIdToAccept){
-    //Get current user travel destination
+    //Get current user travel destination.
     const CURRENT_USER = await getDataByPromise(`SELECT *
     FROM travel WHERE id = ?`, getCurrentUserID());
     //Send the location that we currently have to the database.
     await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
                             VALUES (?, 1)
-                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER["destination"]);
-    //Check which interests are equal
-    //TODO: Add interests to results query.
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER[0]["locationId"]);
+    //Check which interests are equal.
     const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
     const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
     $(userInterests).each(uInterest => {
@@ -439,8 +472,9 @@ function sendRequest(sentUser,userIdToSend) {
                       VALUES (${sentUser},${userIdToSend});
                       INSERT INTO usernotification (requestingUser, targetUser)
                       VALUES (${sentUser},${userIdToSend});`).then((data) => {
-        // console.log(data);
     });
+
+    sendFriendEmail(userIdToSend,'request');
     disableRequestButton();
 }
 
@@ -489,7 +523,6 @@ async function setFavourite (userId) {
 }
 
 /** Filters */
-//todo: filters; distance and buddy type
 var currentDistanceFilterAmount;
 
 function setTravelFilter(element) {
@@ -500,10 +533,10 @@ function setTravelFilter(element) {
     $(element).attr("current", "");
     currentDistanceFilterAmount = distanceAmount;
 
-    //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
-var currentBuddyFilterID;
+let currentBuddyFilterID = 1;
 
 function setBuddyFilter(element) {
     let buddyIndex = $(element).data("buddy");
@@ -513,7 +546,7 @@ function setBuddyFilter(element) {
     $(element).attr("current", "");
     currentBuddyFilterID = buddyIndex;
 
-    //todo: apply filter.
+    filterCurrentDisplayedUsers();
 }
 
 function resetFilters() {
@@ -528,4 +561,33 @@ function resetFilters() {
     let distanceDefault = $("#filter-option-distance-default");
     currentDistanceFilterAmount = buddyDefault.data("distance");
     distanceDefault.attr("current", "");
+}
+
+function filterCurrentDisplayedUsers() {
+    //Reset all
+    $('.user-display').show();
+
+    $(currentDisplayedUsers).each(userDisplay => {
+        //Hide displays depending on selected buddy type filter.
+        if (currentBuddyFilterID !== 1) { // 1 == both buddy types
+            const displayedUserBuddyId = currentDisplayedUsers[userDisplay]['buddyType'];
+            if(displayedUserBuddyId !== 1 && displayedUserBuddyId !== currentBuddyFilterID)
+                $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+        }
+        //Hide displays depending on selected distance filter.
+        if(currentDistanceFilterAmount !== undefined)
+        if(currentDisplayedUsers[userDisplay]['distanceInKm'] > currentDistanceFilterAmount)
+            $(`#user-display-${currentDisplayedUsers[userDisplay]['userId']}`).hide();
+    });
+
+    //Check if there's any display being shown..
+    if ($('.user-display:visible').length === 0) {
+        //Generate a new message to display in the tab content.
+        $('.no-matches-message').remove();
+        let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
+        $('#tab').append(noMatchesMessage);
+        CustomTranslation.translate(false);
+    }else {
+        $('.no-matches-message').remove();
+    }
 }

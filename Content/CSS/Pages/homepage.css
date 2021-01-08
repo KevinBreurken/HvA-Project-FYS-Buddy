@@ -189,7 +189,7 @@ input[type=button]:hover {
 }
 
 #tab-buttons-border {
-  width: 100%;
+  width: 90%;
   background-color: var(--color-corendon-red);
 }
 
@@ -578,4 +578,17 @@ input[type=button]:hover {
   #overlay-interests {
     max-width: 200px;
   }
+}
+
+/* slides p and h1 */
+#h1-slide {
+  color: var(--color-corendon-light-blue);
+}
+
+#img-text-wrapper:hover #h1-slide {
+  color: #00D1FC;
+}
+
+#img-text-wrapper:hover #p-slide {
+  color: #B7B7B7;
 }
