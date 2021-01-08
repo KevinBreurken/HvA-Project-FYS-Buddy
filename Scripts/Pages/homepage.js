@@ -60,6 +60,8 @@ function goToAnchor() {
 
 /** fetches the current user's travel data used for the 'travel specifications display' element on the page */
 async function fetchCurrentTravelData() {
+    //tries to get the data, whenever the user hasn't set there travel data the function won't continue
+    try {
     await getDataByPromise(`
     SELECT 
     t.startdate, t.enddate, 
@@ -67,17 +69,21 @@ async function fetchCurrentTravelData() {
     FROM travel t
     INNER JOIN location l ON t.locationId = l.id
     WHERE userId = ?`, getCurrentUserID())
-        .then(data => {
-            //creates two Date objects
-            const START_DATE = new Date(data[0]["startdate"]);
-            const END_DATE = new Date(data[0]["startdate"]);
+            .then(data => {
 
-            //defines the travel starting and end date
-            let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
-            let endDate = `${END_DATE.getDate()}-${END_DATE.getMonth()+1}-${END_DATE.getFullYear()}`;
+                //creates two Date objects
+                const START_DATE = new Date(data[0]["startdate"]);
+                const END_DATE = new Date(data[0]["startdate"]);
 
-            updateCurrentTravelData(startDate, endDate, data[0]["destination"])
-        });
+                //defines the travel starting and end date
+                let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
+                let endDate = `${END_DATE.getDate()}-${END_DATE.getMonth()+1}-${END_DATE.getFullYear()}`;
+
+                updateCurrentTravelData(startDate, endDate, data[0]["destination"])
+            });
+    } catch (error) {
+        return;
+    }
 }
 
 /** sets the current user's travel data on the travel-data-display */
@@ -352,7 +358,7 @@ function generateUserDisplay(currentUser) {
             <div class="user-display-column-4">
                 <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
                 <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
-            <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}',)">
+            <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}')">
             <img src="Content/Images/favourite-v${favouriteVersion}.png" class="favourite-icon">
             </div>
             </div>
