@@ -27,7 +27,7 @@ FYSCloud.API.queryDatabase(
     console.log(data);
     generateProfileDisplay(data);
     generateBuddy(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
     alert("paniek");
 });
@@ -37,7 +37,7 @@ FYSCloud.API.queryDatabase(
 ).done(function (data) {
     console.log(data);
     generateUserinfo(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
     alert("paniek");
 });
@@ -47,7 +47,7 @@ FYSCloud.API.queryDatabase(
 ).done(function (data) {
     console.log(data);
     generateTravelInfo(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
     alert("paniek");
 });
@@ -58,7 +58,7 @@ FYSCloud.API.queryDatabase(
     let userData = data[0];
     let locatie = userData.locationId;
     console.log(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `location` WHERE `id` = ?;",
         [locatie]
@@ -66,7 +66,7 @@ FYSCloud.API.queryDatabase(
         let userdata = data[0];
         console.log(data);
         let destination = userdata.destination;
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
         $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
     }).fail(function (reason) {
         console.log(reason)
@@ -80,7 +80,7 @@ FYSCloud.API.queryDatabase(
 ).done(function (data) {
     console.log(data);
     //generateInterests(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
     alert("paniek");
 });
@@ -94,14 +94,14 @@ if (currentUserId === profileId) {
     ).done(function (data) {
         console.log(data);
         generateUserinfo(data);
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
         FYSCloud.API.queryDatabase(
             "SELECT * FROM profile where id = ?", [profileId]
         ).done(function (data) {
             console.log(data);
             generateProfileDisplay(data);
             generateBuddy(data);
-            FYSCloud.Localization.translate(false);
+            CustomTranslation.translate(false);
         }).fail(function () {
             alert("paniek");
         });
@@ -113,7 +113,7 @@ if (currentUserId === profileId) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?;", [userId, userId]
     ).done(function (data) {
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
         console.log(data);
         let userData = data[0];
         let tabel1 = userData.user1;
@@ -129,14 +129,14 @@ if (currentUserId === profileId) {
             ).done(function (data) {
                 console.log(data);
                 generateUserinfo(data);
-                FYSCloud.Localization.translate(false);
+                CustomTranslation.translate(false);
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM profile where id = ?", [profileId]
                 ).done(function (data) {
                     console.log(data);
                     generateProfileDisplay(data);
                     generateBuddy(data);
-                    FYSCloud.Localization.translate(false);
+                    CustomTranslation.translate(false);
                 }).fail(function () {
                     alert("paniek");
                 });
@@ -152,14 +152,14 @@ if (currentUserId === profileId) {
             ).done(function (data) {
                 console.log(data);
                 generateUserinfo(data);
-                FYSCloud.Localization.translate(false);
+                CustomTranslation.translate(false);
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM profile where id = ?", [profileId]
                 ).done(function (data) {
                     console.log(data);
                     generateProfileDisplay(data);
                     generateBuddy(data);
-                    FYSCloud.Localization.translate(false);
+                    CustomTranslation.translate(false);
                 }).fail(function () {
                     alert("paniek");
                 });
@@ -239,7 +239,7 @@ FYSCloud.API.queryDatabase(
     let interests = [];
     interests[i] = userData.interestId;
     console.log(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
         FYSCloud.API.queryDatabase(
             "SELECT * FROM `interest` WHERE `id` = ?;",
             [interests[i]]

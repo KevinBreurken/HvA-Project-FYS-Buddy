@@ -29,7 +29,7 @@ function displayNextSlide() {
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
 
-    FYSCloud.Localization.translate(false);     //translates the current slide if needed
+    CustomTranslation.translate(false);     //translates the current slide if needed
 
     let slideText = document.getElementById(`img-text-wrapper`);
     slideText.onclick = function(){goToAnchor()};
@@ -307,7 +307,7 @@ async function openTabContent(currentButton) {
     }
 
     currentDisplayedUsers = userList;
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }
 
 /** function for generating a user display */
@@ -387,7 +387,7 @@ async function openUserOverlay(overlayUserId) {
     $(overlayUserInterestsIds).each(interest => {
         $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
     //displays the overlay and overlay-background
     displayUserOverlay();
 
@@ -417,7 +417,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -586,7 +586,7 @@ function filterCurrentDisplayedUsers() {
         $('.no-matches-message').remove();
         let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
         $('#tab').append(noMatchesMessage);
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
     }else {
         $('.no-matches-message').remove();
     }
