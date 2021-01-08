@@ -44,6 +44,7 @@ async function sendFriendEmail(idOfRecipient, textPrefix) {
             const body = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.text`, userLanguage[0].languageKey);
             const link = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.link`, userLanguage[0].languageKey);
             const subject = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.subject`, userLanguage[0].languageKey);
+
             sendMail(userData[0].email, userName, subject,
                 `<h1>${title}</h1> <p>${body}</p> <a href='${url}'><p>${link}</p></a>`);
         });

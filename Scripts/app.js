@@ -38,8 +38,8 @@ let appElement = document.getElementById("app");
         }
     }
 
-    let headElement = $('head');
     //add general page elements to the head tag.
+    let headElement = $('head');
     headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
     headElement.append(`<title>Corendon Travel Buddy</title>`);
 
@@ -148,7 +148,7 @@ function setDatabasePageData() {
     getDataByPromise(`INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
         visitcount = visitcount + 1`,
         [name]);
-};
+}
 
 /**
  * Stores the users session and performs login related tasks.
@@ -191,12 +191,13 @@ async function setLanguageBySettingsData(userId) {
     }
 }
 
-async function generateDefaultSetting(userId,languageId){
+async function generateDefaultSetting(userId, languageId) {
     await getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
                                                displayGenderId, notifcationId, maxDistance, radialDistance)
                           VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [userId, languageId, 1, 1, 1, 0, 11, 100]);
 }
+
 /**
  * Sends session data to the FYS database.
  */

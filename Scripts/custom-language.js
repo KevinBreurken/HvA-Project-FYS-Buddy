@@ -44,9 +44,8 @@ CustomTranslation = (function ($) {
         let result = currentTranslations;
         for (let i = 0; i < localizeKeys.length; i++) {
             result = result[localizeKeys[i]];
-            if (result === undefined) {
+            if (result === undefined)
                 break;
-            }
         }
 
         return result[languageID];
@@ -56,10 +55,7 @@ CustomTranslation = (function ($) {
      * Combines multiple translation objects into one.
      */
     function addTranslationJSON(jsonObject) {
-        if (currentTranslations === undefined)
-            currentTranslations = jsonObject;
-        else
-            $.extend(currentTranslations, jsonObject);
+        currentTranslations === undefined ? currentTranslations = jsonObject : $.extend(currentTranslations, jsonObject);
 
         FYSCloud.Localization.setTranslations(currentTranslations);
         CustomTranslation.translate(false);
