@@ -1,71 +1,70 @@
-$("head").append('<script src="Scripts/custom-language.js"></script>');
-CustomTranslation.loadJSONTranslationFile("Content/Translations/default-translation.json")
-let currentUserID = getCurrentUserID();
 let currentPageType;
-console.log("currentUserID = " + currentUserID);
-if (currentUserID === undefined)
-    console.log("Not logged in");
-
-/** Redirect when not logged in */
 let appElement = document.getElementById("app");
-if (appElement !== null) {
-    currentPageType = appElement.getAttribute("data-pageType");
-    switch (currentPageType) {
-        case "default":
-            if (currentUserID !== undefined) //User is logged in, send to homepage
-                window.open("homepage.html", "_self");
-            break;
-        case "user":
-            if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
-                window.open("index.html", "_self");
-            break;
-        case "admin":
-            if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
-                window.open("index.html", "_self");
 
-            getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`,
-                [currentUserID, 2]).then((data) => {
-                if (data.length === 0) {
-                    const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
-                    window.open(redirectURL, "_self");
-                }
-            });
-            break;
+(function initialize() {
+    $("head").append('<script src="Scripts/custom-language.js"></script>');
+    CustomTranslation.loadJSONTranslationFile("Content/Translations/default-translation.json");
+
+    let currentUserID = getCurrentUserID();
+    console.log("currentUserID = " + currentUserID);
+    if (currentUserID === undefined)
+        console.log("Not logged in");
+
+    /** Redirect when not logged in */
+    if (appElement !== null) {
+        currentPageType = appElement.getAttribute("data-pageType");
+        setDatabasePageData();
+        switch (currentPageType) {
+            case "default":
+                if (currentUserID !== undefined) //User is logged in, send to homepage
+                    window.open("homepage.html", "_self");
+                break;
+            case "user":
+                if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
+                    window.open("index.html", "_self");
+                break;
+            case "admin":
+                if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
+                    window.open("index.html", "_self");
+
+                getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`,
+                    [currentUserID, 2]).then((data) => {
+                    if (data.length === 0) {
+                        const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
+                        window.open(redirectURL, "_self");
+                    }
+                });
+                break;
+        }
     }
-}
 
-let headElement = $('head');
-//add general page elements to the head tag.
-headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
-headElement.append(`<title>Corendon Travel Buddy</title>`);
+    let headElement = $('head');
+    //add general page elements to the head tag.
+    headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+    headElement.append(`<title>Corendon Travel Buddy</title>`);
 
-/** Check if this page want to load an translation */
-if (appElement !== null) {
-    let transElement = appElement.getAttribute("data-translations");
-    console.log(transElement);
-    if (transElement !== null) {
-        CustomTranslation.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
+    /** Check if this page want to load an translation */
+    if (appElement !== null) {
+        let transElement = appElement.getAttribute("data-translations");
+        if (transElement !== null) {
+            CustomTranslation.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
+        }
     }
-}
 
-//TODO: Change this to the users preference.
-/** Change language when the Header is Loaded */
-var initialLanguage = FYSCloud.Session.get("language", "nl");
-CustomTranslation.setLanguage(initialLanguage);
-
-document.addEventListener("headerLoadedEvent", function (event) {
-    CustomTranslation.translate(false);
-});
+    /** Change language to LocalStorage setting**/
+    var initialLanguage = FYSCloud.Session.get("language", "nl");
+    CustomTranslation.setLanguage(initialLanguage);
+})();
 
 /**
- * Changes the userID set in the users local storage.
+ * Changes the userID set in the users localStorage.
  */
 function setCurrentUserID(id) {
     FYSCloud.Session.set("userID", `${id}`);
 }
 
 /**
- * Returns the value of the current user set in the local storage.
+ * Returns the value of the current user set in the localStorage.
  */
 function getCurrentUserID() {
     return FYSCloud.Session.get("userID");
@@ -138,7 +137,7 @@ function parseDateToInputDate(date) {
 }
 
 /** Sends page related statistics to the database */
-(function setDatabasePageData() {
+function setDatabasePageData() {
     //we don't want to send page data as an admin.
     if (currentPageType === "admin")
         return;
@@ -149,7 +148,7 @@ function parseDateToInputDate(date) {
     getDataByPromise(`INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
         visitcount = visitcount + 1`,
         [name]);
-})();
+};
 
 /**
  * Stores the users session and performs login related tasks.
