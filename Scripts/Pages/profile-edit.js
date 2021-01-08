@@ -58,13 +58,11 @@ async function populateCityList() {
         "SELECT * FROM `travel` WHERE `userId` = ?;",
         [userId]
     ).done(function (data) {
-        console.log(data);
         let userData = data[0];
         let locatie = userData.locationId;
         let lijst = document.getElementById("cityList");
         lijst.selectedIndex = locatie - 1;
     }).fail(function (reason) {
-        console.log(reason)
     });
 }
 
@@ -239,18 +237,14 @@ $(document).on("change", "body", function () {
                     "UPDATE `profile` SET `firstname` = ?, `lastname` = ?, `gender` = ?, `dob` = ?, `biography` = ?, `phone` = ?, `buddyType` = ? WHERE `userId` = ?;",
                     [firstname, lastname, gender, dobFormat, biography, tel, buddy, userId]
                 ).done(function (data) {
-                    console.log(data);
                     redirectToProfileById(userId);
                 }).fail(function (reason) {
-                    console.log(reason)
                     FYSCloud.API.queryDatabase(
                         "INSERT INTO `profile` (`userId`, `phone`) VALUES (?, ?)",
                         [userId, tel]
                     ).done(function (data) {
-                        console.log(data);
                         redirectToProfileById(userId);
                     }).fail(function (reason) {
-                        console.log(reason)
                     });
                 });
 
@@ -258,10 +252,8 @@ $(document).on("change", "body", function () {
                     "UPDATE `user` SET `email` = ?, `username` = ? WHERE `id` = ?;",
                     [email, username, userId]
                 ).done(function (data) {
-                    console.log(data);
                     redirectToProfileById(userId);
                 }).fail(function (reason) {
-                    console.log(reason)
                 });
 
 
@@ -269,25 +261,20 @@ $(document).on("change", "body", function () {
                     "INSERT INTO `travel` (`id`,`userId`,`locationId`,`startdate`, `enddate`) VALUES (NULL, ?, ?, ?, ?);",
                     [userId, citySelect, startFormat, endFormat]
                 ).done(function (data) {
-                    console.log(data);
                     redirectToProfileById(userId);
                 }).fail(function (reason) {
-                    console.log(reason)
                     FYSCloud.API.queryDatabase(
                         "UPDATE `travel` SET `locationId` = ?,`startdate` = ?, `enddate` = ? WHERE userId = ?;",
                         [citySelect, startFormat, endFormat, userId]
                     ).done(function (data) {
-                        console.log(data);
                         redirectToProfileById(userId);
                     }).fail(function (reason) {
-                        console.log(reason)
                     });
                 });
 
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM `userinterest` WHERE userId = ?;", [userId]
                 ).done(function (data) {
-                    console.log(data);
                     let interestId = new Array();
                     let interest = new Array();
                     interest.push(interest1, interest2, interest3, interest4, interest5,
@@ -302,10 +289,8 @@ $(document).on("change", "body", function () {
                             "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?);",
                             [userId, interestId[i]]
                         ).done(function (data) {
-                            console.log(data);
                             redirectToProfileById(userId);
                         }).fail(function (reason) {
-                            console.log(reason)
                         });
                     }
                 }).fail(function () {
@@ -324,10 +309,8 @@ $(document).on("change", "body", function () {
                             "INSERT INTO `userinterest` (`userId`, `interestId`) VALUES (?, ?);",
                             [userId, interestId[i]]
                         ).done(function (data) {
-                            console.log(data);
                             redirectToProfileById(userId);
                         }).fail(function (reason) {
-                            console.log(reason)
                         });
                     }
                 });
@@ -335,7 +318,6 @@ $(document).on("change", "body", function () {
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM `userinterest` where userId = ?", [userId]
                 ).done(function (data) {
-                    console.log(data);
                     let interestId2 = new Array();
                     let interest = new Array();
                     interest.push(interest1, interest2, interest3, interest4, interest5,
@@ -345,16 +327,13 @@ $(document).on("change", "body", function () {
                             interestId2.push(i + 1)
                         }
                     }
-                    console.log(interestId2);
                     for (let i = 0; i < interestId2.length; i++) {
                         FYSCloud.API.queryDatabase(
                             "DELETE FROM `userinterest` WHERE `userId` = ? AND `interestId` = ?;",
                             [userId, interestId2[i]]
                         ).done(function (data) {
-                            console.log(data);
                             redirectToProfileById(userId);
                         }).fail(function (reason) {
-                            console.log(reason)
                         });
                     }
                 }).fail(function () {
@@ -372,7 +351,6 @@ $(document).on("change", "body", function () {
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [userId]
 ).done(function (data) {
-    console.log(data);
     let userData = data[0];
     $("#Email").val(userData.email);
     $("#Username").val(userData.username);
@@ -383,7 +361,6 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM profile where userId = ?", [userId]
 ).done(function (data) {
-    console.log(data);
     let userData = data[0];
     let url = userData.pictureUrl === "" ? `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png` : userData.pictureUrl;
     let dob = parseDateToInputDate(userData.dob);
@@ -420,7 +397,6 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT `startdate`, `enddate` FROM `travel` WHERE userId = ?", [userId]
 ).done(function (data) {
-    console.log(data);
     let userData = data[0];
     let startdate = parseDateToInputDate(userData.startdate);
     $("#Data").val(startdate);
@@ -433,7 +409,6 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM `userinterest` where userId = ?", [userId]
 ).done(function (data) {
-    console.log(data);
     for (let i = 0; i < data.length; i++) {
         let userData = data[i];
         if (userData.interestId === 1) {
@@ -497,11 +472,8 @@ $("#fileUpload").on("change", function () {
         .getDataUrl($("#fileUpload"))
         .done(function (data) {
             let profileImageUrl = "profile-pictures/pp-" + userId + "." + data.extension;
-            console.log(profileImageUrl);
             FYSCloud.API.deleteFile(profileImageUrl).done(function (data) {
-                console.log(profileImageUrl);
             }).fail(function (reason) {
-                console.log(reason);
             });
             let url = "pp-" + userId + "." + data.extension
             FYSCloud.API.uploadFile(
@@ -512,15 +484,11 @@ $("#fileUpload").on("change", function () {
                     "UPDATE `profile` SET `pictureUrl` = ? WHERE `profile`.`userId` = ?;",
                     [url, userId]
                 ).done(function (data) {
-                    console.log(data);
                 }).fail(function (reason) {
-                    console.log(reason);
                 });
             }).fail(function (reason) {
-                console.log(reason);
             });
         }).fail(function(reason) {
-        console.log(reason);
     });
 })
 

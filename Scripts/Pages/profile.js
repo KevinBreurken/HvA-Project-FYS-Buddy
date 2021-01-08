@@ -13,7 +13,6 @@ var pageUrl = window.location.href;
 
 //split at the userId
 var array1 = pageUrl.split("id=");
-console.log(array1[1]);
 
 let profileId = array1[1];
 if (array1 === null) {
@@ -24,32 +23,26 @@ let currentUserId = getCurrentUserID();
 FYSCloud.API.queryDatabase(
     "SELECT * FROM profile where userId = ?", [profileId]
 ).done(function (data) {
-    console.log(data);
     generateProfileDisplay(data);
     generateBuddy(data);
     FYSCloud.Localization.translate(false);
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [profileId]
 ).done(function (data) {
-    console.log(data);
     generateUserinfo(data);
     FYSCloud.Localization.translate(false);
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM travel where userId = ?", [profileId]
 ).done(function (data) {
-    console.log(data);
     generateTravelInfo(data);
     FYSCloud.Localization.translate(false);
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
@@ -57,30 +50,24 @@ FYSCloud.API.queryDatabase(
 ).done(function (data) {
     let userData = data[0];
     let locatie = userData.locationId;
-    console.log(data);
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `location` WHERE `id` = ?;",
         [locatie]
     ).done(function (data) {
         let userdata = data[0];
-        console.log(data);
         let destination = userdata.destination;
         $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
         FYSCloud.Localization.translate(false);
     }).fail(function (reason) {
-        console.log(reason)
     });
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
     "SELECT * FROM userinterest where userId = ?", [profileId]
 ).done(function (data) {
-    console.log(data);
     //generateInterests(data);
 }).fail(function () {
-    alert("paniek");
 });
 
 /**
@@ -88,59 +75,33 @@ FYSCloud.API.queryDatabase(
  */
 if (currentUserId === profileId) {
     generateContactinfo();
-    // FYSCloud.API.queryDatabase(
-    //     "SELECT * FROM user where id = ?", [profileId]
-    // ).done(function (data) {
-    //     console.log(data);
-    //     generateUserinfo(data);
-    //     FYSCloud.API.queryDatabase(
-    //         "SELECT * FROM profile where id = ?", [profileId]
-    //     ).done(function (data) {
-    //         console.log(data);
-    //         generateProfileDisplay(data);
-    //         generateBuddy(data);
-    //         FYSCloud.Localization.translate(false);
-    //     }).fail(function () {
-    //         alert("paniek");
-    //     });
-    // }).fail(function () {
-    //     alert("paniek");
-    // });
 } else {
     let userId = getCurrentUserID();
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?;", [userId, userId]
     ).done(function (data) {
        FYSCloud.Localization.translate(false);
-        console.log(data);
         let userData = data[0];
         let tabel1 = userData.user1;
         let tabel2 = userData.user2;
-        console.log(tabel1);
-        console.log(tabel2);
         if ((tabel2 == currentUserId && tabel1 == profileId) || (tabel1 == currentUserId && tabel2 == profileId)) {
             generateContactinfo();
             FYSCloud.API.queryDatabase(
                 "SELECT * FROM user where id = ?", [profileId]
             ).done(function (data) {
-                console.log(data);
                 generateUserinfo(data);
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM profile where id = ?", [profileId]
                 ).done(function (data) {
-                    console.log(data);
                     generateProfileDisplay(data);
                     generateBuddy(data);
                     FYSCloud.Localization.translate(false);
                 }).fail(function () {
-                    alert("paniek");
                 });
             }).fail(function () {
-                alert("paniek");
             });
         }
     }).fail(function () {
-        alert("paniek");
     });
 }
 
@@ -218,7 +179,6 @@ function generateBuddy(data) {
  */
 
 $(document).ready(function() {
-    // your code here
 FYSCloud.API.queryDatabase(
     "SELECT * FROM `userinterest` where userId = ?", [profileId]
 ).done(function (data) {
@@ -226,14 +186,11 @@ FYSCloud.API.queryDatabase(
     let userData = data[i];
     let interests = [];
     interests[i] = userData.interestId;
-    console.log(data);
-    // FYSCloud.Localization.translate(false);
         FYSCloud.API.queryDatabase(
             "SELECT * FROM `interest` WHERE `id` = ?;",
             [interests[i]]
         ).done(function (data) {
             for (let i = 0; i < data.length + 1; i++) {
-                console.log(data.length);
                 FYSCloud.Localization.translate(false);
                 $("#interests").append(`<div data-translate='interests.${data[i].id}' style=
                     'color: var(--color-corendon-white);\n` +
@@ -250,11 +207,9 @@ FYSCloud.API.queryDatabase(
                     "    margin: 2px;'>" + data[i] + "<div>");
             }
         }).fail(function (reason) {
-            console.log(reason)
         });
     }
 }).fail(function () {
-    alert("paniek");
 });
 });
 
@@ -276,9 +231,7 @@ function requestFriend() {
     FYSCloud.API.queryDatabase(
         "INSERT INTO `friendrequest` (`requestingUser`, `targetUser`) VALUES (?, ?);", [currentUserId, profileId]
     ).done(function (data) {
-        console.log(data);
     }).fail(function () {
-        alert("paniek");
     });
 }
 
@@ -289,8 +242,6 @@ function blockUser() {
     FYSCloud.API.queryDatabase(
         "INSERT INTO `blocked` (`requestingUser`, `blockedUser`) VALUES (?, ?);", [currentUserId, profileId]
     ).done(function (data) {
-        console.log(data);
     }).fail(function () {
-        alert("paniek");
     });
 }
