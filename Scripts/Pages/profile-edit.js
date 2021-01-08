@@ -214,11 +214,9 @@ $(document).on("change", "body", function () {
                 let username = document.querySelector('#Username').value;
                 let citySelect = document.getElementById("cityList").value;
                 let start = new Date($('#Data').val());
-                //let startFormat = start.getFullYear() + "-" + (start.getMonth() + 1) + "-" + start.getDate();
                 let startFormat = parseDateToInputDate(start);
 
                 let end = new Date($('#Data2').val());
-                //let endFormat = end.getFullYear() + "-" + (end.getMonth() + 1) + "-" + end.getDate();
                 let endFormat = parseDateToInputDate(end);
 
 

@@ -1,13 +1,8 @@
-
-function changeButton() {
-    document.getElementById('match').value = "Requested";
-}
-
-function changeButton2() {
-    document.getElementById('block').value = "Blocked";
-}
 let count;
-
+/**
+ * get id from the pageurl
+ * @type {string}
+ */
 //get the url
 var pageUrl = window.location.href;
 
@@ -30,7 +25,7 @@ FYSCloud.API.queryDatabase(
 });
 
 FYSCloud.API.queryDatabase(
-    "SELECT * FROM user where id = ?", [profileId]
+    "SELECT * FROM user WHERE id = ?", [profileId]
 ).done(function (data) {
     generateUserinfo(data);
     CustomTranslation.translate(false);
@@ -60,13 +55,6 @@ FYSCloud.API.queryDatabase(
         FYSCloud.Localization.translate(false);
     }).fail(function (reason) {
     });
-}).fail(function () {
-});
-
-FYSCloud.API.queryDatabase(
-    "SELECT * FROM userinterest where userId = ?", [profileId]
-).done(function (data) {
-    //generateInterests(data);
 }).fail(function () {
 });
 
@@ -123,8 +111,15 @@ function generateProfileDisplay(data) {
     let gender = userData.gender == null ? "" : userData.gender;
     let date = new Date(userData.dob);
     let dob = userData.dob == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
-    let ageBerekening = new Date().getFullYear() - date.getFullYear();
-    let age = userData.dob == null ? "" : ageBerekening;
+    let dateofbirth = userData.dob;
+    let today = new Date();
+    let birthDate = new Date(dateofbirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    let m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate()))
+    {
+        age--;
+    }
     let biography = userData.biography == null ? "" : userData.biography;
     let tel = userData.phone == null ? "" : userData.phone;
 
@@ -141,11 +136,11 @@ function generateProfileDisplay(data) {
 function generateTravelInfo(data) {
     let userData = data[0];
 
-    date = new Date(userData.startdate);
+    let date = new Date(userData.startdate);
     let start_date = userData.startdate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-    date = new Date(userData.enddate);
-    let end_date = userData.enddate == null ? "" : `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let date2 = new Date(userData.enddate);
+    let end_date = userData.enddate == null ? "" : `${date2.getFullYear()}-${date2.getMonth() + 1}-${date2.getDate()}`;
     $("#from").html("<b data-translate='profile.from'>From: </b>" + start_date);
     $("#untill").html("<b data-translate='profile.untill'>Untill: </b>" + end_date);
 }
@@ -190,9 +185,9 @@ FYSCloud.API.queryDatabase(
             "SELECT * FROM `interest` WHERE `id` = ?;",
             [interests[i]]
         ).done(function (data) {
-            for (let i = 0; i < data.length + 1; i++) {
+            for (let j = 0; j < data.length + 1; j++) {
                 FYSCloud.Localization.translate(false);
-                $("#interests").append(`<div data-translate='interests.${data[i].id}' style=
+                $("#interests").append(`<div data-translate='interests.${data[j].id}' style=
                     'color: var(--color-corendon-white);\n` +
                     "    background-color: var(--color-corendon-red);\n" +
                     "    display: inline-block;\n" +
@@ -204,7 +199,7 @@ FYSCloud.API.queryDatabase(
                     "    white-space: nowrap;\n" +
                     "    vertical-align: baseline;\n" +
                     "    border-radius: 10px;\n" +
-                    "    margin: 2px;'>" + data[i] + "<div>");
+                    "    margin: 2px;'>" + data[j] + "<div>");
             }
         }).fail(function (reason) {
         });
@@ -240,7 +235,7 @@ function requestFriend() {
  */
 function blockUser() {
     FYSCloud.API.queryDatabase(
-        "INSERT INTO `blocked` (`requestingUser`, `blockedUser`) VALUES (?, ?);", [currentUserId, profileId]
+        "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`) VALUES (?, ?, ?);", [currentUserId, profileId, "Blocked through profile page"]
     ).done(function (data) {
     }).fail(function () {
     });
