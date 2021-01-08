@@ -24,6 +24,7 @@ if (appElement !== null) {
             if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
                 window.open("index.html", "_self");
 
+            checkIfUserIsDeactivated();
             getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`,
                 [currentUserID, 2]).then((data) => {
                 if (data.length === 0) {
@@ -33,7 +34,14 @@ if (appElement !== null) {
             });
             break;
         case "deactivated":
-
+            getDataByPromise(`SELECT * FROM setting WHERE userId = ?`,
+                [currentUserID]).then((data) => {
+                if (data.length > 0) {
+                    if (Number(data[0].deactivated) === 1)
+                        return;
+                }
+                window.open("index.html", "_self");
+            });
             break;
     }
 }
@@ -79,13 +87,12 @@ function getCurrentUserID() {
  * Redirects a user to reactivation page for reactivating accounts that are deactivated.
  */
 function checkIfUserIsDeactivated() {
-    getDataByPromise( `SELECT *
+    getDataByPromise(`SELECT *
         FROM setting
         WHERE userId = ?`,
         [currentUserID]).then((data) => {
-            console.log(data);
-        if(data.length > 0) {
-            if(Number(data[0].deactivated) === 1) {
+        if (data.length > 0) {
+            if (Number(data[0].deactivated) === 1) {
                 window.open("reactivate.html", "_self");
             }
         }
@@ -213,12 +220,13 @@ async function setLanguageBySettingsData(userId) {
     }
 }
 
-async function generateDefaultSetting(userId,languageId){
+async function generateDefaultSetting(userId, languageId) {
     await getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
                                                displayGenderId, notifcationId, maxDistance, radialDistance)
                           VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [userId, languageId, 1, 1, 1, 0, 11, 100]);
 }
+
 /**
  * Sends session data to the FYS database.
  */
