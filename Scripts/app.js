@@ -1,14 +1,13 @@
 let currentPageType;
 let appElement = document.getElementById("app");
+let currentUserID = getCurrentUserID();
+console.log("currentUserID = " + currentUserID);
+if (currentUserID === undefined)
+    console.log("Not logged in");
 
 (function initialize() {
     $("head").append('<script src="Scripts/custom-language.js"></script>');
     CustomTranslation.loadJSONTranslationFile("Content/Translations/default-translation.json");
-
-    let currentUserID = getCurrentUserID();
-    console.log("currentUserID = " + currentUserID);
-    if (currentUserID === undefined)
-        console.log("Not logged in");
 
     /** Redirect when not logged in */
     if (appElement !== null) {
@@ -22,17 +21,29 @@ let appElement = document.getElementById("app");
             case "user":
                 if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
                     window.open("index.html", "_self");
+                checkIfUserIsDeactivated();
                 break;
             case "admin":
                 if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
                     window.open("index.html", "_self");
 
+                checkIfUserIsDeactivated();
                 getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`,
                     [currentUserID, 2]).then((data) => {
                     if (data.length === 0) {
                         const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
                         window.open(redirectURL, "_self");
                     }
+                });
+                break;
+            case "deactivated":
+                getDataByPromise(`SELECT * FROM setting WHERE userId = ?`,
+                    [currentUserID]).then((data) => {
+                    if (data.length > 0) {
+                        if (Number(data[0].deactivated) === 1)
+                            return;
+                    }
+                    window.open("index.html", "_self");
                 });
                 break;
         }
