@@ -156,10 +156,9 @@
         </div>
 
         <div class="btn-group">
-            <!-- TODO: Figure out a way to deal with the fact then when pressing the "Enter" key, the events for the first button on the form will get executed first instead of the input events first: -->
-<!--            <button class="btn" id="btn-back" onclick="swapStep(-1);" data-translate="register.buttons.back"></button>-->
-            <button class="btn" id="btn-next" onclick="swapStep(1);" data-translate="register.buttons.next"></button>
-            <button class="btn" id="btn-register" onclick="register();" data-translate="register.buttons.register"></button>
+            <button class="btn" id="btn-back" type="button" onclick="swapStep(-1);" data-translate="register.buttons.back"></button>
+            <button class="btn" id="btn-next" type="submit" onclick="swapStep(1);" data-translate="register.buttons.next"></button>
+            <button class="btn" id="btn-register" type="submit" onclick="register();" data-translate="register.buttons.register"></button>
             <input type="submit" style="display: none;">
         </div>
     </form>
