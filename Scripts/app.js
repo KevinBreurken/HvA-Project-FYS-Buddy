@@ -54,7 +54,7 @@ var initialLanguage = FYSCloud.Session.get("language", "nl");
 CustomTranslation.setLanguage(initialLanguage);
 
 document.addEventListener("headerLoadedEvent", function (event) {
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 });
 
 /**

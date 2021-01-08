@@ -1,6 +1,7 @@
 /** Localisation wrapper*/
 CustomTranslation = (function ($) {
     const exports = {
+        translate: translate,
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,
         getLanguage: getLanguage,
@@ -10,6 +11,10 @@ CustomTranslation = (function ($) {
 
     let currentLanguage = 'nl';
     let currentTranslations;
+
+    function translate(force){
+        FYSCloud.Localization.translate(force);
+    }
 
     function setLanguage(language) {
         currentLanguage = language;
@@ -57,7 +62,7 @@ CustomTranslation = (function ($) {
             $.extend(currentTranslations, jsonObject);
 
         FYSCloud.Localization.setTranslations(currentTranslations);
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
     }
 
     function loadJSONTranslationFile(fileURL) {

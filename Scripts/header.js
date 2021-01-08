@@ -188,7 +188,7 @@ if (getCurrentUserID() !== undefined)
             $(userData).each(object => $("#notification-display-list").append(addNotification(userData[object])));
 
             //translate the newly added objects.
-            FYSCloud.Localization.translate(false);
+            CustomTranslation.translate(false);
         }).fail(function (reason) {
             console.log(reason);
         });
