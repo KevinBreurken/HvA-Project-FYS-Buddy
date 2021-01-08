@@ -1,5 +1,5 @@
 /** Localisation wrapper*/
-FYSCloud.Localization.CustomTranslations = (function ($) {
+CustomTranslation = (function ($) {
     const exports = {
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,

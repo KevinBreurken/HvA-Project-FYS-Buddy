@@ -29,5 +29,5 @@ async function setLanguageSetting(languageKey, userId) {
     }
 
     //Set the LocalStorage language.
-    FYSCloud.Localization.CustomTranslations.setLanguage(languageKey);
+    CustomTranslation.setLanguage(languageKey);
 }

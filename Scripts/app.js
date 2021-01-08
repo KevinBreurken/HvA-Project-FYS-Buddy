@@ -1,5 +1,5 @@
 $("head").append('<script src="Scripts/custom-language.js"></script>');
-FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/default-translation.json")
+CustomTranslation.loadJSONTranslationFile("Content/Translations/default-translation.json")
 let currentUserID = getCurrentUserID();
 let currentPageType;
 console.log("currentUserID = " + currentUserID);
@@ -44,14 +44,14 @@ if (appElement !== null) {
     let transElement = appElement.getAttribute("data-translations");
     console.log(transElement);
     if (transElement !== null) {
-        FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
+        CustomTranslation.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
     }
 }
 
 //TODO: Change this to the users preference.
 /** Change language when the Header is Loaded */
 var initialLanguage = FYSCloud.Session.get("language", "nl");
-FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
+CustomTranslation.setLanguage(initialLanguage);
 
 document.addEventListener("headerLoadedEvent", function (event) {
     FYSCloud.Localization.translate(false);
@@ -177,7 +177,7 @@ async function setLanguageBySettingsData(userId) {
         const currentLanguage = await getDataByPromise(`SELECT *
                                                         FROM language
                                                         WHERE languageKey = ?;`,
-            [FYSCloud.Localization.CustomTranslations.getLanguage()]);
+            [CustomTranslation.getLanguage()]);
         //Insert new setting.
         await generateDefaultSetting(userId, currentLanguage[0].id);
     } else {
@@ -188,7 +188,7 @@ async function setLanguageBySettingsData(userId) {
             [currentUserSetting[0].languageId]);
 
         //Set the LocalStorage language.
-        FYSCloud.Localization.CustomTranslations.setLanguage(currentLanguage[0].languageKey);
+        CustomTranslation.setLanguage(currentLanguage[0].languageKey);
     }
 }
 

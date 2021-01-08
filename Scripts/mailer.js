@@ -1,4 +1,4 @@
-FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/mailer-translation.json")
+CustomTranslation.loadJSONTranslationFile("Content/Translations/mailer-translation.json")
 
 function sendMail(email, mailName, subject, html) {
     FYSCloud.API.sendEmail({
@@ -40,10 +40,10 @@ async function sendFriendEmail(idOfRecipient, textPrefix) {
                           FROM profile
                           WHERE userId = ?`, idOfRecipient).then((profileData) => {
             const userName = profileData[0].firstname;
-            const title = FYSCloud.Localization.CustomTranslations.getStringFromTranslations(`mail.${textPrefix}.title`, userLanguage[0].languageKey).replace('%name', userName);
-            const body = FYSCloud.Localization.CustomTranslations.getStringFromTranslations(`mail.${textPrefix}.text`, userLanguage[0].languageKey);
-            const link = FYSCloud.Localization.CustomTranslations.getStringFromTranslations(`mail.${textPrefix}.link`, userLanguage[0].languageKey);
-            const subject = FYSCloud.Localization.CustomTranslations.getStringFromTranslations(`mail.${textPrefix}.subject`, userLanguage[0].languageKey);
+            const title = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.title`, userLanguage[0].languageKey).replace('%name', userName);
+            const body = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.text`, userLanguage[0].languageKey);
+            const link = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.link`, userLanguage[0].languageKey);
+            const subject = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.subject`, userLanguage[0].languageKey);
             sendMail(userData[0].email, userName, subject,
                 `<h1>${title}</h1> <p>${body}</p> <a href='${url}'><p>${link}</p></a>`);
         });

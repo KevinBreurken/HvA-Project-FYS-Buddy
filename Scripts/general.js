@@ -1,6 +1,6 @@
 //Load Translations
-FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/header-translation.json");
-FYSCloud.Localization.CustomTranslations.loadJSONTranslationFile("Content/Translations/footer-translation.json");
+CustomTranslation.loadJSONTranslationFile("Content/Translations/header-translation.json");
+CustomTranslation.loadJSONTranslationFile("Content/Translations/footer-translation.json");
 //Add header and footer css to <head>.
 let headElm = $("head");
 headElm.append('<link rel="stylesheet" href="Content/CSS/header.css">');

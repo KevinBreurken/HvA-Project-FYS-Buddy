@@ -36,7 +36,7 @@ function countCharacters() {
     countRemaining = document.getElementById('charactersRemaining');
 
     if(characterLeftText === undefined)
-        characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
+        characterLeftText = CustomTranslation.getStringFromTranslations("edit.bioinput");
     countRemaining.textContent = characterLeftText.replace("%amount", counter);
 
     count = document.getElementById('Biography');
@@ -526,6 +526,6 @@ $("#fileUpload").on("change", function () {
  * Change the language on biography section when languaga is changed.
  */
 document.addEventListener("languageChangeEvent", function (event) {
-    characterLeftText = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("edit.bioinput");
+    characterLeftText = CustomTranslation.getStringFromTranslations("edit.bioinput");
     countCharacters();
 });

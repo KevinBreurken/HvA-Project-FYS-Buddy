@@ -355,8 +355,8 @@ function setLanguage(initialLanguageKey) {
         }
     };
 
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
-    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguageKey);
+    CustomTranslation.addTranslationJSON(translations);
+    CustomTranslation.setLanguage(initialLanguageKey);
 
     // $languageControl = $("select#language");
     //
@@ -380,7 +380,7 @@ function setLanguage(initialLanguageKey) {
 }
 
 languageControl.addEventListener("change", function() {
-    FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
+    CustomTranslation.setLanguage($(this).val());
 });
 
 // Account handling:
@@ -578,7 +578,7 @@ function blockEventListener(profiles) {
         }
 
         // Translate the dynamically generated "block" buttons:
-        FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
+        CustomTranslation.setLanguage($("#language").val());
     });
 }
 
