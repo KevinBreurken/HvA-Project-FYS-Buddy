@@ -110,7 +110,7 @@ function generateProfileDisplay(data) {
     let lastname = userData.lastname == null ? "" : userData.lastname;
     let gender = userData.gender == null ? "" : userData.gender;
     let date = new Date(userData.dob);
-    let dob = userData.dob == null ? "" : `${date.getDay()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    let dob = userData.dob == null ? "" : `${date.getDay() + 1}-${date.getMonth() + 1}-${date.getFullYear()}`;
     let dateofbirth = userData.dob;
     let today = new Date();
     let birthDate = new Date(dateofbirth);
