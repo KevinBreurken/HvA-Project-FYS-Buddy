@@ -332,7 +332,7 @@ function generateUserDisplay(currentUser) {
 
     //sets the users data
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
-    // let url = `${environment}/uploads/profile-pictures/` + currentUser["pictureUrl"];
+    let url = `${environment}/uploads/profile-pictures/` + currentUser["pictureUrl"];
     let location = currentUser["destinationd"] === "" ? "destination" : currentUser["destination"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
@@ -349,7 +349,7 @@ function generateUserDisplay(currentUser) {
     //generates the inner HTML of the user display
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            
+            <img onerror="this.src='${environment}/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div class="user-display-column-3">
                 <p>${location}</p>
                 <span><p data-translate="userDisplay.from">from </p><p>${startDate}</p></span>
