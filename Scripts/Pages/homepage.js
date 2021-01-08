@@ -62,8 +62,6 @@ async function fetchCurrentTravelData() {
     INNER JOIN location l ON t.locationId = l.id
     WHERE userId = ?`, getCurrentUserID())
         .then(data => {
-            if(data.length === 0)
-            return;
             const START_DATE = new Date(data[0]["startdate"]);
             const END_DATE = new Date(data[0]["startdate"]);
 
