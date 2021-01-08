@@ -559,9 +559,9 @@ const imageSrcPrefix = `${environment}/uploads/profile-pictures/`;
 
 // Search all available profiles to receive "blocked" status and
 // display these to receive a "blocked" status on the settings page:
-function profileSearchEventListener(profiles) {
+function profileSearchEventListener(profiles, blockedUsers) {
     document.getElementById("search-profiles").addEventListener("input", function() {
-        const resultContainer = document.getElementById("searchBlockResult");
+        const resultContainer = document.getElementById("searchProfilesResult");
         let result = "";
         // Check if given input is empty:
         if(this.value === "") {
@@ -648,7 +648,7 @@ function profileSearchEventListener(profiles) {
         }
 
         // Translate the dynamically generated "block" buttons:
-        FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
+        CustomTranslation.setLanguage($("#language").val());
     });
 }
 
@@ -737,7 +737,7 @@ function blockedSearchEventListener(profiles, blockedUsers) {
             }
 
             // Translate everything that has been added to the DOM:
-            FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
+            CustomTranslation.setLanguage($("#language").val());
         }
     });
 
