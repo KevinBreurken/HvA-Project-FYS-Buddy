@@ -392,7 +392,7 @@ async function openUserOverlay(overlayUserId) {
     WHERE userId = ?`, overlayUserId);
 
     //setting the data from the user and profile tables for in the overlay
-    // let url = `${environment}/uploads/profile-pictures/` + overlayUserData[0]["pictureUrl"]
+    let url = `${environment}/uploads/profile-pictures/` + overlayUserData[0]["pictureUrl"]
     let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
 
     //putting the data from the user and profile tables in the overlay
