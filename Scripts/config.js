@@ -1,4 +1,4 @@
-const environment = "dev";
+const environment = window.location.origin;
 
 FYSCloud.API.configure({
     url: "https://api.fys.cloud",

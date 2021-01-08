@@ -92,7 +92,7 @@ function editUser(i) {
         "SELECT u.*, p.* FROM user u INNER JOIN profile p ON p.userId = u.id WHERE `userId` = ?",
         [i]
     ).done(function (data) {
-        $("#profile-photo").attr("src", `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/` + data[0]['pictureUrl'])
+        $("#profile-photo").attr("src", `${environment}/uploads/profile-pictures/` + data[0]['pictureUrl'])
 
         // For each column in the user table create an attribute and set a value
         for (let j = 0; j < Object.keys(data[0]).length; j++) {
