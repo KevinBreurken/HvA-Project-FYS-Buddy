@@ -219,10 +219,10 @@ async function setLanguageBySettingsData(userId) {
 }
 
 async function generateDefaultSetting(userId, languageId) {
-    await getDataByPromise(`INSERT INTO setting (id, userId, languageId, profileVisibilityId, sameGender,
+    await getDataByPromise(`INSERT INTO setting (id, userId, deactivated, languageId, profileVisibilityId, sameGender,
                                                displayGenderId, notifcationId, maxDistance, radialDistance)
-                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [userId, languageId, 1, 1, 1, 0, 11, 100]);
+                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [userId, 0, languageId, 1, 1, 1, 0, 11, 100]);
 }
 
 /**
