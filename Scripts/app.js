@@ -24,6 +24,7 @@ if (appElement !== null) {
             if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
                 window.open("index.html", "_self");
 
+            checkIfUserIsDeactivated();
             getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`,
                 [currentUserID, 2]).then((data) => {
                 if (data.length === 0) {
