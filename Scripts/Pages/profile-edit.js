@@ -238,8 +238,8 @@ $(document).on("change", "body", function () {
                     redirectToProfileById(userId);
                 }).fail(function (reason) {
                     FYSCloud.API.queryDatabase(
-                        "INSERT INTO `profile` (`userId`, `phone`) VALUES (?, ?)",
-                        [userId, tel]
+                        "INSERT INTO `profile` (`userId`, `phone`, `biography`) VALUES (?, ?, ?)",
+                        [userId, tel, biography]
                     ).done(function (data) {
                         redirectToProfileById(userId);
                     }).fail(function (reason) {
