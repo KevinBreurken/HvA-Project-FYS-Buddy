@@ -134,7 +134,7 @@ function addNotification(userData) {
     let username = userData["username"];
     // console.log(username)
 
-    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText").replace("%name", username);
+    let displayString = CustomTranslation.getStringFromTranslations("header.notificationText").replace("%name", username);
     displayString = displayString.replace("%name", username);
 
     return `
@@ -151,7 +151,7 @@ function addNotification(userData) {
 }
 
 document.addEventListener("languageChangeEvent", function (event) {
-    let displayString = FYSCloud.Localization.CustomTranslations.getStringFromTranslations("header.notificationText");
+    let displayString = CustomTranslation.getStringFromTranslations("header.notificationText");
     $(".notification-text-name").each(function () {
         $(this).html(displayString.replace("%name", $(this).attr("username")));
     });
@@ -188,7 +188,7 @@ if (getCurrentUserID() !== undefined)
             $(userData).each(object => $("#notification-display-list").append(addNotification(userData[object])));
 
             //translate the newly added objects.
-            FYSCloud.Localization.translate(false);
+            CustomTranslation.translate(false);
         }).fail(function (reason) {
             console.log(reason);
         });

@@ -25,7 +25,7 @@ FYSCloud.API.queryDatabase(
 ).done(function (data) {
     generateProfileDisplay(data);
     generateBuddy(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
 });
 
@@ -33,7 +33,7 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [profileId]
 ).done(function (data) {
     generateUserinfo(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
 });
 
@@ -41,7 +41,7 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM travel where userId = ?", [profileId]
 ).done(function (data) {
     generateTravelInfo(data);
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }).fail(function () {
 });
 
@@ -95,7 +95,7 @@ if (currentUserId === profileId) {
                 ).done(function (data) {
                     generateProfileDisplay(data);
                     generateBuddy(data);
-                    FYSCloud.Localization.translate(false);
+                    CustomTranslation.translate(false);
                 }).fail(function () {
                 });
             }).fail(function () {
