@@ -361,8 +361,8 @@ function setLanguage(initialLanguageKey) {
         }
     };
 
-    FYSCloud.Localization.CustomTranslations.addTranslationJSON(translations);
-    FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguageKey);
+    CustomTranslation.addTranslationJSON(translations);
+    CustomTranslation.setLanguage(initialLanguageKey);
 
     // $languageControl = $("select#language");
     //
@@ -386,7 +386,7 @@ function setLanguage(initialLanguageKey) {
 }
 
 languageControl.addEventListener("change", function() {
-    FYSCloud.Localization.CustomTranslations.setLanguage($(this).val());
+    CustomTranslation.setLanguage($(this).val());
 });
 
 // Account handling:
@@ -531,7 +531,7 @@ function setProfileVisibility(initialProfileVisibility) {
 
 // Block handling:
 // TODO: prefix must be set depending on environment configured within javascript configuration (e.g. config.js):
-const imageSrcPrefix = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/";
+const imageSrcPrefix = `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/`;
 function blockEventListener(profiles) {
     document.querySelector("input#search-block").addEventListener("input", function() {
         const resultContainer = document.getElementById("searchBlockResult");
@@ -584,7 +584,7 @@ function blockEventListener(profiles) {
         }
 
         // Translate the dynamically generated "block" buttons:
-        FYSCloud.Localization.CustomTranslations.setLanguage($("#language").val());
+        CustomTranslation.setLanguage($("#language").val());
     });
 }
 

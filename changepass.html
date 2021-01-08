@@ -7,10 +7,10 @@
     <script src="Scripts/app.js" id="app" data-pageType="default" data-translations="recovery-translation"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
     <script src="Scripts/general.js" id="general"></script>
-    <script src="Scripts/Pages/recovery.js"></script>
+    <script src="Scripts/Pages/changepass.js"></script>
     <!-- TODO: keep or remove this stylesheet link? - Kevin Breurken -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="Content/CSS/Pages/recovery.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/changepass.css">
     <title>Fasten Your Seatbelts</title>
 </head>
 <body>
@@ -18,14 +18,15 @@
     <div class="container">
         <div class="content-wrapper">
             <h1 id="form-title" data-translate="recovery.password">Recover password</h1>
-                <div class="inputs">
-                    <label for="email">Email:</label>
-                    <input type="email" name="email" placeholder="email@hotmail.nl" id="recovery-email">
-                </div>
-                <div class="button-options">
-                    <button type="button" class="back-btn" id="cancelbtn" onclick="redirectBack()" data-translate="recovery.cancel">cancel</button>
-                    <button type="submit" class="back-btn" id="sendbtn" onclick="emailValidation()" data-translate="recovery.send">Send</button>
-                </div>
+            <div class="inputs">
+                <label for="newPass">New password:</label>
+                <input type="password" name="newPass" placeholder="password" class="passInput" id="newPassword">
+                <label for="newPass">Confirm password:</label>
+                <input type="password" name="confpass" placeholder="confirm password" class="passInput" id="confPassword">
+            </div>
+            <div class="button-options">
+                <button type="submit" class="back-btn" id="sendbtn">Send</button>
+            </div>
         </div>
     </div>
 </body>

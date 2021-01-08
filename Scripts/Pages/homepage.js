@@ -29,7 +29,7 @@ function displayNextSlide() {
     $("#h1-slide").attr("data-translate", `slide.h1.${slide}`);
     $("#p-slide").attr("data-translate", `slide.text.${slide}`);
 
-    FYSCloud.Localization.translate(false);     //translates the current slide if needed
+    CustomTranslation.translate(false);     //translates the current slide if needed
 
     let slideText = document.getElementById(`img-text-wrapper`);
     slideText.onclick = function(){goToAnchor()};
@@ -176,7 +176,7 @@ async function openTabContent(currentButton) {
        GROUP_CONCAT ( ui.interestId ) as "interestGroup",
        t.userId, t.locationId, t.startdate, t.enddate,
        l.*
-    FROM fys_is111_1_dev.user u
+    FROM user u
     INNER JOIN profile p ON p.userId = u.id
     LEFT JOIN setting s ON s.userId = u.id
     LEFT JOIN userinterest ui ON ui.userId = u.id
@@ -307,7 +307,7 @@ async function openTabContent(currentButton) {
     }
 
     currentDisplayedUsers = userList;
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
 }
 
 /** function for generating a user display */
@@ -320,7 +320,7 @@ function generateUserDisplay(currentUser) {
     userDisplay.setAttribute("id", "user-display-" + userId);
 
     let username = currentUser["username"] === "" ? "username" : currentUser["username"];
-    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + currentUser["pictureUrl"];
+    let url = `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/` + currentUser["pictureUrl"];
     let location = currentUser["destinationd"] === "" ? "destination" : currentUser["destination"];
     let favouriteVersion = currentUser["favouriteUser"] === null ? 1 : 2;
 
@@ -336,7 +336,7 @@ function generateUserDisplay(currentUser) {
 
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
+            <img onerror="this.src='https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div class="user-display-column-3">
                 <p>${location}</p>
                 <span><p data-translate="userDisplay.from">from </p><p>${startDate}</p></span>
@@ -371,14 +371,14 @@ async function openUserOverlay(overlayUserId) {
     INNER JOIN user u ON p.userId = u.id
     WHERE u.id = ?`, overlayUserId);
 
-    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM fys_is111_1_dev.userinterest WHERE userId = ?", overlayUserId);
+    let overlayUserInterestsIds = await getDataByPromise("SELECT * FROM userinterest WHERE userId = ?", overlayUserId);
 
     //setting the data from the user and profile tables for in the overlay
-    let url = "https://dev-is111-1.fys.cloud/uploads/profile-pictures/" + overlayUserData[0]["pictureUrl"]
+    let url = `https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/` + overlayUserData[0]["pictureUrl"]
     let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
 
     //putting the data from the user and profile tables in the overlay
-    $("#overlay-row-1").html(`<img onerror="this.src='https://dev-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
+    $("#overlay-row-1").html(`<img onerror="this.src='https://${environment}-is111-1.fys.cloud/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
     $("#overlay-full-name").html(`${fullName}`);
     $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
     $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
@@ -387,7 +387,7 @@ async function openUserOverlay(overlayUserId) {
     $(overlayUserInterestsIds).each(interest => {
         $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
     //displays the overlay and overlay-background
     displayUserOverlay();
 
@@ -417,7 +417,7 @@ async function openUserOverlay(overlayUserId) {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
-    FYSCloud.Localization.translate(false);
+    CustomTranslation.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 }
 
@@ -586,7 +586,7 @@ function filterCurrentDisplayedUsers() {
         $('.no-matches-message').remove();
         let noMatchesMessage = `<p class="no-matches-message" data-translate="tab.empty.filterResults"></p>`;
         $('#tab').append(noMatchesMessage);
-        FYSCloud.Localization.translate(false);
+        CustomTranslation.translate(false);
     }else {
         $('.no-matches-message').remove();
     }

@@ -15,6 +15,14 @@
     "forgotpass": {
       "nl": "Forgot your password?",
       "en": "Wachtwoord vergeten?"
+    },
+    "cancel": {
+      "nl": "Annuleren",
+      "en": "Cancel"
+    },
+    "send": {
+      "nl": "Verstuur",
+      "en": "Send"
     }
   }
 }
