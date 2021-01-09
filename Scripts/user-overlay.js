@@ -1,5 +1,8 @@
 //include mailer to send email after requests.
 $("head").append('<script src="Scripts/mailer.js"></script>');
+
+let declineButton = $("#decline-request-button");
+
 /**
  * function for opening the overlay with the correct user data
  * @param overlayUserId id of the user that is fetched and displayed from the database.
@@ -38,8 +41,6 @@ async function openUserOverlay(overlayUserId) {
         $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
 
-    CustomTranslation.translate(false);
-
     //displays the overlay and overlay-background
     displayUserOverlay();
 
@@ -59,18 +60,24 @@ async function openUserOverlay(overlayUserId) {
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
     }, function () { $(this).css("background-color", "");} );
 
+    declineButton.hide();
+
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
             disableRequestButton();
         } else if (matchingFriend[0]["targetUser"] === parseInt(getCurrentUserID())) { //We got a request
             requestButton.attr("data-translate", "overlay.button.accept");
             requestButton.click(function (){acceptRequest(getCurrentUserID(),overlayUserId)});
+            declineButton.show();
         }
     } else {
         requestButton.attr("data-translate", "overlay.button.send");
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
+
     CustomTranslation.translate(false);
+
+    // adds a onclick function to the overlay to redirect the user to the correct profile
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
 
     await getDataByPromise(`SELECT *
@@ -82,6 +89,8 @@ async function openUserOverlay(overlayUserId) {
         if(data.length > 0)
         requestButton.hide();
     });
+
+    declineButton.onclick = function(){declineRequest(overlayUserId)};
 }
 
 function disableRequestButton() {
@@ -140,6 +149,15 @@ function sendRequest(sentUser,userIdToSend) {
     sendFriendEmail(userIdToSend,'request');
     disableRequestButton();
 }
+
+async function declineRequest(overlayUserId) {
+    //deletes the correct row in the friendrequest table when clicking on the 'decline request' button
+    await getDataByPromise(`DELETE FROM friendrequest WHERE targetUser = ? AND requestingUser = ?`,
+        [getCurrentUserID(), overlayUserId]);
+
+    declineButton.hide();
+}
+
 /** function for opening the overlay */
 function displayUserOverlay() {
     $("#overlay").css("display", "flex");
