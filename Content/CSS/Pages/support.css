@@ -13,7 +13,7 @@
     padding: 10px 10px;
 }
 
-.content .collapsibleContent > img {
+.content .collapsibleContent span > img {
     max-width: 100%;
     display: block;
 }
