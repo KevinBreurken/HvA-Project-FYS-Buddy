@@ -52,6 +52,7 @@ async function openUserOverlay(overlayUserId) {
 
     //Reset button style elements.
     let requestButton = $("#send-request-button");
+    requestButton.show();
     requestButton.attr("disabled", false);
     requestButton.unbind();
     requestButton.css('opacity', '1');
@@ -71,6 +72,16 @@ async function openUserOverlay(overlayUserId) {
     }
     CustomTranslation.translate(false);
     $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
+
+    await getDataByPromise(`SELECT *
+    FROM friend
+    WHERE (user1 = ? AND user2 = ?)
+    OR (user2 = ? AND user1 = ?)
+    `, [getCurrentUserID(), overlayUserId, overlayUserId, getCurrentUserID()]).then((data) =>{
+
+        if(data.length > 0)
+        requestButton.hide();
+    });
 }
 
 function disableRequestButton() {
