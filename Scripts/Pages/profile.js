@@ -207,10 +207,9 @@ FYSCloud.API.queryDatabase(
         FYSCloud.API.queryDatabase(
             "SELECT * FROM `interest` WHERE `id` = ?;",
             [interests[i]]
-        ).done(function (data) {
-            for (let j = 0; j < data.length + 1; j++) {
-                FYSCloud.Localization.translate(false);
-                $("#interests").append(`<div data-translate='interests.${data[j].id}' style=
+        ).done(function (interestData) {
+            for (let j = 0; j < interestData.length; j++) {
+                $("#interests").append(`<div data-translate='interests.${interestData[j].id}' style=
                     'color: var(--color-corendon-white);\n` +
                     "    background-color: var(--color-corendon-red);\n" +
                     "    display: inline-block;\n" +
@@ -222,7 +221,8 @@ FYSCloud.API.queryDatabase(
                     "    white-space: nowrap;\n" +
                     "    vertical-align: baseline;\n" +
                     "    border-radius: 10px;\n" +
-                    "    margin: 2px;'>" + data[j] + "<div>");
+                    "    margin: 2px;'>" + interestData[j] + "<div>");
+                FYSCloud.Localization.translate(false);
             }
         }).fail(function (reason) {
         });

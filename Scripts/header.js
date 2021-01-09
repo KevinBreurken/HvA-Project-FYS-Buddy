@@ -50,6 +50,7 @@ function onHeaderLoaded() {
         });
 
     document.dispatchEvent(new CustomEvent("headerLoadedEvent"));
+    CustomTranslation.translate(false);
 }
 
 /**
@@ -96,8 +97,8 @@ function overrideMenuButtons(newButtons) {
             <li><a class="main-menu-buttons" data-translate="${btn[2]}" href="${btn[1]}" type="${btn[0]}">${homeImageHTML}${btn[0]}</a>
         </li>`);
     }
-    CustomTranslation.translate(false);
     updateMenuButtons();
+    CustomTranslation.translate(false);
 }
 
 /** Notifications */

@@ -25,7 +25,7 @@
             <label for="fileUpload"></label>
             <input type="file" id="fileUpload" name="profile_picture" accept="image/*">
             <div class="img-preview">
-                <img id="imagePreview" style="width: 200px; height: 200px;">
+                <img id="imagePreview" onerror="this.src='Content/Images/default-profile-picture.png'" style="width: 200px; height: 200px;">
             </div>
             </div>
             <br>
