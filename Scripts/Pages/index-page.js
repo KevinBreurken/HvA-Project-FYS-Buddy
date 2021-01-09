@@ -59,3 +59,21 @@ function validationCheck() {
         }
     }
 }
+
+document.getElementById("signIn").addEventListener("click", function(e) {
+   e.preventDefault();
+   validationCheck();
+   fireHtml5FormValidation("login-form");
+});
+
+// TODO: Move this from register and login to general.js
+// Validate a form:
+function fireHtml5FormValidation(formId) {
+    let $myForm = $("#" + formId);
+
+    if(! $myForm[0].checkValidity()) {
+        // If the form is invalid, submit it. The form won't actually submit;
+        // this will just cause the browser to display the native HTML5 error messages.
+        $myForm.find('input:submit').click();
+    }
+}
