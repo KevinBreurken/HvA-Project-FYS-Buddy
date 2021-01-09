@@ -349,7 +349,7 @@ function generateUserDisplay(currentUser) {
     //generates the inner HTML of the user display
     userDisplay.innerHTML =
         `<h1 id=user-display-h1-${userId}>${username}</h1>
-            <img onerror="this.src='${environment}/uploads/profile-pictures/default-profile-picture.png'" class="profile-picture" src="${url}">
+            <img onerror="this.src='Content/Images/default-profile-picture.png'" class="profile-picture" src="${url}">
             <div class="user-display-column-3">
                 <p>${location}</p>
                 <span><p data-translate="userDisplay.from">from </p><p>${startDate}</p></span>
@@ -396,7 +396,7 @@ async function openUserOverlay(overlayUserId) {
     let fullName = overlayUserData[0]["firstname"] + " " + overlayUserData[0]["lastname"];
 
     //putting the data from the user and profile tables in the overlay
-    $("#overlay-row-1").html(`<img onerror="this.src='${environment}/uploads/profile-pictures/default-profile-picture.png'" src="${url}">`);
+    $("#overlay-row-1").html(`<img onerror="this.src='Content/Images/default-profile-picture.png'" src="${url}">`);
     $("#overlay-full-name").html(`${fullName}`);
     $("#overlay-username").html(`a.k.a. ${overlayUserData[0]["username"]}`);
     $("#overlay-bio").html(`${overlayUserData[0]["biography"]}`);
