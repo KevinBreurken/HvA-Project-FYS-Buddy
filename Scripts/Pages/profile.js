@@ -1,7 +1,6 @@
 let count;
 /**
  * get id from the pageurl
- * @type {string}
  */
 //get the url
 var pageUrl = window.location.href;
@@ -18,6 +17,9 @@ let currentUserId = getCurrentUserID();
 FYSCloud.API.queryDatabase(
     "SELECT * FROM profile where userId = ?", [profileId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     generateProfileDisplay(data);
     generateBuddy(data);
     CustomTranslation.translate(false);
@@ -27,6 +29,9 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user WHERE id = ?", [profileId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     generateUserinfo(data);
     CustomTranslation.translate(false);
 }).fail(function () {
@@ -35,6 +40,9 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM travel where userId = ?", [profileId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     generateTravelInfo(data);
     CustomTranslation.translate(false);
 }).fail(function () {
@@ -43,12 +51,18 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM travel where userId = ?", [profileId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     let userData = data[0];
     let locatie = userData.locationId;
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `location` WHERE `id` = ?;",
         [locatie]
     ).done(function (data) {
+        if (data.length === 0) {
+            return;
+        }
         let userdata = data[0];
         let destination = userdata.destination;
         $("#destination").html("<b data-translate='profile.destination'>Destination: </b>" + destination);
@@ -68,6 +82,9 @@ if (currentUserId === profileId) {
     FYSCloud.API.queryDatabase(
         "SELECT * FROM `friend` WHERE `user1` = ? OR `user2` = ?;", [userId, userId]
     ).done(function (data) {
+        if (data.length === 0) {
+            return;
+        }
        FYSCloud.Localization.translate(false);
         let userData = data[0];
         let tabel1 = userData.user1;
@@ -77,10 +94,16 @@ if (currentUserId === profileId) {
             FYSCloud.API.queryDatabase(
                 "SELECT * FROM user where id = ?", [profileId]
             ).done(function (data) {
+                if (data.length === 0) {
+                    return;
+                }
                 generateUserinfo(data);
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM profile where id = ?", [profileId]
                 ).done(function (data) {
+                    if (data.length === 0) {
+                        return;
+                    }
                     generateProfileDisplay(data);
                     generateBuddy(data);
                     CustomTranslation.translate(false);
