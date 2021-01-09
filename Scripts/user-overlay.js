@@ -60,6 +60,8 @@ async function openUserOverlay(overlayUserId) {
 
     let declineButton = $("#decline-request-button");
     declineButton.hide();
+    declineButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
+    }, function () { $(this).css("background-color", "");} );
 
     if (matchingFriend[0] != null) {
         if (matchingFriend[0]["requestingUser"] === parseInt(getCurrentUserID())) { //We already send the request
