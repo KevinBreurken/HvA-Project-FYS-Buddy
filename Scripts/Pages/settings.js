@@ -966,15 +966,33 @@ distanceMax.addEventListener("change", function() {
     }
 });
 
+const lastMaxDistanceOptionInteger = distanceMax.options[distanceMax.length - 2].value;
 function setMaxDistance(initialMaxDistance) {
-    const defaultMaxDistance = 100;
+    // Get default maximum distance:
+    let defaultMaxDistance = 100;
+    for(let i = 0; i < distanceMax.length; i++) {
+        let currentOption = distanceMax.options[i];
+
+        if(currentOption.hasAttribute("selected")) {
+            defaultMaxDistance = currentOption.value;
+        }
+    }
+
+    // Set initial maximum distance:
     initialMaxDistance = typeof initialMaxDistance === "undefined" ? defaultMaxDistance : initialMaxDistance;
 
     // Set max distance select element accordingly
-    for (let i = 0; i < distanceMax.length; i++) {
-        let currentOption = distanceMax.options[i];
-        if(Number(currentOption.value) === initialMaxDistance) {
-            distanceMax.selectedIndex = i;
+    // If an "unlimited" value has been stored:
+    if(Number(initialMaxDistance) > Number(lastMaxDistanceOptionInteger)) {
+        distanceMax.selectedIndex = distanceMax.length - 1;
+    }
+    else {
+        for (let i = 0; i < distanceMax.length; i++) {
+            let currentOption = distanceMax.options[i];
+
+            if (Number(currentOption.value) === initialMaxDistance) {
+                distanceMax.selectedIndex = i;
+            }
         }
     }
 
@@ -989,10 +1007,19 @@ function setNotificationSettings(notificationId){
 }
 
 function setDistanceResult(initialDistanceResult) {
-    let defaultDistanceResult = 20;
+    const defaultDistanceResult = distanceRange.value;
     initialDistanceResult = typeof initialDistanceResult === "undefined" ? defaultDistanceResult : initialDistanceResult;
-    distanceRange.value = initialDistanceResult;
-    distanceResult.innerHTML = initialDistanceResult;
+
+
+    if(Number(initialDistanceResult) > Number(lastMaxDistanceOptionInteger)) {
+        distanceRange.value = initialDistanceResult;
+        distanceResult.innerHTML = "&infin;";
+    }
+    else {
+        distanceRange.value = initialDistanceResult;
+        distanceResult.innerHTML = initialDistanceResult;
+    }
+
 }
 
 // TODO: Remove alerts
@@ -1006,16 +1033,16 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
 
             // Get appropriate language identifier dependant on the selection of the language:
             languages.forEach(language => {
-               if(language.languageKey === languageControl.value) {
-                   languageId = language.id;
-               }
+                if (language.languageKey === languageControl.value) {
+                    languageId = language.id;
+                }
             });
 
             // Get appropriate profile availability identifier dependant on the selection of the profile availability:
             profileVisibilities.forEach(option => {
-               if(option.name === profileVisibilityControl.value) {
-                   profileVisibilityId = option.id;
-               }
+                if (option.name === profileVisibilityControl.value) {
+                    profileVisibilityId = option.id;
+                }
             });
 
             // Get appropriate configuration for showing own gender:
@@ -1023,7 +1050,7 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
 
             // Get appropriate gender identifier dependant on the selection of the gender:
             genders.forEach(gender => {
-                if(gender.name === genderControl.value) {
+                if (gender.name === genderControl.value) {
                     displayGenderId = gender.id;
                 }
             });
@@ -1031,35 +1058,31 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
             let maxDis = distanceMax.value;
             let radDis = distanceResult.innerText;
 
+            // If maximum distance has been set to unlimited
+            if (isNaN(maxDis)) {
+                // Set maximum distance to an "unlimited" amount of km's:
+                const unlimitedDistance = 40075;
+                maxDis = unlimitedDistance;
+                radDis = unlimitedDistance;
+            }
+
             currentNotificationId = notificationControl.checked;
 
             // Check whether a setting already exists for provided user:
-            if(settings.length > 0) {
-                // If radial distance has been set to "unlimited"
-                if(isNaN(radDis)) {
-                    // If a setting for the radial distance exists, rather use that then setting it to a default value:
-                    if(settings[0].radialDistance) {
-                        radDis = settings[0].radialDistance;
-                    }
-                    else {
-                        // Set radial distance value to a default value:
-                        radDis = 1;
-                    }
-                }
-
+            if (settings.length > 0) {
                 // A setting for the user already exists, so an UPDATE should be executed:
                 FYSCloud.API.queryDatabase(
                     "UPDATE `setting` " +
                     "SET `deactivated` = ?, `languageId` = ?, `profileVisibilityId` = ?, `sameGender` = ?, `displayGenderId` = ?, `notifcationId` = ?, `maxDistance` = ?, `radialDistance` = ? " +
                     "WHERE `setting`.`userId` = ?;",
                     [0, languageId, profileVisibilityId, sameGender, displayGenderId, currentNotificationId, maxDis, radDis, sessionUserId]
-                ).done(function() {
+                ).done(function () {
                     // Password checking and update when necessary:
 
                     // Check if an attempt to change the password has been made:
-                    if(pwdFilledIn) {
+                    if (pwdFilledIn) {
                         // Check if current password is entered correctly:
-                        if(newPwdMatchesOld) {
+                        if (newPwdMatchesOld) {
                             // Check if the password to be changed has been properly confirmed:
                             if (pwdRepeatMatch) {
                                 FYSCloud.API.queryDatabase(
@@ -1075,31 +1098,28 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                             } else {
                                 alert("Repeated password does not match.")
                             }
-                        }
-                        else {
+                        } else {
                             alert("Current password is incorrect")
                         }
-                    }
-                    else {
+                    } else {
                         window.location.href = "homepage.html";
                     }
-                }).fail(function(reason) {
+                }).fail(function (reason) {
                     console.log(reason);
                 });
-            }
-            else {
+            } else {
                 // There is no setting available yet, creating new setting, execute INSERT:
                 FYSCloud.API.queryDatabase(
                     "INSERT INTO `setting` (`id`, `userId`, `deactivated`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`) " +
                     "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
                     [sessionUserId, 0, languageId, profileVisibilityId, sameGender, displayGenderId, currentNotificationId, maxDis, radDis]
-                ).done(function() {
+                ).done(function () {
                     // Password checking and update when necessary:
 
                     // Check if an attempt to change the password has been made:
-                    if(pwdFilledIn) {
+                    if (pwdFilledIn) {
                         // Check if current password is entered correctly:
-                        if(newPwdMatchesOld) {
+                        if (newPwdMatchesOld) {
                             // Check if the password to be changed has been properly confirmed:
                             if (pwdRepeatMatch) {
                                 FYSCloud.API.queryDatabase(
@@ -1115,12 +1135,10 @@ function applySettingsEventlistener(settings, languages, profileVisibilities, ge
                             } else {
                                 alert("Repeated password does not match.")
                             }
-                        }
-                        else {
+                        } else {
                             alert("Current password is incorrect")
                         }
-                    }
-                    else {
+                    } else {
                         window.location.href = "homepage.html";
                     }
                 }).fail(function (reason) {
