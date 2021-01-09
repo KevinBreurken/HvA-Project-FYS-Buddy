@@ -1,8 +1,6 @@
 //include mailer to send email after requests.
 $("head").append('<script src="Scripts/mailer.js"></script>');
 
-let declineButton = $("#decline-request-button");
-
 /**
  * function for opening the overlay with the correct user data
  * @param overlayUserId id of the user that is fetched and displayed from the database.
@@ -60,6 +58,7 @@ async function openUserOverlay(overlayUserId) {
     requestButton.hover(function () { $(this).css("background-color", "var(--color-corendon-dark-red)");
     }, function () { $(this).css("background-color", "");} );
 
+    let declineButton = $("#decline-request-button");
     declineButton.hide();
 
     if (matchingFriend[0] != null) {
@@ -75,11 +74,6 @@ async function openUserOverlay(overlayUserId) {
         requestButton.click(function () {sendRequest(getCurrentUserID(),overlayUserId)});
     }
 
-    CustomTranslation.translate(false);
-
-    // adds a onclick function to the overlay to redirect the user to the correct profile
-    $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
-
     await getDataByPromise(`SELECT *
     FROM friend
     WHERE (user1 = ? AND user2 = ?)
@@ -90,7 +84,12 @@ async function openUserOverlay(overlayUserId) {
         requestButton.hide();
     });
 
-    declineButton.onclick = function(){declineRequest(overlayUserId)};
+    // adds a onclick function to the overlay to redirect the user to the correct profile
+    $("#profile-button").click(function () {redirectToProfileById(overlayUserId)});
+    // adds a onclick function to the overlay 'decline request' button
+    declineButton.click(function(){declineRequest(overlayUserId, declineButton)});
+
+    CustomTranslation.translate(false);
 }
 
 function disableRequestButton() {
@@ -150,12 +149,12 @@ function sendRequest(sentUser,userIdToSend) {
     disableRequestButton();
 }
 
-async function declineRequest(overlayUserId) {
+async function declineRequest(overlayUserId, button) {
     //deletes the correct row in the friendrequest table when clicking on the 'decline request' button
     await getDataByPromise(`DELETE FROM friendrequest WHERE targetUser = ? AND requestingUser = ?`,
         [getCurrentUserID(), overlayUserId]);
 
-    declineButton.hide();
+    button.hide();
 }
 
 /** function for opening the overlay */
