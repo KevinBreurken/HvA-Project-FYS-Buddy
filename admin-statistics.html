@@ -1,41 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
-    <script src="Scripts/app.js" id="app" data-pageType="admin" data-translations="admin-statistics-translation"></script>
-    <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
+    <script src="Scripts/app.js" id="app" data-pageType="admin"
+            data-translations="admin-statistics-translation"></script>
     <script src="Scripts/general.js" id="general" data-type="statistics" data-nav-visible data-nav-admin></script>
-    <link rel="stylesheet" href="Content/CSS/Pages/admin-statistics.css">
+    <script src="Vendors/Snippets/admin-statistics-snippets.js"></script>
     <script src="Scripts/Pages/admin-statistics.js"></script>
+    <script src="Vendors/ChartJS/chart2.8.js"></script>
+    <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
+    <link rel="stylesheet" href="Content/CSS/Pages/admin-statistics.css">
+    <title>Corendon Travel Buddy</title>
 </head>
-
 <body>
 <header></header>
 <main>
     <div id="statistics-window">
+        <!-- TRAFFIC CATEGORY -->
         <div class="statistics-group">
-            <div class="statistics-group-title" data-translate="trafic.title"></div>
+            <div class="statistics-group-title" data-translate="traffic.title"></div>
             <div class="statistics-group-content">
                 <div class="statistics-group-container">
                     <div class="statistics-item-number" id="logged-in-users">
-                        <div class="statistics-item-number-title" data-translate="trafic.login"></div>
+                        <div class="statistics-item-number-title" data-translate="traffic.login"></div>
                         <div class="statistics-item-number-value" id="logged-in"></div>
                     </div>
                 </div>
                 <div class="statistics-group-container-vertical">
                     <div class="statistics-item-piechart">
-                        <div class="statistics-item-piechart-title" data-translate="trafic.device"></div>
+                        <div class="statistics-item-piechart-title" data-translate="traffic.device"></div>
                         <canvas class="statistics-item-piechart-chart" id="device-type"></canvas>
                     </div>
                     <div class="statistics-item-piechart">
-                        <div class="statistics-item-piechart-title" data-translate="trafic.browser"></div>
+                        <div class="statistics-item-piechart-title" data-translate="traffic.browser"></div>
                         <canvas class="statistics-item-piechart-chart" id="browser-type"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- USERS CATEGORY -->
         <div class="statistics-group">
             <div class="statistics-group-title" data-translate="users.title"></div>
             <div class="statistics-group-content">
@@ -51,7 +56,7 @@
                 </div>
             </div>
         </div>
-
+        <!-- MATCHES CATEGORY -->
         <div class="statistics-group">
             <div class="statistics-group-title" data-translate="matching.title"></div>
             <div class="statistics-group-content">
@@ -78,7 +83,7 @@
             </div>
         </div>
     </div>
-
+    <!-- PAGES CATEGORY -->
     <div class="statistics-group">
         <div class="statistics-group-title" data-translate="pages.title">Pages</div>
         <div class="statistics-group-content">
@@ -96,5 +101,4 @@
     </div>
 </main>
 </body>
-<script src="Vendors/ChartJS/chart2.8.js"></script>
 </html>

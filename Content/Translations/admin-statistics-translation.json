@@ -1,8 +1,8 @@
 {
-  "trafic": {
+  "traffic": {
     "title": {
       "nl": "Verkeer",
-      "en": "Trafic"
+      "en": "Traffic"
     },
     "visitors": {
       "nl": "Bezoekers Vandaag",

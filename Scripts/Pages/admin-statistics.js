@@ -1,4 +1,3 @@
-$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js" id="statistics-snippet"></script>');
 let pieChartColors = [
     "#2ecc71",
     "#3498db",
@@ -9,60 +8,18 @@ let pieChartColors = [
     "#34495e"
 ];
 
-function generatePieChart(divID, data) {
-    //Create a Chart.js pie chart.
-    let context = $(divID);
-    new Chart(context, {
-        type: 'pie',
-        data: {
-            labels: data[0],
-            datasets: [{
-                backgroundColor: pieChartColors,
-                data: data[1]
-            }]
-        }
-    });
-
-}
-
-function makeOL(array, translateKeys) {
-    // Create the list element:
-    let list = document.createElement('div');
-    for (let i = 0; i < array[0].length; i++) {
-        // Create the list item:
-        let item = document.createElement('li');
-        // Create the text item
-        let textElement = document.createElement('div');
-        // Check if we have translation keys
-        (translateKeys !== undefined) ? $(textElement).attr("data-translate", translateKeys[i]) : $(textElement).html(array[0][i]);
-        $(textElement).addClass("statistics-item-list-text-element");
-        item.appendChild(textElement);
-        //Create the value item
-        if (array[1] != null) {
-            let valueElement = document.createElement('div');
-            $(valueElement).addClass("statistics-item-list-value-element");
-            valueElement.appendChild(document.createTextNode("   (" + array[1][i] + ")"));
-            item.appendChild(valueElement);
-        }
-
-        list.appendChild(item);
-    }
-
-    // Finally, return the constructed list:
-    return list;
-}
-
-(async function fetchStatisticsFromDatabase() {
+/*
+ * Fetches data from the database related to User category.
+ */
+(async function fetchUserCategory() {
     // ~~~~ FETCH AMOUNT OF USERS ~~~~
     let userCount;
-    await getDataByPromise(`SELECT Count(*) AS totalUserCount
-                            FROM user`).then((data) => {
+    await getDataByPromise('SELECT Count(*) AS totalUserCount FROM user').then((data) => {
         userCount = data[0]["totalUserCount"];
         $('#total-accounts').html(userCount);
     });
     // ~~~~ FETCH ALL FRIENDS ~~~~
-    getDataByPromise(`SELECT *
-                      FROM friend`).then((data) => {
+    getDataByPromise('SELECT * FROM friend').then((data) => {
         let totalFriendsCount = data.length;
 
         // ** MATCHING - MADE FRIENDS **
@@ -71,13 +28,13 @@ function makeOL(array, translateKeys) {
         $('#made-friends-average').html((totalFriendsCount / userCount).toFixed(2));
     });
     // ~~~~ FETCH ALL SESSIONS ~~~~
-    getDataByPromise(`SELECT *
-                      FROM adminsessiondata`).then((adminSessionData) => {
+    getDataByPromise('SELECT * FROM adminsessiondata').then((adminSessionData) => {
         let loginTodayAmount = 0;
         let allHours = new Array(adminSessionData.length);
         for (let i = 0; i < adminSessionData.length; i++) {
             let loginDate = new Date(adminSessionData[i]["logintime"]);
             allHours[i] = loginDate.getHours();
+            //Increase amount every time an session is from today
             loginTodayAmount += isDateToday(loginDate);
         }
         // ** USERS - MOST VISITED HOUR **
@@ -87,7 +44,10 @@ function makeOL(array, translateKeys) {
     });
 })();
 
-(async function fetchMatchesLists() {
+/*
+ * Fetches data from the database related to Matching category.
+ */
+(async function fetchMatchingCategory() {
     let interestData;
     await getDataByPromise(`SELECT *
                             FROM admininterestdata
@@ -107,7 +67,7 @@ function makeOL(array, translateKeys) {
         }
 
         // ** MATCHING - MOST FRIENDS WITH EQUAL INTEREST **
-        $('#most-match-equal-interests').html(makeOL(combinedArray, translateKeys));
+        $('#most-match-equal-interests').html(generateStatisticsList(combinedArray, translateKeys));
     });
 
     let locationData;
@@ -123,45 +83,48 @@ function makeOL(array, translateKeys) {
     }).then(names => {
         let combinedArray = combineJsonToArray(names, locationData, "destination", "destinationEverMatched");
         // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
-        $('#most-match-equal-destination').html(makeOL(combinedArray));
+        $('#most-match-equal-destination').html(generateStatisticsList(combinedArray));
     });
 })();
 
-(function fetchPages() {
+/*
+ * Fetches data from the database related to Pages category.
+ */
+(function fetchPagesCategory() {
     getDataByPromise(`SELECT *
                       FROM adminpagedata
                       ORDER BY logoutamount DESC`).then((data) => {
         // ** LOG-OUT-AMOUNT **
-        $('#page-logout').html(makeOL(jsonToArray(data, ["name", "logoutamount"])));
+        $('#page-logout').html(generateStatisticsList(jsonToArray(data, ["name", "logoutamount"])));
     });
 
     getDataByPromise(`SELECT *
                       FROM adminpagedata
                       ORDER BY visitcount DESC`).then((data) => {
         // ** AMOUNT OF VIEWS **
-        $('#page-views').html(makeOL(jsonToArray(data, ["name", "visitcount"])));
+        $('#page-views').html(generateStatisticsList(jsonToArray(data, ["name", "visitcount"])));
     });
 })();
 
-(function fetchTraffic() {
-    getDataByPromise(`SELECT deviceType, count(*) as 'amount'
-                      FROM adminsessiondata
-                      GROUP BY deviceType`).then((data) => {
+/*
+ * Fetches data from the database related to Traffic category.
+ */
+(function fetchTrafficCategory() {
+    getDataByPromise('SELECT deviceType, count(*) as amount FROM adminsessiondata GROUP BY deviceType'
+    ).then((data) => {
         // ** TYPE DEVICE **
         generatePieChart('#device-type', jsonToArray(data, ["deviceType", "amount"]));
     });
 
-    getDataByPromise(`SELECT browserType, count(*) as 'amount'
-                      FROM adminsessiondata
-                      GROUP BY browserType`).then((data) => {
-
+    getDataByPromise('SELECT browserType, count(*) as amount FROM adminsessiondata GROUP BY browserType'
+    ).then((data) => {
         // ** BROWSER TYPE **
         generatePieChart('#browser-type', jsonToArray(data, ["browserType", "amount"]));
     });
 })();
 
 /**
- * Creates a Multidimensional Array from a JSON object.
+ * Creates a Multidimensional Array from an JSON object.
  * @param json JSON Object.
  * @param attributes list of attribute names. length of array defines width of returned Array.
  * @returns {[[*], [*]]} Multidimensional Array.
@@ -177,7 +140,7 @@ function jsonToArray(json, attributes) {
 }
 
 /**
- * combines a list of json values to a string used for queries.
+ * Combines a list of json values to an string used for queries.
  */
 function jsonIndexToArrayString(json, attributeName) {
     let notificationIDs = new Array(json.length);
@@ -188,7 +151,7 @@ function jsonIndexToArrayString(json, attributeName) {
 }
 
 /**
- * Combines two JSON arrays to a single array (fixed size of first element of 2)
+ * Combines two JSON arrays to an single array (fixed size of first element of 2)
  */
 function combineJsonToArray(arr1, arr2, atr1, atr2) {
     let newArray = [[2], [arr1.length]];
@@ -214,4 +177,53 @@ function isDateToday(date) {
         return false;
 
     return true;
+}
+
+/**
+ * Generates an ChartJS piechart at the given element.
+ */
+function generatePieChart(elementName, data) {
+    //Create a Chart.js pie chart.
+    let context = $(elementName);
+    new Chart(context, {
+        type: 'pie',
+        data: {
+            labels: data[0],
+            datasets: [{
+                backgroundColor: pieChartColors,
+                data: data[1]
+            }]
+        }
+    });
+}
+
+/**
+ * Creates an statistics list for displaying an list of stats.
+ */
+function generateStatisticsList(dataArray, translateKeys) {
+    // Create the list element.
+    let list = document.createElement('div');
+    for (let i = 0; i < dataArray[0].length; i++) {
+        // Create the list item.
+        let item = document.createElement('li');
+        // Create the text item.
+        let textElement = document.createElement('div');
+        // Check if we have translation keys.
+        (translateKeys !== undefined) ? $(textElement).attr("data-translate", translateKeys[i]) : $(textElement).html(dataArray[0][i]);
+        // Add an class for CSS styling.
+        $(textElement).addClass("statistics-item-list-text-element");
+        item.appendChild(textElement);
+        //Create the value item.
+        if (dataArray[1] != null) {
+            let valueElement = document.createElement('div');
+            $(valueElement).addClass("statistics-item-list-value-element");
+            valueElement.appendChild(document.createTextNode("   (" + dataArray[1][i] + ")"));
+            item.appendChild(valueElement);
+        }
+
+        list.appendChild(item);
+    }
+
+    // Finally, return the constructed list:
+    return list;
 }
