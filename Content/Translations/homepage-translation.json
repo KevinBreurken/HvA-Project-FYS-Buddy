@@ -263,15 +263,15 @@
   },
   "overlay": {
     "profileButton": {
-      "nl": "profiel",
-      "en": "profile"
+      "nl": "Profiel",
+      "en": "Profile"
     },
     "interests": {
-      "nl": "interesses",
-      "en": "interests"
+      "nl": "Interesses",
+      "en": "Interests"
     },
     "bio": {
-      "nl": "biografie",
+      "nl": "Biografie",
       "en": "Biography"
     },
     "button": {
