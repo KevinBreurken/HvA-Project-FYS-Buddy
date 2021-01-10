@@ -324,7 +324,7 @@ function register() {
                 "INSERT INTO `profile` (`id`, `userId`, `firstname`, `lastname`, `gender`, `dob`, `biography`, `pictureUrl`, `locationId`, `phone`)" +
                 "VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, NULL, NULL);" +
                 "INSERT INTO setting (`id`, `userId`, `deactivated`, `languageId`, `profileVisibilityId`, `sameGender`, `displayGenderId`, `notifcationId`, `maxDistance`, `radialDistance`)" +
-                "VALUES (NULL, ?, '0', '1', '1', '0', '1', '1', '11', '500')",
+                "VALUES (NULL, ?, '0', '1', '1', '0', '1', '1', '40750', '40750')",
                 [setId, firstname, lastname, gender, dobFormat, bio, url, setId, setId]
             ).done(function (data) {
                 console.log(data);
