@@ -1,6 +1,14 @@
 window.addEventListener('load', function () {
+    checkUrlHasParameter();
     fetchCurrentUserIdFromUrl();
 });
+
+
+function checkUrlHasParameter() {
+    const ID = FYSCloud.URL.queryString("id");
+    if(!ID)
+    window.location.href = 'index.html';
+}
 
 function fetchCurrentUserIdFromUrl() {
     let getUserId = window.location.href.split("=")[1];
