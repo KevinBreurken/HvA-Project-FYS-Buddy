@@ -86,8 +86,12 @@
     font-family: var(--font-family);
     font-weight: bold;
     padding: 10px 5px 10px 5px;
-    width: 100px;
+    width: 100%;
     transition: 400ms background-color;
+}
+
+#decline-request-button {
+    width: 100%;
 }
 
 #profile-button:hover {

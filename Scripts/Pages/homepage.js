@@ -321,7 +321,6 @@ async function openTabContent(currentButton) {
 
 /** function for generating a user display */
 function generateUserDisplay(currentUser) {
-
     let userId = currentUser["userId"];
 
     //creates a user-display
@@ -357,7 +356,6 @@ function generateUserDisplay(currentUser) {
             </div>
             <div class="user-display-column-4">
                 <button id="button1-${userId}" onclick="openUserOverlay('${userId}')" data-translate="userDisplay.moreInfo">more info</button>
-                <button id="button2-${userId}" onclick="closeElement('user-display-${userId}')">X</button>
             <div id="favourite-v1-${userId}" onclick="setFavourite('${userId}', 'favourite-v1-${userId}')">
             <img src="Content/Images/favourite-v${favouriteVersion}.png" class="favourite-icon">
             </div>
@@ -365,12 +363,6 @@ function generateUserDisplay(currentUser) {
             </div>`;
 
     return userDisplay;
-}
-
-/** function to close the active user-display or overlay */
-function closeElement(currentDisplay) {
-    $("#" + currentDisplay).css("display", "none");
-    $("#overlay-background").css("display", "none");
 }
 
 /** favourites function */
