@@ -1,3 +1,8 @@
+#statistics-title {
+    padding-left: 18px;
+}
+
+/* ~~~~ Statistics - Group ~~~~ */
 .statistics-group {
     background-color: var(--color-corendon-white);
     display: block;
@@ -16,37 +21,20 @@
     font-size: 20px;
 }
 
-#statistics-title {
-    padding-left: 18px;
+.statistics-group-container-vertical {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+    overflow: auto;
 }
 
-/* Dropdown */
-#time-dropdown select {
-    float: right;
-    margin-top: 10px;
-    margin-right: 10px;
-    /* From Corendon site */
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    padding-left: 5px;
-    color: var(--color-corendon-dark-grey);
-    background-color: var(--color-corendon-white);
-    background-clip: padding-box;
-    border: var(--border-corendon-grey);
-    border-radius: 6px;
+@media screen and (max-width: 1000px) {
+    .statistics-group-container-vertical {
+        display: block;
+    }
 }
 
-#time-dropdown select option {
-    /* From Corendon site */
-    font-weight: normal;
-    display: block;
-    white-space: pre;
-    min-height: 1.2em;
-    padding: 0 2px 1px;
-}
-
-/* Item - Number */
+/* ~~~~ Statistics Element - Number ~~~~ */
 .statistics-item-number {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -67,7 +55,7 @@
     font-size: 30px;
 }
 
-/* Item - Foldable List */
+/* ~~~~ Statistics Element - List  ~~~~ */
 .statistics-item-list {
     display: flex;
     flex-direction: column;
@@ -100,20 +88,6 @@
     padding-right: 32px;
 }
 
-/* Item - Pie Chart */
-.statistics-group-container-vertical {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1em;
-    overflow: auto;
-}
-
-@media screen and (max-width: 1000px) {
-    .statistics-group-container-vertical {
-        display: block;
-    }
-}
-
 .statistics-item-list:first-child .statistics-item-list-content {
     border-right: var(--border-corendon-grey);
 }
@@ -122,6 +96,7 @@
     border-left: var(--border-corendon-grey);
 }
 
+/* ~~~~ Statistics Element - Piechart ~~~~ */
 .statistics-item-piechart-title {
     padding: 16px;
     font-weight: bold;
@@ -134,7 +109,8 @@
     padding-bottom: 16px;
 }
 
-canvas {
+/* For ChartJS canvas elements */
+.statistics-item-piechart canvas {
     max-width: 300px;
     max-height: 150px;
     margin-left: auto;
