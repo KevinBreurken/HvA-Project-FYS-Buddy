@@ -610,7 +610,7 @@ function profileSearchEventListener(profiles, blockedUsers) {
 
                     result += "<div class=\"user-card\">" +
                         "<div class=\"user-card-image\">" +
-                        "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                        "<img onerror=\"this.src='Content/Images/default-profile-picture.png'\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
                         "</div>" +
                         "<div class=\"user-card-content\">" +
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
@@ -708,7 +708,7 @@ function blockedSearchEventListener(profiles, blockedUsers) {
 
                         result += "<div class=\"user-card\">" +
                             "<div class=\"user-card-image\">" +
-                            "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                            "<img onerror=\"this.src='Content/Images/default-profile-picture.png'\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
                             "</div>" +
                             "<div class=\"user-card-content\">" +
                             "<span class=\"user-data\">" + profiles[i].userId + "</span>" +
@@ -779,7 +779,7 @@ function blockedSearchEventListener(profiles, blockedUsers) {
                 if (profileBlocked) {
                     result += "<div class=\"user-card\">" +
                         "<div class=\"user-card-image\">" +
-                        "<img onerror=\"this.src=imageSrcPrefix + 'default-profile-picture.png\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
+                        "<img onerror=\"this.src='Content/Images/default-profile-picture.png'\" src=\"" + imageSrcPrefix + profiles[i].pictureUrl + "\" style=\"width: 100%;\" alt=\"" + firstname.trim() + "'s profile image\" />" +
                         "</div>" +
                         "<div class=\"user-card-content\">" +
                         "<span class=\"user-data\">" + profiles[i].userId + "</span>" +

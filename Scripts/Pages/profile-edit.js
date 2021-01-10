@@ -58,6 +58,9 @@ async function populateCityList() {
         "SELECT * FROM `travel` WHERE `userId` = ?;",
         [userId]
     ).done(function (data) {
+        if (data.length === 0) {
+            return;
+        }
         let userData = data[0];
         let locatie = userData.locationId;
         let lijst = document.getElementById("cityList");
@@ -273,6 +276,9 @@ $(document).on("change", "body", function () {
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM `userinterest` WHERE userId = ?;", [userId]
                 ).done(function (data) {
+                    if (data.length === 0) {
+                        return;
+                    }
                     let interestId = new Array();
                     let interest = new Array();
                     interest.push(interest1, interest2, interest3, interest4, interest5,
@@ -316,6 +322,9 @@ $(document).on("change", "body", function () {
                 FYSCloud.API.queryDatabase(
                     "SELECT * FROM `userinterest` where userId = ?", [userId]
                 ).done(function (data) {
+                    if (data.length === 0) {
+                        return;
+                    }
                     let interestId2 = new Array();
                     let interest = new Array();
                     interest.push(interest1, interest2, interest3, interest4, interest5,
@@ -349,6 +358,9 @@ $(document).on("change", "body", function () {
 FYSCloud.API.queryDatabase(
     "SELECT * FROM user where id = ?", [userId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     let userData = data[0];
     $("#Email").val(userData.email);
     $("#Username").val(userData.username);
@@ -359,6 +371,9 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT * FROM profile where userId = ?", [userId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     let userData = data[0];
     let url = userData.pictureUrl === "" ? `${environment}/uploads/profile-pictures/default-profile-picture.png` : userData.pictureUrl;
     let dob = parseDateToInputDate(userData.dob);
@@ -395,6 +410,9 @@ FYSCloud.API.queryDatabase(
 FYSCloud.API.queryDatabase(
     "SELECT `startdate`, `enddate` FROM `travel` WHERE userId = ?", [userId]
 ).done(function (data) {
+    if (data.length === 0) {
+        return;
+    }
     let userData = data[0];
     let startdate = parseDateToInputDate(userData.startdate);
     $("#Data").val(startdate);
@@ -408,6 +426,9 @@ FYSCloud.API.queryDatabase(
     "SELECT * FROM `userinterest` where userId = ?", [userId]
 ).done(function (data) {
     for (let i = 0; i < data.length; i++) {
+        if (data.length === 0) {
+            return;
+        }
         let userData = data[i];
         if (userData.interestId === 1) {
         document.getElementById("interest1").checked = true;
@@ -449,7 +470,7 @@ FYSCloud.API.queryDatabase(
  */
 $("#saveChangesBtn").on("click",function () {
     $("#saveChangesBtn").attr("type", "button");
-    //redirectToProfileById(userId);
+    redirectToProfileById(userId);
 })
 
 /**
