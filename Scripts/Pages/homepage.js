@@ -132,7 +132,7 @@ function sendTravelData() {
         location);
 
     //check if user already has a travel spec data
-    FYSCloud.API.queryDatabase("SELECT * FROM travel WHERE `userId` = ?;",
+     FYSCloud.API.queryDatabase("SELECT * FROM travel WHERE `userId` = ?;",
     [getCurrentUserID()]).done(function(data){
         // console.log(data.length)
         if(data.length > 0) {
@@ -140,22 +140,24 @@ function sendTravelData() {
                 // console.log(startDateFormat)
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
-                    [citySelect, startDateFormat, endDateFormat, getCurrentUserID()])
+                    [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]).done(function(data) {
+                        window.location.href(`${environment}/homepage.html`);
+                    })
             }else{
                 alert("no date or city selected");
             }
         }else {
             if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
-            FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
-            [getCurrentUserID(), citySelect, startDateFormat, endDateFormat])
+                 FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
+            [getCurrentUserID(), citySelect, startDateFormat, endDateFormat]).done(function(data) {
+                window.location.href(`${environment}/homepage.html`);
+            })
                 }else{
                 alert("no date or city selected");
             }
         }
     });
-
     toggleTravelForm();
-    window.location.reload(false); //todo: reclicks the all-results button
 }
 
 /** toggles the current travel data display and the travel data form */
