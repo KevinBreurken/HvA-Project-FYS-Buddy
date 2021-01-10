@@ -140,11 +140,11 @@ function submitForm(i) {
     let lastname = $('#user-info-7 ').val()
     let gender = $('#user-info-8 ').val()
     let dob = $('#user-info-9 ').val()
-    let locationId = $('#user-info-10 ').val()
-    let phone = $('#user-info-11 ').val()
-    let biography = $('#user-info-12').val()
-    let buddyType = $('#user-info-13 ').val()
-    let pictureUrl = $('#user-info-14 ').val()
+    let phone = $('#user-info-10 ').val()
+    let biography = $('#user-info-11').val()
+    let buddyType = $('#user-info-12 ').val()
+    let pictureUrl = $('#user-info-13 ').val()
+    let locationId = $('#user-info-14 ').val()
     // Update the user and profile tables with the values from user-info fields
     FYSCloud.API.queryDatabase(
         "UPDATE user SET id = ?, email = ?, password = ?, username = ?, userRole = ? WHERE id = ?; " +
