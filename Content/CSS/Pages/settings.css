@@ -46,7 +46,10 @@ nav#settingsNavigation > ul a {
   background-color: var(--color-corendon-red);
 }
 
-nav#settingsNavigation > ul a:hover {
+nav#settingsNavigation > ul a:hover,
+.settings-controls button#apply:hover,
+button.block-button:hover,
+button.unblock-button:hover {
   background-color: var(--color-corendon-dark-red);
 }
 
@@ -122,7 +125,7 @@ nav#settingsNavigation > ul a:hover {
   display: none;
 }
 
-#searchBlockResult {
+#searchProfilesResult, #searchBlockedResult {
   border: 1px solid #efefef;
   height: 170px;
   overflow-y: scroll;
@@ -153,10 +156,19 @@ nav#settingsNavigation > ul a:hover {
   display: flex;
 }
 
+.user-card-content span.user-data {
+  display: none;
+}
+
 .card-info {
   flex: 1;
   padding: 5px;
   overflow: hidden;
+  /*word-break: break-all; <-- Possible solution to not breaking words correctly*/
+}
+
+.profile-bio {
+  word-break: break-all;
 }
 
 .card-control {
@@ -168,7 +180,7 @@ nav#settingsNavigation > ul a:hover {
 
 /* Use full screen real estate on dekstop by using flexbox: */
 @media only screen and (min-width: 1000px) {/* <-- please hit me up what the min width for desktop will be */
-  #searchBlockResult {
+  #searchProfilesResult, #searchBlockedResult {
     display: flex;
     flex-wrap: wrap;
   }
@@ -179,23 +191,28 @@ nav#settingsNavigation > ul a:hover {
   padding-bottom: 15px;
 }
 
-.settings-controls button {
+.settings-controls button,
+button.block-button,
+button.unblock-button {
   padding: .375rem .75rem;
   user-select: none;
   border: 1px solid transparent;
   border-radius: .25rem;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.settings-controls button#apply,
+button.block-button,
+button.unblock-button {
+  color: var(--color-corendon-white);
+  background-color: var(--color-corendon-red);
+  border: #d81e05 solid 1px;
 }
 
 .settings-controls button#apply {
-  color: var(--color-corendon-white);
-  background-color: var(--color-corendon-red);
   font-size: 18px;
   font-weight: bold;
   padding: 5px 10px 5px 10px;
   margin: 10px 5px 15px 5px;
-  border: #d81e05 solid 1px;
-  transition: 600ms;
 }
 
 /* .settings-controls button#cancel {

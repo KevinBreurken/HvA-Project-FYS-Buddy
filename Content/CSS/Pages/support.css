@@ -1,4 +1,11 @@
 /* Support related CSS: */
+/* Resetting some styling on main because of settings side navigation*/
+main {
+    margin: 0;
+    width: 100%;
+    max-width: none;
+}
+
 .disable-highlight-select {
     user-select: none; /* supported by Chrome and Opera */
     -webkit-user-select: none; /* Safari */
@@ -7,13 +14,52 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
-/* Support related CSS: */
+/* Settings side navigation */
+.support-nav-container {
+    display: flex;
+    justify-content: center;
+    max-width: 800px; /* <-- change max-width of the page here for settings instead (because of the sticky navigation menu) */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+nav#supportNavigation {
+    display: table; /* Using table as it is compatible with most browsers but could also use align-self: flex-start instead. */
+    position: sticky;
+    top: 0;
+    max-width: 300px;
+    background-color: #fff;
+}
+
+nav#supportNavigation > ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav#supportNavigation > ul a {
+    display: block;
+    margin: 5px;
+    padding: 15px 10px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    background-color: var(--color-corendon-red);
+}
+
+nav#supportNavigation > ul a:hover {
+    background-color: var(--color-corendon-dark-red);
+}
+
+/* Content */
 .content {
-    border: var(--border-corendon-grey);
     padding: 10px 10px;
 }
 
-.content .collapsibleContent > img {
+.content, nav#supportNavigation {
+    border: var(--border-corendon-grey);
+}
+
+.content .collapsibleContent span > img {
     max-width: 100%;
     display: block;
 }
@@ -25,7 +71,6 @@
     padding: 18px;
     text-align: left;
     outline: none;
-    font-size: 15px;
     border: 1px solid #d81e05;
 }
 
@@ -46,11 +91,23 @@ h3.collapsible {
 }
 
 .support-controls {
+    display: none;
     text-align: center;
     padding: 15px 0;
 }
 
+@media only screen and (max-width: 1000px) {
+    nav#supportNavigation {
+        display: none;
+    }
+
+    .support-controls {
+        display: block;
+    }
+}
+
 .support-controls button {
+    font-weight: bold;
     padding: .375rem .75rem;
     user-select: none;
     border: 1px solid transparent;
@@ -58,8 +115,16 @@ h3.collapsible {
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
-.support-controls button#back {
-    background-color: #d7503d;
-    border-color: #d46e5f;
+.support-controls button#backToTop {
     color: var(--color-corendon-white);
+    background-color: var(--color-corendon-red);
+    border: #d81e05 solid 1px;
+}
+
+.support-controls button#backToTop:hover {
+    background-color: var(--color-corendon-dark-red);
+}
+
+.collapsible, .support-controls button {
+    font-size: 15px;
 }

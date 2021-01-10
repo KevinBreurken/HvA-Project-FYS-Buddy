@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
     <script src="Scripts/config.js"></script>
-    <script src="Scripts/app.js" id="app" data-pageType="default"></script>
+    <script src="Scripts/app.js" id="app" data-pageType="default" data-translations="register-translation"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-    <script src="Scripts/general.js"></script>
-    <script>
-        isOnAdminProfile = false;
-        currentMenuType = 'home';
-        isNavigationVisible = false;
-    </script>
+    <script src="Scripts/general.js" id="general"></script>
     <link rel="stylesheet" href="Content/CSS/Pages/register.css">
 </head>
 <body>
@@ -28,14 +23,8 @@
         </ul>
     </div>
 
-    <form class="register">
-
-        <div class="step">
-            <div class="right-panel">
-                <h2 data-translate="register.step1.info.title"></h2>
-                <p data-translate="register.step1.info.paragraph"></p>
-            </div>
-
+    <form id="registerForm" class="register">
+        <div class="flex-container step">
             <div>
                 <h2 data-translate="register.step1.title"></h2>
                 <div class="form-group">
@@ -58,8 +47,15 @@
                     <input type="password" id="repeat-password" name="repeat_password" maxlength="16" required>
                 </div>
             </div>
+            <div>
+                <div class="right-panel">
+                    <h2 data-translate="register.step1.info.title"></h2>
+                    <p data-translate="register.step1.info.paragraph"></p>
+                </div>
+            </div>
         </div>
-
+        <!-- TODO: Use flexbox for other steps as well -->
+        <!-- TODO: Back button comes right after date input. When pressing enter on date it causes the back button's "click" event to trigger instead of "swapping" to the next step. -->
         <div class="step">
             <h2 data-translate="register.step2.title"></h2>
 
@@ -101,7 +97,6 @@
                 <input type="Date" id="DoB" name="DoB" required>
             </div>
         </div>
-
         <div class="step">
             <h2 data-translate="register.step3.title"></h2>
             <div class="form-group">
@@ -118,52 +113,53 @@
                 <ul>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="sport" name="sport" value="1">
-                        <label for="sport" data-translate="register.step3.hobbies.sport"></label>
+                        <label for="sport" data-translate="interests.1"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="hiking" name="hiking" value="2">
-                        <label for="hiking" data-translate="register.step3.hobbies.hiking"></label>
+                        <label for="hiking" data-translate="interests.2"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="cooking" name="cooking" value="3">
-                        <label for="cooking" data-translate="register.step3.hobbies.cooking"></label>
+                        <label for="cooking" data-translate="interests.3"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="art" name="art" value="4">
-                        <label for="art" data-translate="register.step3.hobbies.art"></label>
+                        <label for="art" data-translate="interests.4"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="museum" name="museum" value="5">
-                        <label for="museum" data-translate="register.step3.hobbies.museum"></label>
+                        <label for="museum" data-translate="interests.5"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="music" name="music" value="6">
-                        <label for="music" data-translate="register.step3.hobbies.music"></label>
+                        <label for="music" data-translate="interests.6"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="dancing" name="dancing" value="7">
-                        <label for="dancing" data-translate="register.step3.hobbies.dancing"></label>
+                        <label for="dancing" data-translate="interests.7"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="theater" name="theater" value="8">
-                        <label for="theater" data-translate="register.step3.hobbies.theater"></label>
+                        <label for="theater" data-translate="interests.8"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="partying" name="partying" value="9">
-                        <label for="partying" data-translate="register.step3.hobbies.partying"></label>
+                        <label for="partying" data-translate="interests.9"></label>
                     </li>
                     <li>
                         <input type="checkbox" class="inline-form hobby" id="gaming" name="gaming" value="10">
-                        <label for="gaming" data-translate="register.step3.hobbies.gaming"></label>
+                        <label for="gaming" data-translate="interests.10"></label>
                     </li>
                 </ul>
             </div>
         </div>
 
         <div class="btn-group">
-            <p class="btn" id="btn-back" onclick="swapStep(-1)" data-translate="register.buttons.back"></p>
-            <p class="btn" id="btn-next" onclick="swapStep(1)" data-translate="register.buttons.next"></p>
-            <p class="btn" id="btn-register" onclick="register()" data-translate="register.buttons.register"></p>
+            <button class="btn" id="btn-back" type="button" onclick="swapStep(-1);" data-translate="register.buttons.back"></button>
+            <button class="btn" id="btn-next" type="submit" onclick="swapStep(1);" data-translate="register.buttons.next"></button>
+            <button class="btn" id="btn-register" type="submit" onclick="register();" data-translate="register.buttons.register"></button>
+            <input type="submit" style="display: none;">
         </div>
     </form>
 </main>

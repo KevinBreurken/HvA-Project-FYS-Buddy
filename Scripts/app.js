@@ -1,129 +1,100 @@
-$("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js"></script>'); //Required for session data.
-
-let currentUserID = getCurrentUserID();
 let currentPageType;
-console.log("currentUserID = " + currentUserID);
-if (currentUserID === undefined)
-    console.log("Not logged in");
-
-/** Redirect when not logged in */
 let appElement = document.getElementById("app");
-if (appElement !== null) {
-    currentPageType = appElement.getAttribute("data-pageType");
-    switch (currentPageType) {
-        case "default":
-            if (currentUserID !== undefined) //User is logged in, send to homepage
-                window.open("homepage.html", "_self");
-            break;
-        case "user":
-            if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
-                window.open("index.html", "_self");
-            break;
-        case "admin":
-            if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
-                window.open("index.html", "_self");
+let currentUserID = getCurrentUserID();
+// console.log("currentUserID = " + currentUserID);
+// if (currentUserID === undefined)
+//     console.log("Not logged in");
 
-            getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`,
-                [currentUserID, 2]).then((data) => {
-                if (data.length === 0) {
-                    const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
-                    window.open(redirectURL, "_self");
-                }
-            });
-            break;
-    }
-}
+(function initialize() {
+    $("head").append('<script src="Scripts/custom-language.js"></script>');
+    CustomTranslation.loadJSONTranslationFile("Content/Translations/default-translation.json");
 
-let headElement = $('head');
-//add general page elements to the head tag.
-headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
-headElement.append(`<title>Corendon Travel Buddy</title>`);
-
-/** Localisation wrapper*/
-FYSCloud.Localization.CustomTranslations = (function ($) {
-    const exports = {
-        addTranslationJSON: addTranslationJSON,
-        setLanguage: setLanguage,
-        getLanguage: getLanguage,
-        getStringFromTranslations: getStringFromTranslations
-    };
-
-    let currentLanguage;
-    let currentTranslations;
-
-    function setLanguage(language) {
-        currentLanguage = language;
-        FYSCloud.Session.set("language", currentLanguage);
-        FYSCloud.Localization.switchLanguage(currentLanguage);
-        //Fire an language event.
-        document.dispatchEvent(new CustomEvent("languageChangeEvent", {
-            detail: {id: currentLanguage}
-        }));
-    }
-
-    function getLanguage() {
-        return currentLanguage;
-    }
-
-    /**
-     *  Partially used code form FYSCloud translate function.
-     *  See FYSCloud documentation.
-     */
-    function getStringFromTranslations(translateKey, languageID) {
-        //no language is given, use current language.
-        if (languageID === undefined)
-            languageID = currentLanguage;
-
-        const localizeKeys = translateKey.split(".");
-
-        let result = currentTranslations;
-        for (let i = 0; i < localizeKeys.length; i++) {
-            result = result[localizeKeys[i]];
-            if (result === undefined) {
+    /** Redirect when not logged in */
+    if (appElement !== null) {
+        currentPageType = appElement.getAttribute("data-pageType");
+        setDatabasePageData();
+        switch (currentPageType) {
+            case "default":
+                if (currentUserID !== undefined) //User is logged in, send to homepage
+                    window.open("homepage.html", "_self");
                 break;
-            }
+            case "user":
+                if (currentUserID === undefined) //We're on an user page and we're not logged in, send to index.
+                    window.open("index.html", "_self");
+                checkIfUserIsDeactivated();
+                break;
+            case "admin":
+                if (currentUserID === undefined) //We're on an admin page and not logged in, send to index.
+                    window.open("index.html", "_self");
+
+                checkIfUserIsDeactivated();
+                getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`,
+                    [currentUserID, 2]).then((data) => {
+                    if (data.length === 0) {
+                        const redirectURL = (currentUserID === undefined) ? "index.html" : "homepage.html";
+                        window.open(redirectURL, "_self");
+                    }
+                });
+                break;
+            case "deactivated":
+                getDataByPromise(`SELECT * FROM setting WHERE userId = ?`,
+                    [currentUserID]).then((data) => {
+                    if (data.length > 0) {
+                        if (Number(data[0].deactivated) === 1)
+                            return;
+                    }
+                    window.open("index.html", "_self");
+                });
+                break;
         }
-
-        return result[languageID];
     }
 
-    /**
-     * Combines multiple translation objects into one.
-     */
-    function addTranslationJSON(jsonObject) {
-        if (currentTranslations === undefined)
-            currentTranslations = jsonObject;
-        else
-            $.extend(currentTranslations, jsonObject);
-        FYSCloud.Localization.setTranslations(currentTranslations);
-        FYSCloud.Localization.translate(false);
+    //add general page elements to the head tag.
+    let headElement = $('head');
+    headElement.append(`<link rel='shortcut icon' type='image/x-icon' href='Content/Images/favicon.ico'/>`);
+    headElement.append(`<title>Corendon Travel Buddy</title>`);
+
+    /** Check if this page want to load an translation */
+    if (appElement !== null) {
+        let transElement = appElement.getAttribute("data-translations");
+        if (transElement !== null) {
+            CustomTranslation.loadJSONTranslationFile(`Content/Translations/${transElement}.json`);
+        }
     }
 
-    return exports;
-})(jQuery);
-
-//TODO: Change this to the users preference.
-/** Change language when the Header is Loaded */
-var initialLanguage = FYSCloud.Session.get("language", "nl");
-FYSCloud.Localization.CustomTranslations.setLanguage(initialLanguage);
-
-
-document.addEventListener("headerLoadedEvent", function (event) {
-    FYSCloud.Localization.translate(false);
-});
+    /** Change language to LocalStorage setting**/
+    var initialLanguage = FYSCloud.Session.get("language", "nl");
+    CustomTranslation.setLanguage(initialLanguage);
+})();
 
 /**
- * Changes the userID set in the users local storage.
+ * Changes the userID set in the users localStorage.
  */
 function setCurrentUserID(id) {
     FYSCloud.Session.set("userID", `${id}`);
 }
 
 /**
- * Returns the value of the current user set in the local storage.
+ * Returns the value of the current user set in the localStorage.
  */
 function getCurrentUserID() {
     return FYSCloud.Session.get("userID");
+}
+
+/**
+ * Redirects a user to reactivation page for reactivating accounts that are deactivated.
+ */
+function checkIfUserIsDeactivated() {
+    getDataByPromise(`SELECT *
+        FROM setting
+        WHERE userId = ?`,
+        [currentUserID]).then((data) => {
+        if (data.length > 0) {
+            if (Number(data[0].deactivated) === 1) {
+                window.open("reactivate.html", "_self");
+            }
+        }
+    });
 }
 
 /**
@@ -148,7 +119,7 @@ function redirectToHome() {
  */
 function closeSession() {
     /** Statistics - Set page visit */
-    var name = window.location.pathname
+    let name = window.location.pathname
         .split("/")
         .filter(function (c) {
             return c.length;
@@ -193,18 +164,18 @@ function parseDateToInputDate(date) {
 }
 
 /** Sends page related statistics to the database */
-(function setDatabasePageData() {
+function setDatabasePageData() {
     //we don't want to send page data as an admin.
     if (currentPageType === "admin")
         return;
-    var name = window.location.pathname.split("/").filter(function (c) {
+    let name = window.location.pathname.split("/").filter(function (c) {
         return c.length;
     }).pop();
 
     getDataByPromise(`INSERT INTO adminpagedata (name, visitcount, logoutamount) VALUES(?, 1,0) ON DUPLICATE KEY UPDATE
         visitcount = visitcount + 1`,
         [name]);
-})();
+}
 
 /**
  * Stores the users session and performs login related tasks.
@@ -212,14 +183,54 @@ function parseDateToInputDate(date) {
  */
 async function loginUser(id) {
     setCurrentUserID(id);
+    await setLanguageBySettingsData(id);
     await sendSessionData();
     await redirectUserByUserRole();
+}
+
+/**
+ * Retrieves the language data of the user's setting, creates a new setting if the user has none.
+ * @returns {Promise<void>}
+ */
+async function setLanguageBySettingsData(userId) {
+    //Retrieve data of users settings.
+    const currentUserSetting = await getDataByPromise(`SELECT * FROM setting WHERE userId = ?;`,
+        [userId]);
+
+    //User has no settings, add an new settings
+    if (currentUserSetting <= 0) {
+        //Get the language data so we know what ID we need to set..
+        const currentLanguage = await getDataByPromise(`SELECT *
+                                                        FROM language
+                                                        WHERE languageKey = ?;`,
+            [CustomTranslation.getLanguageKey()]);
+        //Insert new setting.
+        await generateDefaultSetting(userId, currentLanguage[0].id);
+    } else {
+        //Retrieve data of given language type.
+        const currentLanguage = await getDataByPromise(`SELECT *
+                                                        FROM language
+                                                        WHERE id = ?;`,
+            [currentUserSetting[0].languageId]);
+
+        //Set the LocalStorage language.
+        CustomTranslation.setLanguage(currentLanguage[0].languageKey);
+    }
+}
+
+async function generateDefaultSetting(userId, languageId) {
+    await getDataByPromise(`INSERT INTO setting (id, userId, deactivated, languageId, profileVisibilityId, sameGender,
+                                               displayGenderId, notifcationId, maxDistance, radialDistance)
+                          VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [userId, 0, languageId, 1, 1, 1, 0, 11, 100]);
 }
 
 /**
  * Sends session data to the FYS database.
  */
 async function sendSessionData() {
+    if (document.getElementById("statistics-snippet") === null)
+        $("head").append('<script src="Vendors/Snippets/admin-statistics-snippets.js" id="statistics-snippet"></script>'); //Required for session data.
     const date = new Date();
     const dateWithOffset = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
     const dateTest = dateWithOffset.toISOString().slice(0, 19).replace('T', ' ');
@@ -231,7 +242,7 @@ async function sendSessionData() {
  * sends an user to the homepage or admin-profile by its user role.
  */
 async function redirectUserByUserRole() {
-    let data = await getDataByPromise(`SELECT * from userrole WHERE userid = ? AND roleId = ?`, [getCurrentUserID(), 2]);
+    let data = await getDataByPromise(`SELECT * from user WHERE id = ? AND userRole = ?`, [getCurrentUserID(), 2]);
     if (data.length === 0)
         window.open("homepage.html", "_self");
     else

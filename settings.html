@@ -4,12 +4,9 @@
         <meta charset="UTF-8">
         <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
         <script src="Scripts/config.js"></script>
-        <script src="Scripts/app.js" id="app" data-pageType="user"></script>
+        <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="settings-translation"></script>
         <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-        <script src="Scripts/general.js"></script>
-        <script>
-            currentMenuType = 'settings';
-        </script>
+        <script src="Scripts/general.js" id="general" data-type="settings" data-nav-visible></script>
         <!--TODO: Edit routing -->
         <link rel="stylesheet" href="Content/CSS/Pages/settings.css" />
     </head>
@@ -18,23 +15,23 @@
         <div class="settings-nav-container">
             <nav id="settingsNavigation">
                 <ul>
-<!--                    <li>-->
-<!--                        <a href="#accountSettings" data-translate="settings.account">Account</a>-->
-<!--                    </li>-->
+                    <li>
+                        <a href="#accountSettings" data-translate="settings.account">Account</a>
+                    </li>
                     <li>
                         <a href="#securitySettings" data-translate="settings.security">Security</a>
                     </li>
                     <li>
                         <a href="#privacySettings" data-translate="settings.privacy">Privacy</a>
                     </li>
-<!--                    <li>-->
-<!--                        <a href="#blockSettings" data-translate="settings.block">Block</a>-->
-<!--                    </li>-->
+                    <li>
+                        <a href="#blockSettings" data-translate="settings.block">Block</a>
+                    </li>
                     <li>
                         <a href="#preferencesSettings" data-translate="settings.preferences">Preferences</a>
                     </li>
                     <li>
-                        <a href="#notificationsSettings" data-translate="settings.notifications">Notifications</a>
+<!--                        <a href="#notificationsSettings" data-translate="settings.notifications">Notifications</a>-->
                     </li>
                     <li>
                         <a href="#appInformation" data-translate="settings.information">Information</a>
@@ -50,9 +47,9 @@
                             <option value="" selected disabled hidden>
                             </option>
                         </select>
-<!--                        <h2 id="accountSettings" data-translate="settings.account">Account</h2>-->
-<!--                        <label data-translate="settings.account.label">Disable profile</label>-->
-<!--                        <a href="#" id="disableProfile" data-translate="settings.account.anchor">Disable</a>-->
+                        <h2 id="accountSettings" data-translate="settings.account">Account</h2>
+                        <label data-translate="settings.account.label">Disable profile</label>
+                        <a href="#" id="disableProfile" data-translate="settings.account.anchor">Disable</a>
                         <h2 id="securitySettings" data-translate="settings.security">Security</h2>
                         <label for="currentAccountPassword" data-translate="settings.security.currentPassword">Current password</label>
                         <input type="password" id="currentAccountPassword" name="currentAccountPassword">
@@ -63,22 +60,26 @@
                         <label for="repeatAccountPassword" data-translate="settings.security.repeatPassword">Repeat password</label>
                         <input type="password" id="repeatAccountPassword" name="repeatAccountPassword"/>
                         <div id="validationMessage">
-                            <h3>Password must contain the following</h3>
+                            <h3 data-translate="settings.security.validationMessage">Password must contain the following</h3>
                             <ul class="validation-list">
-                                <li id="letterVal" class="invalid">A <b>lowercase</b> letter</li>
-                                <li id="capitalVal" class="invalid">A <b>capital (uppercase</b> letter</li>
-                                <li id="numberVal" class="invalid">A <b>number</b></li>
-                                <li id="lengthVal" class="invalid">Minimum of <b>8 characters</b></li>
+                                <li id="letterVal" class="invalid"><span data-translate="settings.capitalArticles">A</span>&nbsp;<b data-translate="settings.lowercase">lowercase</b>&nbsp;<span>letter</span></li>
+                                <li id="capitalVal" class="invalid"><span data-translate="settings.capitalArticles">A</span>&nbsp;<b data-translate="settings.uppercase">capital (uppercase)</b>letter</li>
+                                <li id="numberVal" class="invalid"><span data-translate="settings.capitalArticles">A</span>&nbsp;<b data-translate="settings.number">number</b></li>
+                                <li id="lengthVal" class="invalid"><span data-translate="settings.security.minOf">Minimum of</span>&nbsp;<b data-translate="settings.security.eightChars">8 characters</b></li>
                             </ul>
                         </div>
                         <h2 id="privacySettings" data-translate="settings.privacy">Privacy</h2>
                         <label for="profileVisibility" data-translate="settings.privacy.label">Profile visible to</label>
                         <select id="profileVisibility" name="profileVisibility">
                         </select>
-<!--                        <h2 id="blockSettings" data-translate="settings.block">Block</h2>-->
-<!--                        <label for="search-block" data-translate="settings.block.label">Search</label>-->
-<!--                        <input type="search" id="search-block" />-->
-<!--                        <button type="button" id="block-user" data-translate="settings.block.button">Block</button>-->
+                        <h2 id="blockSettings" data-translate="settings.block">Block</h2>
+                        <label for="search-profiles" data-translate="settings.block.label">Search</label>
+                        <input type="search" id="search-profiles" />
+                        <button type="button" id="block-user" class="block-button" data-translate="settings.block.button">Block</button>
+                        <br />
+                        <label for="search-blocked-users" data-translate="settings.blocked.label">Search</label>
+                        <input type="search" id="search-blocked-users" />
+                        <button type="button" id="show-blocked-users" class="block-button" data-translate="settings.blocked.button">Show blocked users</button>
                         <h2 id="preferencesSettings" data-translate="settings.preferences">Preferences</h2>
                         <div>
                             <input type="checkbox" class="" id="showOwnGenderOnly">
@@ -116,11 +117,11 @@
                             <input type="range" id="distance" name="distance" min="0" max="100" value="20" />
                         </div>
                         <p><span data-translate="settings.preferences.distanceResultLabel">The distance has been set to: </span><span id="distanceResult"></span> <span id="distanceUnitResult">km</span></p>
-<!--                        <h2 id="notificationsSettings" data-translate="settings.notifications">Notifications</h2>-->
-<!--                        <div>-->
-<!--                            <input type="checkbox" class="" id="statusNotified">-->
-<!--                            <label class="disable-highlight-select" for="statusNotified" data-translate="settings.notifications.optionOneLabel">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>-->
-<!--                        </div>-->
+                        <h2 id="notificationsSettings" data-translate="settings.notifications">Notifications</h2>
+                        <div>
+                            <input type="checkbox" class="" id="statusNotified">
+                            <label class="disable-highlight-select" for="statusNotified" data-translate="settings.notifications.optionOneLabel">I would like to get notified by e-mail about status changes to my profile (e.g. new potential connections available)</label>
+                        </div>
 <!--                        <div>-->
 <!--                            <input type="checkbox" class="" id="updatesNotified">-->
 <!--                            <label class="disable-highlight-select" for="updatesNotified" data-translate="settings.notifications.optionTwoLabel">I would like to get notified by e-mail about updates to the app</label>-->

@@ -4,97 +4,85 @@
         <meta charset="UTF-8">
         <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
         <script src="Scripts/config.js"></script>
-        <script src="Scripts/app.js" id="app" data-pageType="user"></script>
-         <script>
-            FYSCloud.API.configure({
-                url: "https://api.fys.cloud",
-                apiKey: "fys_is111_1.14Sh6xypTzeSUHD4",
-                database: "fys_is111_1_barry",
-                environment: "mockup"
-            });
-        </script>
+        <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="support-translation"></script>
         <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-        <script src="Scripts/general.js"></script>
-        <script>
-            currentMenuType = 'help';
-        </script>
+        <script src="Scripts/general.js" id="general" data-type="help" data-nav-visible></script>
         <!--TODO: Edit routing-->
         <link rel="stylesheet" href="Content/CSS/Pages/support.css">
     </head>
-    <header></header>
     <body>
-        <main>
-            <div class="content">
-                <h1>Support</h1>
-                <h2>FAQ</h2>
-                <h3 class="collapsible disable-highlight-select">What is Fasten Your Seatbelts?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        Fasten Your Seatbelts (or also known as FYS for short), is the name of this project and is carried out on behalf of Corendon, a Dutch holding specialized in flight holidays.
-                    </p>
+        <header></header>
+        <div class="support-nav-container">
+            <nav id="supportNavigation">
+                <ul>
+                    <li>
+                        <a href="#" class="back-to-top" data-translate="support.backToTop">Back to top</a>
+                    </li>
+                </ul>
+            </nav>
+            <main>
+                <div class="content">
+                    <h1 data-translate="support.head"></h1>
+                    <h2 data-translate="support.content1"></h2>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card1"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content1.card1.paragraph"></p>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card2"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content1.card2.paragraph"></p>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card3"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content1.card3.paragraph"></p>
+                        <a href="https://www.corendon.nl/contact">https://www.corendon.nl/contact</a>.
+                    </div>
+
+                    <h2 data-translate="support.content2"></h2>
+                    <p data-translate="support.content2.subText"></p>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.subText"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card1.paragraph"></p>
+                        <span data-translate="support.images.navigation"></span>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card2"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card2.paragraph"></p>
+                        <span data-translate="support.images.match"></span>
+                        <br/>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card3"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card3.paragraph"></p>
+                        <span data-translate="support.images.filter"></span>
+                        <br/>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card4"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card4.paragraph"></p>
+                        <span data-translate="support.images.overview"></span>
+                        <br/>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card5"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card5.paragraph"></p>
+                        <span data-translate="support.images.cards"></span>
+                        <br/>
+                    </div>
                 </div>
-                <h3 class="collapsible disable-highlight-select">What is the main goal of the Fasten Your Seatbelts project?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        The purpose of the development of the Fasten Your Seatbelts project is to bring single people together allowing for traveling in groups rather than alone.
-                    </p>
+                <div class="support-controls">
+                    <button type="button" class="back-to-top" id="backToTop" data-translate="support.backToTop">Back to top</button>
                 </div>
-                <h3 class="collapsible disable-highlight-select">How can I reach out to Corendon?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        Corendon has its own website containing all of the information related to contact.
-                        Please refer to their main website at: <a href="https://www.corendon.nl/contact">https://www.corendon.nl/contact</a>.
-                    </p>
-                </div>
-                <h2>Application guide</h2>
-                <p>
-                    In this section will be explained how to navigate through the application as well as its available features.
-                </p>
-                <h3 class="collapsible disable-highlight-select">Navigation</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        Navigation is possible through taking a look at the available navigation buttons located at the top side of the screen (next to the Corendon banner).
-                    </p>
-                    <img src="Content/Images/navigation-tut.png" alt="Navigation tutorial" />
-                </div>
-                <h3 class="collapsible disable-highlight-select">What is the matching system?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        The application allows for search of other travelers who might have similar interests and might potentially be a match.
-                    </p>
-                    <img src="Content/Images/match-tut.png" alt="Matching tutorial" />
-                    <br />
-                </div>
-                <h3 class="collapsible disable-highlight-select">What are the matching filters?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        The search can be specified by applying different kinds of filters which can be displayed by pressing on the filters button located at the top right.
-                    </p>
-                    <img src="Content/Images/filter-tut.png" alt="Filter tutorial" />
-                    <br />
-                </div>
-                <h3 class="collapsible disable-highlight-select">Where can I find people that match with my interests?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        A traveler who's profile matches, might be selected down below.
-                    </p>
-                    <img src="Content/Images/overview-tut.png" alt="Overview tutorial">
-                    <br />
-                </div>
-                <h3 class="collapsible disable-highlight-select">Where can I find the information related to other people such as interests?</h3>
-                <div class="collapsibleContent">
-                    <p>
-                        Each traveler has his or her own description in relation to their location, available dates, activities and other useful data.
-                        This information can be found within each of the cards down below.
-                    </p>
-                    <img src="Content/Images/cards-tut.png" alt="Cards tutorial">
-                    <br />
-                </div>
-                <!-- <div class="support-controls">
-                    <button type="button" id="back">Back</button>
-                </div> -->
-            </div>
-        </main>
+            </main>
+        </div>
         <script src="Scripts/Pages/support.js"></script>
     </body>
 </html>

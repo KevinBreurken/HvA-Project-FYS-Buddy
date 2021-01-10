@@ -19,7 +19,7 @@
 .back-btn {
     outline: none;
     border: none;
-    width: 70px;
+    width: auto;
     height: 30px;
     background: rgb(184, 26, 4);
     color: white;

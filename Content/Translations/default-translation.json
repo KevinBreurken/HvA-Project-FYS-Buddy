@@ -1,0 +1,62 @@
+{
+  "interests": {
+    "1": {
+      "nl": "Sporten",
+      "en": "Sports"
+    },
+    "2": {
+      "nl": "Wandelen",
+      "en": "Hiking"
+    },
+    "3": {
+      "nl": "Koken",
+      "en": "Cooking"
+    },
+    "4": {
+      "nl": "Kunst of Schilderen",
+      "en": "Art or Painting"
+    },
+    "5": {
+      "nl": "Musea bezoeken",
+      "en": "Visiting Museums"
+    },
+    "6": {
+      "nl": "Muziek",
+      "en": "Music"
+    },
+    "7": {
+      "nl": "Dansen",
+      "en": "Dancing"
+    },
+    "8": {
+      "nl": "Theaters Bezoeken",
+      "en": "Visiting Theaters"
+    },
+    "9": {
+      "nl": "Feesten",
+      "en": "Partying"
+    },
+    "10": {
+      "nl": "Gamen",
+      "en": "Gaming"
+    },
+    "11": {
+      "nl": "Meubels Verplaatsen",
+      "en": "Moving Furniture"
+    }
+  },
+  "gender": {
+    "male": {
+      "nl": "Man",
+      "en": "Male"
+    },
+    "female": {
+      "nl": "Vrouw",
+      "en": "Female"
+    },
+    "other": {
+      "nl": "Anders",
+      "en": "Other"
+    }
+  }
+}

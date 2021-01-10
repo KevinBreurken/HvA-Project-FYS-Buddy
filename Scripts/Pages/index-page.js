@@ -1,30 +1,3 @@
-var indexTranslations = {
-    index: {
-        description: {
-            nl: `Wil je de wereld ontdekken, maar wilt je dat niet alleen doen?
-                        "Find your travel buddy" is een website waar jij jouw travel buddy kan vinden!
-                        Je wordt gematcht op elkaars interesses en bestemmingskeuze.`,
-            en: `Do you want to explore the world, but dont want to do this alone?
-                        Find your travel buddy is a website where you can find your travel buddy.
-                        You will be matched with another single traveler based on the same interests.`
-        },
-        login: {
-            nl: "Login",
-            en: "Login"
-        },
-        validationcontain: {
-            nl: "Je email moet het volgende bevatten",
-            en: "E-mail must contain the following"
-        },
-        forgotpass: {
-            nl: "Forgot your password?",
-            en: "Wachtwoord vergeten?"
-        },
-    },
-
-};
-FYSCloud.Localization.CustomTranslations.addTranslationJSON(indexTranslations);
-
 let emlInput = document.querySelector("#e-mail");
 let regx = /[@]/g;
 
@@ -84,5 +57,23 @@ function validationCheck() {
             alert("Email or password are incorrect");
             return false;
         }
+    }
+}
+
+document.getElementById("signIn").addEventListener("click", function(e) {
+   e.preventDefault();
+   validationCheck();
+   fireHtml5FormValidation("login-form");
+});
+
+// TODO: Move this from register and login to general.js
+// Validate a form:
+function fireHtml5FormValidation(formId) {
+    let $myForm = $("#" + formId);
+
+    if(! $myForm[0].checkValidity()) {
+        // If the form is invalid, submit it. The form won't actually submit;
+        // this will just cause the browser to display the native HTML5 error messages.
+        $myForm.find('input:submit').click();
     }
 }

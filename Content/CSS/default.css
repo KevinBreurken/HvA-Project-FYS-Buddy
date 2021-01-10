@@ -1,92 +1,65 @@
+/*
+Default is loaded on every page.
+ */
 :root {
-  --font-family: Uni sans Wfx, sans-serif;
-  /* colors */
-  --color-corendon-white: #fff;
-  --color-corendon-red: #d81e05;
-  --color-corendon-dark-red: #c11905;
-  --color-corendon-dark-grey: #666666;
-  --color-corendon-yellow: #ffc61e;
-  --color-corendon-green: #26a514;
-  --color-corendon-dark-green: #1e8410;
-  /* border colors */
-  --border-corendon-grey: 1px solid #d9d9d9;
-  --border-corendon-red: 1px solid #d81e05;
-  /* variables nav menu */
-  --color-nav-menu: #000;
-  --color-corendon-light-blue: #00bce2;
-  --color-corendon-lighter-blue: #99e4f3;
+    --font-family: Uni sans Wfx, sans-serif;
+    /* colors */
+    --color-corendon-white: #fff;
+    --color-corendon-red: #d81e05;
+    --color-corendon-dark-red: #c11905;
+    --color-corendon-dark-grey: #666666;
+    --color-corendon-yellow: #ffc61e;
+    --color-corendon-green: #26a514;
+    --color-corendon-dark-green: #1e8410;
+    /* border colors */
+    --border-corendon-grey: 1px solid #d9d9d9;
+    --border-corendon-red: 1px solid #d81e05;
+    /* variables nav menu */
+    --color-nav-menu: #000;
+    --color-corendon-light-blue: #00bce2;
+    --color-corendon-lighter-blue: #99e4f3;
 }
 
 * {
-  font-family: var(--font-family);
+    font-family: var(--font-family);
 }
 
 @media only screen and (orientation: portrait) {
-  main {
-    width: 90%;
-  }
+    main {
+        width: 90%;
+    }
 }
+
 @media only screen and (orientation: landscape) {
-  main {
-    width: 70%;
-  }
+    main {
+        width: 70%;
+    }
 }
+
 header {
-  margin-left: auto;
-  margin-right: auto;
-  min-height: 214px;
-  max-width: 800px;
-  height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 214px;
+    max-width: 800px;
+    height: auto;
+    margin-bottom: 30px;
 }
 
 body {
-  color: var(--color-corendon-dark-grey);
-  margin: 0;
+    color: var(--color-corendon-dark-grey);
+    margin: 0;
 }
 
 main {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
-}
-
-/* tooltips */
-[data-tooltip] {
-  display: flex;
-  position: relative;
-  cursor: default;
-}
-
-[data-tooltip]::after {
-  position: absolute;
-  width: 300px;
-  left: calc(50% - 150px);
-  bottom: 125%;
-  text-align: center;
-  box-sizing: border-box;
-  content: attr(data-tooltip);
-  color: #ffffff;
-  background-color: var(--color-corendon-light-blue);
-  padding: 8px;
-  border-radius: 10px;
-  font-size: 0.9em;
-  font-weight: bold;
-  visibility: hidden;
-  opacity: 0; 
-  transform: translateY(-15px);
-  transition: opacity 1s, transform 1s;
-}
-
-[data-tooltip]:hover::after {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
 }
 
 [data-translate] {
-  visibility: hidden;
+    visibility: hidden;
 }
 
 [data-translate][translated] {
-  visibility: visible;
+    visibility: visible;
 }

@@ -76,6 +76,7 @@ th {
     border: #d81e05 solid 1px;
     transition: 600ms;
     cursor: pointer;
+    margin-right: 80%;
 }
 .block {
     color: var(--color-corendon-white);
@@ -87,6 +88,8 @@ th {
     border: #d81e05 solid 1px;
     transition: 600ms;
     cursor: pointer;
+    margin-right: 80%;
+
 }
 .saveChangesBtn, .editProfileBtn{
     color: var(--color-corendon-white);
@@ -103,6 +106,7 @@ th {
     margin: 0 auto;
     text-align: right;
 }
+
 .saveChangesBtn:hover, .editProfileBtn:hover, .match:hover, .block:hover {
     background-color: var(--color-corendon-dark-red);
     color: var(--color-corendon-white);
@@ -110,6 +114,7 @@ th {
 .button {
     margin-top: 180px;
 }
+
 .column {
     float: left;
     width:33.3%;

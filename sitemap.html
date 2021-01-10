@@ -5,7 +5,7 @@
         <title>Fasten Your Seatbelts</title>
         <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
         <script src="Scripts/config.js"></script>
-        <script src="Scripts/app.js" id="app" data-pageType="user"></script>
+        <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="sitemap-translation"></script>
         <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
         <script src="Scripts/general.js"></script>
         <script>
@@ -18,32 +18,47 @@
     <header></header>
         <main>
             <div class="content">
-                <h1>Welcome to FYS! </h1>
-                <p>Links that still require to be moved:</p>
+                <h1 data-translate="sitemap.title">Welcome to FYS!</h1>
+                <p data-translate="sitemap.description">An overview of all pages can be found here:</p>
                 <ul>
                     <li>
-                        <a href="index.html">Home(Not logged in)</a>
+                        <a href="index.html" data-translate="sitemap.index.sign">Home(not logged in)</a>
                     </li>
                     <li>
-                        <a href="homepage.html">Home</a>
+                        <a href="homepage.html" data-translate="sitemap.index">Home</a>
                     </li>
                     <li>
-                        <a href="login.html">Login</a>
+                        <a href="register.html" data-translate="sitemap.register">Register an account</a>
                     </li>
                     <li>
-                        <a href="register.html">Register</a>
+                        <a href="changepass.html" data-translate="sitemap.password">Edit password</a>
                     </li>
                     <li>
-                        <a href="profile-edit.html">Profile - Edit</a>
+                        <a href="reactivate.html" data-translate="sitemap.reactivate">Reactivate account</a>
                     </li>
                     <li>
-                        <a href="admin-profile.html">Admin - Profile</a>
+                        <a href="recovery.html" data-translate="sitemap.recover">Recover account</a>
                     </li>
                     <li>
-                        <a href="admin-panel.html">Admin - Panel</a>
+                        <a href="profile.html" data-translate="sitemap.profile">View profile</a>
                     </li>
                     <li>
-                        <a href="admin-statistics.html">Admin - Statistics</a>
+                        <a href="profile-edit.html" data-translate="sitemap.profile.edit">Edit profile</a>
+                    </li>
+                    <li>
+                        <a href="admin-profile.html" data-translate="sitemap.admin.profile">Admin Profile</a>
+                    </li>
+                    <li>
+                        <a href="admin-panel.html" data-translate="sitemap.admin.panel">Admin Panel</a>
+                    </li>
+                    <li>
+                        <a href="admin-statistics.html" data-translate="sitemap.admin.statistics">Admin Statistics</a>
+                    </li>
+                    <li>
+                        <a href="settings.html" data-translate="sitemap.settings">Account settings</a>
+                    </li>
+                    <li>
+                        <a href="support.html" data-translate="sitemap.support">Support</a>
                     </li>
                 </ul>
             </div>
