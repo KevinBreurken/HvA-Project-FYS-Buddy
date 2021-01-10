@@ -344,6 +344,7 @@ function generateUserDisplay(currentUser) {
     //start and end date
     let date = new Date(currentUser["startdate"]);
     let startDate = currentUser["startdate"] === "" ? "start date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    date = new Date(currentUser["enddate"]);
     let endDate = currentUser["enddate"] === "" ? "end date" : `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 
     //generates the inner HTML of the user display
