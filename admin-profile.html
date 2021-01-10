@@ -7,13 +7,8 @@
     <script src="Scripts/config.js"></script>
     <script src="Scripts/app.js" id="app" data-pageType="admin" data-translations="admin-profile-translation"></script>
     <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-    <script src="Scripts/general.js"></script>
+    <script src="Scripts/general.js" id="general" data-type="account" data-nav-visible data-nav-admin></script>
     <script src="https://kit.fontawesome.com/54479eeac2.js" crossorigin="anonymous"></script>
-    <script>
-        isOnAdminProfile = true;
-        currentMenuType = 'account';
-        isNavigationVisible = true;
-    </script>
     <link rel="stylesheet" href="Content/CSS/default.css">
     <link rel="stylesheet" href="Content/CSS/Pages/profile.css">
 
@@ -21,29 +16,26 @@
 <body>
 <header></header>
 <main class="main">
-<h1>Account</h1>
-<fieldset id="container">
+<h1 data-translate="adminprofile.title">Account</h1>
+    <column>
+    <fieldset id="container">
     <legend id="label"><i class="fas fa-user-alt"></i>Admin</legend>
     <section class="flex-container">
-<!--        <div class="profilePicture">-->
-<!--            <br>-->
-<!--            <img class="adminProfilePicture" src="Content/Images/profile-picture-1.jpg" alt="profilePicture" width="180"-->
-<!--                 height=150><br>-->
-<!--        </div>-->
         <div class="name">
             <table class="names" style="width: 75%">
                 <tr>
-                    <th>Last seen:</th>
+                    <th data-translate="adminprofile.lastseen">Last seen:</th>
                     <th id = "leftbox" class="leftbox"></th>
                 </tr>
                 <tr>
-                    <th>IP-Adres:</th>
+                    <th data-translate="adminprofile.adres">IP-Adres:</th>
                     <th id = "rightbox" class="rightbox"></th>
                 </tr>
             </table>
         </div>
     </section>
-</fieldset>
+    </fieldset>
+    </column>
 <br>
 </main>
 </body>

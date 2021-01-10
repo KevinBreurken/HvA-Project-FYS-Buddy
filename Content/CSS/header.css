@@ -264,6 +264,7 @@
 /* Notifications */
 #notification-display{
     padding-right: 25px;
+    display: none;
 }
 
 .notification-display-button {

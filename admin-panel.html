@@ -19,6 +19,7 @@
             <th data-translate="table.head.email"></th>
             <th data-translate="table.head.password"></th>
             <th data-translate="table.head.username"></th>
+            <th data-translate="table.head.userRole"></th>
             <th data-translate="table.head.delete"></th>
             <th data-translate="table.head.edit"></th>
         </tr>
@@ -33,7 +34,7 @@
         <h2 data-translate="edit.head"></h2>
 
         <div class="user-card">
-            <img id="profile-photo" width="200px" height="200px" class="profile-picture"/>
+            <img id="profile-photo" onerror="this.src='Content/Images/default-profile-picture.png'" width="200px" height="200px" class="profile-picture"/>
 
             <h3 data-translate="edit.head.subhead1"></h3>
             <!--User ID-->
@@ -56,67 +57,73 @@
                 <label for="user-info-3" id="user-attribute-3"></label>
                 <input type="text" id="user-info-3" value="">
             </p>
+            <!--User Role-->
+            <p class="user-info">
+                <label for="user-info-4" id="user-attribute-4"></label>
+                <input type="number" id="user-info-4" value="">
+            </p>
         </div>
 
         <div class="profile-card">
             <h3 data-translate="edit.head.subhead2"></h3>
-            <!--Profile user id-->
-            <p class="user-info">
-                <label for="user-info-4" id="user-attribute-4"></label>
-                <input type="number" id="user-info-4" disabled readonly>
-            </p>
-            <!--Profile DoB-->
+            <!--Profile User Id-->
             <p class="user-info">
                 <label for="user-info-5" id="user-attribute-5"></label>
-                <input type="text" id="user-info-5">
+                <input type="number" id="user-info-5" disabled readonly>
             </p>
-            <!--Profile Lastname-->
+            <!--Profile Firstname-->
             <p class="user-info">
                 <label for="user-info-6" id="user-attribute-6"></label>
                 <input type="text" id="user-info-6">
             </p>
-            <!--Profile Phone-->
+            <!--Profile Lastname-->
             <p class="user-info">
                 <label for="user-info-7" id="user-attribute-7"></label>
                 <input type="text" id="user-info-7">
             </p>
+            <!--Profile Gender-->
+            <p class="user-info">
+                <label for="user-info-8" id="user-attribute-8"></label>
+                <input type="text" id="user-info-8">
+            </p>
             <!--Profile DoB-->
             <p class="user-info">
                 <!--Datum correct invoegen-->
-                <label for="user-info-8" id="user-attribute-8"></label>
-                <input type="date" id="user-info-8">
+                <label for="user-info-9" id="user-attribute-9"></label>
+                <input type="date" id="user-info-9">
             </p>
             <!--Profile LocationId-->
             <p class="user-info">
-                <label for="user-info-9" id="user-attribute-9"></label>
-                <input type="number" id="user-info-9">
+                <label for="user-info-10" id="user-attribute-10"></label>
+                <input type="number" id="user-info-10">
             </p>
             <!--Profile Phone-->
-            <p class="user-info">
-                <label for="user-info-10" id="user-attribute-10"></label>
-                <input type="text" id="user-info-10">
-            </p>
-            <!--Profile Biography-->
             <p class="user-info">
                 <label for="user-info-11" id="user-attribute-11"></label>
                 <input type="text" id="user-info-11">
             </p>
-            <!--Profile Buddy type-->
+            <!--Profile Biography-->
             <p class="user-info">
                 <label for="user-info-12" id="user-attribute-12"></label>
-                <input type="number" id="user-info-12">
+                <input type="text" id="user-info-12">
             </p>
-            <!--Profile PictureUrl-->
+            <!--Profile Buddy type-->
             <p class="user-info">
                 <label for="user-info-13" id="user-attribute-13"></label>
-                <input type="text" id="user-info-13">
+                <input type="number" id="user-info-13">
+            </p>
+            <!--Profile Picture Url-->
+            <p class="user-info">
+                <label for="user-info-14" id="user-attribute-14"></label>
+                <input type="text" id="user-info-14">
             </p>
         </div>
 
         <p id="submit-form" class="btn" data-translate="edit.button">Update</p>
 
     </div>
-    <div id="overlay-background"></div>
+    
+    <div id="overlay-background" style="display: none"></div>
 </main>
 </body>
 </html>

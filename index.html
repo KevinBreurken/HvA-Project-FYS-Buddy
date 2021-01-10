@@ -34,7 +34,7 @@
 <!--                <p>Already have an account?</p>-->
                 <div class="form-wrapper">
                     <h1 id="form-title" data-translate="index.login">Login</h1>
-                    <form class="login-form" method="post" name="login-form">
+                    <form class="login-form" id="login-form" name="login-form" method="post">
                         <i class="fas fa-user"></i>
                         <label for="e-mail">E-mail</label>
                         <input class="user-input" type="email" id="e-mail" name="e-mail" placeholder="e-mail@placeholder.nl" required>
@@ -49,20 +49,21 @@
                         <div class="option-1">
                             <a href="./recovery.html" data-translate="index.forgotpass">Forgot your password?</a>
                         </div>
-                        <input class="btn" type="button" id="signIn" value="Sign in" onclick="validationCheck()">
+                        <button class="btn" id="signIn" type="submit">Sign in</button>
                         <div class="option-2">
                             <p>Not registered?
                                 <a href="./register.html">Create an Account</a>
                             </p>
                         </div>
                         <div class="language-selection">
-                            <button class="language-buttons" id="dutch-language" onclick="FYSCloud.Localization.CustomTranslations.setLanguage('nl')">
+                            <button class="language-buttons" id="dutch-language" onclick="CustomTranslation.setLanguage('nl')">
                                 <img src="Content/Images/language-netherlands.png">
                             </button>
-                            <button class="language-buttons" id="english-language" onclick="FYSCloud.Localization.CustomTranslations.setLanguage('en')">
+                            <button class="language-buttons" id="english-language" onclick="CustomTranslation.setLanguage('en')">
                                 <img src="Content/Images/language-english.png">
                             </button>
                         </div>
+                        <input type="submit" style="display: none;">
                     </form>
                 </div>
             </div>

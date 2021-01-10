@@ -17,7 +17,7 @@
 <header></header>
 <main class="main" id="main">
 <h1 data-translate="edit.profilesettings">Profile settings</h1>
-    <form method="post">
+    <form id="form" method="post">
     <div class="row">
         <div class="column">
             <h2 class="photo" data-translate="edit.picture">Profile picture</h2>
@@ -25,20 +25,22 @@
             <label for="fileUpload"></label>
             <input type="file" id="fileUpload" name="profile_picture" accept="image/*">
             <div class="img-preview">
-                <img id="imagePreview" style="width: 200px; height: 200px;">
+                <img id="imagePreview" onerror="this.src='Content/Images/default-profile-picture.png'" style="width: 200px; height: 200px;">
             </div>
             </div>
             <br>
             <h2 data-translate="edit.name">Name</h2>
             <label for="Username" data-translate="profile.username">Username:</label><br>
             <input type="text" id="Username" name="Username" placeholder="username" maxlength="50" required>
+            <span class="error_form" id="username_error_message"></span>
             <br>
             <label for="Firstname" data-translate="profile.firstname">First name:</label><br>
             <input type="text" id="FirstName" name="FirstName" placeholder="first name" maxlength="50" required>
+            <span class="error_form" id="firstname_error_message"></span>
             <br>
             <label for="Lastname" data-translate="profile.lastname">Last name:</label><br>
             <input type="text" id="LastName" name="LastName" placeholder="last name" maxlength="50" required>
-
+            <span class="error_form" id="lastname_error_message"></span>
             <h2 data-translate="profile.gender">Gender</h2>
             <input type="radio" id="Male" name="gender">
             <label for="Male" data-translate="gender.male">Male</label><br>
@@ -87,8 +89,10 @@
             <h2 data-translate="profile.contact">Contactinformation</h2>
             <label for="Email">E-mail: </label><br>
             <input type="email" id="Email" name="Email" placeholder="name@hotmail.com" required><br>
+            <span class="error_form" id="email_error_message"></span>
             <label for="Telephone" data-translate="profile.phone">Tel: </label><br>
             <input type="tel" id="Telephone" name="Telephone" placeholder="0612345678" size="10" required><br>
+            <span class="error_form" id="tel_error_message"></span>
             <br>
             <h2 data-translate="profile.trip">Trip information</h2>
             <div class="destination">
@@ -109,7 +113,8 @@
                 <input type="checkbox" id="Choice1" name="choice1">
                 <label for="Choice1" f-data-tooltip="Somebody you want to explore the country with" data-translate="edit.travelbuddy">A travel buddy</label><br>
                 <input type="checkbox" id="Choice2" name="choice2">
-                <label for="Choice2" data-tooltip="Somebody you want to do activities with like swimming" data-translate="edit.activitybuddy">An activity buddy</label><br>
+                <label for="Choice2" f-data-tooltip="Somebody you want to do activities with like swimming" data-translate="edit.activitybuddy">An activity buddy</label><br>
+                <span class="error_form" id="buddy_error_message"></span>
             </div>
             <div class="button">
                 <button id="saveChangesBtn" class="saveChangesBtn" type="submit" data-translate="edit.save">Save changes</button>
