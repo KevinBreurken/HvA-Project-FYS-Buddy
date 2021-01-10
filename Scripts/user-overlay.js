@@ -156,7 +156,7 @@ async function declineRequest(overlayUserId, button) {
     await getDataByPromise(`DELETE FROM friendrequest WHERE targetUser = ? AND requestingUser = ?`,
         [getCurrentUserID(), overlayUserId]);
 
-    button.hide();
+    closeUserOverlay();
 }
 
 /** function for opening the overlay */
