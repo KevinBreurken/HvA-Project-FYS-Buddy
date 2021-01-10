@@ -72,7 +72,7 @@ async function fetchCurrentTravelData() {
 
                 //creates two Date objects
                 const START_DATE = new Date(data[0]["startdate"]);
-                const END_DATE = new Date(data[0]["startdate"]);
+                const END_DATE = new Date(data[0]["enddate"]);
 
                 //defines the travel starting and end date
                 let startDate = `${START_DATE.getDate()}-${START_DATE.getMonth()+1}-${START_DATE.getFullYear()}`;
@@ -121,8 +121,8 @@ function sendTravelData() {
     var endDate = new Date($('#eDate').val());
 
     //sets the data required for the  travel specifications display
-    var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate()
-    var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate()
+    var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
+    var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
     let location = document.getElementById("cityList").options[citySelect - 1].text;
 
     //updating the travel specifications display
