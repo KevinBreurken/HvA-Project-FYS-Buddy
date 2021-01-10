@@ -59,7 +59,7 @@ nav#supportNavigation > ul a:hover {
     border: var(--border-corendon-grey);
 }
 
-.content .collapsibleContent > img {
+.content .collapsibleContent span > img {
     max-width: 100%;
     display: block;
 }

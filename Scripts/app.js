@@ -1,9 +1,9 @@
 let currentPageType;
 let appElement = document.getElementById("app");
 let currentUserID = getCurrentUserID();
-console.log("currentUserID = " + currentUserID);
-if (currentUserID === undefined)
-    console.log("Not logged in");
+// console.log("currentUserID = " + currentUserID);
+// if (currentUserID === undefined)
+//     console.log("Not logged in");
 
 (function initialize() {
     $("head").append('<script src="Scripts/custom-language.js"></script>');
@@ -203,7 +203,7 @@ async function setLanguageBySettingsData(userId) {
         const currentLanguage = await getDataByPromise(`SELECT *
                                                         FROM language
                                                         WHERE languageKey = ?;`,
-            [CustomTranslation.getLanguage()]);
+            [CustomTranslation.getLanguageKey()]);
         //Insert new setting.
         await generateDefaultSetting(userId, currentLanguage[0].id);
     } else {

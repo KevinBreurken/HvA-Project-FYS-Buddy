@@ -1,43 +1,57 @@
-/** Localisation wrapper*/
+/*
+    Custom translation wrapper for FYSCloud related functions.
+*/
 CustomTranslation = (function ($) {
     const exports = {
         translate: translate,
         addTranslationJSON: addTranslationJSON,
         setLanguage: setLanguage,
-        getLanguage: getLanguage,
+        getLanguageKey: getLanguageKey,
         loadJSONTranslationFile: loadJSONTranslationFile,
         getStringFromTranslations: getStringFromTranslations
     };
 
-    let currentLanguage = 'nl';
+    let currentLanguageKey = 'nl';
     let currentTranslations;
 
-    function translate(force){
+    /*
+    Translates text by stored languageKey.
+    has an option to force translation.
+     */
+    function translate(force) {
         FYSCloud.Localization.translate(force);
     }
 
+    /*
+    Changes the stored language applies it to the FYSCloud functions.
+     */
     function setLanguage(language) {
-        currentLanguage = language;
-        FYSCloud.Session.set("language", currentLanguage);
-        FYSCloud.Localization.switchLanguage(currentLanguage);
+        currentLanguageKey = language;
+        FYSCloud.Session.set("language", currentLanguageKey);
+        FYSCloud.Localization.switchLanguage(currentLanguageKey);
         //Fire an language event.
         document.dispatchEvent(new CustomEvent("languageChangeEvent", {
-            detail: {id: currentLanguage}
+            detail: {id: currentLanguageKey}
         }));
     }
 
-    function getLanguage() {
-        return currentLanguage;
+    /*
+    Returns stored language key.
+     */
+    function getLanguageKey() {
+        return currentLanguageKey;
     }
 
-    /**
-     *  Partially used code form FYSCloud translate function.
-     *  See FYSCloud documentation.
+    /*
+    Retrieves an translation string by an given translate key.
+
+    Partially used code from FYSCloud translate function.
+    See FYSCloud documentation.
      */
     function getStringFromTranslations(translateKey, languageID) {
-        //no language is given, use current language.
+        //No language is given, use current language.
         if (languageID === undefined)
-            languageID = currentLanguage;
+            languageID = currentLanguageKey;
 
         const localizeKeys = translateKey.split(".");
 
@@ -51,8 +65,8 @@ CustomTranslation = (function ($) {
         return result[languageID];
     }
 
-    /**
-     * Combines multiple translation objects into one.
+    /*
+    Combines multiple translation objects into one.
      */
     function addTranslationJSON(jsonObject) {
         currentTranslations === undefined ? currentTranslations = jsonObject : $.extend(currentTranslations, jsonObject);
@@ -61,6 +75,9 @@ CustomTranslation = (function ($) {
         CustomTranslation.translate(false);
     }
 
+    /*
+    Loads an JSON object from an JSON file.
+     */
     function loadJSONTranslationFile(fileURL) {
         $.getJSON(fileURL, function (json) {
             addTranslationJSON(json);
