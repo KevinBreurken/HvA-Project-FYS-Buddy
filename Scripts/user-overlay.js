@@ -122,6 +122,8 @@ async function sendFriendMatchData(userIdToAccept){
     //Get current user travel destination.
     const CURRENT_USER = await getDataByPromise(`SELECT *
     FROM travel WHERE id = ?`, getCurrentUserID());
+    if(CURRENT_USER.length === 0 )
+        return;
     //Send the location that we currently have to the database.
     await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
                             VALUES (?, 1)
