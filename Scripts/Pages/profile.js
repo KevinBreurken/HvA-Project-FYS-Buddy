@@ -260,6 +260,7 @@ function blockUser() {
     FYSCloud.API.queryDatabase(
         "INSERT INTO `blocked` (`requestingUser`, `blockedUser`, `reason`) VALUES (?, ?, ?);", [currentUserId, profileId, "Blocked through profile page"]
     ).done(function (data) {
+        redirectToHome();
     }).fail(function () {
     });
 }
