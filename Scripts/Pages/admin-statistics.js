@@ -49,15 +49,11 @@ let pieChartColors = [
  */
 (async function fetchMatchingCategory() {
     let interestData;
-    await getDataByPromise(`SELECT *
-                            FROM admininterestdata
-                            ORDER BY interestEverMatched DESC
-                            LIMIT 10;`).then(data => {
+    await getDataByPromise('SELECT * FROM admininterestdata ORDER BY interestEverMatched DESC LIMIT 10;'
+    ).then(data => {
         interestData = data;
         let interestIDString = jsonIndexToArrayString(interestData, "interestId");
-        return getDataByPromise(`SELECT *
-                      FROM interest
-                      WHERE id IN ${interestIDString}`);
+        return getDataByPromise(`SELECT * FROM interest WHERE id IN ${interestIDString}`);
     }).then(names => {
         let combinedArray = combineJsonToArray(names, interestData, "name", "interestEverMatched");
         //Create list of translation keys for interests.
@@ -91,16 +87,12 @@ let pieChartColors = [
  * Fetches data from the database related to Pages category.
  */
 (function fetchPagesCategory() {
-    getDataByPromise(`SELECT *
-                      FROM adminpagedata
-                      ORDER BY logoutamount DESC`).then((data) => {
+    getDataByPromise('SELECT * FROM adminpagedata ORDER BY logoutamount DESC').then((data) => {
         // ** LOG-OUT-AMOUNT **
         $('#page-logout').html(generateStatisticsList(jsonToArray(data, ["name", "logoutamount"])));
     });
 
-    getDataByPromise(`SELECT *
-                      FROM adminpagedata
-                      ORDER BY visitcount DESC`).then((data) => {
+    getDataByPromise('SELECT * FROM adminpagedata ORDER BY visitcount DESC').then((data) => {
         // ** AMOUNT OF VIEWS **
         $('#page-views').html(generateStatisticsList(jsonToArray(data, ["name", "visitcount"])));
     });

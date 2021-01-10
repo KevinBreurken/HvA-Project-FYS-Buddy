@@ -9,7 +9,7 @@ document.getElementById("english-language").onclick = function () {
 async function setLanguageSetting(languageKey, userId) {
     //Check if user is logged in.
     if (userId === undefined) {
-        CustomTranslations.setLanguage(languageKey);
+        CustomTranslation.setLanguage(languageKey);
         return;
     }
     //Retrieve data of users settings.
