@@ -1,79 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
-    <script src="Scripts/config.js"></script>
-    <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="support-translation"></script>
-    <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
-    <script src="Scripts/general.js" id="general" data-type="help" data-nav-visible></script>
-    <!--TODO: Edit routing-->
-    <link rel="stylesheet" href="Content/CSS/Pages/support.css">
-</head>
-<header></header>
-<body>
-<main>
-    <div class="content">
-        <h1 data-translate="support.head"></h1>
-        <h2 data-translate="support.content1"></h2>
+    <head>
+        <meta charset="UTF-8">
+        <script src="https://cdn.fys.cloud/fyscloud/0.0.3/fyscloud.bundle.min.js"></script>
+        <script src="Scripts/config.js"></script>
+        <script src="Scripts/app.js" id="app" data-pageType="user" data-translations="support-translation"></script>
+        <link rel="stylesheet" type="text/css" href="Content/CSS/default.css">
+        <script src="Scripts/general.js" id="general" data-type="help" data-nav-visible></script>
+        <!--TODO: Edit routing-->
+        <link rel="stylesheet" href="Content/CSS/Pages/support.css">
+    </head>
+    <body>
+        <header></header>
+        <div class="support-nav-container">
+            <nav id="supportNavigation">
+                <ul>
+                    <li>
+                        <a href="#" class="back-to-top" data-translate="support.backToTop">Back to top</a>
+                    </li>
+                </ul>
+            </nav>
+            <main>
+                <div class="content">
+                    <h1 data-translate="support.head"></h1>
+                    <h2 data-translate="support.content1"></h2>
 
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card1"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content1.card1.paragraph"></p>
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card1"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content1.card1.paragraph"></p>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card2"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content1.card2.paragraph"></p>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card3"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content1.card3.paragraph"></p>
+                        <a href="https://www.corendon.nl/contact">https://www.corendon.nl/contact</a>.
+                    </div>
+
+                    <h2 data-translate="support.content2"></h2>
+                    <p data-translate="support.content2.subText"></p>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.subText"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card1.paragraph"></p>
+                        <span data-translate="support.images.navigation"></span>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card2"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card2.paragraph"></p>
+                        <span data-translate="support.images.match"></span>
+                        <br/>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card3"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card3.paragraph"></p>
+                        <span data-translate="support.images.filter"></span>
+                        <br/>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card4"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card4.paragraph"></p>
+                        <span data-translate="support.images.overview"></span>
+                        <br/>
+                    </div>
+
+                    <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card5"></h3>
+                    <div class="collapsibleContent">
+                        <p data-translate="support.content2.card5.paragraph"></p>
+                        <span data-translate="support.images.cards"></span>
+                        <br/>
+                    </div>
+                </div>
+                <div class="support-controls">
+                    <button type="button" class="back-to-top" id="backToTop" data-translate="support.backToTop">Back to top</button>
+                </div>
+            </main>
         </div>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card2"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content1.card2.paragraph"></p>
-        </div>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content1.card3"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content1.card3.paragraph"></p>
-            <a href="https://www.corendon.nl/contact">https://www.corendon.nl/contact</a>.
-        </div>
-
-        <h2 data-translate="support.content2"></h2>
-        <p data-translate="support.content2.subText"></p>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content2.subText"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content2.card1.paragraph"></p>
-            <span data-translate="support.images.navigation"></span>
-        </div>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card2"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content2.card2.paragraph"></p>
-            <span data-translate="support.images.match"></span>
-            <br/>
-        </div>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card3"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content2.card3.paragraph"></p>
-            <span data-translate="support.images.filter"></span>
-            <br/>
-        </div>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card4"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content2.card4.paragraph"></p>
-            <span data-translate="support.images.overview"></span>
-            <br/>
-        </div>
-
-        <h3 class="collapsible disable-highlight-select" data-translate="support.content2.card5"></h3>
-        <div class="collapsibleContent">
-            <p data-translate="support.content2.card5.paragraph"></p>
-            <span data-translate="support.images.cards"></span>
-            <br/>
-        </div>
-<!--        <div class="support-controls">-->
-<!--            <button type="button" id="back">Back</button>-->
-<!--        </div> -->
-    </div>
-</main>
-<script src="Scripts/Pages/support.js"></script>
-</body>
+        <script src="Scripts/Pages/support.js"></script>
+    </body>
 </html>
