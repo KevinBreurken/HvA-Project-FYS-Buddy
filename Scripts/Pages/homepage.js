@@ -141,7 +141,7 @@ function sendTravelData() {
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
                     [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]).done(function(data) {
-                        window.location.href(`${environment}/homepage.html`);
+                    window.location = window.location.href.split("?")[0];
                     })
             }else{
                 alert("no date or city selected");
@@ -150,7 +150,7 @@ function sendTravelData() {
             if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
                  FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
             [getCurrentUserID(), citySelect, startDateFormat, endDateFormat]).done(function(data) {
-                window.location.href(`${environment}/homepage.html`);
+                     window.location = window.location.href.split("?")[0];
             })
                 }else{
                 alert("no date or city selected");
