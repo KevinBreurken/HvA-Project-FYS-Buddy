@@ -1,0 +1,66 @@
+{
+  "sitemap": {
+    "title": {
+      "nl": "Welkom bij het FYS project!",
+      "en": "Welcome to FYS!"
+    },
+    "description": {
+      "nl": "Een overzicht van alle pagina's is hier te vinden: ",
+      "en": "An overview of all pages can be found here: "
+    },
+    "index": {
+      "sign": {
+        "nl": "Start (niet ingelogd)",
+        "en": "Home (not logged in)"
+      },
+      "nl": "Start",
+      "en": "Home"
+    },
+    "register": {
+      "nl": "Registreer een account",
+      "en": "Register an account"
+    },
+    "password": {
+      "nl": "Wachtwoord wijzigen",
+      "en": "Edit password"
+    },
+    "reactivate": {
+      "nl": "Account heractiveren",
+      "en": "Reactivate account"
+    },
+    "recover": {
+      "nl": "Account herstellen",
+      "en": "Recover account"
+    },
+    "profile": {
+      "edit": {
+        "nl": "Profiel wijzigen",
+        "en": "Edit profile"
+      },
+      "nl": "Profiel bekijken",
+      "en": "View profile"
+    },
+    "admin" : {
+      "profile": {
+        "nl": "Administrator profiel",
+        "en": "Admin Profile"
+      },
+      "panel": {
+        "nl": "Administrator paneel",
+        "en": "Admin Panel"
+      },
+      "statistics": {
+        "nl": "Administrator statistieken",
+        "en": "Admin Statistics"
+      }
+    },
+    "settings": {
+      "nl": "Account instellingen",
+      "en": "Account settings"
+    },
+    "support": {
+      "nl": "Ondersteuning",
+      "en": "Support"
+    }
+  }
+}
