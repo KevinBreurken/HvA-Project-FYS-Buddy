@@ -1,5 +1,27 @@
 {
   "support": {
+    "images": {
+      "navigation": {
+        "nl": "<img src='Content/Images/support/navigation-tut-nl.png' alt='Navigatie uitleg'/>",
+        "en": "<img src='Content/Images/support/navigation-tut-en.png' alt='Navigation tutorial'/>"
+      },
+      "match": {
+        "nl": "<img src='Content/Images/support/match-tut-nl.png' alt='Koppeling uitleg'/>",
+        "en": "<img src='Content/Images/support/match-tut-en.png' alt='Matching tutorial'/>"
+      },
+      "filter": {
+        "nl": "<img src='Content/Images/support/filter-tut-nl.png' alt='Filter uitleg'/>",
+        "en": "<img src='Content/Images/support/filter-tut-en.png' alt='Filter tutorial'/>"
+      },
+      "overview": {
+        "nl": "<img src='Content/Images/support/overview-tut-nl.png' alt='Overzicht uitleg'/>",
+        "en": "<img src='Content/Images/support/overview-tut-en.png' alt='Overview tutorial'/>"
+      },
+      "cards": {
+        "nl": "<img src='Content/Images/support/cards-tut-nl.png' alt='Kaart uitleg'/>",
+        "en": "<img src='Content/Images/support/cards-tut-en.png' alt='Cards tutorial'/>"
+      }
+    },
     "head": {
       "nl": "Ondersteuning",
       "en": "Support"
