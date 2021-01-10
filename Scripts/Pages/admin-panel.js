@@ -16,14 +16,24 @@ function closeDetails() {
  */
 function deleteUser(i) {
     FYSCloud.API.queryDatabase(
-        "DELETE FROM `user` WHERE id = ?",
-        [i]
-    ).done(function (data) {
-        // TODO come up with a better way to reload the shown data on the page
-        location.reload();
+        "DELETE FROM `favourite` " +
+        "WHERE `favourite`.`requestingUser` = ? "+
+        "OR `favourite`.`favouriteUser` = ?;",
+        [i,i]
+    ).done(function (favourites) {
+        FYSCloud.API.queryDatabase(
+            "DELETE FROM `user` " +
+            "WHERE id = ?",
+            [i]
+        ).done(function (users) {
+            // TODO come up with a better way to reload the shown data on the page
+            location.reload();
+        }).fail(function (reason) {
+            console.log(reason)
+        });
     }).fail(function (reason) {
         console.log(reason)
-    })
+    });
 }
 
 FYSCloud.API.queryDatabase(
@@ -135,11 +145,12 @@ function submitForm(i) {
     let biography = $('#user-info-12').val()
     let buddyType = $('#user-info-13 ').val()
     let pictureUrl = $('#user-info-14 ').val()
-
     // Update the user and profile tables with the values from user-info fields
     FYSCloud.API.queryDatabase(
-        "UPDATE user SET id = ?, email = ?, password = ?, username = ?, userRole = ? WHERE id = ?; UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
-        [i, email, password, username, userRole, i, i, i, firstname, lastname, gender, dob, locationId, phone, biography, buddyType, pictureUrl, i]
+        "UPDATE user SET id = ?, email = ?, password = ?, username = ?, userRole = ? WHERE id = ?; " +
+        "UPDATE profile SET id = ?, userId = ?,firstname = ?, lastname = ?, gender = ?, dob = ?, locationId = ?, phone = ?, biography = ?, buddyType = ?, pictureUrl = ? WHERE  id = ?",
+        [i, email, password, username, userRole, i,
+            i, i, firstname, lastname, gender, dob, 1, phone, biography, buddyType, pictureUrl, i]
     ).done(function (data) {
         location.reload()
     }).fail(function (reason) {
