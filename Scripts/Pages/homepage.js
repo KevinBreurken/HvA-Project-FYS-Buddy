@@ -207,7 +207,8 @@ async function openTabContent(currentButton,force) {
             queryExtension = ` AND t.startdate < ?
             AND t.enddate > ?
             AND p.userId != ?
-            AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`;
+            AND (111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(l.Latitude)) * COS(RADIANS(?)) * COS(RADIANS(l.Longitude - ?))
+            + SIN(RADIANS(l.Latitude)) * SIN(RADIANS(?)))))) < IFNULL(s.radialDistance, 999999)`;
             queryArray = [currentUser[0]["enddate"], currentUser[0]["startdate"], getCurrentUserID(), currentUser[0]["latitude"], currentUser[0]["longitude"], currentUser[0]["latitude"]];
             break;
         case "friends":
