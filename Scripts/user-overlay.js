@@ -39,9 +39,6 @@ async function openUserOverlay(overlayUserId) {
         $("#overlay-interests-ul").append(`<li data-translate="interests.${overlayUserInterestsIds[interest]["interestId"]}"></li>`);
     });
 
-    //displays the overlay and overlay-background
-    displayUserOverlay();
-
     //determine what kind of request button we want to show the user,
     let matchingFriend = await getDataByPromise(`SELECT *
     FROM friendrequest
@@ -92,6 +89,8 @@ async function openUserOverlay(overlayUserId) {
     declineButton.click(function(){declineRequest(overlayUserId, declineButton)});
 
     CustomTranslation.translate(false);
+    //displays the overlay and overlay-background
+    displayUserOverlay();
 }
 
 function disableRequestButton() {
