@@ -298,7 +298,6 @@ $(document).on("change", "body", function () {
                         });
                     }
                 }).fail(function () {
-                    alert("paniek");
                     let interestId = new Array();
                     let interest = new Array();
                     interest.push(interest1, interest2, interest3, interest4, interest5,
@@ -344,7 +343,6 @@ $(document).on("change", "body", function () {
                         });
                     }
                 }).fail(function () {
-                    alert("paniek");
                 });
             } else {
                 event.preventDefault();
@@ -365,7 +363,6 @@ FYSCloud.API.queryDatabase(
     $("#Email").val(userData.email);
     $("#Username").val(userData.username);
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
@@ -404,7 +401,6 @@ FYSCloud.API.queryDatabase(
     countCharacters();
     $("#Telephone").val(userData.phone);
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
@@ -419,7 +415,6 @@ FYSCloud.API.queryDatabase(
     let enddate = parseDateToInputDate(userData.enddate);
     $("#Data2").val(enddate);
 }).fail(function () {
-    alert("paniek");
 });
 
 FYSCloud.API.queryDatabase(
@@ -462,16 +457,7 @@ FYSCloud.API.queryDatabase(
         }
     }
 }).fail(function () {
-    alert("paniek");
 });
-
-/**
- * When there are no changes made at the profile page, redirect the user to their profile page.
- */
-$("#saveChangesBtn").on("click",function () {
-    $("#saveChangesBtn").attr("type", "button");
-    redirectToProfileById(userId);
-})
 
 /**
  * Preview profile image and update profile image
