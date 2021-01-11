@@ -181,11 +181,11 @@ function setDatabasePageData() {
  * Stores the users session and performs login related tasks.
  * @param id userID of the user.
  */
-async function loginUser(id) {
+async function loginUser(id, url) {
     setCurrentUserID(id);
     await setLanguageBySettingsData(id);
     await sendSessionData();
-    await redirectUserByUserRole();
+    (url === undefined) ? await redirectUserByUserRole() : window.location.href = url;
 }
 
 /**

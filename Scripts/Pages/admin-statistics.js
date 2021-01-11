@@ -64,6 +64,7 @@ let pieChartColors = [
 
         // ** MATCHING - MOST FRIENDS WITH EQUAL INTEREST **
         $('#most-match-equal-interests').html(generateStatisticsList(combinedArray, translateKeys));
+        CustomTranslation.translate(false);
     });
 
     let locationData;
@@ -80,6 +81,7 @@ let pieChartColors = [
         let combinedArray = combineJsonToArray(names, locationData, "destination", "destinationEverMatched");
         // ** MATCHING - MOST FRIENDS WITH EQUAL DESTINATION **
         $('#most-match-equal-destination').html(generateStatisticsList(combinedArray));
+        CustomTranslation.translate(false);
     });
 })();
 
@@ -90,11 +92,13 @@ let pieChartColors = [
     getDataByPromise('SELECT * FROM adminpagedata ORDER BY logoutamount DESC').then((data) => {
         // ** LOG-OUT-AMOUNT **
         $('#page-logout').html(generateStatisticsList(jsonToArray(data, ["name", "logoutamount"])));
+        CustomTranslation.translate(false);
     });
 
     getDataByPromise('SELECT * FROM adminpagedata ORDER BY visitcount DESC').then((data) => {
         // ** AMOUNT OF VIEWS **
         $('#page-views').html(generateStatisticsList(jsonToArray(data, ["name", "visitcount"])));
+        CustomTranslation.translate(false);
     });
 })();
 
@@ -215,7 +219,6 @@ function generateStatisticsList(dataArray, translateKeys) {
 
         list.appendChild(item);
     }
-
     // Finally, return the constructed list:
     return list;
 }

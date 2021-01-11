@@ -360,8 +360,7 @@ function register() {
                         [setId, hobby[i]]
                     ).done(function(data) {
                         console.log(data);
-                        loginUser(setId);
-                        window.location.href = "homepage.html?activateOnBoarding";
+                        loginUser(setId,"homepage.html?activateOnBoarding");
                     }).fail(function (reason) {
                         console.log(reason)
                     })

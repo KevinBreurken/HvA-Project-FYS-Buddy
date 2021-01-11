@@ -207,8 +207,16 @@ async function openTabContent(currentButton,force) {
             queryExtension = ` AND t.startdate < ?
             AND t.enddate > ?
             AND p.userId != ?
-            AND (6371 * acos(cos(radians(l.latitude)) * cos(radians(?)) * cos(radians(?) - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(?)))) < IFNULL(s.radialDistance, 999999)`;
-            queryArray = [currentUser[0]["enddate"], currentUser[0]["startdate"], getCurrentUserID(), currentUser[0]["latitude"], currentUser[0]["longitude"], currentUser[0]["latitude"]];
+            AND NOT EXISTS (
+                SELECT *
+                FROM friend fr
+                WHERE (fr.user1 = p.userId OR fr.user1 = ?)
+                AND (fr.user2 = p.userId OR fr.user2 = ?)
+            )
+            AND (111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(l.Latitude)) * COS(RADIANS(?)) * COS(RADIANS(l.Longitude - ?))
+            + SIN(RADIANS(l.Latitude)) * SIN(RADIANS(?)))))) < IFNULL(s.radialDistance, 999999)`;
+            queryArray = [currentUser[0]["enddate"], currentUser[0]["startdate"], getCurrentUserID(), currentUser[0]["userId"], currentUser[0]["userId"],
+                currentUser[0]["latitude"], currentUser[0]["longitude"], currentUser[0]["latitude"]];
             break;
         case "friends":
             queryExtension = ` AND (fr.user1 = ${currentUser[0]["userId"]} OR fr.user1 = p.userId) AND (fr.user2 = ${currentUser[0]["userId"]} OR fr.user2 = p.userId)`;
@@ -235,8 +243,9 @@ async function openTabContent(currentButton,force) {
        t.startdate, t.enddate,
        l.*,
        f.favouriteUser,
-       SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
-       - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
+           111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(l.Latitude))
+         * COS(RADIANS(${currentUser[0]["latitude"]})) * COS(RADIANS(l.Longitude - ${currentUser[0]["longitude"]}))
+         + SIN(RADIANS(l.Latitude)) * SIN(RADIANS(${currentUser[0]["latitude"]}))))) AS distanceInKm
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     LEFT JOIN userinterest ui ON ui.userId = p.userId 
@@ -252,7 +261,7 @@ async function openTabContent(currentButton,force) {
         FROM blocked b
         WHERE (b.blockedUser = p.userId OR b.blockedUser = ${currentUser[0]["userId"]})
         AND (b.requestingUser = p.userId OR b.requestingUser = ${currentUser[0]["userId"]})
-        )
+    )
     ${queryExtension} 
     GROUP by p.userId`
         , queryArray);
