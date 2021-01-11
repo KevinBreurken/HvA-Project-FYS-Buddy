@@ -115,15 +115,16 @@ async function populateCityList() {
 
 function sendTravelData() {
     //get current selected value from select element in form
-    var citySelect = document.getElementById("cityList").value;
+    const citySelect = document.getElementById("cityList").value;
 
-    var startDate = new Date($('#sDate').val());
-    var endDate = new Date($('#eDate').val());
+    const startDate = new Date($('#sDate').val());
+    const endDate = new Date($('#eDate').val());
 
     //sets the data required for the  travel specifications display
-    var startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
-    var endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
-    let location = document.getElementById("cityList").options[citySelect - 1].text;
+    const startDateFormat = startDate.getFullYear() + "-" + (startDate.getMonth() + 1) + "-" + startDate.getDate();
+    const endDateFormat = endDate.getFullYear() + "-" + (endDate.getMonth() + 1) + "-" + endDate.getDate();
+    const location = document.getElementById("cityList").options[citySelect - 1].text;
+    const allResultTab = document.getElementById('all-results');
 
     //updating the travel specifications display
     updateCurrentTravelData(
@@ -134,25 +135,23 @@ function sendTravelData() {
     //check if user already has a travel spec data
      FYSCloud.API.queryDatabase("SELECT * FROM travel WHERE `userId` = ?;",
     [getCurrentUserID()]).done(function(data){
-        // console.log(data.length)
         if(data.length > 0) {
             if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
-                // console.log(startDateFormat)
                 FYSCloud.API.queryDatabase(
                     "UPDATE `travel` SET `locationId` = ? ,`startdate` = ? ,`enddate` = ? WHERE `userId` = ?;",
                     [citySelect, startDateFormat, endDateFormat, getCurrentUserID()]).done(function(data) {
-                    window.location = window.location.href.split("?")[0];
+                    openTabContent(allResultTab,true);
                     })
             }else{
                 alert("no date or city selected");
             }
         }else {
             if(startDateFormat != "NaN-NaN-NaN" && endDateFormat != "NaN-NaN-NaN") {
-                 FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
-            [getCurrentUserID(), citySelect, startDateFormat, endDateFormat]).done(function(data) {
-                     window.location = window.location.href.split("?")[0];
-            })
-                }else{
+                FYSCloud.API.queryDatabase("INSERT INTO `travel` (`userId`, `locationId`, `startdate`, `enddate`) VALUES (?, ?, ?, ?)",
+                    [getCurrentUserID(), citySelect, startDateFormat, endDateFormat]).done(function (data) {
+                    openTabContent(allResultTab, true);
+                })
+            }else{
                 alert("no date or city selected");
             }
         }
@@ -169,11 +168,11 @@ function toggleTravelForm() {
 let lastButtonId;
 let currentDisplayedUsers;
 /** function to switch the tab content and active tab-button */
-async function openTabContent(currentButton) {
+async function openTabContent(currentButton,force) {
     let tab = $("#tab");
 
     //disallows the user from spamming a tab-button
-    if(lastButtonId === currentButton.id) {return}
+    if(lastButtonId === currentButton.id && force === false) {return}
     lastButtonId = currentButton.id;
 
     //swaps the button colors
