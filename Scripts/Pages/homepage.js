@@ -235,8 +235,9 @@ async function openTabContent(currentButton,force) {
        t.startdate, t.enddate,
        l.*,
        f.favouriteUser,
-       SUM(6371 * acos(cos(radians(l.latitude)) * cos(radians(${currentUser[0]["latitude"]})) * cos(radians(${currentUser[0]["longitude"]}) 
-       - radians(l.longitude)) + sin(radians(l.latitude)) * sin(radians(${currentUser[0]["latitude"]})))) as "distanceInKm"
+           111.111 * DEGREES(ACOS(LEAST(1.0, COS(RADIANS(l.Latitude))
+         * COS(RADIANS(${currentUser[0]["latitude"]})) * COS(RADIANS(l.Longitude - ${currentUser[0]["longitude"]}))
+         + SIN(RADIANS(l.Latitude)) * SIN(RADIANS(${currentUser[0]["latitude"]}))))) AS distanceInKm
     FROM profile p
     INNER JOIN user u ON u.id = p.userId
     LEFT JOIN userinterest ui ON ui.userId = p.userId 
