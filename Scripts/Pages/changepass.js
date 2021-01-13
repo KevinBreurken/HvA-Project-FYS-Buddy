@@ -63,6 +63,7 @@ function newPasswordValidationcheck(id) {
                 [newPassword, id]
                 ).done(function(data) {
                     alert("Succesfully updated your new password");
+                    location.href='index.html';
                 });
         }
     }).fail(function(reason) {
