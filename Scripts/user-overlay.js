@@ -116,14 +116,13 @@ function acceptRequest(acceptedUser,userIdToAccept) {
 
 async function sendFriendMatchData(userIdToAccept){
     //Get current user travel destination.
-    const CURRENT_USER = await getDataByPromise(`SELECT *
-    FROM travel WHERE id = ?`, getCurrentUserID());
-    if(CURRENT_USER.length === 0 )
-        return;
+    const currentUser = await getDataByPromise(`SELECT *
+    FROM travel WHERE userId = ?`, getCurrentUserID());
+
     //Send the location that we currently have to the database.
     await getDataByPromise(`INSERT INTO adminlocationdata (locationId, destinationEverMatched)
                             VALUES (?, 1)
-                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, CURRENT_USER[0]["locationId"]);
+                            ON DUPLICATE KEY UPDATE destinationEverMatched = destinationEverMatched + 1`, currentUser[0]["locationId"]);
     //Check which interests are equal.
     const userInterests = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,getCurrentUserID());
     const otherUserInterest = await getDataByPromise(`SELECT * FROM userinterest WHERE userId = ?`,userIdToAccept);
