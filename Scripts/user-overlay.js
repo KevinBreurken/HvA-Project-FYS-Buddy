@@ -195,5 +195,5 @@ async function sendFriendEmail(idOfRecipient, textPrefix) {
     const url = window.location.href;
 
     const html = await generateMailHTML(profileData[0].firstname,textPrefix,url,userLanguage[0].languageKey);
-    sendMail(userData[0].email, userName, subject, html);
+    sendEmailByPromise(userData[0].email, profileData[0].firstname, subject, html);
 }

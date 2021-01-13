@@ -1,22 +1,25 @@
 CustomTranslation.loadJSONTranslationFile("Content/Translations/mailer-translation.json")
 
 /*
-Sends an email to the FYSCloud API.
+Sends an email to the FYSCloud API with an Promise.
  */
-function sendMail(email, mailName, subject, html) {
-    FYSCloud.API.sendEmail({
-        from: {
-            name: "Find your travel Buddy - Corendon IS111-1",
-            address: "group@fys.cloud"
-        },
-        to: [
-            {
-                name: mailName,
-                address: email
-            }
-        ],
-        subject: subject,
-        html: html
+function sendEmailByPromise(email, mailName,subject,html) {
+    return new Promise((resolve, reject) => {
+        FYSCloud.API.sendEmail({
+            from: {
+                name: "Find your travel Buddy - Corendon IS111-1",
+                address: "group@fys.cloud"
+            },
+            to: [
+                {
+                    name: mailName,
+                    address: email
+                }
+            ],
+            subject: subject,
+            html: html
+        }).done(data => resolve(data))
+            .fail(reason => reject(reason));
     });
 }
 /*
