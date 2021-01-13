@@ -172,3 +172,28 @@ function closeUserOverlay(){
     $("#overlay").css("display", "none");
     $("#overlay-background").css("display", "none");
 }
+
+/*
+Sends an friend type email (request/accepted) to an usedId.
+ */
+async function sendFriendEmail(idOfRecipient, textPrefix) {
+    //Check if this user has any settings
+    const recipientSetting = await getDataByPromise('SELECT * FROM setting WHERE userId = ?', idOfRecipient);
+    if (recipientSetting.length === 0)
+        return;
+    //Check if the user wants any notifications.
+    if (recipientSetting[0].notifcationId === 0)
+        return;
+    //Retrieve the language key.
+    const userLanguage = await getDataByPromise('SELECT * FROM language WHERE id = ?', recipientSetting[0].languageId);
+    //Retrieve user for the e-mail.
+    const userData = await getDataByPromise('SELECT * FROM user WHERE id = ?', idOfRecipient);
+    //Retrieve profile for the firstName of the recipient
+    const profileData = await getDataByPromise('SELECT * FROM profile WHERE userId = ?', idOfRecipient);
+
+    const subject = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.subject`, userLanguage[0].languageKey);
+    const url = window.location.href;
+
+    const html = await generateMailHTML(profileData[0].firstname,textPrefix,url,userLanguage[0].languageKey);
+    sendMail(userData[0].email, userName, subject, html);
+}
