@@ -1,6 +1,3 @@
-//include mailer to send emails
-$("head").append('<script src="Scripts/mailer.js"></script>');
-
 function redirectBack() {
     location.href='index.html';
 }

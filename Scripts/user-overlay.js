@@ -1,6 +1,3 @@
-//include mailer to send email after requests.
-$("head").append('<script src="Scripts/mailer.js"></script>');
-
 /**
  * function for opening the overlay with the correct user data
  * @param overlayUserId id of the user that is fetched and displayed from the database.
