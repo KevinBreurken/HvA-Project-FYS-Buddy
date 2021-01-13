@@ -182,15 +182,16 @@ async function sendFriendEmail(idOfRecipient, textPrefix) {
     if (recipientSetting[0].notifcationId === 0)
         return;
     //Retrieve the language key.
-    const userLanguage = await getDataByPromise('SELECT * FROM language WHERE id = ?', recipientSetting[0].languageId);
+
+    const languageKey = await determineMailLanguage(data[i].id);
     //Retrieve user for the e-mail.
     const userData = await getDataByPromise('SELECT * FROM user WHERE id = ?', idOfRecipient);
     //Retrieve profile for the firstName of the recipient
     const profileData = await getDataByPromise('SELECT * FROM profile WHERE userId = ?', idOfRecipient);
 
-    const subject = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.subject`, userLanguage[0].languageKey);
+    const subject = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.subject`, languageKey);
     const url = window.location.href;
 
-    const html = await generateMailHTML(profileData[0].firstname,textPrefix,url,userLanguage[0].languageKey);
+    const html = await generateMailHTML(profileData[0].firstname,textPrefix,url,languageKey);
     sendEmailByPromise(userData[0].email, profileData[0].firstname, subject, html);
 }

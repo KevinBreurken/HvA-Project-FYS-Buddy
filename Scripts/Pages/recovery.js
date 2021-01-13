@@ -11,8 +11,9 @@ function emailValidation() {
         if(data.length > 0){
             for (let i = 0; i < data.length; i++) {
                 const mailURL = `${window.location.origin}/changepass.html?id=${data[i].id}`;
-                const mailHTML = await generateMailHTML(data[i].username,'recovery',mailURL,'en');
-                const subject = CustomTranslation.getStringFromTranslations(`mail.recovery.subject`, 'en');
+                const languageKey = await determineMailLanguage(data[i].id);
+                const mailHTML = await generateMailHTML(data[i].username,'recovery',mailURL,languageKey);
+                const subject = CustomTranslation.getStringFromTranslations(`mail.recovery.subject`, languageKey);
 
                 await sendEmailByPromise(data[i].email,data[i].username,subject,mailHTML).then((data) =>{
                     alert("recovery mail has been send");

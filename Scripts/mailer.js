@@ -23,6 +23,16 @@ function sendEmailByPromise(email, mailName, subject, html) {
     });
 }
 
+async function determineMailLanguage(userId) {
+    //Check if this user has any settings
+    const recipientSetting = await getDataByPromise('SELECT * FROM setting WHERE userId = ?', userId);
+    if(recipientSetting.length === 0)
+        return CustomTranslation.getLanguageKey();
+    //Retrieve the language key.
+    const userLanguage = await getDataByPromise('SELECT * FROM language WHERE id = ?', recipientSetting[0].languageId);
+    return userLanguage[0].languageKey;
+}
+
 /*
 Creates an HTML string to send with an e-mail.
  */
