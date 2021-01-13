@@ -1,6 +1,3 @@
-//include mailer to send email after requests.
-$("head").append('<script src="Scripts/mailer.js"></script>');
-
 /**
  * function for opening the overlay with the correct user data
  * @param overlayUserId id of the user that is fetched and displayed from the database.
@@ -171,4 +168,30 @@ function closeUserOverlay(){
     document.body.style.overflow = null;
     $("#overlay").css("display", "none");
     $("#overlay-background").css("display", "none");
+}
+
+/*
+Sends an friend type email (request/accepted) to an usedId.
+ */
+async function sendFriendEmail(idOfRecipient, textPrefix) {
+    //Check if this user has any settings
+    const recipientSetting = await getDataByPromise('SELECT * FROM setting WHERE userId = ?', idOfRecipient);
+    if (recipientSetting.length === 0)
+        return;
+    //Check if the user wants any notifications.
+    if (recipientSetting[0].notifcationId === 0)
+        return;
+    //Retrieve the language key.
+
+    const languageKey = await determineMailLanguage(data[i].id);
+    //Retrieve user for the e-mail.
+    const userData = await getDataByPromise('SELECT * FROM user WHERE id = ?', idOfRecipient);
+    //Retrieve profile for the firstName of the recipient
+    const profileData = await getDataByPromise('SELECT * FROM profile WHERE userId = ?', idOfRecipient);
+
+    const subject = CustomTranslation.getStringFromTranslations(`mail.${textPrefix}.subject`, languageKey);
+    const url = window.location.href;
+
+    const html = await generateMailHTML(profileData[0].firstname,textPrefix,url,languageKey);
+    sendEmailByPromise(userData[0].email, profileData[0].firstname, subject, html);
 }

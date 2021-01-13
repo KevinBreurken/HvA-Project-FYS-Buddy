@@ -35,6 +35,24 @@
         "nl": "Ga naar website",
         "en": "Go to site"
       }
+    },
+    "recovery": {
+      "title": {
+        "nl": "Hallo %name",
+        "en": "Hello %name"
+      },
+      "subject": {
+        "nl": "Wachtwoord vergeten",
+        "en": "Forgot password"
+      },
+      "text": {
+        "nl": "Deze mail is verstuurt omdat wij een verzoek hebben ontvangen om uw Corendon:Find your Travel Buddy wachtwoord aan te passen.<br/><br/>Click op de link hieronder om naar de website toe te gaan en uw wachtwoord aan te passen:",
+        "en": "This email was sent to you in response to your request to modify your Corendon:Find your Travel Buddy password.<br/><br/>Click the link below to go to the site and modify your password:"
+      },
+      "link": {
+        "nl": "Pas wachtwoord aan",
+        "en": "Modify your password"
+      }
     }
   }
 }
