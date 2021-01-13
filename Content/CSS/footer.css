@@ -35,6 +35,7 @@
 }
 
 .language-selection button {
+    outline: none;
     display: flex;
     align-items: center;
     background-color: var(--color-corendon-white);

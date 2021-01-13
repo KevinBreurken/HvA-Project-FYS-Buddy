@@ -1,3 +1,6 @@
+/*
+Array of colors used by ChartJS. ChartJS loops to start when end is reached.
+ */
 let pieChartColors = [
     "#2ecc71",
     "#3498db",
@@ -18,6 +21,7 @@ let pieChartColors = [
         userCount = data[0]["totalUserCount"];
         $('#total-accounts').html(userCount);
     });
+
     // ~~~~ FETCH ALL FRIENDS ~~~~
     getDataByPromise('SELECT * FROM friend').then((data) => {
         let totalFriendsCount = data.length;
