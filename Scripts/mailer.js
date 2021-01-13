@@ -16,10 +16,9 @@ function sendMail(email, mailName, subject, html) {
             }
         ],
         subject: subject,
-        html: html
+        html: (html + `<img src="http://drive.google.com/uc?export=view&id=1kMlZl0nUAPt2jxgH2jeG2hWGiKL_X3Cp" width="400px">`)
     });
 }
-
 /*
 Sends an friend type email (request/accepted) to an usedId.
  */
