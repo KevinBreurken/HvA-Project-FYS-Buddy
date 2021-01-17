@@ -98,7 +98,7 @@ function disableRequestButton() {
     requestButton.attr("data-translate", "overlay.button.sent");
 }
 
-function acceptRequest(acceptedUser,userIdToAccept) {
+async function acceptRequest(acceptedUser,userIdToAccept) {
     getDataByPromise(`DELETE FROM friendrequest
                       WHERE (targetUser = ${acceptedUser} AND requestingUser = ${userIdToAccept})
                          OR (targetUser = ${userIdToAccept} AND requestingUser = ${acceptedUser});
@@ -110,7 +110,9 @@ function acceptRequest(acceptedUser,userIdToAccept) {
     `).then((data) => sendFriendMatchData(userIdToAccept));
     //Remove display from tab.
     $(`#user-display-${userIdToAccept}`).remove();
-    sendFriendEmail(userIdToAccept,'accept');
+    await sendFriendEmail(userIdToAccept,'accept');
+    //open the friends tab.
+    $("#friends").click();
     closeUserOverlay();
 }
 
@@ -181,8 +183,7 @@ async function sendFriendEmail(idOfRecipient, textPrefix) {
     if (recipientSetting[0].notifcationId === 0)
         return;
     //Retrieve the language key.
-
-    const languageKey = await determineMailLanguage(data[i].id);
+    const languageKey = await determineMailLanguage(recipientSetting[0].id);
     //Retrieve user for the e-mail.
     const userData = await getDataByPromise('SELECT * FROM user WHERE id = ?', idOfRecipient);
     //Retrieve profile for the firstName of the recipient
