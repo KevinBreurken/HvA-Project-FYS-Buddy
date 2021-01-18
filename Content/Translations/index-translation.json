@@ -16,5 +16,15 @@
       "nl": "Forgot your password?",
       "en": "Wachtwoord vergeten?"
     }
+  },
+  "project": {
+    "description": {
+      "nl": "Deze website is gemaakt als school project in het eerste schooljaar op de Sofware Engineering opleiding van de Hogeschool van Amsterdam.",
+      "en": "This website was made as an school project the first semester of the Software Engineering course at The Hogeschool van Amsterdam in The Netherlands."
+    },
+    "madeby": {
+      "nl": "Gemaakt door:",
+      "en": "Made by:"
+    }
   }
 }
